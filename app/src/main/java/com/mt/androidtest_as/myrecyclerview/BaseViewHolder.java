@@ -11,9 +11,11 @@ import com.mt.androidtest_as.R;
  */
 
 public class BaseViewHolder extends RecyclerView.ViewHolder {
+    public View mView = null;
     public TextView mTextView = null;
     public BaseViewHolder(View itemView) {
         super(itemView);
+        mView = itemView;
         mTextView = (TextView)itemView.findViewById(R.id.tv);
     }
 }

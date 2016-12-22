@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AndroidTest_AS</string>
+    <string name="clear_all_data">Clear all data!</string>
+    <string name="add_some_data">Add data</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="delete_item">Delete this item?</string>
+
 </resources>
