@@ -15,11 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mt.androidtest_as.ALog;
-import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.data.BaseData;
 import com.mt.androidtest_as.data.DataBank;
-import com.mt.androidtest_as.myrecyclerview.BaseAdapter;
+import com.mt.androidtest_as.myrecyclerview.MyAdapter;
 
 import java.util.List;
 
@@ -30,7 +28,7 @@ import java.util.List;
 public class MyRecyclerViewFragment extends Fragment {
     private Activity mActivity = null;
     private RecyclerView mRecyclerView = null;
-    private BaseAdapter mBaseAdapter = null;
+    private MyAdapter mBaseAdapter = null;
     private List<BaseData> mData = null;
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -46,7 +44,7 @@ public class MyRecyclerViewFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_myrecyclerview, container, false);
         mRecyclerView = (RecyclerView)v.findViewById(R.id.my_recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mBaseAdapter = new BaseAdapter(mActivity);
+        mBaseAdapter = new MyAdapter(mActivity);
         mRecyclerView.setAdapter(mBaseAdapter);
         mData = DataBank.get(mActivity).getData();
         return v;
