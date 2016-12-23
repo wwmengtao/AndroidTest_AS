@@ -1,26 +1,17 @@
 package com.mt.androidtest_as;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mt.androidtest_as.data.BaseData;
-import com.mt.androidtest_as.data.DataBank;
 import com.mt.androidtest_as.data.FLBank;
 import com.mt.androidtest_as.myrecyclerview.FLAdapter;
-import com.mt.androidtest_as.myrecyclerview.MyAdapter;
 
 import java.util.List;
 

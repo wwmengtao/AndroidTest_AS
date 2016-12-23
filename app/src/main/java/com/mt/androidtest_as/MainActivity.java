@@ -32,8 +32,10 @@ public class MainActivity extends BaseActivity {
         setTitle(fragmentTitle);
         switch (fragmentTitle){
             case "MyRecyclerViewFragment":
-                ALog.Log("MyRecyclerViewFragment");
                 mFragment = new MyRecyclerViewFragment();
+                break;
+            case "MyListViewFragment":
+                mFragment = new MyListViewFragment();
                 break;
         }
         return mFragment;

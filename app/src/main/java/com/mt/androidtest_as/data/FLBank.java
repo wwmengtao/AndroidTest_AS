@@ -14,7 +14,7 @@ public class FLBank {
     private static volatile FLBank mDataBank = null;
     private List<String> mData = null;
     public static final String[] fragmentNameList={
-      "MyRecyclerViewFragment"
+      "MyRecyclerViewFragment","MyListViewFragment"
     };
     private FLBank(Context context){
         mContext = context.getApplicationContext();

@@ -11,15 +11,15 @@ import com.mt.androidtest_as.R;
  * Created by Mengtao1 on 2016/12/22.
  */
 
-public class MyViewHolder extends RecyclerView.ViewHolder {
+public class MyRvViewHolder extends RecyclerView.ViewHolder {
     public View mView = null;
     public int viewType = -1;
     public TextView mTextView = null;
-    public MyViewHolder(View itemView) {
+    public MyRvViewHolder(View itemView) {
         this(itemView, -999);
     }
 
-    public MyViewHolder(View itemView, int viewType) {
+    public MyRvViewHolder(View itemView, int viewType) {
         super(itemView);
         this.viewType = viewType;
         mView = itemView;

@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 
 import com.mt.androidtest_as.data.BaseData;
 import com.mt.androidtest_as.data.DataBank;
-import com.mt.androidtest_as.myrecyclerview.MyAdapter;
+import com.mt.androidtest_as.myrecyclerview.MyRvAdapter;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ import java.util.List;
 public class MyRecyclerViewFragment extends Fragment {
     private Activity mActivity = null;
     private RecyclerView mRecyclerView = null;
-    private MyAdapter mBaseAdapter = null;
+    private MyRvAdapter mBaseAdapter = null;
     private List<BaseData> mData = null;
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -46,7 +46,7 @@ public class MyRecyclerViewFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_myrecyclerview, container, false);
         mRecyclerView = (RecyclerView)v.findViewById(R.id.my_recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mBaseAdapter = new MyAdapter(mActivity);
+        mBaseAdapter = new MyRvAdapter(mActivity);
         mRecyclerView.setAdapter(mBaseAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
@@ -61,7 +61,7 @@ public class MyRecyclerViewFragment extends Fragment {
     }
 
     private void updateUI(){
-        mData = DataBank.get(mActivity).getData();ALog.Log("size:"+mData.size());
+        mData = DataBank.get(mActivity).getData();
         mBaseAdapter.setData(mData);
         mBaseAdapter.notifyDataSetChanged();
     }
@@ -69,7 +69,7 @@ public class MyRecyclerViewFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_recycler, menu);
+        inflater.inflate(R.menu.fragment_base, menu);
 //        MenuItem subtitleItem = menu.findItem(R.id.menu_item_show_subtitle);
     }
 

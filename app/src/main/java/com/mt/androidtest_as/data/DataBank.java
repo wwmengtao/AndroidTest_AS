@@ -95,7 +95,7 @@ public class DataBank {
         return new ATCursorWrapper(cursor);
     }
 
-    public void delCrime(BaseData b){
+    public void delData(BaseData b){
         mSQLiteDatabase.delete(ATDataTable.NAME, ATDataTable.Cols.UUID+" = ?", new String[]{b.getID().toString()});
     }
 

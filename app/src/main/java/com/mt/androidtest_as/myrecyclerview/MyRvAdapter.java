@@ -21,13 +21,13 @@ import java.util.List;
  * Created by Mengtao1 on 2016/12/22.
  */
 
-public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements View.OnClickListener{
+public class MyRvAdapter extends RecyclerView.Adapter<MyRvViewHolder> implements View.OnClickListener{
     private static final int VIEW_TYPE_EMPTY = 0x01;
     private static final int VIEW_TYPE_NOTEMPTY = 0x10;
     private Activity mActivity = null;
     private List<BaseData> mData = null;
     private MyDataObserver mDataObserver = null;
-    public MyAdapter(Activity mActivity){
+    public MyRvAdapter(Activity mActivity){
         this.mActivity = mActivity;
         mDataObserver = new MyDataObserver();
         registerAdapterDataObserver(mDataObserver);
@@ -38,17 +38,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Vie
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyRvViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View mView = LayoutInflater.from(mActivity).inflate((viewType == VIEW_TYPE_EMPTY)?
                 R.layout.item_empty_view:R.layout.list_item, parent, false);
-        MyViewHolder mMyViewHolder = new MyViewHolder(mView, viewType);
+        MyRvViewHolder mMyViewHolder = new MyRvViewHolder(mView, viewType);
         mView.setTag(mMyViewHolder);
         mView.setOnClickListener(this);
         return mMyViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyRvViewHolder holder, int position) {
         if(VIEW_TYPE_EMPTY == holder.viewType){
             return;
         }
@@ -76,7 +76,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Vie
 
     @Override
     public void onClick(View v) {
-        MyViewHolder holder = (MyViewHolder)v.getTag();
+        MyRvViewHolder holder = (MyRvViewHolder)v.getTag();
         int viewType = holder.viewType;
         if(VIEW_TYPE_EMPTY == viewType){
             int initialDataNumber = 5;
@@ -94,7 +94,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> implements Vie
                 .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DataBank.get(mActivity).delCrime(mData.get(position));
+                        DataBank.get(mActivity).delData(mData.get(position));
                         mData = DataBank.get(mActivity).getData();
                         setData(mData);
                         notifyDataSetChanged();
