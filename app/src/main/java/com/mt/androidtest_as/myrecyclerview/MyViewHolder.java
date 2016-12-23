@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.mt.androidtest_as.R;
 
 /**
+ * RecyclerView把ViewHolder作为缓存的单位
  * Created by Mengtao1 on 2016/12/22.
  */
 
