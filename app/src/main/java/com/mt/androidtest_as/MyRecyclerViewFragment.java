@@ -94,11 +94,9 @@ public class MyRecyclerViewFragment extends BaseFragment {
             int initialDataNumber = 5;
             DataBank.get(mActivity).generateData(initialDataNumber);
             updateUI();
-            ALog.Log("onClick_Empty");
             return;
         }
         position = holder.getAdapterPosition();
-        ALog.Log("position:"+position);
         if(null == mDialog) {
             mDialog = new AlertDialog.Builder(mActivity)
                     .setTitle(mActivity.getString(R.string.delete_item))
