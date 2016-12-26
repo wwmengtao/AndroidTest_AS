@@ -9,13 +9,25 @@ import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+
+import java.util.List;
 
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<T extends Object> extends Fragment implements View.OnClickListener{
     private Activity mActivity = null;
+    private List<T> mData = null;
+    private Dialog mCreateDataDialog = null;
+    private Dialog mClearAllDataDialog = null;
+    private int dialogDataIndex = 0;
+
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
+    }
+
+    public void setBaseData(List<T> mData){
+        this.mData = mData;
     }
 
     @Override
@@ -38,8 +50,6 @@ public abstract class BaseFragment extends Fragment {
         }
         return true;
     }
-    private int initialDataNumber = 0;
-    Dialog mCreateDataDialog = null;
 
     private void createData(){
         if(null == mCreateDataDialog) {
@@ -50,27 +60,25 @@ public abstract class BaseFragment extends Fragment {
                     .setSingleChoiceItems(arrayNum, 0, new android.content.DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface arg0, int which) {
-                            initialDataNumber = (which + 1) * 5;
+                            dialogDataIndex = which;
                         }
                     })
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            initialDataNumber = (0 == initialDataNumber) ? 5 : initialDataNumber;
-                            onAfterCreateDataConfirm(initialDataNumber);
+                            ALog.Log("which:"+which);//此时的which一直为-1
+                            onCreateDataConfirm(dialogDataIndex);
                         }
                     })
                     .create();
         }
-        if(ifCreateDataDialogShow())mCreateDataDialog.show();
+        if(null == mData || 0 == mData.size())mCreateDataDialog.show();
     }
 
-    public abstract void onAfterCreateDataConfirm(int initialDataNumber);
-    public abstract boolean ifCreateDataDialogShow();
+    public abstract void onCreateDataConfirm(int initialDataNumber);
 
-    Dialog mClearAllDataDialog = null;
     private void clearAllData(){
-        if(null == mCreateDataDialog) {
+        if(null == mClearAllDataDialog) {
             mClearAllDataDialog = new AlertDialog.Builder(mActivity)
                     .setTitle(getString(R.string.clear_all_data) + " " + getString(R.string.are_you_sure))
                     .setNegativeButton(android.R.string.cancel, null)
@@ -82,12 +90,10 @@ public abstract class BaseFragment extends Fragment {
                     })
                     .create();
         }
-        if(ifClearAllDataDialogShow())mClearAllDataDialog.show();
+        if(null != mData && mData.size()>0)mClearAllDataDialog.show();
     }
 
     public abstract void onClearAllDataConfirm();
-
-    public abstract boolean ifClearAllDataDialogShow();
 
     public abstract void updateUI();
 }

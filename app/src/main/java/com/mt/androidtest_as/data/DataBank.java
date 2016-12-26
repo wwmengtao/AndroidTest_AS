@@ -21,12 +21,10 @@ public class DataBank {
     private static Context mContext = null;
     private static volatile DataBank mDataBank = null;
     private SQLiteDatabase mSQLiteDatabase = null;
-    private List<BaseData> mData = null;
 
     private DataBank(Context context){
         mContext = context.getApplicationContext();
         mSQLiteDatabase = DataBaseHelper.getInstance(mContext).getWritableDatabase();
-        mData = new ArrayList<BaseData>();
     }
 
     public static DataBank get(Context context){
@@ -67,13 +65,12 @@ public class DataBank {
     }
 
     public List<BaseData> getData(){
-        mData.clear();
+        List<BaseData> mData = new ArrayList<BaseData>();
         ATCursorWrapper cursor = queryData(null, null);
         try{
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 mData.add(cursor.getData());
-                ALog.Log("mData.add:"+cursor.getData().getTitle());
                 cursor.moveToNext();
             }
         }finally {

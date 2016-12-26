@@ -2,7 +2,9 @@ package com.mt.androidtest_as.myrecyclerview;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,16 +23,19 @@ import java.util.List;
  * Created by Mengtao1 on 2016/12/22.
  */
 
-public class MyRvAdapter extends RecyclerView.Adapter<MyRvViewHolder> implements View.OnClickListener{
-    private static final int VIEW_TYPE_EMPTY = 0x01;
-    private static final int VIEW_TYPE_NOTEMPTY = 0x10;
-    private Activity mActivity = null;
+public class MyRvAdapter extends RecyclerView.Adapter<MyRvViewHolder>{
+    public static final int VIEW_TYPE_EMPTY = 0x01;
+    public static final int VIEW_TYPE_NOTEMPTY = 0x10;
+    private Context mContext = null;
     private List<BaseData> mData = null;
     private MyDataObserver mDataObserver = null;
-    public MyRvAdapter(Activity mActivity){
-        this.mActivity = mActivity;
+    private View.OnClickListener mOnClickListener = null;
+
+    public MyRvAdapter(Fragment mFragment){
+        this.mContext = mFragment.getActivity().getApplicationContext();
         mDataObserver = new MyDataObserver();
         registerAdapterDataObserver(mDataObserver);
+        mOnClickListener = (View.OnClickListener)mFragment;
     }
 
     public void setData(List<BaseData> mData){
@@ -39,11 +44,12 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvViewHolder> implements
 
     @Override
     public MyRvViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View mView = LayoutInflater.from(mActivity).inflate((viewType == VIEW_TYPE_EMPTY)?
+        View mView = LayoutInflater.from(mContext).inflate((viewType == VIEW_TYPE_EMPTY)?
                 R.layout.item_empty_view:R.layout.list_item, parent, false);
         MyRvViewHolder mMyViewHolder = new MyRvViewHolder(mView, viewType);
         mView.setTag(mMyViewHolder);
-        mView.setOnClickListener(this);
+        mView.setOnClickListener(null);
+        mView.setOnClickListener(mOnClickListener);
         return mMyViewHolder;
     }
 
@@ -72,36 +78,6 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvViewHolder> implements
         }
         //如果有数据，则使用ITEM的布局
         return VIEW_TYPE_NOTEMPTY;
-    }
-
-    @Override
-    public void onClick(View v) {
-        MyRvViewHolder holder = (MyRvViewHolder)v.getTag();
-        int viewType = holder.viewType;
-        if(VIEW_TYPE_EMPTY == viewType){
-            int initialDataNumber = 5;
-            DataBank.get(mActivity).generateData(initialDataNumber);
-            mData = DataBank.get(mActivity).getData();
-            setData(mData);
-            notifyDataSetChanged();
-            ALog.Log("onClick_Empty");
-            return;
-        }
-        final int position = holder.getAdapterPosition();
-        Dialog mDialog = new AlertDialog.Builder(mActivity)
-                .setTitle(mActivity.getString(R.string.delete_item))
-                .setNegativeButton(android.R.string.cancel,null)
-                .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DataBank.get(mActivity).delData(mData.get(position));
-                        mData = DataBank.get(mActivity).getData();
-                        setData(mData);
-                        notifyDataSetChanged();
-                    }
-                })
-                .create();
-        mDialog.show();
     }
 
 }

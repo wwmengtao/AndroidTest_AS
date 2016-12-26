@@ -1,12 +1,17 @@
 package com.mt.androidtest_as.mylistview;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.mt.androidtest_as.ALog;
 import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.data.BaseData;
 import com.mt.androidtest_as.data.DataBank;
@@ -14,13 +19,16 @@ import com.mt.androidtest_as.data.DataBank;
 import java.util.List;
 
 
-public class MyListViewAdapter extends BaseAdapter implements View.OnClickListener{
+public class MyLvAdapter extends BaseAdapter{
 	private Context mContext = null;
 	private List<BaseData> mData = null;
-	public MyListViewAdapter(Activity mActivity){
-		mContext = mActivity.getApplicationContext();
+	public MyLvAdapter(Fragment mFragment){
+		this.mContext = mFragment.getActivity().getApplicationContext();
+		mOnClickListener = (View.OnClickListener)mFragment;
 	}
-	private int ConvertViewTagID = R.layout.list_item;
+	public static final int ConvertViewTagID = R.layout.list_item;
+	private View.OnClickListener mOnClickListener = null;
+
 	public void setData(List<BaseData> mData){
 		this.mData = mData;
 	}
@@ -42,21 +50,13 @@ public class MyListViewAdapter extends BaseAdapter implements View.OnClickListen
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		MyViewHolder mMyViewHolder = MyViewHolder.get(mContext, convertView, parent, R.layout.list_item, position);
+		MyLvViewHolder mMyViewHolder = MyLvViewHolder.get(mContext, convertView, parent, R.layout.list_item, position);
 		TextView mTextView = mMyViewHolder.getView(R.id.tv);
 		mTextView.setText(mData.get(position).getTitle());
 		View mConvertView = mMyViewHolder.getConvertView();
-		mConvertView.setOnClickListener(this);
+		mConvertView.setOnClickListener(mOnClickListener);
 		mConvertView.setTag(ConvertViewTagID,position);
 		return mConvertView;
 	}
 
-	@Override
-	public void onClick(View v) {
-		int position = (int)v.getTag(ConvertViewTagID);
-		DataBank.get(mContext).delData(mData.get(position));
-		mData = DataBank.get(mContext).getData();
-		setData(mData);
-		notifyDataSetChanged();
-	}
 }

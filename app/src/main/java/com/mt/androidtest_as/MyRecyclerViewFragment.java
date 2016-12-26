@@ -20,14 +20,17 @@ import android.view.ViewGroup;
 import com.mt.androidtest_as.data.BaseData;
 import com.mt.androidtest_as.data.DataBank;
 import com.mt.androidtest_as.myrecyclerview.MyRvAdapter;
+import com.mt.androidtest_as.myrecyclerview.MyRvViewHolder;
 
 import java.util.List;
+
+import static com.mt.androidtest_as.myrecyclerview.MyRvAdapter.VIEW_TYPE_EMPTY;
 
 /**
  * Created by Mengtao1 on 2016/12/22.
  */
 
-public class MyRecyclerViewFragment extends Fragment {
+public class MyRecyclerViewFragment extends BaseFragment {
     private Activity mActivity = null;
     private RecyclerView mRecyclerView = null;
     private MyRvAdapter mBaseAdapter = null;
@@ -46,11 +49,10 @@ public class MyRecyclerViewFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_myrecyclerview, container, false);
         mRecyclerView = (RecyclerView)v.findViewById(R.id.my_recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mBaseAdapter = new MyRvAdapter(mActivity);
+        mBaseAdapter = new MyRvAdapter(this);
         mRecyclerView.setAdapter(mBaseAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
-        mData = DataBank.get(mActivity).getData();
         return v;
     }
 
@@ -60,73 +62,56 @@ public class MyRecyclerViewFragment extends Fragment {
         updateUI();
     }
 
-    private void updateUI(){
+    @Override
+    public void updateUI(){
         mData = DataBank.get(mActivity).getData();
+        setBaseData(mData);
         mBaseAdapter.setData(mData);
         mBaseAdapter.notifyDataSetChanged();
     }
 
+
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_base, menu);
-//        MenuItem subtitleItem = menu.findItem(R.id.menu_item_show_subtitle);
+    public void onCreateDataConfirm(int dialogDataIndex) {
+        int count = (dialogDataIndex+1)*5;
+        DataBank.get(mActivity).generateData(count);
+        updateUI();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_clear_all_data:
-                clearAllData();
-                break;
-            case R.id.menu_create_some_data:
-                createData();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
+    public void onClearAllDataConfirm() {
+        DataBank.get(mActivity).clearDataBase();
+        updateUI();
+    }
+
+    private Dialog mDialog = null;
+    private int position = -1;
+    @Override
+    public void onClick(View v) {
+        MyRvViewHolder holder = (MyRvViewHolder)v.getTag();
+        int viewType = holder.viewType;
+        if(VIEW_TYPE_EMPTY == viewType){
+            int initialDataNumber = 5;
+            DataBank.get(mActivity).generateData(initialDataNumber);
+            updateUI();
+            ALog.Log("onClick_Empty");
+            return;
         }
-        return true;
-    }
-    private int initialDataNumber = 0;
-    private void createData(){
-        if(null == mData || 0 == mData.size()){
-            String[] arrayNum = getResources().getStringArray(R.array.data_number);
-
-            Dialog mDialog = new AlertDialog.Builder(mActivity)
-                    .setTitle(getString(R.string.add_some_data))
-                    .setNegativeButton(android.R.string.cancel,null)
-                    .setSingleChoiceItems(arrayNum, 0, new android.content.DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int which) {
-                                initialDataNumber = (which+1)*5;
-                            }
-                        })
-                    .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener(){
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                initialDataNumber = (0 == initialDataNumber)? 5:initialDataNumber;
-                                DataBank.get(mActivity).generateData(initialDataNumber);
-                                updateUI();
-                            }
-                        })
+        position = holder.getAdapterPosition();
+        ALog.Log("position:"+position);
+        if(null == mDialog) {
+            mDialog = new AlertDialog.Builder(mActivity)
+                    .setTitle(mActivity.getString(R.string.delete_item))
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            DataBank.get(mActivity).delData(mData.get(position));
+                            updateUI();
+                        }
+                    })
                     .create();
-            mDialog.show();
         }
-    }
-
-    private void clearAllData(){
-        Dialog mDialog = new AlertDialog.Builder(mActivity)
-                .setTitle(getString(R.string.clear_all_data)+" "+getString(R.string.are_you_sure))
-                .setNegativeButton(android.R.string.cancel,null)
-                .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DataBank.get(mActivity).clearDataBase();
-                        updateUI();
-                    }
-                })
-                .create();
-        List<BaseData> mCrimes = DataBank.get(mActivity).getData();
-        if(null!=mCrimes && mCrimes.size()>0)mDialog.show();
+        mDialog.show();
     }
 }
