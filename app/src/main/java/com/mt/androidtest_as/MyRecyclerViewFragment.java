@@ -39,7 +39,6 @@ public class MyRecyclerViewFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
-        ALog.Log("CrimeListFragment:onCreate");
         setHasOptionsMenu(true);
     }
 

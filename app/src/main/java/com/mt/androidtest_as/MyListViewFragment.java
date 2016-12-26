@@ -25,7 +25,6 @@ import java.util.List;
 public class MyListViewFragment extends BaseFragment {
     private Activity mActivity = null;
     private ListView mListView = null;
-    private View emptyView = null;
     private static final int emptyViewIndex = -1;
     private MyLvAdapter mAdapter = null;
     private List<BaseData> mData = null;
@@ -41,9 +40,6 @@ public class MyListViewFragment extends BaseFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_mylistview, container, false);
         mListView = (ListView)v.findViewById(R.id.my_listview);
-        emptyView = inflater.inflate(R.layout.item_empty_view, (ViewGroup) mListView.getParent(), false);
-        emptyView.setTag(MyLvAdapter.ConvertViewTagID,emptyViewIndex);
-        emptyView.setOnClickListener(this);
         mAdapter = new MyLvAdapter(this);
         setListViewEmptyText(mListView);
         return v;
@@ -69,11 +65,27 @@ public class MyListViewFragment extends BaseFragment {
     }
 
     /**
-     * 数据为空时提示用户增加数据
+     * setListViewEmptyText:数据为空时提示用户增加数据
      */
     private void setListViewEmptyText(ListView mListView){
+        View emptyView = LayoutInflater.from(mListView.getContext()).inflate(R.layout.item_empty_view, (ViewGroup) mListView.getParent(), false);
+        if(null == emptyView)return;
+        emptyView.setOnClickListener(this);
+        emptyView.setTag(MyLvAdapter.ConvertViewTagID,emptyViewIndex);
         ((ViewGroup)mListView.getParent()).addView(emptyView);
         mListView.setEmptyView(emptyView);
+    }
+
+    private void setListViewEmptyText2(ListView mList){
+        TextView emptyView = new TextView(mList.getContext());
+        emptyView.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        emptyView.setText(R.string.no_data_tips);
+        emptyView.setTextSize(20);
+        emptyView.setGravity(android.view.Gravity.CENTER);
+        emptyView.setVisibility(View.GONE);
+        ((ViewGroup)mList.getParent()).addView(emptyView);
+        mList.setEmptyView(emptyView);
     }
 
     @Override
