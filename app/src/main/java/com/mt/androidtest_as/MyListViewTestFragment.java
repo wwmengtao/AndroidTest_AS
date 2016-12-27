@@ -87,7 +87,17 @@ public class MyListViewTestFragment extends Fragment implements AdapterView.OnIt
             MyLvViewHolder holder = MyLvViewHolder.get(mActivity,convertView,parent,R.layout.list_item,position);
             TextView tv = holder.getView(R.id.tv);
             tv.setText(mData.get(position));
-            return holder.getConvertView();
+            View cv = holder.getConvertView();
+            /**
+             * 如果cv注册View.OnClickListener监听器，那么状态选中以及AdapterView.OnItemClickListener都将失效
+             */
+//            cv.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
+            return cv;
         }
     }
 }
