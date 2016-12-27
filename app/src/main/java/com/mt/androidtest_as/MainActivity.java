@@ -37,6 +37,9 @@ public class MainActivity extends BaseActivity {
             case "MyListViewFragment":
                 mFragment = new MyListViewFragment();
                 break;
+            case "MyListViewTestFragment":
+                mFragment = new MyListViewTestFragment();
+                break;
         }
         return mFragment;
     }

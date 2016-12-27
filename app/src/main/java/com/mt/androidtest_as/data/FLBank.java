@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by Mengtao1 on 2016/12/22.
+ * FLBank:专门用于产生显示在主页上的Fragment等组件名称
  */
 
 public class FLBank {
@@ -14,7 +15,7 @@ public class FLBank {
     private static volatile FLBank mDataBank = null;
     private List<String> mData = null;
     public static final String[] fragmentNameList={
-      "MyRecyclerViewFragment","MyListViewFragment"
+      "MyRecyclerViewFragment","MyListViewFragment","MyListViewTestFragment"
     };
     private FLBank(Context context){
         mContext = context.getApplicationContext();
