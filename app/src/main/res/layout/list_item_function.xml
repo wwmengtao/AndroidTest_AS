@@ -10,6 +10,7 @@
         android:layout_height="40dp"
         android:text="test"
         android:textSize="20sp"
+        android:background="?attr/colorAccent"
         android:gravity="center_vertical"/>
-
+        <!--上述"?attr/colorAccent"表示使用属性colorAccent指向的资源-->
 </RelativeLayout>
