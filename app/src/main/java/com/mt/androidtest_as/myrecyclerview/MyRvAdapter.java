@@ -48,7 +48,6 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvViewHolder>{
                 R.layout.item_empty_view:R.layout.list_item, parent, false);
         MyRvViewHolder mMyViewHolder = new MyRvViewHolder(mView, viewType);
         mView.setTag(mMyViewHolder);
-        mView.setOnClickListener(null);
         mView.setOnClickListener(mOnClickListener);
         return mMyViewHolder;
     }
