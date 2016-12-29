@@ -3,6 +3,8 @@ package com.mt.androidtest_as;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -50,9 +52,19 @@ public class MyRecyclerViewFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mBaseAdapter = new MyRvAdapter(this);
         mRecyclerView.setAdapter(mBaseAdapter);
+        setAccentColorForEmptyView();
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
         return v;
+    }
+
+    private void setAccentColorForEmptyView(){
+        Resources.Theme theme = mActivity.getTheme();
+        int []colorAccentId = {R.attr.colorAccent};
+        TypedArray a = theme.obtainStyledAttributes(R.style.AppTheme, colorAccentId);
+        int colorAccent = a.getColor(0, 0);
+        a.recycle();
+        mBaseAdapter.setColorForEmptyView(colorAccent);
     }
 
     @Override

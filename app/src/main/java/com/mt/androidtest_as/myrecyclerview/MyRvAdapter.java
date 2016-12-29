@@ -30,6 +30,7 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvViewHolder>{
     private List<BaseData> mData = null;
     private MyDataObserver mDataObserver = null;
     private View.OnClickListener mOnClickListener = null;
+    private int emptyViewColor = -1;
 
     public MyRvAdapter(Fragment mFragment){
         this.mContext = mFragment.getActivity().getApplicationContext();
@@ -40,6 +41,10 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvViewHolder>{
 
     public void setData(List<BaseData> mData){
         this.mData = mData;
+    }
+
+    public void setColorForEmptyView(int emptyViewColor){
+        this.emptyViewColor = emptyViewColor;
     }
 
     @Override
@@ -55,6 +60,7 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvViewHolder>{
     @Override
     public void onBindViewHolder(MyRvViewHolder holder, int position) {
         if(VIEW_TYPE_EMPTY == holder.viewType){
+            holder.mView.setBackgroundColor(emptyViewColor);
             return;
         }
         TextView mTextView = holder.mTextView;
