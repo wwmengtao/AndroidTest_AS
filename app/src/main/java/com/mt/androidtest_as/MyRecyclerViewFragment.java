@@ -58,13 +58,20 @@ public class MyRecyclerViewFragment extends BaseFragment {
         return v;
     }
 
+    /**
+     * setAccentColorForEmptyView:获取styles.xml中的属性颜色值
+     */
     private void setAccentColorForEmptyView(){
         Resources.Theme theme = mActivity.getTheme();
         int []colorAccentId = {R.attr.colorAccent};
         TypedArray a = theme.obtainStyledAttributes(R.style.AppTheme, colorAccentId);
         int colorAccent = a.getColor(0, 0);
         a.recycle();
-        mBaseAdapter.setColorForEmptyView(colorAccent);
+        int []colorMyColorID = {R.attr.custom_color1};
+        a = theme.obtainStyledAttributes(R.style.MyColorStyle, colorMyColorID);
+        int colorMyColor = a.getColor(0, 0);
+        a.recycle();
+        mBaseAdapter.setColorForEmptyView(colorAccent, colorMyColor);
     }
 
     @Override

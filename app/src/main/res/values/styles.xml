@@ -8,4 +8,13 @@
         <item name="colorAccent">@color/skyblue</item>
         <item name="android:listDivider">@drawable/divider3</item><!--覆盖系统默认android:listDivider属性-->
     </style>
+
+    <style name="MyColorStyle">
+        <item name="custom_color1">@color/greenyellow</item>
+    </style>
+
+    <declare-styleable name="custom_attrs">
+        <attr name="custom_color1" format="color"></attr>
+        <attr name="custom_color2" format="color"></attr>
+    </declare-styleable>
 </resources>
