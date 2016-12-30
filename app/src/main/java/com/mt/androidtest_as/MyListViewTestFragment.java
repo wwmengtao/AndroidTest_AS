@@ -26,7 +26,7 @@ import java.util.List;
  * Created by Mengtao1 on 2016/12/23.
  */
 
-public class MyListViewTestFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class MyListViewTestFragment extends ALogFragment implements AdapterView.OnItemClickListener{
     private Activity mActivity = null;
     private ListView mListView = null;
     private MyAdapter mAdapter = null;

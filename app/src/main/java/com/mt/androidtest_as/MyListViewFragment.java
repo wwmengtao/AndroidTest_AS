@@ -48,7 +48,6 @@ public class MyListViewFragment extends BaseFragment implements AdapterView.OnIt
     @Override
     public void onResume(){
         super.onResume();
-        ALog.Log("onResume");
         updateUI();
     }
 

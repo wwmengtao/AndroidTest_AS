@@ -2,7 +2,6 @@ package com.mt.androidtest_as;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,7 @@ import java.util.List;
  * Created by Mengtao1 on 2016/12/22.
  */
 
-public class FunctionListFragment extends Fragment {
+public class FunctionListFragment extends ALogFragment {
     private Activity mActivity = null;
     private RecyclerView mRecyclerView = null;
     private FLAdapter mAdapter = null;
@@ -28,7 +27,7 @@ public class FunctionListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
-        ALog.Log("CrimeListFragment:onCreate");
+        ALog.Log("FunctionListFragment:onCreate");
         setHasOptionsMenu(true);
     }
 

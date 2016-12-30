@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,7 +13,7 @@ import android.view.View;
 import java.util.List;
 
 
-public abstract class BaseFragment<T extends Object> extends Fragment implements View.OnClickListener{
+public abstract class BaseFragment<T extends Object> extends ALogFragment implements View.OnClickListener{
     private Activity mActivity = null;
     private List<T> mData = null;
     private Dialog mCreateDataDialog = null;
