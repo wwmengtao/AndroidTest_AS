@@ -16,7 +16,6 @@ public class PicDetailsActivity extends BaseActivity {
 
     @Override
     public Fragment getFragment() {
-        setTitle("PicDetailsActivity");
         Intent it = getIntent();
         File file = (File)it.getSerializableExtra(PicDetailsFragment2.DPF_PIC);
         return PicDetailsFragment2.newInstance(file);

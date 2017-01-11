@@ -2,6 +2,8 @@
     <string name="app_name">AndroidTest_AS</string>
     <string name="beatbox_title">BeatBoxActivity</string>
     <string name="criminal_title">CrimeListActivity</string>
+    <string name="crime_pager_title">CrimePagerActivity</string>
+    <string name="pic_detail_title">PicDetailActivity</string>
     <string name="clear_all_data">Clear all data!</string>
     <string name="add_some_data">Add data</string>
     <string name="are_you_sure">Are you sure?</string>
@@ -12,7 +14,7 @@
     <string name="crime_details_label">Details</string>
     <string name="crime_solved_label">Solved</string>
     <string name="title_activity_crime_list">CrimeListActivity</string>
-    <string name="date_picker_title">Date of crime:</string>
+    <string name="date_picker_title">DateSetActivity</string>
     <string name="new_crime">New Crime</string>
     <string name="del_crime">Delete Crime</string>
     <string name="del_crime2">Delete crime!</string>

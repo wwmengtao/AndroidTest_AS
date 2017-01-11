@@ -20,10 +20,4 @@ public class DatePickerActivity extends BaseActivity {
         Date date = (Date)it.getSerializableExtra(CrimeFragment.CRIME_DATE);
         return DatePickerFragment2.newInstance(date);
     }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        setTitle("DatePickerActivity");
-    }
 }

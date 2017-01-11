@@ -36,7 +36,6 @@ public class CrimePagerActivity extends ALogActivity implements CrimeFragment.Ca
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crime_pager);
-        setTitle("CrimePagerActivity");
         mViewPager = (ViewPager)findViewById(R.id.activity_crime_pager_view_pager);
         mData = CrimeLab.get(this).getCrimes();
         UUID crimeID = (UUID)getIntent().getSerializableExtra(CRIME_ID);
