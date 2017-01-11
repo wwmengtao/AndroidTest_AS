@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mt.androidtest_as">
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -34,10 +41,40 @@
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
             >
             <intent-filter>
-                <action android:name="com.mt.MyBeatBoxActivity"/>
+                <action android:name="com.mt.myapplication.beatbox.BeatBoxActivity"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.mt.myapplication.criminalintent.CrimeListActivity"
+            android:label="@string/criminal_title"
+            android:theme="@style/CriminalTheme"
+            android:launchMode="singleTop"
+            android:configChanges="keyboard|keyboardHidden|screenSize|screenLayout|orientation">
+            <intent-filter>
+                <action android:name="com.mt.myapplication.criminalintent.CrimeListActivity"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mt.myapplication.criminalintent.CrimePagerActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:parentActivityName="com.mt.myapplication.criminalintent.CrimeListActivity" />
+        <activity android:name="com.mt.myapplication.criminalintent.DatePickerActivity"
+            android:parentActivityName="com.mt.myapplication.criminalintent.CrimePagerActivity" />
+        <activity android:name="com.mt.myapplication.criminalintent.PicDetailsActivity"
+            android:parentActivityName="com.mt.myapplication.criminalintent.CrimePagerActivity"></activity>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>

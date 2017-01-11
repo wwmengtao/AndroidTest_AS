@@ -35,4 +35,25 @@
         <item name="android:background">@color/pink</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <!-- Base application theme. -->
+    <style name="CriminalTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="actionBarStyle">@style/MyActionBarStyle</item>
+    </style>
+
+    <style name="MyActionBarStyle" parent="Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="titleTextStyle">@style/MyActionBarTitleTextStyle</item>
+        <item name="subtitleTextStyle">@style/MyActionBarSubTitleTextStyle</item>
+    </style>
+
+    <!-- ActionBar title text -->
+    <style name="MyActionBarTitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <!-- ActionBar subtitle text -->
+    <style name="MyActionBarSubTitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#4169E1</item>
+    </style>
 </resources>
