@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.mt.androidtest_as.ALog;
 import com.mt.androidtest_as.database.ATCursorWrapper;
 import com.mt.androidtest_as.database.DataBaseHelper;
 import com.mt.androidtest_as.database.ATDbSchema.ATDataTable;

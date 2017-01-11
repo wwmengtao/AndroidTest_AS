@@ -8,11 +8,34 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <!--MainActivity的launchMode设置为singleTop时，如果其他Activity的parentActivityName设为MainActivity，那么此时
+        其他Activity通过点击工具栏箭头返回时，不会引起MainActivity的onDestroy和onCreate-->
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainFragmentActivity"
+            android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <action android:name="com.mt.MainFragmentActivity"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mt.myapplication.beatbox.BeatBoxActivity"
+            android:label="@string/beatbox_title"
+            android:theme="@style/BeatBoxTheam"
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+            >
+            <intent-filter>
+                <action android:name="com.mt.MyBeatBoxActivity"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

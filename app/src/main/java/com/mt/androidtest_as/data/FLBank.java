@@ -14,8 +14,9 @@ public class FLBank {
     private static Context mContext = null;
     private static volatile FLBank mDataBank = null;
     private List<String> mData = null;
-    public static final String[] fragmentNameList={
-      "MyRecyclerViewFragment","MyListViewFragment","MyListViewTestFragment"
+    public static final String[] componentNameList={
+        "Fragments:","MyRecyclerViewFragment","MyListViewFragment","MyListViewTestFragment",
+        "Activities:","BeatBoxActivity"
     };
     private FLBank(Context context){
         mContext = context.getApplicationContext();
@@ -35,8 +36,8 @@ public class FLBank {
 
     private void generateData(){
         mData = new ArrayList<String>();
-        for(int i=0;i<fragmentNameList.length;i++){
-            mData.add(fragmentNameList[i]);
+        for(int i=0;i<componentNameList.length;i++){
+            mData.add(componentNameList[i]);
         }
     }
 

@@ -1,8 +1,9 @@
-package com.mt.androidtest_as;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+package com.mt.androidtest_as.alog;
 
 import android.util.Log;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ALog {
 	public  static String TAG_M = "M_T_AT";
@@ -33,17 +34,17 @@ public class ALog {
 	//eg:parseHexString("11"), result is 17
 	public static int parseHexString(String mData){
 		return Integer.parseInt(mData,16);
-	}	
-	
-    private static String formatStr="%-24s";
-    private static String regPrefix = "([a-zA-Z0-9]+\\.)+";//ƥ�俪ͷ��С������������ʽ�������Ǳ��һ���ӱ��ʽ�Ŀ�ʼ�ͽ���λ��
-    private static String regSuffix = "@[a-zA-Z0-9]+";//ƥ���β
-    /**
-     * Activity��toString���ݿ���������"com.mt.androidtest.showview.1s.sdf2.s4rt.ShowViewActivity@7d129f7"��
-     * ���к���������ȡShowViewActivity֮�������
-     * @param info
-     * @param activity
-     */
+	}
+
+	private static String formatStr="%-24s";
+	private static String regPrefix = "([a-zA-Z0-9]+\\.)+";//匹配开头：小括号在正则表达式的作用是标记一个子表达式的开始和结束位置
+	private static String regSuffix = "@[a-zA-Z0-9]+";//匹配结尾
+	/**
+	 * Activity的toString内容可能类似于"com.mt.androidtest.showview.1s.sdf2.s4rt.ShowViewActivity@7d129f7"，
+	 * 下列函数仅仅提取ShowViewActivity之类的内容
+	 * @param info
+	 * @param obj
+	 */
 	public static void Log(String info, Object obj){
 		String str = getActivityName(obj);
 		if(null != str)Log(String.format(formatStr,info)+":"+str);

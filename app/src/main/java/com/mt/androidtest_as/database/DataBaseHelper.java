@@ -5,7 +5,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.mt.androidtest_as.ALog;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.androidtest_as.database.ATDbSchema.ATDataTable;
 
 /**

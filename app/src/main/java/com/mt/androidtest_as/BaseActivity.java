@@ -3,13 +3,14 @@ package com.mt.androidtest_as;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+
+import com.mt.androidtest_as.alog.ALogActivity;
 
 /**
  * Created by Mengtao1 on 2016/12/8.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends ALogActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

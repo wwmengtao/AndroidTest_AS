@@ -1,11 +1,7 @@
 package com.mt.androidtest_as;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.mt.androidtest_as.data.BaseData;
-import com.mt.androidtest_as.data.DataBank;
-import com.mt.androidtest_as.mylistview.MyLvAdapter;
+import com.mt.androidtest_as.alog.ALog;
+import com.mt.androidtest_as.alog.ALogFragment;
 import com.mt.androidtest_as.mylistview.MyLvViewHolder;
 
 import java.util.ArrayList;

@@ -2,7 +2,7 @@ package com.mt.androidtest_as.myrecyclerview;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.mt.androidtest_as.ALog;
+import com.mt.androidtest_as.alog.ALog;
 
 /**
  * DataObserver:用于监听Adapter数据变化

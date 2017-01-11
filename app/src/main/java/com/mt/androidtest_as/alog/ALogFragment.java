@@ -1,6 +1,9 @@
-package com.mt.androidtest_as;
+package com.mt.androidtest_as.alog;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.support.v4.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -8,6 +11,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  onAttach方法：Fragment和Activity建立关联的时候调用，在这个方法中可以获得所在的activity。
@@ -118,5 +124,44 @@ public abstract class ALogFragment extends Fragment {
 	public void onDetach() {
 		super.onDetach();
 		if(isLogRun)ALog.Log("onDetach",this);
+	}
+
+	private List<String> mActivitiesName = null;
+	public String getActivityName(String str){
+		if(null == mActivitiesName){
+			mActivitiesName = getActivitiesName(getContext());
+		}
+		if(null == mActivitiesName)return null;
+		if(null==str||null==mActivitiesName)return null;
+		for(String mStr : mActivitiesName){
+			if(mStr.endsWith(str)){
+				return mStr;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * getActivities：获取当前应用AndroidManifest.xml文件中所有<activity>节点信息
+	 * @param mContext
+	 */
+	public List<String> getActivitiesName(Context mContext) {
+		ActivityInfo[] activities=null;
+		try {
+			activities = mContext.getPackageManager().getPackageInfo(getActivity().getPackageName(),PackageManager.GET_ACTIVITIES).activities;
+		} catch (PackageManager.NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(null==activities)return null;
+		List<String> mActivitiesName = new ArrayList<String>();
+		ActivityInfo mActivityInfo=null;
+		for (int i=0;i<activities.length;i++) {
+			mActivityInfo=activities[i];
+			if(null!=mActivityInfo){
+				mActivitiesName.add(mActivityInfo.name);
+			}
+		}
+		return mActivitiesName;
 	}
 }
