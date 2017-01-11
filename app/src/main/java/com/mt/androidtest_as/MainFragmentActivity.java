@@ -26,7 +26,6 @@ public class MainFragmentActivity extends BaseActivity {
 
     private Fragment getFragment(int positon){
         Fragment mFragment = null;
-        if(-1 == positon)return new FunctionListFragment();//默认是开启FunctionListFragment
         List<String> fragmentName = FLBank.get(this).getData();
         String fragmentTitle = fragmentName.get(positon);
         setTitle(fragmentTitle);

@@ -49,7 +49,7 @@
         <activity
             android:name="com.mt.myapplication.criminalintent.CrimeListActivity"
             android:label="@string/criminal_title"
-
+            android:parentActivityName=".MainActivity"
             android:launchMode="singleTop"
             android:configChanges="keyboard|keyboardHidden|screenSize|screenLayout|orientation">
             <intent-filter>

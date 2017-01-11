@@ -62,6 +62,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
 
     public void bindData(final Crime mCrime, boolean itemSelected){
         bindData(mCrime);
+        mView.setActivated(itemSelected);
         mView.setBackgroundColor(mView.getResources().getColor(itemSelected ? android.R.color.holo_green_light
             : android.R.color.transparent));
     }

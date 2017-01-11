@@ -16,7 +16,7 @@ import com.mt.myapplication.criminalintent.database.CrimeDbSchema.CrimeTable;
  */
 public class DataBaseHelper extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 1;
-	private static final String DATABASE_NAME = "dbHelper.db";	
+	private static final String DATABASE_NAME = "crimesRecord.db";
 	private static volatile DataBaseHelper sInstance = null;
 
     private DataBaseHelper(Context context) {
