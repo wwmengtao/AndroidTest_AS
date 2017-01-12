@@ -2,7 +2,9 @@ package com.mt.myapplication.criminalintent;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +45,10 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
     private boolean mSubtitleVisible;
     private TextView emptyView = null;
     private Callbacks mCallbacks = null;
+    private SharedPreferences mSharedPreferences = null;
+    private SharedPreferences.Editor mSharedPreferencesEditor = null;
+    private String preferenceFileName = "crimelistfragment_data";
+    private String ITEMCLICKPOSITION="itemclickposition";
 
     @Override
     public void onAttach(Activity activity) {
@@ -60,6 +66,8 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        mSharedPreferences	= mActivity.getSharedPreferences(preferenceFileName, Context.MODE_PRIVATE);
+        mSharedPreferencesEditor = mSharedPreferences.edit();
         /**
          * 如果托管Activity因为内存吃紧或者转屏被销毁然后重建的话，如果在onSaveInstanceState保存数据，那么此时
          * savedInstanceState将不为null，从而可以做数据恢复工作，当然也可以在onRestoreInstanceState中恢复数据，
@@ -69,6 +77,8 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
         if (savedInstanceState != null) {
             mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
             itemClickPosition = savedInstanceState.getInt(SAVED_ITEM_POSITION);
+        }else{
+            itemClickPosition = mSharedPreferences.getInt(ITEMCLICKPOSITION, -1);
         }
         setHasOptionsMenu(true);
     }
@@ -104,6 +114,12 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
         mData = CrimeLab.get(mActivity).getCrimes();
         mAdapter.setCrimes(mData);
         mAdapter.notifyDataSetChanged();//全部数据更新
+        if(-1 != itemClickPosition)mRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                mRecyclerView.smoothScrollToPosition(itemClickPosition);//直接调用不起作用，必须放在View.post里
+            }
+        });
         //
         updateSubtitle();
     }
@@ -152,9 +168,9 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 CrimeLab.get(mActivity).delAllCrimes();
-                                updateUI();
                                 mCallbacks.onItemSelected(null);
                                 setitemClickPosition(-1);
+                                updateUI();
                             }
                         })
                         .create();
@@ -263,5 +279,14 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
 
     public RecyclerView getRecyclerView(){
         return mRecyclerView;
+    }
+
+    @Override
+    public void onDestroy(){
+        if(null != mSharedPreferencesEditor) {
+            mSharedPreferencesEditor.putInt(ITEMCLICKPOSITION, itemClickPosition);
+            mSharedPreferencesEditor.commit();
+        }
+        super.onDestroy();
     }
 }

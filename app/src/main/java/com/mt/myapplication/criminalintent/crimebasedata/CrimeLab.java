@@ -126,7 +126,7 @@ public class CrimeLab {
      */
     public void generateDemoCrimes(){
         Crime crime = null;
-        for(int i=0; i<10; i++){
+        for(int i=0; i<20; i++){
             crime = new Crime();
             crime.setTitle("#"+(i+1));
             crime.setSolved(0==(i%2));
