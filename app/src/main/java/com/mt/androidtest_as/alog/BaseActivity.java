@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
 
 import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.alog.ALogActivity;
@@ -32,5 +34,22 @@ public abstract class BaseActivity extends ALogActivity {
     @LayoutRes
     protected Integer getResourceID(){//用于规定BaseActivity的布局文件
         return R.layout.activity_base;
+    }
+
+    protected void initActionBar(){
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 }

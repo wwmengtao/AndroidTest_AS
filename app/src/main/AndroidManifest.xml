@@ -63,11 +63,9 @@
             android:launchMode="singleTop"
             android:parentActivityName="com.mt.myapplication.criminalintent.CrimeListActivity" />
         <activity android:name="com.mt.myapplication.criminalintent.DatePickerActivity"
-            android:label="@string/date_picker_title"
-            android:parentActivityName="com.mt.myapplication.criminalintent.CrimePagerActivity" />
+            android:label="@string/date_picker_title"/>
         <activity android:name="com.mt.myapplication.criminalintent.PicDetailsActivity"
-            android:label="@string/pic_detail_title"
-            android:parentActivityName="com.mt.myapplication.criminalintent.CrimePagerActivity"></activity>
+            android:label="@string/pic_detail_title"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"

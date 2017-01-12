@@ -2,6 +2,7 @@ package com.mt.myapplication.criminalintent;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.mt.androidtest_as.alog.BaseActivity;
@@ -14,6 +15,12 @@ public class DatePickerActivity extends BaseActivity {
         Intent mIntent = new Intent(mContext,DatePickerActivity.class);
         mIntent.putExtra(CrimeFragment.CRIME_DATE,date);
         return mIntent;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initActionBar();
     }
 
     @Override
