@@ -6,9 +6,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
 
 
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.androidtest_as.alog.ALogActivity;
 import com.mt.myapplication.criminalintent.crimebasedata.Crime;
 import com.mt.myapplication.criminalintent.crimebasedata.CrimeLab;
@@ -61,14 +64,43 @@ public class CrimePagerActivity extends ALogActivity implements CrimeFragment.Ca
     }
 
     @Override
-    public void onBackPressed(){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                ALog.Log("actionBar:home");
+                finish();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
+    private void setResultForPosition(){
         int position = mViewPager.getCurrentItem();
         Intent mIntent1 = getIntent();
         if(null!=mIntent1) {
             mIntent1.putExtra(CURRENT_CRIME_ID_VIEWPAGER, position);
             setResult(RESULT_CODE, mIntent1);//在onPause函数里面setResult是没有效果的
         }
-        super.onBackPressed();
+    }
+
+    @Override
+    public void finish() {
+        /**setResultForPosition必须在super.finish()之前执行，否则无效
+         * Activity.finish()部分代码如下：
+         * if (ActivityManagerNative.getDefault()
+         * .finishActivity(mToken, resultCode, resultData, finishTask))
+         * 说明finish函数中已经将resultCode和resultData写入，在finish之后将无效
+         */
+        setResultForPosition();
+        super.finish();
+//        setResultForPosition();//setResultForPosition在此处执行无效
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();//会调用finish()
     }
 
     @Override

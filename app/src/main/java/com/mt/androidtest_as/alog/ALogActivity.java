@@ -1,5 +1,6 @@
 package com.mt.androidtest_as.alog;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -59,6 +60,12 @@ public abstract class ALogActivity extends AppCompatActivity {
     }
 
     @Override
+    public void finish() {
+        super.finish();
+        if(isLogRun)ALog.Log("finish",this);
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         if(isLogRun)ALog.Log("onStop",this);
@@ -99,5 +106,11 @@ public abstract class ALogActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig){
         super.onConfigurationChanged(newConfig);
         if(isLogRun)ALog.Log("onConfigurationChanged",this);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if(isLogRun)ALog.Log("onActivityResult",this);
     }
 }

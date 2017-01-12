@@ -28,7 +28,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
 
     public MyViewHolder(View view){
         super(view);
-        ALog.Log("MyViewHolder()");
+//        ALog.Log("MyViewHolder()");
         mView = view;
         mCheckBox = (CheckBox)view.findViewById(R.id.list_item_crime_solved_check_box);
         tvTitle = (TextView)view.findViewById(R.id.list_item_crime_title_text_view);
@@ -37,7 +37,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder{
     }
 
     public void bindData(final Crime mCrime){
-        ALog.Log("MyViewHolder_bindData");
+//        ALog.Log("MyViewHolder_bindData");
         mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
