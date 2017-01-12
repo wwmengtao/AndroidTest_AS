@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import com.mt.androidtest_as.alog.BaseActivity;
+
 import java.io.File;
 
 public class PicDetailsActivity extends BaseActivity {

@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.widget.CheckBox;
 
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.BaseActivity;
 import com.mt.myapplication.criminalintent.crimebasedata.Crime;
 
 public class CrimeListActivity extends BaseActivity implements

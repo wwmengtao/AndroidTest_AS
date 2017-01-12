@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import com.mt.androidtest_as.alog.BaseActivity;
 import com.mt.androidtest_as.data.FLBank;
 
 import java.util.List;

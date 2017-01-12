@@ -1,9 +1,11 @@
-package com.mt.androidtest_as;
+package com.mt.androidtest_as.alog;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.alog.ALogActivity;
 
 /**
@@ -14,8 +16,7 @@ public abstract class BaseActivity extends ALogActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
-
+        setContentView(getResourceID());
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
@@ -27,4 +28,9 @@ public abstract class BaseActivity extends ALogActivity {
         }
     }
     public abstract Fragment getFragment();
+
+    @LayoutRes
+    protected Integer getResourceID(){//用于规定BaseActivity的布局文件
+        return R.layout.activity_base;
+    }
 }
