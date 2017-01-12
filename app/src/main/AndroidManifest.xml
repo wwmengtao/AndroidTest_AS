@@ -19,7 +19,8 @@
         其他Activity通过点击工具栏箭头返回时，不会引起MainActivity的onDestroy和onCreate-->
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -27,7 +28,8 @@
         </activity>
         <activity
             android:name=".MainFragmentActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard">
             <intent-filter>
                 <action android:name="com.mt.MainFragmentActivity"/>
                 <category android:name="android.intent.category.DEFAULT" />
@@ -61,11 +63,14 @@
             android:name="com.mt.myapplication.criminalintent.CrimePagerActivity"
             android:label="@string/crime_pager_title"
             android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
             android:parentActivityName="com.mt.myapplication.criminalintent.CrimeListActivity" />
         <activity android:name="com.mt.myapplication.criminalintent.DatePickerActivity"
-            android:label="@string/date_picker_title"/>
+            android:label="@string/date_picker_title"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"/>
         <activity android:name="com.mt.myapplication.criminalintent.PicDetailsActivity"
-            android:label="@string/pic_detail_title"/>
+            android:label="@string/pic_detail_title"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"

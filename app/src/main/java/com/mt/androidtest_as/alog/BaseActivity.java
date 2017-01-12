@@ -36,6 +36,9 @@ public abstract class BaseActivity extends ALogActivity {
         return R.layout.activity_base;
     }
 
+    /**
+     * initActionBar：如果Activity需要支持ActionBar箭头点击销毁当前Activity功能，那么在Activity中调用此方法
+     */
     protected void initActionBar(){
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

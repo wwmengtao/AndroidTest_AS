@@ -42,6 +42,18 @@ public abstract class ALogActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onPostResume(){
+        super.onPostResume();
+        if(isLogRun)ALog.Log("onPostResume",this);
+    }
+
+    @Override
+    public void onResumeFragments(){
+        super.onResumeFragments();
+        if(isLogRun)ALog.Log("onResumeFragments",this);
+    }
+
+    @Override
     public void onBackPressed(){
         super.onBackPressed();
         if(isLogRun)ALog.Log("onBackPressed",this);
@@ -77,6 +89,11 @@ public abstract class ALogActivity extends AppCompatActivity {
         if(isLogRun)ALog.Log("onDestroy",this);
     }
 
+    @Override
+    public void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+        if(isLogRun)ALog.Log("onNewIntent",this);
+    }
 
     @Override
     public void onContentChanged() {
