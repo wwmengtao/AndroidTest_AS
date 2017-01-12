@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.androidtest_as.alog.ALogFragment;
 import com.mt.myapplication.criminalintent.crimebasedata.Crime;
 import com.mt.myapplication.criminalintent.crimebasedata.CrimeLab;
@@ -38,6 +39,7 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
     private List<Crime> mData = null;
     private int itemClickPosition = -1;
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
+    private static final String SAVED_ITEM_POSITION = "item_position";
     private boolean mSubtitleVisible;
     private TextView emptyView = null;
     private Callbacks mCallbacks = null;
@@ -58,6 +60,16 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        /**
+         * 如果托管Activity因为内存吃紧或者转屏被销毁然后重建的话，如果在onSaveInstanceState保存数据，那么此时
+         * savedInstanceState将不为null，从而可以做数据恢复工作，当然也可以在onRestoreInstanceState中恢复数据，
+         * 只不过onRestoreInstanceState的调用是在托管Activity确实被系统销毁了的情况下。onRestoreInstanceState和
+         * 此处都可以做数据恢复工作
+         */
+        if (savedInstanceState != null) {
+            mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
+            itemClickPosition = savedInstanceState.getInt(SAVED_ITEM_POSITION);
+        }
         setHasOptionsMenu(true);
     }
 
@@ -65,9 +77,6 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
-        if (savedInstanceState != null) {
-            mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
-        }
         View v = inflater.inflate(R.layout.activity_crime_list, container, false);
         mRecyclerView = (MyRecyclerView)v.findViewById(R.id.crime_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -96,7 +105,6 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
         mAdapter.setCrimes(mData);
         mAdapter.notifyDataSetChanged();//全部数据更新
         //
-        mSubtitleVisible = false;
         updateSubtitle();
     }
 
@@ -104,6 +112,7 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
+        outState.putInt(SAVED_ITEM_POSITION,itemClickPosition);
     }
 
     @Override

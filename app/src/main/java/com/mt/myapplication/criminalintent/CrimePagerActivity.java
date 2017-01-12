@@ -67,7 +67,6 @@ public class CrimePagerActivity extends ALogActivity implements CrimeFragment.Ca
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                ALog.Log("actionBar:home");
                 finish();
                 break;
             default:
