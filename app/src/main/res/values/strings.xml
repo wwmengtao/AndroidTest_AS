@@ -39,6 +39,7 @@
     <string name="crime_report_subject">CriminalIntent Crime Report</string>
     <string name="send_report">Send crime report via</string>
     <string name="add_demo_items">Add demo crimes!</string>
+    <string name="delete_this_item">Delete this crime?</string>
     <string name="delete_all_items">Delete all crimes!</string>
     <string name="action_settings">Settings</string>
 </resources>

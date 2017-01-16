@@ -1,7 +1,9 @@
 package com.mt.myapplication.criminalintent;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -13,6 +15,7 @@ import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
@@ -38,6 +41,7 @@ import com.mt.myapplication.criminalintent.crimebasedata.CrimeLab;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class CrimeFragment extends ALogFragment {
@@ -59,7 +63,7 @@ public class CrimeFragment extends ALogFragment {
     private static final int REQUEST_CONTACT = 1;
     private static final int REQUEST_PHOTO= 2;
     private Callbacks mCallbacks = null;
-
+    private Activity mActivity = null;
     public static Fragment newFragment(UUID id){
         Bundle mBundle = new Bundle();
         mBundle.putSerializable(CRIME_ID,id);
@@ -71,6 +75,7 @@ public class CrimeFragment extends ALogFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        mActivity = activity;
         if(CrimeListActivity.isFragmentContainerDetailedExisted())mCallbacks = (Callbacks)activity;
     }
 
@@ -317,8 +322,19 @@ public class CrimeFragment extends ALogFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_delete_crime:
-                CrimeLab.get(getActivity().getApplicationContext()).delCrime(mCrime);
-                getActivity().finish();
+                Dialog mDialog = new AlertDialog.Builder(mActivity)
+                        .setTitle(getString(R.string.delete_this_item))
+                        .setNegativeButton(android.R.string.cancel,null)
+                        .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                CrimeLab.get(getActivity().getApplicationContext()).delCrime(mCrime);
+                                mActivity.finish();
+                            }
+                        })
+                        .create();
+                List<Crime> mCrimes = CrimeLab.get(mActivity).getCrimes();
+                if(null != mCrimes && mCrimes.size()>0)mDialog.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
