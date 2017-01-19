@@ -170,7 +170,7 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
                             public void onClick(DialogInterface dialog, int which) {
                                 CrimeLab.get(mActivity).delAllCrimes();
                                 mCallbacks.onItemSelected(null);
-                                setitemClickPosition(-1);
+                                setCurrentClickedItemPosition(-1);
                                 updateUI();
                             }
                         })
@@ -194,7 +194,7 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
                                 CrimeLab.get(mActivity).generateDemoCrimes();
                                 updateUI();
                                 mCallbacks.onItemSelected(mData.get(0));
-                                setitemClickPosition(0);
+                                setCurrentClickedItemPosition(0);
                             }
                         })
                         .create();
@@ -228,7 +228,7 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
     private void addAnItem(){
         Crime crime = new Crime();
         CrimeLab.get(mActivity).addCrime(crime);
-        setitemClickPosition(mData.size());
+        setCurrentClickedItemPosition(mData.size());
         mCallbacks.onItemSelected(crime);
         updateUI();
     }
@@ -248,7 +248,7 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        setitemClickPosition(mRecyclerView.getChildAdapterPosition(v));
+        setCurrentClickedItemPosition(mRecyclerView.getChildAdapterPosition(v));
         mCallbacks.onItemSelected(mData.get(itemClickPosition));
         mAdapter.notifyDataSetChanged();
     }
@@ -262,10 +262,10 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
     }
 
     /**
-     * setitemClickPosition:设置CrimeListFragment当前用户选择的item位置
+     * setCurrentClickedItemPosition:设置CrimeListFragment当前用户选择的item位置
      * @param position
      */
-    public void setitemClickPosition(int position){
+    public void setCurrentClickedItemPosition(int position){
         itemClickPosition = position;
         mAdapter.notifyDataSetChanged();
     }
@@ -274,7 +274,7 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
      * resetCurrentClickedItemPosition：重置CrimeListFragment当前用户选择的item位置
      */
     public void resetCurrentClickedItemPosition(){
-        setitemClickPosition(-1);
+        setCurrentClickedItemPosition(-1);
         mAdapter.notifyDataSetChanged();
     }
 

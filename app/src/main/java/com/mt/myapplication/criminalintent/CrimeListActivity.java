@@ -177,7 +177,7 @@ public class CrimeListActivity extends BaseActivity implements
             if(null != listFragment){
                 int currentCrimePagerItem = intent.getIntExtra(CrimePagerActivity.CURRENT_CRIME_ID_VIEWPAGER, 0);
                 listFragment.getRecyclerView().smoothScrollToPosition(currentCrimePagerItem);
-                listFragment.setitemClickPosition(currentCrimePagerItem);
+                listFragment.setCurrentClickedItemPosition(currentCrimePagerItem);
             }
         }
     }
