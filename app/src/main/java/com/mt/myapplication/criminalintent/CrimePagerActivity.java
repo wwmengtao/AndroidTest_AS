@@ -40,6 +40,10 @@ public class CrimePagerActivity extends ALogActivity implements CrimeFragment.Ca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crime_pager);
         mViewPager = (ViewPager)findViewById(R.id.activity_crime_pager_view_pager);
+        //设置ViewPager内部页面之间的间距
+        mViewPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.page_margin_width));
+        //设置ViewPager内部页面间距的drawable
+        mViewPager.setPageMarginDrawable(R.drawable.divider);//或者是R.color.royalblue
         mData = CrimeLab.get(this).getCrimes();
         UUID crimeID = (UUID)getIntent().getSerializableExtra(CRIME_ID);
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()){

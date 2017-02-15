@@ -67,7 +67,7 @@ public class FunctionListFragment extends ALogFragment implements View.OnClickLi
                     mIntent.setComponent(new ComponentName(mActivity.getPackageName(), activityName));
                 }
             }
-            mActivity.startActivity(mIntent);
+            if(null != mIntent && null != mActivity)mActivity.startActivity(mIntent);
         }
     }
 }
