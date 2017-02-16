@@ -12,7 +12,6 @@
         android:text="test"
         android:padding="10dp"
         android:textSize="16sp"
-        android:layout_gravity="center"
         android:textColor="@drawable/menu_item_text_color"/>
 
 </RelativeLayout>

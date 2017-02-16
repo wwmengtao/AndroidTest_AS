@@ -15,7 +15,7 @@ public class FLBank {
     private static volatile FLBank mDataBank = null;
     private List<String> mData = null;
     public static final String[] componentNameList={
-        "Fragments:","MyRecyclerViewFragment","MyListViewFragment","MyListViewTestFragment",
+        "Fragments:","MyRecyclerViewFragment","MyRVMultiTypeFragment","MyListViewFragment","MyListViewTestFragment",
         "Activities:","BeatBoxActivity","CrimeListActivity"
     };
     private FLBank(Context context){

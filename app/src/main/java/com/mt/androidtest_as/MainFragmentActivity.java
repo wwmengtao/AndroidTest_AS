@@ -34,6 +34,9 @@ public class MainFragmentActivity extends BaseActivity {
             case "MyRecyclerViewFragment":
                 mFragment = new MyRecyclerViewFragment();
                 break;
+            case "MyRVMultiTypeFragment":
+                mFragment = new MyRVMultiTypeFragment();
+                break;
             case "MyListViewFragment":
                 mFragment = new MyListViewFragment();
                 break;

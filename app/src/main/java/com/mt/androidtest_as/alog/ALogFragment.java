@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -25,7 +26,16 @@ import java.util.List;
  */
 public abstract class ALogFragment extends Fragment {
 	private boolean isLogRun = true; 
-	
+	private Handler mHandler = null;
+
+	protected Handler getHandler(){
+		if(null == mHandler){
+			mHandler = new Handler();
+		}
+		return mHandler;
+	}
+
+
 	@Override
 	public void onAttach(Activity mActivity) {
 		super.onAttach(mActivity);
@@ -110,6 +120,7 @@ public abstract class ALogFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+		if(null != mHandler)mHandler.removeCallbacksAndMessages(null);
     	super.onDestroyView();
     	if(isLogRun)ALog.Log("onDestroyView",this);	
     }
