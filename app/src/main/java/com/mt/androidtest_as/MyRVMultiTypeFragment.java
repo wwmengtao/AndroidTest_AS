@@ -3,6 +3,7 @@ package com.mt.androidtest_as;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,7 +47,9 @@ public class MyRVMultiTypeFragment extends ALogFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_myrecyclerview, container, false);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.my_recyclerview);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         mBaseAdapter = new BaseAdapter();
         mMultiTypeAdapter = new MultiTypeAdapter(mBaseAdapter);
         mRecyclerView.setAdapter(mMultiTypeAdapter);
@@ -63,7 +66,7 @@ public class MyRVMultiTypeFragment extends ALogFragment {
         @Override
         public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View mView = LayoutInflater.from(mActivity).inflate(R.layout.list_item, parent, false);
-            return new BaseViewHolder(mView,viewType);
+            return new BaseViewHolder(mView);
         }
 
 
@@ -81,32 +84,16 @@ public class MyRVMultiTypeFragment extends ALogFragment {
     private class BaseViewHolder extends RecyclerView.ViewHolder {
         private View mView = null;
         private View mSubView = null;
-        private int viewType = -1;
-        private int position = -1;
 
-        public BaseViewHolder(View itemView,int viewType) {
+        public BaseViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-            this.viewType = viewType;
         }
         public View getSubView(int id){
             if(null == mSubView){
                 mSubView = mView.findViewById(id);
             }
             return mSubView;
-        }
-        public void setPosition(int position){
-            this.position = position;
-        }
-
-        public int getPostion(){
-            return position;
-        }
-        public void setViewType(int viewType){
-            this.viewType = viewType;
-        }
-        public int getViewType(){
-            return viewType;
         }
     }
 
@@ -126,7 +113,7 @@ public class MyRVMultiTypeFragment extends ALogFragment {
         }
 
         /**
-         * initViews：为各种类型的View添加标记
+         * initViews：为各种类型的View添加标记，用于标记各个类型View的数量
          */
         private void initViews(){
             addEmptyViews(0x0001);
@@ -148,7 +135,7 @@ public class MyRVMultiTypeFragment extends ALogFragment {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                for (int i = 0; i < 10; i++) {
+                                for (int i = 0; i < 30; i++) {
                                     mInnerAdapter.mData.add("Item: " + i);
                                 }
                                 notifyDataSetChanged();
@@ -162,22 +149,20 @@ public class MyRVMultiTypeFragment extends ALogFragment {
                 mView = LayoutInflater.from(mActivity).inflate(R.layout.item_footer_view, parent, false);
             }
             if(null != mView){
-                mBaseViewHolder = new BaseViewHolder(mView, viewType);
+                mBaseViewHolder = new BaseViewHolder(mView);
             }else{
                 mBaseViewHolder = mInnerAdapter.onCreateViewHolder(parent, viewType);
             }
-            mBaseViewHolder.setViewType(viewType);
             return mBaseViewHolder;
         }
 
         @Override
         public void onBindViewHolder(BaseViewHolder holder, int position) {
-            boolean notEmpty = BASE_EMPTY_VIEW_TYPE != holder.getViewType();
+            boolean notEmpty = BASE_EMPTY_VIEW_TYPE != holder.getItemViewType();
             if(notEmpty && !mMenu.hasVisibleItems()){
                 mMenu.setGroupVisible(0,true);//如果当前RecyclerView中有数据的话就显示菜单栏
             }
             if(isHeaderView(position) && notEmpty){
-                holder.setPosition(position);
                 decorateHeaderView(holder);
                 return;
             }
@@ -185,7 +170,7 @@ public class MyRVMultiTypeFragment extends ALogFragment {
                 decorateFooterView(holder);
                 return;
             }
-            if(BASE_ITEM_VIEW_TYPE == holder.viewType){
+            if(BASE_ITEM_VIEW_TYPE == holder.getItemViewType()){
                 mInnerAdapter.onBindViewHolder(holder, position - getFooterViewCount());
             }
         }
@@ -196,7 +181,7 @@ public class MyRVMultiTypeFragment extends ALogFragment {
 
         private void decorateHeaderView(BaseViewHolder holder){
             TextView tv = (TextView) holder.getSubView(R.id.header_view);
-            tv.setText("HeaderView: "+holder.getPostion());
+            tv.setText("HeaderView: "+holder.getLayoutPosition());
         }
 
         private boolean needLoadMore(int position){
@@ -278,6 +263,18 @@ public class MyRVMultiTypeFragment extends ALogFragment {
         private int getRealItemCount(){
             return mInnerAdapter.mData.size();
         }
+
+        @Override
+        public void onViewAttachedToWindow(BaseViewHolder holder){
+            //为瀑布流StaggeredGridLayoutManager的Item设置跨列Item
+            if (isHeaderViewPos(holder.getLayoutPosition()) || isFooterViewPos(holder.getLayoutPosition())){
+                ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+                if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams){
+                    StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
+                    p.setFullSpan(true);
+                }
+            }
+        }
     }
 
     private Menu mMenu = null;
@@ -298,10 +295,23 @@ public class MyRVMultiTypeFragment extends ALogFragment {
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
                 break;
             case R.id.action_grid:
-                mRecyclerView.setLayoutManager(new GridLayoutManager(mActivity, 2));
+                GridLayoutManager mGridLayoutManager = new GridLayoutManager(mActivity, 2);
+                final int spanCount = mGridLayoutManager.getSpanCount();
+                //setSpanSizeLookup：用来设置每个Item占用的列数
+                mGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        boolean isHeaderViewPosition = position < mMultiTypeAdapter.getHeaderViewCount();
+                        boolean isFooterViewPosition = position >= mMultiTypeAdapter.getHeaderViewCount() + mMultiTypeAdapter.getRealItemCount();
+                        return (isHeaderViewPosition || isFooterViewPosition) ? spanCount : 1;
+                    }
+                });
+                mRecyclerView.setLayoutManager(mGridLayoutManager);
                 break;
             case R.id.action_staggered:
-                mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                StaggeredGridLayoutManager mStaggeredGridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+                mStaggeredGridLayoutManager.setSpanCount(3);
+                mRecyclerView.setLayoutManager(mStaggeredGridLayoutManager);
                 break;
         }
         mRecyclerView.setAdapter(mMultiTypeAdapter);

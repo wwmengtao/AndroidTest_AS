@@ -1,5 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_linear"
+        android:title="LinearLayoutManager"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/action_grid"
           android:title="GridLayoutManager"
           android:orderInCategory="100"
@@ -7,11 +12,6 @@
 
     <item android:id="@+id/action_staggered"
           android:title="StaggeredGridLayoutManager"
-          android:orderInCategory="100"
-          app:showAsAction="never"/>
-
-    <item android:id="@+id/action_linear"
-          android:title="LinearLayoutManager"
           android:orderInCategory="100"
           app:showAsAction="never"/>
 </menu>
