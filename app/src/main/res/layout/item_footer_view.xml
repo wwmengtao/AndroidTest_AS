@@ -10,6 +10,6 @@
         android:layout_height="wrap_content"
         android:padding="20dp"
         android:text="FooterView"
-        android:background="@color/turquoise"
+        android:background="@drawable/textview_drawable"
         android:gravity="center"/>
 </FrameLayout>
