@@ -75,15 +75,12 @@ public class PhotoGalleryFragment extends ALogFragment {
     /**
      * AsyncTask<para1,para2,para3>中三个参数依次对应doInBackground、onProgressUpdate以及onPostExecute的传入参数类型
      */
-    private static int dataLoadCount = 1;
+    private int dataLoadCount = 1;
     private class FetchItemsTask extends AsyncTask<Void,Integer,List<PhotoInfo>> {
         @Override
         protected List<PhotoInfo> doInBackground(Void... params) {
             List<PhotoInfo> data = getData();
-            if(null == data){
-                cancel(true);
-                return data;
-            }
+            if(null == data)return data;
             data.add(0,null);//为HeaderView提供占位数据
             mBaseAdapter.addNewData(data);
             if(1 != dataLoadCount){
@@ -154,7 +151,6 @@ public class PhotoGalleryFragment extends ALogFragment {
         if(null == assetFiles)assetFiles=getAssetFiles(assetDir);
         if(null == assetFiles)return false;
         for(String str:assetFiles){
-            ALog.Log("str:"+str+" assetFileName:"+assetFileName);
             if(str.equals(assetFileName))return true;
         }
         return false;
