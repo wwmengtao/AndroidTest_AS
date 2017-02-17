@@ -121,6 +121,7 @@ public class MyRVMultiTypeFragment extends ALogFragment {
             addHeaderViews(0x1000);
             addFooterViews(0x2000);
             addFooterViews(0x2000);
+            addFooterViews(0x2000);
         }
 
         @Override
@@ -171,7 +172,7 @@ public class MyRVMultiTypeFragment extends ALogFragment {
                 return;
             }
             if(BASE_ITEM_VIEW_TYPE == holder.getItemViewType()){
-                mInnerAdapter.onBindViewHolder(holder, position - getFooterViewCount());
+                mInnerAdapter.onBindViewHolder(holder, position - getHeaderViewCount());
             }
         }
 
@@ -301,9 +302,7 @@ public class MyRVMultiTypeFragment extends ALogFragment {
                 mGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                     @Override
                     public int getSpanSize(int position) {
-                        boolean isHeaderViewPosition = position < mMultiTypeAdapter.getHeaderViewCount();
-                        boolean isFooterViewPosition = position >= mMultiTypeAdapter.getHeaderViewCount() + mMultiTypeAdapter.getRealItemCount();
-                        return (isHeaderViewPosition || isFooterViewPosition) ? spanCount : 1;
+                        return (mMultiTypeAdapter.isHeaderViewPos(position) || mMultiTypeAdapter.isFooterViewPos(position)) ? spanCount : 1;
                     }
                 });
                 mRecyclerView.setLayoutManager(mGridLayoutManager);

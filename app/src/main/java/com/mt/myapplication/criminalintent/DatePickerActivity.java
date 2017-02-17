@@ -18,12 +18,6 @@ public class DatePickerActivity extends BaseActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initActionBar();
-    }
-
-    @Override
     public Fragment getFragment() {
         Intent it = getIntent();
         Date date = (Date)it.getSerializableExtra(CrimeFragment.CRIME_DATE);

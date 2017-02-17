@@ -80,6 +80,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
+        <activity android:name="com.mt.myapplication.photogallery.PhotoGalleryActivity"
+            android:label="@string/photo_gallery_title"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"/>
     </application>
 
 </manifest>

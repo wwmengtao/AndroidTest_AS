@@ -4,6 +4,7 @@
     <string name="criminal_title">CrimeListActivity</string>
     <string name="crime_pager_title">CrimePagerActivity</string>
     <string name="pic_detail_title">PicDetailActivity</string>
+    <string name="photo_gallery_title">PhotoGalleryActivity</string>
     <string name="clear_all_data">Clear all data!</string>
     <string name="add_some_data">Add data</string>
     <string name="are_you_sure">Are you sure?</string>
