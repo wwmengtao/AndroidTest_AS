@@ -7,6 +7,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mt.androidtest_as.R;
@@ -38,6 +39,12 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<ViewHolder>{
         this.mLoadMoreListener = mLoadMoreListener;
     }
 
+    private View mFootView = null;
+
+    public View getFootView(){
+        return mFootView;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder mBaseViewHolder = null;
@@ -54,6 +61,16 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<ViewHolder>{
             mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_header_view, parent, false);
         }else if(null != mFooterViews.get(viewType)){
             mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_footer_view, parent, false);
+            TextView tv = (TextView) mView.findViewById(R.id.footer_view);
+            tv.setText("LoadMoreData");
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDataLoadProgress(true);
+                    mLoadMoreListener.onClick(v);
+                }
+            });
+            mFootView = mView;
         }
         if(null != mView){
             mBaseViewHolder = new ViewHolder(mView);
@@ -72,12 +89,21 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<ViewHolder>{
             return;
         }
         if(needLoadMore(position)){
-            decorateFooterView(holder);
+            showDataLoadProgress(false);
             return;
         }
         if(BASE_ITEM_VIEW_TYPE == holder.getItemViewType()){
             mInnerAdapter.onBindViewHolder(holder, position);
         }
+    }
+
+    public void showDataLoadProgress(boolean show){
+        if(null == mFootView)return;
+        ALog.Log("showDataLoadProgress");
+        LinearLayout ll = (LinearLayout)mFootView.findViewById(R.id.progress_data_loading);
+        TextView tv = (TextView)mFootView.findViewById(R.id.footer_view);
+        ll.setVisibility(show? View.VISIBLE:View.INVISIBLE);
+        tv.setVisibility((!show)? View.VISIBLE:View.INVISIBLE);
     }
 
     private void decorateHeaderView(ViewHolder holder){
@@ -89,6 +115,11 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<ViewHolder>{
         tv.setText("Pager: "+pageIndex+" DataNum:"+dataNum);
     }
 
+    /**
+     * getPageIndex：获取加载数据次数序号
+     * @param positon
+     * @return
+     */
     private int getPageIndex(int positon){
         for(int i=0;i<mHeaderViews.size();i++){
             if(mHeaderViews.get(mHeaderViews.keyAt(i)) == positon){
@@ -103,12 +134,6 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<ViewHolder>{
             return true;
         }
         return false;
-    }
-
-    private void decorateFooterView(ViewHolder holder){
-        TextView tv = (TextView) holder.getSubView(R.id.footer_view);
-        tv.setText("LoadMoreData");
-        tv.setOnClickListener(mLoadMoreListener);
     }
 
     @Override

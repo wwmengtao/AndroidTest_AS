@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.alog.ALog;
@@ -80,7 +82,10 @@ public class PhotoGalleryFragment extends ALogFragment {
         @Override
         protected List<PhotoInfo> doInBackground(Void... params) {
             List<PhotoInfo> data = getData();
-            if(null == data)return data;
+            if(null == data){
+                getHandler().postDelayed(ShowDataLoadingStopRunnable,1000);
+                return data;
+            }
             data.add(0,null);//为HeaderView提供占位数据
             mBaseAdapter.addNewData(data);
             if(1 != dataLoadCount){
@@ -168,6 +173,27 @@ public class PhotoGalleryFragment extends ALogFragment {
             getHandler().postDelayed(MyRunnable,1000);
         }
     };
+
+    private Runnable ShowDataLoadingStopRunnable = new Runnable() {
+        @Override
+        public void run() {
+            showDataLoadingStop();
+        }
+    };
+
+
+    public void showDataLoadingStop(){
+        View mFootView = mMultiTypeAdapter.getFootView();
+        if(null == mFootView)return;
+        ALog.Log("showDataLoadingStop");
+        LinearLayout ll = (LinearLayout)mFootView.findViewById(R.id.progress_data_loading);
+        TextView tv = (TextView)mFootView.findViewById(R.id.footer_view);
+        ll.setVisibility(View.INVISIBLE);
+        tv.setVisibility(View.VISIBLE);
+        tv.setText("Add data loaded!");
+        tv.setEnabled(false);
+        tv.setBackgroundColor(getResources().getColor(R.color.orangered));
+    }
 
     private Runnable MyRunnable = new Runnable() {
         @Override
