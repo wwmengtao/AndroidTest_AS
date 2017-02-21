@@ -17,6 +17,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     private TextView tv_title = null;
     private TextView tv_id = null;
     private TextView tv_url = null;
+    private TextView tv_wh = null;
 
     public ViewHolder(View itemView) {
         super(itemView);
@@ -24,6 +25,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         tv_title = (TextView)itemView.findViewById(R.id.tv_title);
         tv_id = (TextView)itemView.findViewById(R.id.tv_id);
         tv_url = (TextView)itemView.findViewById(R.id.tv_url);
+        tv_wh = (TextView)itemView.findViewById(R.id.tv_wh);
     }
 
     public View getSubView(int id){
@@ -38,6 +40,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         setText(tv_title, item.getTitle(), "Title");
         setText(tv_id, item.getId(), "Id");
         setText(tv_url, item.getUrl(), "Url");
+        setText(tv_wh, item.getWidth()+"*"+item.getHeight(), "Width*Height");
         ALog.Log("item.toString:"+item.toString());
     }
 

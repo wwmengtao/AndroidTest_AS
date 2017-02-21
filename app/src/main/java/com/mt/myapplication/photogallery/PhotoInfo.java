@@ -7,16 +7,18 @@ import com.mt.androidtest_as.alog.ALog;
  */
 
 public class PhotoInfo{
-    public String id;
-    public String owner;
-    public String secret;
-    public String server;
-    public String farm;
-    public String title;
-    public String url;
-    public int ispublic;
-    public int isfriend;
-    public int isfamily;
+    private String id;
+    private String owner;
+    private String secret;
+    private String server;
+    private String farm;
+    private String title;
+    private String url_s;
+    private int ispublic;
+    private int isfriend;
+    private int isfamily;
+    private int height_s;
+    private int width_s;
 
     public String getTitle() {
         return title;
@@ -33,19 +35,27 @@ public class PhotoInfo{
 
     public void setId(String id) {
         ALog.Log("setId:"+id);
-        id = id;
+        this.id = id;
     }
 
     public String getUrl() {
-        return url;
+        return url_s;
     }
 
-    public void setUrl(String url) {
-        ALog.Log("setUrl:"+url);
-        this.url = url;
+    public void setUrl(String url_s) {
+        ALog.Log("setUrl:"+url_s);
+        this.url_s = url_s;
     }
 
-    private void visitData(){
+    public int getWidth(){
+        return width_s;
+    }
+
+    public int getHeight(){
+        return height_s;
+    }
+
+    public void visitData(){
         ALog.Log("/*********************visitData**********************/");
         ALog.Log("id: "+id);
         ALog.Log("owner: "+owner);
@@ -53,9 +63,10 @@ public class PhotoInfo{
         ALog.Log("server: "+server);
         ALog.Log("farm: "+farm);
         ALog.Log("title: "+title);
-        ALog.Log("url: "+url);
+        ALog.Log("url: "+url_s);
         ALog.Log("ispublic: "+ispublic);
         ALog.Log("isfriend: "+isfriend);
         ALog.Log("isfamily"+isfamily);
+        
     }
 }

@@ -10,6 +10,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.mt.androidtest_as.alog.ALog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,7 +72,7 @@ public class FlickrFetchr {
      */
     public List<PhotoInfo> fetchItems() {
 
-        List<PhotoInfo> items = new ArrayList<>();
+        List<PhotoInfo> items = null;
 
         try {
             String url = Uri.parse("https://api.flickr.com/services/rest/")
@@ -86,10 +87,11 @@ public class FlickrFetchr {
             String jsonString = getUrlString(url);
             Log.i(TAG, "Received JSON: " + jsonString);
 //            parseJson(items, jsonString);//直接解析
-            gsonParseJson(items, jsonString);//Gson解析
+            items = gsonParseJson(jsonString);//Gson解析
 
         } catch (IOException ioe) {
             Log.e(TAG, "Failed to fetch items", ioe);
+            return null;
         }
 
         return items;
@@ -112,7 +114,7 @@ public class FlickrFetchr {
                 PhotoInfo item = new PhotoInfo();
                 item.setId(photoJsonObject.getString("id"));
                 item.setTitle(photoJsonObject.getString("title"));
-
+                ALog.Log("url_s:"+photoJsonObject.getString("url_s"));
                 if (photoJsonObject.has("url_s")) {
                     item.setUrl(photoJsonObject.getString("url_s"));
                 } else {
@@ -131,8 +133,7 @@ public class FlickrFetchr {
      * @return
      */
     public List<PhotoInfo> fetchItems2(Context mContext, String fileName) {
-        List<PhotoInfo> items = new ArrayList<>();
-        gsonParseJson(items, getJsonInfoFromFile(mContext,fileName));
+        List<PhotoInfo> items = gsonParseJson(getJsonInfoFromFile(mContext,fileName));
         return items;
     }
 
@@ -140,14 +141,15 @@ public class FlickrFetchr {
      * gsonParseJson：使用Gson解析JSON_INFO中保存的Json信息
      * @param JSON_INFO：保存Json信息的字串
      */
-    public void gsonParseJson(List<PhotoInfo> items, String JSON_INFO)
-    {
+    public List<PhotoInfo> gsonParseJson(String JSON_INFO){
+        List<PhotoInfo> items = null;
         try {
             Gson gson = new Gson();
             JsonParser parser = new JsonParser();
             JsonObject jsonObject = parser.parse(JSON_INFO).getAsJsonObject();
             //将data节点下的内容转为JsonArray
             JsonArray jsonArray = jsonObject.getAsJsonObject("photos").getAsJsonArray("photo"); //getAsJsonObject用于过滤photo的上级节点
+            items = new ArrayList<>();
             for (int i = 0; i < jsonArray.size(); i++) {
                 //获取第i个数组元素
                 JsonElement el = jsonArray.get(i);
@@ -157,7 +159,9 @@ public class FlickrFetchr {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
+        return items;
     }
 
     /**
