@@ -1,7 +1,6 @@
 package com.mt.myapplication.photogallery;
 
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -17,8 +16,6 @@ import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.alog.ALog;
 import com.mt.androidtest_as.alog.ALogFragment;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public class PhotoGalleryFragment extends ALogFragment {
@@ -44,12 +41,12 @@ public class PhotoGalleryFragment extends ALogFragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_photo_gallery, container, false);
         mPhotoRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_photo_gallery_recycler_view);
-        mPhotoRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL));
-        mPhotoRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        mPhotoRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL));
+        mPhotoRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
         mBaseAdapter = new BaseAdapter();
         mMultiTypeAdapter = new MultiTypeAdapter(mBaseAdapter, mPhotoRecyclerView);
         mMultiTypeAdapter.setOnLoadMoreListener(MyOnclickListener);
-        GridLayoutManager mGridLayoutManager = new GridLayoutManager(getActivity(), 4);
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(mActivity, 4);
         final int spanCount = mGridLayoutManager.getSpanCount();
         mGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -81,7 +78,7 @@ public class PhotoGalleryFragment extends ALogFragment {
     private class FetchItemsTask extends AsyncTask<Void,Integer,List<PhotoInfo>> {
         @Override
         protected List<PhotoInfo> doInBackground(Void... params) {
-            List<PhotoInfo> data = getData();
+            List<PhotoInfo> data = AssetsDataManager.getDataManager(mActivity).getData(dataLoadCount);
             if(null == data){
                 getHandler().postDelayed(ShowDataLoadingStopRunnable,1000);
                 return data;
@@ -123,43 +120,6 @@ public class PhotoGalleryFragment extends ALogFragment {
 
     }
 
-    /**
-     * getData:获取数据
-     * @return
-     */
-    private List<PhotoInfo> getData(){
-        //方法1：从网络读取Json信息
-        //List<PhotoInfo> data = new FlickrFetchr().fetchItems();
-        //方法2：从assets文件中读取Json信息
-        String assetDir = "Json";
-        String fileName = String.format("photosJsonInfo%d.txt", dataLoadCount);
-        if(!ifFileExist(assetDir, fileName))return null;
-        String assetFileName = assetDir + File.separator + fileName;
-        List<PhotoInfo> data = new FlickrFetchr().fetchItems2(getContext(), assetFileName);//直接从assets文件中解析Json信息
-        return data;
-    }
-
-    private String[] assetFiles = null;
-    private String[] getAssetFiles(String assetDir){
-        if(null != assetFiles)return assetFiles;
-        try {
-            assetFiles = mActivity.getAssets().list(assetDir);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return assetFiles;
-    }
-
-    private boolean ifFileExist(String assetDir, String assetFileName){
-        if(null == assetDir || null == assetFileName)return false;
-        if(null == assetFiles)assetFiles=getAssetFiles(assetDir);
-        if(null == assetFiles)return false;
-        for(String str:assetFiles){
-            if(str.equals(assetFileName))return true;
-        }
-        return false;
-    }
 
     private void updateAdapter() {
         mMultiTypeAdapter.notifyDataSetChanged();
