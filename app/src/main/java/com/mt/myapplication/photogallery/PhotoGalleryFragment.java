@@ -1,11 +1,16 @@
 package com.mt.myapplication.photogallery;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +30,8 @@ public class PhotoGalleryFragment extends ALogFragment {
     private BaseAdapter mBaseAdapter = null;
     private MultiTypeAdapter mMultiTypeAdapter = null;
     private FetchItemsTask mFetchItemsTask = null;
+    //图片加载
+    private HandlerThreadImageDownloader<ViewHolder> mHandlerThreadImageDownloader;
 
     public static PhotoGalleryFragment newInstance() {
         return new PhotoGalleryFragment();
@@ -34,6 +41,17 @@ public class PhotoGalleryFragment extends ALogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
+        mHandlerThreadImageDownloader = new HandlerThreadImageDownloader<>(new Handler());
+        mHandlerThreadImageDownloader.setImageLoadListener(new HandlerThreadImageDownloader.ImageDownloadListener<ViewHolder>(){
+            @Override
+            public void onImageDownloaded(ViewHolder target, Bitmap bitmap){
+                Drawable drawable = new BitmapDrawable(mActivity.getResources(), bitmap);
+                target.bindDrawable(drawable);
+            }
+
+        });
+        mHandlerThreadImageDownloader.start();
+        mHandlerThreadImageDownloader.getLooper();
     }
 
     @Override
@@ -43,7 +61,8 @@ public class PhotoGalleryFragment extends ALogFragment {
         mPhotoRecyclerView = (RecyclerView) v.findViewById(R.id.fragment_photo_gallery_recycler_view);
         mPhotoRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL));
         mPhotoRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
-        mBaseAdapter = new BaseAdapter();
+        mBaseAdapter = new BaseAdapter(mActivity);
+        mBaseAdapter.setImageLoader(mHandlerThreadImageDownloader);
         mMultiTypeAdapter = new MultiTypeAdapter(mBaseAdapter, mPhotoRecyclerView);
         mMultiTypeAdapter.setOnLoadMoreListener(MyOnclickListener);
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(mActivity, 3);
@@ -165,7 +184,21 @@ public class PhotoGalleryFragment extends ALogFragment {
     };
 
     @Override
+    public void onDetach(){
+        mHandlerThreadImageDownloader.setImageLoadListener(null);
+        super.onDetach();
+    }
+
+    @Override
+    public void onDestroyView() {
+        mHandlerThreadImageDownloader.clearQueue();
+        super.onDestroyView();
+    }
+
+
+    @Override
     public void onDestroy() {
+        mHandlerThreadImageDownloader.quit();
         if(null !=mFetchItemsTask && AsyncTask.Status.FINISHED != mFetchItemsTask.getStatus()){
             mFetchItemsTask.cancel(true);
         }

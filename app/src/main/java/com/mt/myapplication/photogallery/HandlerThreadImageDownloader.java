@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+/**
+ * HandlerThreadImageDownloader：采用HandlerThread方式的串行图片加载器
+ * @param <T>
+ */
 public class HandlerThreadImageDownloader<T> extends HandlerThread {
     private static final String TAG = "ThumbnailDownloader";
     private static final int MESSAGE_DOWNLOAD = 0;
@@ -18,13 +22,13 @@ public class HandlerThreadImageDownloader<T> extends HandlerThread {
     private Handler mRequestHandler;
     private ConcurrentMap<T,String> mRequestMap = new ConcurrentHashMap<>();
     private Handler mResponseHandler;
-    private ThumbnailDownloadListener<T> mThumbnailDownloadListener;
+    private ImageDownloadListener<T> mThumbnailDownloadListener;
 
-    public interface ThumbnailDownloadListener<T> {
-        void onThumbnailDownloaded(T target, Bitmap bitmap);
+    public interface ImageDownloadListener<T> {
+        void onImageDownloaded(T target, Bitmap bitmap);
     }
 
-    public void setThumbnailDownloadListener(ThumbnailDownloadListener<T> listener) {
+    public void setImageLoadListener(ImageDownloadListener<T> listener) {
         mThumbnailDownloadListener = listener;
     }
 
@@ -33,7 +37,7 @@ public class HandlerThreadImageDownloader<T> extends HandlerThread {
         mResponseHandler = responseHandler;
     }
 
-    public void queueThumbnail(T target, String url) {
+    public void queueToDownLoad(T target, String url) {
         Log.i(TAG, "Got a URL: " + url);
 
         if (url == null) {
@@ -95,7 +99,7 @@ public class HandlerThreadImageDownloader<T> extends HandlerThread {
                     }
 
                     mRequestMap.remove(target);
-                    if(null != mThumbnailDownloadListener)mThumbnailDownloadListener.onThumbnailDownloaded(target, bitmap);
+                    if(null != mThumbnailDownloadListener)mThumbnailDownloadListener.onImageDownloaded(target, bitmap);
                 }
             });
         } catch (IOException ioe) {
