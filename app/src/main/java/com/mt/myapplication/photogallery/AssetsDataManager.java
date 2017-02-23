@@ -45,6 +45,16 @@ public class AssetsDataManager {
         return data;
     }
 
+    private boolean ifFileExist(String assetDir, String assetFileName){
+        if(null == assetDir || null == assetFileName)return false;
+        if(null == assetFiles)assetFiles=getAssetFiles(assetDir);
+        if(null == assetFiles)return false;
+        for(String str:assetFiles){
+            if(str.equals(assetFileName))return true;
+        }
+        return false;
+    }
+
     private String[] assetFiles = null;
     private String[] getAssetFiles(String assetDir){
         if(null != assetFiles)return assetFiles;
@@ -55,15 +65,5 @@ public class AssetsDataManager {
             return null;
         }
         return assetFiles;
-    }
-
-    private boolean ifFileExist(String assetDir, String assetFileName){
-        if(null == assetDir || null == assetFileName)return false;
-        if(null == assetFiles)assetFiles=getAssetFiles(assetDir);
-        if(null == assetFiles)return false;
-        for(String str:assetFiles){
-            if(str.equals(assetFileName))return true;
-        }
-        return false;
     }
 }

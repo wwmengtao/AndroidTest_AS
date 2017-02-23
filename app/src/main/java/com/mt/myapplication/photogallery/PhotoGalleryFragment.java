@@ -150,9 +150,10 @@ public class PhotoGalleryFragment extends ALogFragment {
         TextView tv = (TextView)mFootView.findViewById(R.id.footer_view);
         ll.setVisibility(View.INVISIBLE);
         tv.setVisibility(View.VISIBLE);
-        tv.setText("Add data loaded!");
+        tv.setText("All data loaded!");
         tv.setEnabled(false);
-        tv.setBackgroundColor(getResources().getColor(R.color.orangered));
+        tv.setTextColor(getResources().getColor(R.color.white));
+        tv.setBackgroundColor(getResources().getColor(R.color.red));
     }
 
     private Runnable MyRunnable = new Runnable() {
