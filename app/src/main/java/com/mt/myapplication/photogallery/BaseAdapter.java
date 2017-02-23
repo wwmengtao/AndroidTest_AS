@@ -67,6 +67,7 @@ public class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void onBindViewHolder(ViewHolder photoHolder, int position) {
         PhotoInfo galleryItem = mPhotoInfos.get(position);
         photoHolder.bindPhotoInfo(galleryItem);
+        //
         mHashSet.add(photoHolder);
         if((mPhotoInfos.size()-1) == position)showHashSetValues();
     }

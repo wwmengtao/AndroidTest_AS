@@ -82,6 +82,7 @@
         </provider>
         <activity android:name="com.mt.myapplication.photogallery.PhotoGalleryActivity"
             android:label="@string/photo_gallery_title"
+            android:theme="@style/PhotoGalleryTheam"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"/>
     </application>
 

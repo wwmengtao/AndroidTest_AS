@@ -28,6 +28,7 @@
     <attr name="custom_color2" format="color"></attr>
     </declare-styleable>
 
+    <!--以下定义BeatBoxActivity对应的主题-->
     <style name="BeatBoxTheam" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
         <item name="colorPrimaryDark">@color/darkred</item><!--colorPrimaryDark定义状态栏背景色-->
@@ -46,5 +47,22 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <!--以下定义PhotoGalleryActivity对应的主题-->
+    <style name="PhotoGalleryTheam" parent="Theme.AppCompat">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/darkblue</item><!--colorPrimaryDark定义状态栏背景色-->
+        <item name="colorPrimary">@color/royalblue</item><!--colorPrimary定义工具栏(ActionBar所在区域)背景色-->
+        <item name="colorAccent">@color/yellow</item>
+        <item name="android:colorBackground">@android:color/transparent</item><!--ContentView部分的背景色-->
+        <item name="android:textViewStyle">@style/TextView_PhotoGallery</item>
+    </style>
+    <!--以下定义PhotoGalleryActivity对应的TextView的主题-->
+    <style name="TextView_PhotoGallery">
+        <item name="android:textSize">16sp</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">2</item>
+        <item name="android:gravity">center</item>
+    </style>
 
 </resources>

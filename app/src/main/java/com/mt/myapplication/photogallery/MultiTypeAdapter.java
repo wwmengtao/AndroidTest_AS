@@ -54,6 +54,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<ViewHolder>{
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    showEmptyViewDataLoading(v);
                     mLoadMoreListener.onClick(v);
                 }
             });
@@ -78,6 +79,15 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<ViewHolder>{
             mBaseViewHolder = mInnerAdapter.onCreateViewHolder(parent, viewType);
         }
         return mBaseViewHolder;
+    }
+
+    private void showEmptyViewDataLoading(View v){
+        LinearLayout ll = (LinearLayout)v.findViewById(R.id.empty_view_loading);
+        TextView tv = (TextView)v.findViewById(R.id.empty_view);
+        ll.setVisibility(View.VISIBLE);
+        tv.setVisibility(View.INVISIBLE);
+        tv.setTextColor(mRecyclerView.getContext().getResources().getColor(R.color.white));
+        tv.setBackgroundColor(mRecyclerView.getContext().getResources().getColor(R.color.red));
     }
 
     @Override

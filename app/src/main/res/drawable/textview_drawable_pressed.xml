@@ -13,7 +13,7 @@
             android:shape="rectangle">
 
             <stroke
-                android:width="18dp"
+                android:width="8dp"
                 android:color="@color/darkred"/>
 
         </shape>

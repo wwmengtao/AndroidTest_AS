@@ -46,7 +46,7 @@ public class PhotoGalleryFragment extends ALogFragment {
         mBaseAdapter = new BaseAdapter();
         mMultiTypeAdapter = new MultiTypeAdapter(mBaseAdapter, mPhotoRecyclerView);
         mMultiTypeAdapter.setOnLoadMoreListener(MyOnclickListener);
-        GridLayoutManager mGridLayoutManager = new GridLayoutManager(mActivity, 4);
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(mActivity, 3);
         final int spanCount = mGridLayoutManager.getSpanCount();
         mGridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
