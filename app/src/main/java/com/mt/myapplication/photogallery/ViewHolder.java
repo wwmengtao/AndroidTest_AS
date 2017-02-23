@@ -41,7 +41,6 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         setText(tv_id, item.getId(), "Id");
         setText(tv_url, item.getUrl(), "Url");
         setText(tv_wh, item.getWidth()+"*"+item.getHeight(), "Width*Height");
-        ALog.Log("item.toString:"+item.toString());
     }
 
     public void setText(TextView tv, String str, String index){

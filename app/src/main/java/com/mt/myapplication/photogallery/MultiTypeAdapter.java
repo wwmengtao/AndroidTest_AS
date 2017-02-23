@@ -99,7 +99,6 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<ViewHolder>{
 
     public void showDataLoadProgress(boolean show){
         if(null == mFootView)return;
-        ALog.Log("showDataLoadProgress");
         LinearLayout ll = (LinearLayout)mFootView.findViewById(R.id.progress_data_loading);
         TextView tv = (TextView)mFootView.findViewById(R.id.footer_view);
         ll.setVisibility(show? View.VISIBLE:View.INVISIBLE);

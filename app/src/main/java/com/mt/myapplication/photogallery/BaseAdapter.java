@@ -10,9 +10,13 @@ import android.widget.TextView;
 
 import com.mt.androidtest_as.MyRVMultiTypeFragment;
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.ALog;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Mengtao1 on 2017/2/16.
@@ -26,9 +30,13 @@ public class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     private List<PhotoInfo> mPhotoInfos;
     private SparseArrayCompat<Integer> dataAddRecorder;
     private int dataLoadIndex = 0;
+    //
+    private Set<ViewHolder> mHashSet;//统计系统中ViewHolder的个数
+
     public BaseAdapter() {
         mPhotoInfos = new ArrayList<>();
         dataAddRecorder = new SparseArrayCompat<>();
+        mHashSet = new HashSet<>();
     }
 
     public List<PhotoInfo> getData(){
@@ -59,10 +67,22 @@ public class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void onBindViewHolder(ViewHolder photoHolder, int position) {
         PhotoInfo galleryItem = mPhotoInfos.get(position);
         photoHolder.bindPhotoInfo(galleryItem);
+        mHashSet.add(photoHolder);
+        if((mPhotoInfos.size()-1) == position)showHashSetValues();
     }
 
     @Override
     public int getItemCount() {
         return mPhotoInfos.size();
+    }
+
+    public void showHashSetValues(){
+        ALog.Log("/--------------showHashSetValues--------------/");
+        ALog.Log("mHashSet.size: "+mHashSet.size());
+        Iterator it = mHashSet.iterator();
+        while (it.hasNext()){
+            ALog.Log("HashValue: "+it.next());
+        }
+        ALog.Log("/--------------showHashSetValues--------------/");
     }
 }
