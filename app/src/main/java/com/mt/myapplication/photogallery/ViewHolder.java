@@ -52,6 +52,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
 
     public void bindDrawable(Drawable drawable){
         ((ImageView)getSubView(R.id.list_item_photogallery_image)).setImageDrawable(drawable);
+        showPic();
     }
 
     public void showDataOrPic(){
@@ -65,5 +66,12 @@ public class ViewHolder extends RecyclerView.ViewHolder {
             ll.setVisibility(View.VISIBLE);
             iv.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void showPic(){
+        LinearLayout ll = (LinearLayout)getSubView(R.id.list_item_photogallery_datainfo);
+        ImageView iv = (ImageView)getSubView(R.id.list_item_photogallery_image);
+        ll.setVisibility(View.INVISIBLE);
+        iv.setVisibility(View.VISIBLE);
     }
 }

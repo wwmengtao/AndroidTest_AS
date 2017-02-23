@@ -41,9 +41,6 @@ public class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     private int dataLoadIndex = 0;
     //
     private Set<ViewHolder> mHashSet;//统计系统中ViewHolder的个数
-    //图片加载
-    private HandlerThreadImageDownloader<ViewHolder> mHandlerThreadImageDownloader;
-
 
     public BaseAdapter(final Activity mActivity) {
         this.mActivity = mActivity;
@@ -60,10 +57,6 @@ public class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         mPhotoInfos.addAll(newData);
         dataAddRecorder.put(dataLoadIndex, newData.size());
         dataLoadIndex++;
-    }
-
-    public void setImageLoader(HandlerThreadImageDownloader<ViewHolder> mHandlerThreadImageDownloader){
-        this.mHandlerThreadImageDownloader = mHandlerThreadImageDownloader;
     }
 
     /**
@@ -92,7 +85,7 @@ public class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         PhotoInfo galleryItem = mPhotoInfos.get(position);
         photoHolder.bindPhotoInfo(galleryItem);
         //方法1：
-        mHandlerThreadImageDownloader.queueToDownLoad(photoHolder, galleryItem.getUrl());
+        HandlerThreadImageDownloader.getImageLoader(mActivity).queueToDownLoad(photoHolder, galleryItem.getUrl());
         //方法2：Picasso
 //        Picasso.with(mActivity)
 //                .load(galleryItem.getUrl())

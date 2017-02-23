@@ -1,11 +1,14 @@
 package com.mt.myapplication.photogallery;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.util.Log;
+
+import com.mt.androidtest_as.alog.ALog;
 
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,27 +21,41 @@ import java.util.concurrent.ConcurrentMap;
 public class HandlerThreadImageDownloader<T> extends HandlerThread {
     private static final String TAG = "ThumbnailDownloader";
     private static final int MESSAGE_DOWNLOAD = 0;
-
-    private Handler mRequestHandler;
+    
+    private static volatile HandlerThreadImageDownloader<ViewHolder> mHandlerThreadImageDownloader;
     private ConcurrentMap<T,String> mRequestMap = new ConcurrentHashMap<>();
+    private Handler mRequestHandler;
     private Handler mResponseHandler;
-    private ImageDownloadListener<T> mThumbnailDownloadListener;
+    private ImageDownloadListener<T> mImageDownloadListener;
 
     public interface ImageDownloadListener<T> {
         void onImageDownloaded(T target, Bitmap bitmap);
     }
 
     public void setImageLoadListener(ImageDownloadListener<T> listener) {
-        mThumbnailDownloadListener = listener;
+        mImageDownloadListener = listener;
     }
 
-    public HandlerThreadImageDownloader(Handler responseHandler) {
+    public static HandlerThreadImageDownloader getImageLoader(Activity mActivity){
+        if(null == mHandlerThreadImageDownloader){
+            synchronized (HandlerThreadImageDownloader.class){
+                if(null == mHandlerThreadImageDownloader){
+                    mHandlerThreadImageDownloader = new HandlerThreadImageDownloader<>(mActivity);
+                    mHandlerThreadImageDownloader.start();
+                    mHandlerThreadImageDownloader.getLooper();
+                }
+            }
+        }
+        return mHandlerThreadImageDownloader;
+    }
+
+    public HandlerThreadImageDownloader(Activity mActivity) {
         super(TAG);
-        mResponseHandler = responseHandler;
+        mResponseHandler = new Handler(mActivity.getMainLooper());
     }
 
     public void queueToDownLoad(T target, String url) {
-        Log.i(TAG, "Got a URL: " + url);
+        ALog.Log("Got a URL: " + url);
 
         if (url == null) {
             mRequestMap.remove(target);
@@ -67,12 +84,13 @@ public class HandlerThreadImageDownloader<T> extends HandlerThread {
 
     @Override
     protected void onLooperPrepared() {
+        ALog.Log("onLooperPrepared");
         mRequestHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what == MESSAGE_DOWNLOAD) {
                     T target = (T) msg.obj;
-                    Log.i(TAG, "Got a request for URL: " + mRequestMap.get(target));
+                    ALog.Log("Got a request for URL: " + mRequestMap.get(target));
                     handleRequest(target);
                 }
             }
@@ -90,7 +108,7 @@ public class HandlerThreadImageDownloader<T> extends HandlerThread {
             byte[] bitmapBytes = new FlickrFetchr().getUrlBytes(url);
             final Bitmap bitmap = BitmapFactory
                     .decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
-            Log.i(TAG, "Bitmap created");
+            ALog.Log("Bitmap created");
 
             mResponseHandler.post(new Runnable() {
                 public void run() {
@@ -99,7 +117,7 @@ public class HandlerThreadImageDownloader<T> extends HandlerThread {
                     }
 
                     mRequestMap.remove(target);
-                    if(null != mThumbnailDownloadListener)mThumbnailDownloadListener.onImageDownloaded(target, bitmap);
+                    if(null != mImageDownloadListener)mImageDownloadListener.onImageDownloaded(target, bitmap);
                 }
             });
         } catch (IOException ioe) {
@@ -107,7 +125,15 @@ public class HandlerThreadImageDownloader<T> extends HandlerThread {
         }
     }
 
-    public void clearQueue() {
-        mRequestHandler.removeMessages(MESSAGE_DOWNLOAD);
+    /**
+     * HandlerThread类型的图片加载器停止工作
+     */
+    public void stopWorking(){
+        mImageDownloadListener = null;
+        mRequestMap.clear();
+        mHandlerThreadImageDownloader.quit();
+        mHandlerThreadImageDownloader = null;//如果不置为null，那么退出后进入后，由于非空，那么不会执行后续start以及getLooper
+        mRequestHandler.removeCallbacksAndMessages(null);
+        mResponseHandler.removeCallbacksAndMessages(null);
     }
 }
