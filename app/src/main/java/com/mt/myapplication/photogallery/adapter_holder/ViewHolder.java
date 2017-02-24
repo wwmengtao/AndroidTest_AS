@@ -1,4 +1,4 @@
-package com.mt.myapplication.photogallery;
+package com.mt.myapplication.photogallery.adapter_holder;
 
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mt.androidtest_as.R;
-import com.mt.androidtest_as.alog.ALog;
+import com.mt.myapplication.photogallery.data.PhotoInfo;
 
 /**
  * Created by Mengtao1 on 2017/2/16.

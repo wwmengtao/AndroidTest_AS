@@ -1,4 +1,4 @@
-package com.mt.myapplication.photogallery;
+package com.mt.myapplication.photogallery.tools;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -9,20 +9,21 @@ import android.os.Message;
 import android.util.Log;
 
 import com.mt.androidtest_as.alog.ALog;
+import com.mt.myapplication.photogallery.adapter_holder.ViewHolder;
 
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * HandlerThreadImageDownloader：采用HandlerThread方式的串行图片加载器
+ * ImageDownloader：采用HandlerThread方式的串行图片加载器
  * @param <T>
  */
-public class HandlerThreadImageDownloader<T> extends HandlerThread {
+public class ImageDownloader<T> extends HandlerThread {
     private static final String TAG = "ThumbnailDownloader";
     private static final int MESSAGE_DOWNLOAD = 0;
     
-    private static volatile HandlerThreadImageDownloader<ViewHolder> mHandlerThreadImageDownloader;
+    private static volatile ImageDownloader<ViewHolder> mImageDownloader;
     private ConcurrentMap<T,String> mRequestMap = new ConcurrentHashMap<>();
     private Handler mRequestHandler;
     private Handler mResponseHandler;
@@ -36,20 +37,20 @@ public class HandlerThreadImageDownloader<T> extends HandlerThread {
         mImageDownloadListener = listener;
     }
 
-    public static HandlerThreadImageDownloader getImageLoader(Activity mActivity){
-        if(null == mHandlerThreadImageDownloader){
-            synchronized (HandlerThreadImageDownloader.class){
-                if(null == mHandlerThreadImageDownloader){
-                    mHandlerThreadImageDownloader = new HandlerThreadImageDownloader<>(mActivity);
-                    mHandlerThreadImageDownloader.start();
-                    mHandlerThreadImageDownloader.getLooper();
+    public static ImageDownloader getImageLoader(Activity mActivity){
+        if(null == mImageDownloader){
+            synchronized (ImageDownloader.class){
+                if(null == mImageDownloader){
+                    mImageDownloader = new ImageDownloader<>(mActivity);
+                    mImageDownloader.start();
+                    mImageDownloader.getLooper();
                 }
             }
         }
-        return mHandlerThreadImageDownloader;
+        return mImageDownloader;
     }
 
-    public HandlerThreadImageDownloader(Activity mActivity) {
+    public ImageDownloader(Activity mActivity) {
         super(TAG);
         mResponseHandler = new Handler(mActivity.getMainLooper());
     }
@@ -131,8 +132,8 @@ public class HandlerThreadImageDownloader<T> extends HandlerThread {
     public void stopWorking(){
         mImageDownloadListener = null;
         mRequestMap.clear();
-        mHandlerThreadImageDownloader.quit();
-        mHandlerThreadImageDownloader = null;//如果不置为null，那么退出后进入后，由于非空，那么不会执行后续start以及getLooper
+        mImageDownloader.quit();
+        mImageDownloader = null;//如果不置为null，那么退出后进入后，由于非空，那么不会执行后续start以及getLooper
         mRequestHandler.removeCallbacksAndMessages(null);
         mResponseHandler.removeCallbacksAndMessages(null);
     }

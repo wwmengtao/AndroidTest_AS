@@ -1,4 +1,4 @@
-package com.mt.myapplication.photogallery;
+package com.mt.myapplication.photogallery.tools;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -11,6 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mt.androidtest_as.alog.ALog;
+import com.mt.myapplication.photogallery.data.PhotoInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +19,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;

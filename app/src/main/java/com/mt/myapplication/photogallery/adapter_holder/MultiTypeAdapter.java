@@ -1,4 +1,4 @@
-package com.mt.myapplication.photogallery;
+package com.mt.myapplication.photogallery.adapter_holder;
 
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mt.androidtest_as.R;
-import com.mt.androidtest_as.alog.ALog;
 
 /**
  * MultiTypeAdapter：适配显示多种类型视图Item

@@ -1,16 +1,11 @@
 package com.mt.myapplication.photogallery;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +15,11 @@ import android.widget.TextView;
 import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.alog.ALog;
 import com.mt.androidtest_as.alog.ALogFragment;
+import com.mt.myapplication.photogallery.adapter_holder.BaseAdapter;
+import com.mt.myapplication.photogallery.adapter_holder.MultiTypeAdapter;
+import com.mt.myapplication.photogallery.data.AssetsDataManager;
+import com.mt.myapplication.photogallery.data.PhotoInfo;
+import com.mt.myapplication.photogallery.tools.ImageDownloader;
 
 import java.util.List;
 
@@ -39,14 +39,6 @@ public class PhotoGalleryFragment extends ALogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = getActivity();
-        HandlerThreadImageDownloader.getImageLoader(mActivity).setImageLoadListener(new HandlerThreadImageDownloader.ImageDownloadListener<ViewHolder>(){
-            @Override
-            public void onImageDownloaded(ViewHolder target, Bitmap bitmap){
-                Drawable drawable = new BitmapDrawable(mActivity.getResources(), bitmap);
-                target.bindDrawable(drawable);
-            }
-        });
-
     }
 
     @Override
@@ -181,7 +173,7 @@ public class PhotoGalleryFragment extends ALogFragment {
 
     @Override
     public void onDetach(){
-        HandlerThreadImageDownloader.getImageLoader(mActivity).stopWorking();
+        ImageDownloader.getImageLoader(mActivity).stopWorking();
         super.onDetach();
     }
 
@@ -190,6 +182,8 @@ public class PhotoGalleryFragment extends ALogFragment {
         if(null !=mFetchItemsTask && AsyncTask.Status.FINISHED != mFetchItemsTask.getStatus()){
             mFetchItemsTask.cancel(true);
         }
+        //
+        AssetsDataManager.getDataManager(mActivity).clear();
         super.onDestroy();
     }
 }

@@ -1,10 +1,10 @@
-package com.mt.myapplication.photogallery;
+package com.mt.myapplication.photogallery.data;
 
 import android.app.Activity;
-import android.content.res.AssetManager;
+
+import com.mt.myapplication.photogallery.tools.FlickrFetchr;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -65,5 +65,10 @@ public class AssetsDataManager {
             return null;
         }
         return assetFiles;
+    }
+
+    public void clear(){
+        if(null != assetFiles)assetFiles = null;
+        mAssetsDataManager = null;
     }
 }

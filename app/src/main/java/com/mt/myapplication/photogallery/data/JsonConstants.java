@@ -1,4 +1,4 @@
-package com.mt.myapplication.photogallery;
+package com.mt.myapplication.photogallery.data;
 
 /**
  * Created by Mengtao1 on 2017/2/9.

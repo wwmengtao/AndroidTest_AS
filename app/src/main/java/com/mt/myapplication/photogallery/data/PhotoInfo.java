@@ -1,4 +1,4 @@
-package com.mt.myapplication.photogallery;
+package com.mt.myapplication.photogallery.data;
 
 import com.mt.androidtest_as.alog.ALog;
 

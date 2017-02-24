@@ -1,31 +1,25 @@
-package com.mt.myapplication.photogallery;
+package com.mt.myapplication.photogallery.adapter_holder;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.mt.androidtest_as.MyRVMultiTypeFragment;
 import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.alog.ALog;
-import com.squareup.picasso.Picasso;
+import com.mt.myapplication.photogallery.tools.ImageDownloader;
+import com.mt.myapplication.photogallery.data.PhotoInfo;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import static com.mt.androidtest_as.R.id.tv;
 
 /**
  * Created by Mengtao1 on 2017/2/16.
@@ -47,6 +41,13 @@ public class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         mPhotoInfos = new ArrayList<>();
         dataAddRecorder = new SparseArrayCompat<>();
         mHashSet = new HashSet<>();
+        ImageDownloader.getImageLoader(mActivity).setImageLoadListener(new ImageDownloader.ImageDownloadListener<ViewHolder>(){
+            @Override
+            public void onImageDownloaded(ViewHolder target, Bitmap bitmap){
+                Drawable drawable = new BitmapDrawable(mActivity.getResources(), bitmap);
+                target.bindDrawable(drawable);
+            }
+        });
     }
 
     public List<PhotoInfo> getData(){
@@ -85,7 +86,7 @@ public class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
         PhotoInfo galleryItem = mPhotoInfos.get(position);
         photoHolder.bindPhotoInfo(galleryItem);
         //方法1：
-        HandlerThreadImageDownloader.getImageLoader(mActivity).queueToDownLoad(photoHolder, galleryItem.getUrl());
+        ImageDownloader.getImageLoader(mActivity).queueToDownLoad(photoHolder, galleryItem.getUrl());
         //方法2：Picasso
 //        Picasso.with(mActivity)
 //                .load(galleryItem.getUrl())
