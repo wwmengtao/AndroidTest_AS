@@ -6,12 +6,15 @@ import com.mt.myapplication.photogallery.tools.FlickrFetchr;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Mengtao1 on 2017/2/22.
  */
 
 public class AssetsDataManager {
+    private static AtomicInteger dataLoadCount = null;//用来标识数据加载次数
+    private static final String FILE_NAME_SUFFIX = ".json";
     private static volatile AssetsDataManager mAssetsDataManager = null;
     private Activity mActivity = null;
 
@@ -28,6 +31,15 @@ public class AssetsDataManager {
 
     private AssetsDataManager(Activity mActivity){
         this.mActivity = mActivity;
+        dataLoadCount = new AtomicInteger(1);
+    }
+
+    public void incDataLoadCount(){
+        dataLoadCount.incrementAndGet();
+    }
+
+    public int getDataLoadCount(){
+        return dataLoadCount.get();
     }
 
     /**
@@ -38,7 +50,7 @@ public class AssetsDataManager {
     public List<PhotoInfo> getData(int dataLoadCount){
         //从assets文件中读取Json信息
         String assetDir = "Json";
-        String fileName = String.format("photosJsonInfo%d.txt", dataLoadCount);
+        String fileName = String.format("photosJsonInfo%d"+FILE_NAME_SUFFIX, dataLoadCount);
         if(!ifFileExist(assetDir, fileName))return null;
         String assetFileName = assetDir + File.separator + fileName;
         List<PhotoInfo> data = new FlickrFetchr().fetchItems2(mActivity, assetFileName);//直接从assets文件中解析Json信息
@@ -70,5 +82,6 @@ public class AssetsDataManager {
     public void clear(){
         if(null != assetFiles)assetFiles = null;
         mAssetsDataManager = null;
+        dataLoadCount = null;
     }
 }

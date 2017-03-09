@@ -120,7 +120,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<ViewHolder>{
         if(-1 == pageIndex)return;
         SparseArrayCompat<Integer> dataAddRecorder = mInnerAdapter.getDataAddRecorder();
         int dataNum = dataAddRecorder.get(pageIndex) - 1;//因为在PhotoGalleryFragment中，每次加载数据都有data.add(0,null)占位数据存在，因此减1
-        tv.setText("Pager: "+pageIndex+" DataNum:"+dataNum);
+        tv.setText("Pager: "+ (pageIndex+1) +" DataNum:"+dataNum);
     }
 
     /**

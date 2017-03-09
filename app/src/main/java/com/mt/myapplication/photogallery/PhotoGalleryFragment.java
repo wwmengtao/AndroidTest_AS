@@ -79,10 +79,11 @@ public class PhotoGalleryFragment extends ALogFragment {
     /**
      * AsyncTask<para1,para2,para3>中三个参数依次对应doInBackground、onProgressUpdate以及onPostExecute的传入参数类型
      */
-    private int dataLoadCount = 1;
+
     private class FetchItemsTask extends AsyncTask<Void,Integer,List<PhotoInfo>> {
         @Override
         protected List<PhotoInfo> doInBackground(Void... params) {
+            int dataLoadCount = AssetsDataManager.getDataManager(mActivity).getDataLoadCount();
             List<PhotoInfo> data = AssetsDataManager.getDataManager(mActivity).getData(dataLoadCount);
             if(null == data){
                 getHandler().postDelayed(ShowDataLoadingStopRunnable,1000);
@@ -94,7 +95,7 @@ public class PhotoGalleryFragment extends ALogFragment {
                 lastHeaderViewIndex = lastHeaderViewIndex + data.size();
                 mMultiTypeAdapter.addHeaderViews(lastHeaderViewIndex);//每加载一次数据就新增一个HeaderView
             }
-            dataLoadCount++;
+            AssetsDataManager.getDataManager(mActivity).incDataLoadCount();
             //
 
             for(int i=1;i<101;i++){
