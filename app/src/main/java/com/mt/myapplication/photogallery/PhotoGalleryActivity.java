@@ -24,12 +24,18 @@ public class PhotoGalleryActivity extends BaseActivity {
     @Override
     public void onNewIntent(Intent intent){
         super.onNewIntent(intent);
+        Intent it = getIntent();
+        ALog.Log("PhotoGalleryActivity_onNewIntent1: " + it.getStringExtra(INTENT_SERVICE_TAG));//此处为null
         /**
-         * launchmode为singleTask、singleTop或者singleInstance的时候，不执行setIntent的话，getIntent得到的仍然是
-         * 旧的intent信息，这样就无法获取最新的intent内容。
+         * PhotoGalleryActivity的launchmode为singleTask、singleTop或者singleInstance的时候，通过各种方式开启已经显示的
+         * PhotoGalleryActivity的时候，此时将调用PhotoGalleryActivity.onNewIntent。由于没有调用onCreate函数，因此系统
+         * 总是使用第一个打开此Activity的Intent，如果此处不执行setIntent的话，此处或者其他地方执行getIntent()得到的仍然是
+         * 旧的(第一次的)intent信息，这样就无法获取最新的intent内容。
          */
-        setIntent(intent);//
-        ALog.Log("PhotoGalleryActivity_onNewIntent: "+intent.getStringExtra(INTENT_SERVICE_TAG));
+        setIntent(intent);
+        ALog.Log("PhotoGalleryActivity_onNewIntent2: "+intent.getStringExtra(INTENT_SERVICE_TAG));//此处非null
+        it = getIntent();
+        ALog.Log("PhotoGalleryActivity_onNewIntent3: "+it.getStringExtra(INTENT_SERVICE_TAG));//此处非null
     }
 
     public void onResume(){

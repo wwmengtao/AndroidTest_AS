@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.alog.ALog;
-import com.mt.androidtest_as.alog.ALogFragment;
 import com.mt.myapplication.photogallery.adapter_holder.BaseAdapter;
 import com.mt.myapplication.photogallery.adapter_holder.MultiTypeAdapter;
 import com.mt.myapplication.photogallery.data.DataManager;
@@ -30,7 +29,6 @@ import java.util.List;
 import static com.mt.myapplication.photogallery.PollService.INTENT_SERVICE_TAG;
 
 public class PhotoGalleryFragment extends VisibleFragment {
-    private static final String TAG = "PhotoGalleryFragment";
     private Activity mActivity = null;
     private RecyclerView mPhotoRecyclerView;
     private BaseAdapter mBaseAdapter = null;
@@ -81,6 +79,12 @@ public class PhotoGalleryFragment extends VisibleFragment {
             if(str_Intent.equals(INTENT_SERVICE_TAG)){
                 ALog.Log("PhotoGalleryFragment_onResume: "+str_Intent);
                 fetchItems();
+                /**
+                 * 下列清除INTENT_SERVICE_TAG对应数值原因是，点击通知开启Fragment后，如果此时用户点击Home键然后
+                 * 通过“最近打开项目”重新进入此Fragment的话，可能造成重复执行此部分代码。因此清除INTENT_SERVICE_TAG
+                 * 对应数值以保证某一个通知点击进入该Fragment后仅仅执行一次此部分代码。
+                 */
+                i.removeExtra(INTENT_SERVICE_TAG);
             }
         }
     }
@@ -185,13 +189,14 @@ public class PhotoGalleryFragment extends VisibleFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         super.onCreateOptionsMenu(menu, menuInflater);
         menuInflater.inflate(R.menu.fragment_photo_gallery, menu);
-
         MenuItem toggleItem = menu.findItem(R.id.menu_item_toggle_polling);
         if (PollService.isServiceAlarmOn(getActivity())) {
-            toggleItem.setTitle(R.string.stop_polling);
+            toggleItem.setTitle(R.string.poll_running);
         } else {
-            toggleItem.setTitle(R.string.start_polling);
+            toggleItem.setTitle(R.string.poll_stopped);
         }
+        MenuItem canItem = menu.findItem(R.id.menu_item_set_cancel);
+        canItem.setTitle(getResultCanceled() ? R.string.result_cancel : R.string.result_ok);
     }
 
     @Override
@@ -202,9 +207,22 @@ public class PhotoGalleryFragment extends VisibleFragment {
                 PollService.setServiceAlarm(getActivity(), shouldStartAlarm);
                 getActivity().invalidateOptionsMenu();
                 return true;
+            case R.id.menu_item_set_cancel:
+                setResultCanceled(!getResultCanceled());
+                getActivity().invalidateOptionsMenu();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @Override
+    protected void setResultCanceled(boolean cancel) {
+        mResultCanceled = cancel;
+    }
+
+    @Override
+    protected boolean getResultCanceled(){
+        return mResultCanceled;
+    }
 }

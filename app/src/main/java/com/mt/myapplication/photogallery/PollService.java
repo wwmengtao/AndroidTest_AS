@@ -62,9 +62,9 @@ public class PollService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         ALog.Log("====onHandleIntent");
-//        if (!isNetworkAvailableAndConnected()) {
-//            return;
-//        }
+        if (!isNetworkAvailableAndConnected()) {
+            return;
+        }
         initBroadcast();
     }
 
@@ -92,6 +92,9 @@ public class PollService extends IntentService {
         Intent i = new Intent(ACTION_SHOW_NOTIFICATION);
         i.putExtra(REQUEST_CODE, requestCode);
         i.putExtra(NOTIFICATION, notification);
+        /**
+         * sendOrderedBroadcast：有序广播可以停止、修改
+         */
         sendOrderedBroadcast(i, PERMISSION_NOFITY, null, null,
                 Activity.RESULT_OK, null, null);
     }
