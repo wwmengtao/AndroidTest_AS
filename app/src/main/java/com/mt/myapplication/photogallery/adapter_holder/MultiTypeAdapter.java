@@ -11,6 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mt.androidtest_as.R;
+import com.mt.myapplication.photogallery.data.PhotoInfo;
+
+import java.util.List;
 
 /**
  * MultiTypeAdapter：适配显示多种类型视图Item
@@ -137,6 +140,11 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<ViewHolder>{
         return -1;
     }
 
+    /**
+     * needLoadMore:判断position位置是否应该显示FooterView
+     * @param position
+     * @return
+     */
     private boolean needLoadMore(int position){
         if(getRealItemCount() + getFooterViewCount()-1 == position){
             return true;
@@ -212,6 +220,11 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<ViewHolder>{
      */
     public int getRealItemCount(){
         return mInnerAdapter.getData().size();
+    }
+
+    public void addNewData(List<PhotoInfo> data){
+        addHeaderViews(mInnerAdapter.getData().size());//每加载一次数据就新增一个HeaderView
+        mInnerAdapter.addNewData(data);
     }
 
     @Override

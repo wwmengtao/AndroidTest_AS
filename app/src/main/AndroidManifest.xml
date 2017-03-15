@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mt.androidtest_as">
+
+    <permission android:name="com.mt.myapplication.photogallery.notifybroadcast.permission"
+        android:protectionLevel="signature" />
+
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="com.mt.myapplication.photogallery.notifybroadcast.permission" /><!--自定义权限将广播限定在本应用内部-->
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -85,7 +92,24 @@
         <activity android:name="com.mt.myapplication.photogallery.PhotoGalleryActivity"
             android:label="@string/photo_gallery_title"
             android:theme="@style/PhotoGalleryTheam"
+            android:launchMode="singleTask"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"/>
+        <service android:name="com.mt.myapplication.photogallery.PollService" />
+
+        <receiver android:name="com.mt.myapplication.photogallery.StartupReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.mt.myapplication.photogallery.NotificationReceiver"
+            android:exported="false"><!--android:exported="false"表明仅限于本应用内部调用-->
+            <intent-filter
+                android:priority="-999"><!--android:priority中数值越小优先级越高，用户能定义的最低优先级为-999-->
+                <action
+                    android:name="com.bignerdranch.android.photogallery.SHOW_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -70,7 +70,7 @@ public class FlickrFetchr {
      * fetchItems：直接从网络获取Json信息并解析
      * @return
      */
-    public List<PhotoInfo> fetchItems() {
+    public List<PhotoInfo> fetchItemsFromNetWork() {
 
         List<PhotoInfo> items = null;
 
@@ -82,6 +82,7 @@ public class FlickrFetchr {
                     .appendQueryParameter("format", "json")
                     .appendQueryParameter("nojsoncallback", "1")
                     .appendQueryParameter("extras", "url_s")
+                    .appendQueryParameter("per_page", "2")//指明每一页获取多少条数据，最多500
                     .appendQueryParameter("page", "2")//指明获取第几页的内容
                     .build().toString();
             String jsonString = getUrlString(url);
@@ -130,7 +131,7 @@ public class FlickrFetchr {
      * fetchItems2:直接从Json文件中获取Json信息
      * @return
      */
-    public List<PhotoInfo> fetchItems2(Context mContext, String fileName) {
+    public List<PhotoInfo> fetchItemsFromAssetsJson(Context mContext, String fileName) {
         List<PhotoInfo> items = gsonParseJson(getJsonInfoFromFile(mContext,fileName));
         return items;
     }

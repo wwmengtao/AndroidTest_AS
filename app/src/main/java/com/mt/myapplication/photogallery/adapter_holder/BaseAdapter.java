@@ -30,7 +30,7 @@ import java.util.Set;
  */
 public class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     private Activity mActivity;
-    private List<PhotoInfo> mPhotoInfos;
+    private List<PhotoInfo> mPhotoInfos = null;
     private SparseArrayCompat<Integer> dataAddRecorder;
     private int dataLoadIndex = 0;
     //
@@ -55,9 +55,11 @@ public class BaseAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public void addNewData(List<PhotoInfo> newData){
+        if(null == newData)return;
+        mPhotoInfos.add(null);//为HeaderView提供占位数据
         mPhotoInfos.addAll(newData);
-        dataAddRecorder.put(dataLoadIndex, newData.size());
-        dataLoadIndex++;
+        dataAddRecorder.put(dataLoadIndex, newData.size() + 1);//dataAddRecorder记录加载信息(第m次加载了n个数据)
+        dataLoadIndex ++;
     }
 
     /**

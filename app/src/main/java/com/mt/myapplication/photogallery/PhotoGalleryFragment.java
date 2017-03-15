@@ -1,12 +1,16 @@
 package com.mt.myapplication.photogallery;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -17,13 +21,15 @@ import com.mt.androidtest_as.alog.ALog;
 import com.mt.androidtest_as.alog.ALogFragment;
 import com.mt.myapplication.photogallery.adapter_holder.BaseAdapter;
 import com.mt.myapplication.photogallery.adapter_holder.MultiTypeAdapter;
-import com.mt.myapplication.photogallery.data.AssetsDataManager;
+import com.mt.myapplication.photogallery.data.DataManager;
 import com.mt.myapplication.photogallery.data.PhotoInfo;
 import com.mt.myapplication.photogallery.tools.ImageDownloader;
 
 import java.util.List;
 
-public class PhotoGalleryFragment extends ALogFragment {
+import static com.mt.myapplication.photogallery.PollService.INTENT_SERVICE_TAG;
+
+public class PhotoGalleryFragment extends VisibleFragment {
     private static final String TAG = "PhotoGalleryFragment";
     private Activity mActivity = null;
     private RecyclerView mPhotoRecyclerView;
@@ -38,6 +44,7 @@ public class PhotoGalleryFragment extends ALogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         mActivity = getActivity();
     }
 
@@ -65,15 +72,25 @@ public class PhotoGalleryFragment extends ALogFragment {
         return v;
     }
 
-    private int lastHeaderViewIndex = 0;//lastHeaderViewIndex：用于标记上一个HeaderView的位置
+    public void onResume(){
+        super.onResume();
+        Intent i = getActivity().getIntent();
+        String str_Intent = null;
+        //以下if语句说明此时的onResume是由于点击通知栏上的通知导致的
+        if(null != i && null != (str_Intent = i.getStringExtra(INTENT_SERVICE_TAG))){
+            if(str_Intent.equals(INTENT_SERVICE_TAG)){
+                ALog.Log("PhotoGalleryFragment_onResume: "+str_Intent);
+                fetchItems();
+            }
+        }
+    }
 
     /**
      * initViews：为各种类型的View添加标记，用于标记各个类型View的数量
      */
     private void initViews(){
         mMultiTypeAdapter.addEmptyViews(0);
-        mMultiTypeAdapter.addHeaderViews(lastHeaderViewIndex);
-        mMultiTypeAdapter.addFooterViews(0x2000);
+        mMultiTypeAdapter.addFooterViews(0);
     }
 
     /**
@@ -83,39 +100,13 @@ public class PhotoGalleryFragment extends ALogFragment {
     private class FetchItemsTask extends AsyncTask<Void,Integer,List<PhotoInfo>> {
         @Override
         protected List<PhotoInfo> doInBackground(Void... params) {
-            int dataLoadCount = AssetsDataManager.getDataManager(mActivity).getDataLoadCount();
-            List<PhotoInfo> data = AssetsDataManager.getDataManager(mActivity).getData(dataLoadCount);
+            List<PhotoInfo> data = DataManager.getDataManager(mActivity).getData();
             if(null == data){
-                getHandler().postDelayed(ShowDataLoadingStopRunnable,1000);
+                getHandler().post(ShowDataLoadingStopRunnable);
                 return data;
             }
-            data.add(0,null);//为HeaderView提供占位数据
-            mBaseAdapter.addNewData(data);
-            if(1 != dataLoadCount){
-                lastHeaderViewIndex = lastHeaderViewIndex + data.size();
-                mMultiTypeAdapter.addHeaderViews(lastHeaderViewIndex);//每加载一次数据就新增一个HeaderView
-            }
-            AssetsDataManager.getDataManager(mActivity).incDataLoadCount();
-            //
-
-            for(int i=1;i<101;i++){
-                try {
-                    if (isCancelled()) {//判断如果为true那么说明已经有请求取消当前任务的信号了，既然无法终止线程的运行，但是可以终止运行在线程中一系列操作
-                        break;
-                    }
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                publishProgress(i);//更新进度导致onProgressUpdate的调用，从而可以获取进度
-            }
+            mMultiTypeAdapter.addNewData(data);
             return data;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... params){
-            int progress = params[0];
-//            ALog.Log("progress: "+progress);
         }
 
         @Override
@@ -123,22 +114,12 @@ public class PhotoGalleryFragment extends ALogFragment {
             if(null == items)return;
             updateAdapter();
         }
-
     }
 
 
     private void updateAdapter() {
         mMultiTypeAdapter.notifyDataSetChanged();
     }
-
-    private View.OnClickListener MyOnclickListener = new View.OnClickListener(){
-
-        @Override
-        public void onClick(View v) {
-            getHandler().removeCallbacks(MyRunnable);
-            getHandler().postDelayed(MyRunnable,1000);
-        }
-    };
 
     private Runnable ShowDataLoadingStopRunnable = new Runnable() {
         @Override
@@ -164,7 +145,20 @@ public class PhotoGalleryFragment extends ALogFragment {
         tv.setBackgroundColor(getResources().getColor(R.color.red));
     }
 
-    private Runnable MyRunnable = new Runnable() {
+    private View.OnClickListener MyOnclickListener = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            fetchItems();
+        }
+    };
+
+    private void fetchItems(){
+        getHandler().removeCallbacks(FetchItemsRunnable);
+        getHandler().postDelayed(FetchItemsRunnable, 1500);
+    }
+
+    private Runnable FetchItemsRunnable = new Runnable() {
         @Override
         public void run() {
             mFetchItemsTask = new FetchItemsTask();
@@ -175,16 +169,42 @@ public class PhotoGalleryFragment extends ALogFragment {
     @Override
     public void onDetach(){
         ImageDownloader.getImageLoader(mActivity).stopWorking();
+        if(null !=mFetchItemsTask && AsyncTask.Status.FINISHED != mFetchItemsTask.getStatus()){
+            mFetchItemsTask.cancel(true);
+        }
         super.onDetach();
     }
 
     @Override
     public void onDestroy() {
-        if(null !=mFetchItemsTask && AsyncTask.Status.FINISHED != mFetchItemsTask.getStatus()){
-            mFetchItemsTask.cancel(true);
-        }
-        //
-        AssetsDataManager.getDataManager(mActivity).clear();
+        DataManager.getDataManager(mActivity).clear();
         super.onDestroy();
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        super.onCreateOptionsMenu(menu, menuInflater);
+        menuInflater.inflate(R.menu.fragment_photo_gallery, menu);
+
+        MenuItem toggleItem = menu.findItem(R.id.menu_item_toggle_polling);
+        if (PollService.isServiceAlarmOn(getActivity())) {
+            toggleItem.setTitle(R.string.stop_polling);
+        } else {
+            toggleItem.setTitle(R.string.start_polling);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_toggle_polling:
+                boolean shouldStartAlarm = !PollService.isServiceAlarmOn(getActivity());
+                PollService.setServiceAlarm(getActivity(), shouldStartAlarm);
+                getActivity().invalidateOptionsMenu();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
