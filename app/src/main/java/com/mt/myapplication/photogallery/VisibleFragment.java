@@ -13,7 +13,11 @@ import com.mt.androidtest_as.alog.ALogFragment;
  * VisibleFragment:描述用户看到的界面，这个界面带有setResultCode功能
  */
 public abstract class VisibleFragment extends ALogFragment {
-    protected boolean mResultCanceled = true;
+    /**
+     * 定义用户打开VisibleFragment(此时为PhotoGalleryFragment)时，是否允许用户接收通知，因为PollInfoReceiver.onReceive中有
+     * 判断if (getResultCode() != Activity.RESULT_OK)。
+     */
+    protected boolean mResultCanceled = false;
     /**
      * mCancelNotificationReceiver:为NotificationReceiver设置取消接收广播标记
      */

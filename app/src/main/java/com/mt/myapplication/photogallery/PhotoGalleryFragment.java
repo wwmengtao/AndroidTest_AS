@@ -218,12 +218,12 @@ public class PhotoGalleryFragment extends VisibleFragment {
     }
 
     @Override
-    protected void setResultCanceled(boolean cancel) {
+    protected void setResultCanceled(boolean cancel) {//覆写VisibleFragment中的方法
         mResultCanceled = cancel;
     }
 
     @Override
-    protected boolean getResultCanceled(){
+    protected boolean getResultCanceled(){//覆写VisibleFragment中的方法
         return mResultCanceled;
     }
 }

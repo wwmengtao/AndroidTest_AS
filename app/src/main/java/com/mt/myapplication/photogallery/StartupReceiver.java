@@ -7,6 +7,9 @@ import android.content.Intent;
 import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.photogallery.data.QueryPreferences;
 
+/**
+ * StartupReceiver：监听开机启动的Receiver
+ */
 public class StartupReceiver extends BroadcastReceiver {
 
     @Override

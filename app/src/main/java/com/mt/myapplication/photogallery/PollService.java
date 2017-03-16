@@ -3,17 +3,14 @@ package com.mt.myapplication.photogallery;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.IntentService;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.support.v4.app.NotificationCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,43 +67,22 @@ public class PollService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         ALog.Log("====onHandleIntent");
-        if (!isNetworkAvailableAndConnected()) {
-            ALog.Log("====onHandleIntent_NetworkNotAvailable");
-            showMyToast();
-            return;
-        }
-        initBroadcast();
+//        if (!isNetworkAvailableAndConnected()) {
+//            ALog.Log("====onHandleIntent_NetworkNotAvailable");
+//            showMyToast();
+//            return;
+//        }
+        sendBroadcast();
     }
 
-    private void initBroadcast(){
-        Resources resources = getResources();
-        Intent i = PhotoGalleryActivity.newIntent(this);
-        i.putExtra(INTENT_SERVICE_TAG, INTENT_SERVICE_TAG);//用于标识此intent的发起者
-        PendingIntent pi = PendingIntent
-                .getActivity(this, 0, i, 0);
-
-        Notification notification = new NotificationCompat.Builder(this)
-                .setTicker(resources.getString(R.string.new_pictures_title))
-                .setSmallIcon(android.R.drawable.ic_menu_report_image)
-                .setContentTitle(resources.getString(R.string.new_pictures_title))
-                .setContentText(resources.getString(R.string.new_pictures_text))
-                .setContentIntent(pi)
-                .setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .build();
-
-        showBackgroundNotification(0, notification);
-    }
-
-    private void showBackgroundNotification(int requestCode, Notification notification) {
+    private void sendBroadcast(){
+        int requestCode = 0;
         Intent i = new Intent(ACTION_SHOW_NOTIFICATION);
         i.putExtra(REQUEST_CODE, requestCode);
-        i.putExtra(NOTIFICATION, notification);
         /**
          * sendOrderedBroadcast：有序广播可以停止、修改
          */
-        sendOrderedBroadcast(i, PERMISSION_NOFITY, null, null,
-                Activity.RESULT_OK, null, null);
+        sendOrderedBroadcast(i, PERMISSION_NOFITY, null, null, Activity.RESULT_OK, null, null);
     }
 
     private boolean isNetworkAvailableAndConnected() {
@@ -130,7 +106,7 @@ public class PollService extends IntentService {
         boolean isSuccess = handler.post(new Runnable() {
             @Override
             public void run() {
-                String str = "Network not available!\nTry to open it.";
+                String str = "PollService.showMyToast():\nNetwork not available!\nTry to open it.";
                 view.setBackgroundColor(Color.RED);
                 TextView tv=(TextView) view.findViewById(R.id.toast_tv);
                 tv.setText(str);

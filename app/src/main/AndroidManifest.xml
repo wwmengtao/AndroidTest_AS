@@ -89,26 +89,36 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
+
         <activity android:name="com.mt.myapplication.photogallery.PhotoGalleryActivity"
             android:label="@string/photo_gallery_title"
             android:theme="@style/PhotoGalleryTheam"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"/>
-        <service android:name="com.mt.myapplication.photogallery.PollService" />
 
-        <receiver android:name="com.mt.myapplication.photogallery.StartupReceiver" >
+        <receiver android:name="com.mt.myapplication.photogallery.StartupReceiver"
+            android:process=":poll"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.mt.myapplication.photogallery.NotificationReceiver"
-            android:exported="false"><!--android:exported="false"表明仅限于本应用内部调用-->
-            <intent-filter
-                android:priority="-999"><!--android:priority中数值越小优先级越高，用户能定义的最低优先级为-999-->
-                <action
-                    android:name="com.bignerdranch.android.photogallery.SHOW_NOTIFICATION" />
+        <service android:name="com.mt.myapplication.photogallery.PollService"
+                 android:process=":poll"
+                 android:exported="false"/>
+
+        <receiver android:name="com.mt.myapplication.photogallery.PollInfoReceiver"
+                  android:process=":poll"
+                  android:exported="false"><!--android:exported="false"表明仅限于本应用内部调用-->
+            <intent-filter android:priority="-999"><!--android:priority中数值越小优先级越低，用户能定义的最低优先级为-999，表示最后一个收到有序广播-->
+                <action android:name="com.bignerdranch.android.photogallery.SHOW_NOTIFICATION" />
             </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.mt.myapplication.photogallery.StartActivitiesReceiver"
+                  android:process=":poll"
+                  android:exported="false">
         </receiver>
     </application>
 
