@@ -8,9 +8,17 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.alog.ALog;
@@ -31,7 +39,7 @@ public class PollService extends IntentService {
     public static void setServiceAlarm(Context context, boolean isOn) {
         Intent i = PollService.newIntent(context);
         PendingIntent pi = PendingIntent.getService(
-                context, 0, i, 0);
+                context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager)
                 context.getSystemService(Context.ALARM_SERVICE);
@@ -63,6 +71,8 @@ public class PollService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         ALog.Log("====onHandleIntent");
         if (!isNetworkAvailableAndConnected()) {
+            ALog.Log("====onHandleIntent_NetworkNotAvailable");
+            showMyToast();
             return;
         }
         initBroadcast();
@@ -106,5 +116,35 @@ public class PollService extends IntentService {
                 cm.getActiveNetworkInfo().isConnected();
 
         return isNetworkConnected;
+    }
+
+    private void showMyToast(){
+        Handler handler = new Handler(Looper.getMainLooper());//建立一个和UI线程关联的handler
+        LayoutInflater inflater = LayoutInflater.from(this);
+        final View view = inflater.inflate(R.layout.toast_view,null);
+        /**
+         * 下面改用view.post不成功是因为view.post起作用的前提是view被attached到一个窗口上，显然此时非主线程中的view仅仅被
+         * inflate而没有添加到某个窗口上，这也是onCreate中调用view.post不成功的原因，因为onCreate中view还没有attathed到
+         * 窗口上。
+         */
+        boolean isSuccess = handler.post(new Runnable() {
+            @Override
+            public void run() {
+                String str = "Network not available!\nTry to open it.";
+                view.setBackgroundColor(Color.RED);
+                TextView tv=(TextView) view.findViewById(R.id.toast_tv);
+                tv.setText(str);
+                tv.setTextColor(Color.WHITE);
+                tv.setTextSize(25);
+
+                Toast toast = new Toast(getApplicationContext());
+                toast.setGravity(Gravity.CENTER_VERTICAL,0,0);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(view);
+                toast.show();
+            }
+        });
+        ALog.Log("isSuccess: "+isSuccess);
+        handler.removeCallbacksAndMessages(null);
     }
 }

@@ -72,7 +72,7 @@ public class PhotoGalleryFragment extends VisibleFragment {
 
     public void onResume(){
         super.onResume();
-        Intent i = getActivity().getIntent();
+        Intent i = mActivity.getIntent();
         String str_Intent = null;
         //以下if语句说明此时的onResume是由于点击通知栏上的通知导致的
         if(null != i && null != (str_Intent = i.getStringExtra(INTENT_SERVICE_TAG))){
@@ -190,7 +190,7 @@ public class PhotoGalleryFragment extends VisibleFragment {
         super.onCreateOptionsMenu(menu, menuInflater);
         menuInflater.inflate(R.menu.fragment_photo_gallery, menu);
         MenuItem toggleItem = menu.findItem(R.id.menu_item_toggle_polling);
-        if (PollService.isServiceAlarmOn(getActivity())) {
+        if (PollService.isServiceAlarmOn(mActivity)) {
             toggleItem.setTitle(R.string.poll_running);
         } else {
             toggleItem.setTitle(R.string.poll_stopped);
@@ -203,13 +203,14 @@ public class PhotoGalleryFragment extends VisibleFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_toggle_polling:
-                boolean shouldStartAlarm = !PollService.isServiceAlarmOn(getActivity());
-                PollService.setServiceAlarm(getActivity(), shouldStartAlarm);
-                getActivity().invalidateOptionsMenu();
+                boolean shouldStartAlarm = !PollService.isServiceAlarmOn(mActivity);
+                ALog.Log("shouldStartAlarm: "+shouldStartAlarm);
+                PollService.setServiceAlarm(mActivity, shouldStartAlarm);
+                mActivity.invalidateOptionsMenu();
                 return true;
             case R.id.menu_item_set_cancel:
                 setResultCanceled(!getResultCanceled());
-                getActivity().invalidateOptionsMenu();
+                mActivity.invalidateOptionsMenu();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
