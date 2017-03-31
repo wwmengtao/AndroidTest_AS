@@ -21,7 +21,7 @@ public class MainActivity extends BaseActivity {
         if(bundle != null){
             String name = bundle.getString(StartActivitiesReceiver.MAINACTIVITY_TO_START_ACTIVITY);
             if(null != name && name.equals("PhotoGalleryActivity")){
-                Intent it = new Intent(this, PhotoGalleryActivity.class);
+                Intent it = PhotoGalleryActivity.newIntent(this);
                 it.putExtra(PollService.INTENT_SERVICE_TAG, PollService.INTENT_SERVICE_TAG);//说明是点击通知信息发起的
                 startActivity(it);
             }

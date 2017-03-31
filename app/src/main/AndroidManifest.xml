@@ -96,6 +96,8 @@
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"/>
 
+        <!--android:process=":poll"表明组件运行于单独进程中，这个进程是当前默认进程(包名为名称的进程)的私有进程，外界
+        通过相同的ShareUID以及相同签名也无法与此私有进程运行在一起-->
         <receiver android:name="com.mt.myapplication.photogallery.StartupReceiver"
             android:process=":poll"
             android:exported="false">
