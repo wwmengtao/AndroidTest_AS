@@ -20,6 +20,7 @@ import com.mt.androidtest_as.myrecyclerview.MyRvViewHolder;
 import java.util.List;
 
 /**
+ * 用于主页呈现所有Fragments或者Activity接口
  * Created by Mengtao1 on 2016/12/22.
  */
 

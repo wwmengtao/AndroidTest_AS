@@ -16,6 +16,7 @@ public class FLBank {
     private List<String> mData = null;
     public static final String[] componentNameList={
         "Fragments:","MyRecyclerViewFragment","MyRVMultiTypeFragment","MyListViewFragment","MyListViewTestFragment",
+                    "RvStaggeredAnimatorFragment",
         "Activities:","BeatBoxActivity","CrimeListActivity","PhotoGalleryActivity"
     };
     private FLBank(Context context){

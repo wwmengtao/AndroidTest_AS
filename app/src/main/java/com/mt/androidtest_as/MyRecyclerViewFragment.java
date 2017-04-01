@@ -52,6 +52,7 @@ public class MyRecyclerViewFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mBaseAdapter = new MyRvAdapter(this);
         mRecyclerView.setAdapter(mBaseAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());//增加item增删动画
         setAccentColorForEmptyView();
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));

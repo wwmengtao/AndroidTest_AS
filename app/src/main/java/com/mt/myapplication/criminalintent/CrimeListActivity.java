@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.widget.CheckBox;
 
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.androidtest_as.alog.BaseActivity;
 import com.mt.myapplication.criminalintent.crimebasedata.Crime;
 
@@ -74,6 +75,7 @@ public class CrimeListActivity extends BaseActivity implements
              * 3、不要在onActivityResult()、onStart()以及onResume()等生命周期中调用，因为在有些情况下，这几个方法会在系统恢复到
              * 之前状态之前调用，从而面临状态丢失。
              */
+            ALog.fillInStackTrace(":CrimeListActivity_setDetailedFragment");
             fm.beginTransaction()
                     .replace(R.id.fragment_container_detail, fragment)
                     .commitAllowingStateLoss();

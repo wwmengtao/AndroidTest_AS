@@ -43,6 +43,9 @@ public class MainFragmentActivity extends BaseActivity {
             case "MyListViewTestFragment":
                 mFragment = new MyListViewTestFragment();
                 break;
+            case "RvStaggeredAnimatorFragment":
+                mFragment = new RvStaggeredAnimatorFragment();
+                break;
         }
         return mFragment;
     }
