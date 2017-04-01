@@ -209,7 +209,7 @@ public class PhotoGalleryFragment extends VisibleFragment {
                 mActivity.invalidateOptionsMenu();
                 return true;
             case R.id.menu_item_set_cancel:
-                setResultCanceled(!getResultCanceled());
+                setResultCanceled(!getResultCanceled());//决定用户进入界面之后还能否收到数据更新通知
                 mActivity.invalidateOptionsMenu();
                 return true;
             default:
