@@ -210,6 +210,13 @@ public class CrimeFragment extends ALogFragment {
             if (Build.VERSION.SDK_INT >= 24) {
                 photoURI = FileProvider.getUriForFile(getContext(),
                         BuildConfig.APPLICATION_ID + ".provider", mPhotoFile);
+                /**
+                 * photoURI以及mPhotoFile的log信息如下：
+                 * photoURI: content://com.mt.androidtest_as.provider/external_files/Android/data/com.mt.androidtest_as/files/Pictures/IMGxxx.jpg
+                 * mPhotoFile:/storage/emulated/0/Android/data/com.mt.androidtest_as/files/Pictures/IMGxxx.jpg
+                 */
+
+                ALog.Log("photoURI: "+photoURI.toString()+" mPhotoFile:"+mPhotoFile.getAbsolutePath());
             } else {
                 photoURI = Uri.fromFile(mPhotoFile);
             }
