@@ -297,4 +297,12 @@
 <color name="switchbar_background_color">#ff37474f</color>
 <color name="k5m_textcolor">#cceeeeee</color><!-- K5M -->
 <color name="sisley2m_color">#de000000</color><!-- Sisley2M -->
+
+    <color name="actionbar_background">@color/main_green</color>
+    <color name="main_green">#24cf5f</color>
+    <color name="project_listitem_someinfo">#b6b6b6</color>
+    <color name="day_colorPrimary">#24cf5f</color>
+    <color name="black_alpha_16">#10000000</color>
+    <color name="trans">#00000000</color>
+
 </resources>

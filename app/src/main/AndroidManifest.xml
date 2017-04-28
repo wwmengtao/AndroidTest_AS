@@ -20,7 +20,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/developer"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -122,6 +122,14 @@
                   android:process=":poll"
                   android:exported="false">
         </receiver>
+
+        <activity android:name="com.mt.myapplication.oschina.OsChinaActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="OsChinaActivity"
+            android:theme="@style/PhotoGalleryTheam"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"/>
     </application>
+
 
 </manifest>
