@@ -1,4 +1,4 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.tools;
 
 import android.app.Activity;
 import android.content.Context;

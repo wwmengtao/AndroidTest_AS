@@ -1,4 +1,4 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.tools;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -22,6 +22,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.EditText;
+
+import com.mt.myapplication.oschina.view.BaseApplication;
+import com.mt.myapplication.oschina.view.SimplexToast;
 
 import java.io.File;
 import java.util.List;

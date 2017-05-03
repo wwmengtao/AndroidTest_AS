@@ -1,4 +1,4 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.tools;
 
 import android.content.Context;
 import android.os.Environment;
@@ -91,8 +91,8 @@ public class DataCleanManager {
      *
      * @param filePath
      */
-    public static void cleanCustomCache(File file) {
-        deleteFilesByDirectory(file);
+    public static void cleanCustomCache(File filePath) {
+        deleteFilesByDirectory(filePath);
     }
 
     /**

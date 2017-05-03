@@ -1,4 +1,4 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.model;
 
 /**
  * 当tabHost再次被点击时

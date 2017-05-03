@@ -1,4 +1,4 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.tools;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

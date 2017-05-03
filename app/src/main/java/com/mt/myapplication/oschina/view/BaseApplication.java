@@ -1,4 +1,4 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.view;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
@@ -8,6 +8,7 @@ import android.content.SharedPreferences.Editor;
 import android.support.v4.content.SharedPreferencesCompat;
 import android.view.Gravity;
 import android.widget.Toast;
+
 
 
 @SuppressLint("InflateParams")

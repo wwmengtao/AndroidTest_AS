@@ -1,4 +1,4 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.tools;
 
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
@@ -10,6 +10,7 @@ import com.mt.myapplication.oschina.gson.FloatJsonDeserializer;
 import com.mt.myapplication.oschina.gson.ImageJsonDeserializer;
 import com.mt.myapplication.oschina.gson.IntegerJsonDeserializer;
 import com.mt.myapplication.oschina.gson.StringJsonDeserializer;
+import com.mt.myapplication.oschina.model.Tweet;
 
 
 import java.util.concurrent.Executor;

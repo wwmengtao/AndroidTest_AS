@@ -1,9 +1,11 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.tools;
 
+
+import com.mt.myapplication.oschina.view.BaseApplication;
 
 import java.util.Properties;
 
-import static com.mt.myapplication.oschina.AppConfig.KEY_LOAD_IMAGE;
+import static com.mt.myapplication.oschina.tools.AppConfig.KEY_LOAD_IMAGE;
 
 /**
  * 全局应用程序类

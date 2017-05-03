@@ -1,4 +1,4 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -15,6 +15,12 @@ import android.widget.ImageView;
 
 import com.google.gson.reflect.TypeToken;
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.ALog;
+
+import com.mt.myapplication.oschina.model.OnTabReselectListener;
+import com.mt.myapplication.oschina.tools.AppContext;
+import com.mt.myapplication.oschina.tools.AppOperator;
+import com.mt.myapplication.oschina.tools.TDevice;
 
 import net.oschina.common.utils.StreamUtil;
 
@@ -73,6 +79,7 @@ public class DynamicTabFragment extends BaseTitleFragment implements OnTabResele
             mTabPickerDataManager = new TabPickerView.TabPickerDataManager() {
                 @Override
                 public List<SubTab> setupActiveDataSet() {
+                    ALog.Log1("setupActiveDataSet");
                     FileReader reader = null;
                     try {
                         File file = mHereContext.getFileStreamPath("sub_tab_active.json");
@@ -91,6 +98,7 @@ public class DynamicTabFragment extends BaseTitleFragment implements OnTabResele
 
                 @Override
                 public List<SubTab> setupOriginalDataSet() {
+                    ALog.Log1("setupOriginalDataSet");
                     InputStreamReader reader = null;
                     try {
                         reader = new InputStreamReader(
@@ -109,6 +117,7 @@ public class DynamicTabFragment extends BaseTitleFragment implements OnTabResele
 
                 @Override
                 public void restoreActiveDataSet(List<SubTab> mActiveDataSet) {
+                    ALog.Log1("restoreActiveDataSet");
                     OutputStreamWriter writer = null;
                     try {
                         writer = new OutputStreamWriter(
@@ -140,6 +149,7 @@ public class DynamicTabFragment extends BaseTitleFragment implements OnTabResele
             @Override
             @SuppressWarnings("all")
             public void onSelected(final int position) {
+                ALog.Log1("onSelected");
                 final int index = mViewPager.getCurrentItem();
                 mViewPager.setCurrentItem(position);
                 if (position == index) {
@@ -156,21 +166,25 @@ public class DynamicTabFragment extends BaseTitleFragment implements OnTabResele
 
             @Override
             public void onRemove(int position, SubTab tab) {
+                ALog.Log1("onRemove");
                 isChangeIndex = true;
             }
 
             @Override
             public void onInsert(SubTab tab) {
+                ALog.Log1("onInsert");
                 isChangeIndex = true;
             }
 
             @Override
             public void onMove(int op, int np) {
+                ALog.Log1("onMove");
                 isChangeIndex = true;
             }
 
             @Override
             public void onRestore(final List<SubTab> mActiveDataSet) {
+                ALog.Log1("onRestore");
                 if (!isChangeIndex) return;
                 AppOperator.getExecutor().execute(new Runnable() {
                     @Override
@@ -187,19 +201,6 @@ public class DynamicTabFragment extends BaseTitleFragment implements OnTabResele
                         } finally {
                             StreamUtil.close(writer);
                         }
-
-                        /*String json = AppOperator.getGson().toJson(mActiveDataSet);
-                        FileOutputStream fos = null;
-                        try {
-                            fos = mHereContext().openFileOutput("sub_tab_active.json",
-                                    Context.MODE_PRIVATE);
-                            fos.write(json.getBytes("UTF-8"));
-                            fos.flush();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        } finally {
-                            StreamUtil.close(fos);
-                        }*/
                     }
                 });
                 isChangeIndex = false;
@@ -324,6 +325,7 @@ public class DynamicTabFragment extends BaseTitleFragment implements OnTabResele
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
             }
         };
     }

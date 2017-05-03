@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.mt.myapplication.oschina.TitleBar
+    <com.mt.myapplication.oschina.view.TitleBar
         android:id="@+id/nav_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

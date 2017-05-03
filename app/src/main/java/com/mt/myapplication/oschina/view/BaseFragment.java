@@ -1,4 +1,4 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.view;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.mt.androidtest_as.alog.ALogFragment;
+import com.mt.myapplication.oschina.tools.ImageLoader;
 
 
 import java.io.Serializable;

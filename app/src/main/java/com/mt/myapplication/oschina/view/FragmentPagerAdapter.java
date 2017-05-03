@@ -1,4 +1,4 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.view;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

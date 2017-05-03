@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.mt.androidtest_as.alog.ALog;
-import com.mt.myapplication.oschina.Tweet;
+import com.mt.myapplication.oschina.model.Tweet;
 
 
 import java.lang.reflect.Type;

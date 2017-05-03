@@ -1,4 +1,4 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.view;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mt.androidtest_as.R;
+import com.mt.myapplication.oschina.tools.TDevice;
+import com.mt.myapplication.oschina.tools.UiUtil;
 
 
 /**

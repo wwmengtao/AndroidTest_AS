@@ -6,18 +6,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ALog {
-	public  static String TAG_M = "M_T_AT";
-	public  static String TAG_M2 = "M_T_ATT";	
+	private static String TAG_M = "M_T_AT";
+	private  static String TAG_M1 = "M_T_AT1";
+	private  static String TAG_M2 = "M_T_AT2";
+	private  static String TAG_M_T = "M_T_AT_TIME";
 	public static void Log(String info){
 		Log.e(TAG_M,info);
 	}
 
 	public static void Log1(String info){
-		Log.e(TAG_M2,info);
+		Log.e(TAG_M1, info);
 	}
-	
+
 	public static void Log2(String info){
-		Log.e(TAG_M,info+" ThreadID:"+Thread.currentThread().getId());
+		Log.e(TAG_M2, info+" ThreadID:"+Thread.currentThread().getId());
 	}
 
 	

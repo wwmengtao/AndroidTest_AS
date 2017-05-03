@@ -1,4 +1,4 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

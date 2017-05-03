@@ -60,7 +60,7 @@
 
 
     <!--root wrapper-->
-    <com.mt.myapplication.oschina.TabPickerView
+    <com.mt.myapplication.oschina.view.TabPickerView
         android:id="@+id/view_tab_picker"
         android:visibility="invisible"
         android:layout_width="match_parent"

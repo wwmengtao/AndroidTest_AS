@@ -123,7 +123,7 @@
                   android:exported="false">
         </receiver>
 
-        <activity android:name="com.mt.myapplication.oschina.OsChinaActivity"
+        <activity android:name="com.mt.myapplication.oschina.view.OsChinaActivity"
             android:parentActivityName=".MainActivity"
             android:label="OsChinaActivity"
             android:theme="@style/PhotoGalleryTheam"

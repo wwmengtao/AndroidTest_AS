@@ -1,4 +1,4 @@
-package com.mt.myapplication.oschina;
+package com.mt.myapplication.oschina.view;
 
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
