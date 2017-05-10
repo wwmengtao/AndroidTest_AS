@@ -258,7 +258,7 @@ public class DynamicTabFragment extends BaseTitleFragment implements OnTabResele
         mViewPager.setAdapter(mAdapter = new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return new Fragment();
+                return new SolarSystemFragment();
             }
 
             @Override

@@ -304,5 +304,6 @@
     <color name="day_colorPrimary">#24cf5f</color>
     <color name="black_alpha_16">#10000000</color>
     <color name="trans">#00000000</color>
+    <color name="ques_bt_text_color_light">#24cf5f</color>
 
 </resources>
