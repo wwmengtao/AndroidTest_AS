@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>call_mode</itemtitle>
+        <itemcontent>call_mode_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>call_volume</itemtitle>
+        <itemcontent>call_volume_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>call_bluetooth</itemtitle>
+        <itemcontent>call_bluetooth_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>call_record</itemtitle>
+        <itemcontent>call_record_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>call_speedcall</itemtitle>
+        <itemcontent>call_speedcall_description</itemcontent>
+        <itemcontentimage>lessons4</itemcontentimage>
+    </item>
+    
+    <item>
+        <itemtitle>call_mapping</itemtitle>
+        <itemcontent>call_mapping_description</itemcontent>
+        <itemcontentimage>lessons6</itemcontentimage>
+    </item>
+ 
+     <item>
+        <itemtitle>call_ip</itemtitle>
+        <itemcontent>call_ip_description</itemcontent>
+    </item>
+    
+        <item>
+        <itemtitle>call_endcall</itemtitle>
+        <itemcontent>call_endcall_description</itemcontent>
+    </item>
+    
+        <item>
+        <itemtitle>call_sensor</itemtitle>
+        <itemcontent>call_sensor_description</itemcontent>
+    </item>
+
+        <item>
+        <itemtitle>call_smartsound</itemtitle>
+        <itemcontent>call_smartsound_description</itemcontent>
+    </item>  
+
+</functionkeyscontent>

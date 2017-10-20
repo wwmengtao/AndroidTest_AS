@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>hotspot_definition</itemtitle>
+        <itemcontent>hotspot_definition_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>hotspot_setting</itemtitle>
+        <itemcontent>hotspot_setting_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>hotspot_method</itemtitle>
+        <itemcontent>hotspot_method_description</itemcontent>
+    </item>
+
+</functionkeyscontent>

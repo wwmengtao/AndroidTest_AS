@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>dualsim_setting</itemtitle>
+        <itemcontent>dualsim_setting_description</itemcontent>
+        <itemcontentimage>lessons3a</itemcontentimage>
+    </item>
+    
+    <item>
+        <itemtitle>dualsim_switch</itemtitle>
+        <itemcontent>dualsim_switch_description</itemcontent>
+        <itemcontentimage>lessons3b</itemcontentimage>
+    </item>
+
+</functionkeyscontent>

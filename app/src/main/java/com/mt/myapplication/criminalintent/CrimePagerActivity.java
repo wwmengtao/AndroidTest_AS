@@ -23,7 +23,7 @@ import java.util.UUID;
  * Created by Mengtao1 on 2016/12/9.
  */
 
-public class CrimePagerActivity extends ALogActivity implements CrimeFragment.Callbacks{
+public class CrimePagerActivity extends ALogActivity{
     public static final String CRIME_ID = "CrimePagerActivity_CrimeID";
     public static final String CURRENT_CRIME_ID_VIEWPAGER = "CrimePagerActivity_Current_CrimeID";
     public static final int RESULT_CODE = 0x11;
@@ -104,10 +104,5 @@ public class CrimePagerActivity extends ALogActivity implements CrimeFragment.Ca
     @Override
     public void onBackPressed(){
         super.onBackPressed();//会调用finish()
-    }
-
-    @Override
-    public void onCrimeUpdated() {
-
     }
 }

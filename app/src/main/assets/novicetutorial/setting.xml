@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>setting_display</itemtitle>
+        <itemcontent>setting_display_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>setting_secure</itemtitle>
+        <itemcontent>setting_secure_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>setting_resotre</itemtitle>
+        <itemcontent>setting_resotre_description</itemcontent>
+    </item>
+
+</functionkeyscontent>

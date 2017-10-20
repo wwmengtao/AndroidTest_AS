@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--xmlfile.xml defines all the no.1 titles shown in the creen-->
+<file>
+    
+    <item>
+        <filename>functionkeyscontent.xml</filename>
+        <filestring>functionkeyscontent</filestring>
+    </item>
+    
+    <item>
+        <filename>mainscreen.xml</filename>
+        <filestring>mainscreen</filestring>
+    </item>
+    
+    <item>
+        <filename>notificationbar.xml</filename>
+        <filestring>notificationbar</filestring>
+    </item>  
+      
+    <item>
+        <filename>call.xml</filename>
+        <filestring>call</filestring>
+    </item>
+          
+    <item>
+        <filename>callringtone.xml</filename>
+        <filestring>callringtone</filestring>
+    </item>
+          
+    <item>
+        <filename>contactsmanage.xml</filename>
+        <filestring>contactsmanage</filestring>
+    </item>
+          
+    <item>
+        <filename>message.xml</filename>
+        <filestring>message</filestring>
+    </item>
+          
+    <item>
+        <filename>applist.xml</filename>
+        <filestring>applist</filestring>
+    </item>
+          
+    <item>
+        <filename>network.xml</filename>
+        <filestring>network</filestring>
+    </item>
+          
+    <item>
+        <filename>dualsim.xml</filename>
+        <filestring>dualsim</filestring>
+    </item>
+          
+    <item>
+        <filename>setting.xml</filename>
+        <filestring>setting</filestring>
+    </item>
+          
+    <item>
+        <filename>connect.xml</filename>
+        <filestring>connect</filestring>
+    </item>
+          
+    <item>
+        <filename>backupandrestore.xml</filename>
+        <filestring>backupandrestore</filestring>
+    </item>
+          
+    <item>
+        <filename>hotspot.xml</filename>
+        <filestring>hotspot</filestring>
+    </item>
+          
+    <item>
+        <filename>batterysaving.xml</filename>
+        <filestring>batterysaving</filestring>
+    </item>
+    
+    <item>
+        <filename>otg.xml</filename>
+        <filestring>otg</filestring>
+    </item>    
+</file>

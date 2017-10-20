@@ -1,4 +1,5 @@
 <resources>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="actionBarStyle">@style/MyActionBarStyle</item>
@@ -20,12 +21,12 @@
     </style>
 
     <style name="MyColorStyle">
-    <item name="custom_color1">@color/greenyellow</item>
+        <item name="custom_color1">@color/greenyellow</item>
     </style>
 
     <declare-styleable name="custom_attrs">
-    <attr name="custom_color1" format="color"></attr>
-    <attr name="custom_color2" format="color"></attr>
+        <attr name="custom_color1" format="color"></attr>
+        <attr name="custom_color2" format="color"></attr>
     </declare-styleable>
 
     <!--以下定义BeatBoxActivity对应的主题-->
@@ -55,8 +56,10 @@
         <item name="colorAccent">@color/yellow</item>
         <item name="android:colorBackground">@color/white</item><!--ContentView部分的背景色-->
         <item name="android:textViewStyle">@style/TextView_PhotoGallery</item><!--TextView的显示样式-->
-        <item name="android:actionBarItemBackground">@color/darkred</item><!--ActionBar中Menu(非MenuItem)的背景色-->
-        <item name="textAppearanceLargePopupMenu">@style/MenuItemTextStyle</item><!--ActionBar中MenuItem的文字样式-->
+        <item name="android:actionBarItemBackground">@color/darkred
+        </item><!--ActionBar中Menu(非MenuItem)的背景色-->
+        <item name="textAppearanceLargePopupMenu">@style/MenuItemTextStyle
+        </item><!--ActionBar中MenuItem的文字样式-->
     </style>
 
     <!--以下定义PhotoGalleryActivity对应的TextView的主题-->
@@ -72,5 +75,14 @@
         <item name="android:textColor">@color/lightgreen</item>
         <item name="textAllCaps">true</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

@@ -8,7 +8,10 @@ import android.support.v4.app.Fragment;
 import com.mt.androidtest_as.alog.BaseActivity;
 
 import java.util.Date;
-
+/**
+ * 竖屏状态下日期选择使用Activity方式
+ * Created by Mengtao1 on 2017/10/18.
+ */
 public class DatePickerActivity extends BaseActivity {
 
     public static Intent newIntent(Context mContext, Date date){

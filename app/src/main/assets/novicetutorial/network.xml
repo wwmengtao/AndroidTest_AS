@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>network_data</itemtitle>
+        <itemcontent>network_data_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>network_wlan</itemtitle>
+        <itemcontent>network_wlan_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>network_hotspot</itemtitle>
+        <itemcontent>network_hotspot_description</itemcontent>
+    </item>
+
+</functionkeyscontent>

@@ -2,17 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mt.androidtest_as">
 
-    <permission android:name="com.mt.myapplication.photogallery.notifybroadcast.permission"
+    <permission
+        android:name="com.mt.myapplication.photogallery.notifybroadcast.permission"
         android:protectionLevel="signature" />
 
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="com.mt.myapplication.photogallery.notifybroadcast.permission" /><!--自定义权限将广播限定在本应用内部-->
+    <uses-permission android:name="com.mt.myapplication.photogallery.notifybroadcast.permission" /> <!-- 自定义权限将广播限定在本应用内部 -->
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -24,62 +24,70 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--MainActivity的launchMode设置为singleTop时，如果其他Activity的parentActivityName设为MainActivity，那么此时
-        其他Activity通过点击工具栏箭头返回时，不会引起MainActivity的onDestroy和onCreate-->
+
+        <!--
+        MainActivity的launchMode设置为singleTop时，如果其他Activity的parentActivityName设为MainActivity，那么此时
+        其他Activity通过点击工具栏箭头返回时，不会引起MainActivity的onDestroy和onCreate
+        -->
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"
-            android:configChanges="orientation|screenSize|keyboardHidden|keyboard">
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainFragmentActivity"
-            android:parentActivityName=".MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|keyboard">
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+            android:parentActivityName=".MainActivity">
             <intent-filter>
-                <action android:name="com.mt.MainFragmentActivity"/>
+                <action android:name="com.mt.MainFragmentActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.mt.myapplication.beatbox.BeatBoxActivity"
-            android:label="@string/beatbox_title"
-            android:theme="@style/BeatBoxTheam"
-            android:parentActivityName=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
-            >
+            android:label="@string/beatbox_title"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/BeatBoxTheam">
             <intent-filter>
-                <action android:name="com.mt.myapplication.beatbox.BeatBoxActivity"/>
+                <action android:name="com.mt.myapplication.beatbox.BeatBoxActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.mt.myapplication.criminalintent.CrimeListActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|screenLayout|orientation"
             android:label="@string/criminal_title"
-            android:parentActivityName=".MainActivity"
             android:launchMode="singleTop"
-            android:configChanges="keyboard|keyboardHidden|screenSize|screenLayout|orientation">
+            android:parentActivityName=".MainActivity">
             <intent-filter>
-                <action android:name="com.mt.myapplication.criminalintent.CrimeListActivity"/>
+                <action android:name="com.mt.myapplication.criminalintent.CrimeListActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.mt.myapplication.criminalintent.CrimePagerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
             android:label="@string/crime_pager_title"
             android:launchMode="singleTop"
-            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
             android:parentActivityName="com.mt.myapplication.criminalintent.CrimeListActivity" />
-        <activity android:name="com.mt.myapplication.criminalintent.DatePickerActivity"
-            android:label="@string/date_picker_title"
-            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"/>
-        <activity android:name="com.mt.myapplication.criminalintent.PicDetailsActivity"
-            android:label="@string/pic_detail_title"
-            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"/>
+        <activity
+            android:name="com.mt.myapplication.criminalintent.DatePickerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+            android:label="@string/date_picker_title" />
+        <activity
+            android:name="com.mt.myapplication.criminalintent.PicDetailsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+            android:label="@string/pic_detail_title" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -87,49 +95,57 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name="com.mt.myapplication.photogallery.PhotoGalleryActivity"
+        <activity
+            android:name="com.mt.myapplication.photogallery.PhotoGalleryActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
             android:label="@string/photo_gallery_title"
-            android:theme="@style/PhotoGalleryTheam"
             android:launchMode="singleTask"
-            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"/>
+            android:theme="@style/PhotoGalleryTheam" />
 
-        <!--android:process=":poll"表明组件运行于单独进程中，这个进程是当前默认进程(包名为名称的进程)的私有进程，外界
-        通过相同的ShareUID以及相同签名也无法与此私有进程运行在一起-->
-        <receiver android:name="com.mt.myapplication.photogallery.StartupReceiver"
-            android:process=":poll"
-            android:exported="false">
+        <!--
+        android:process=":poll"表明组件运行于单独进程中，这个进程是当前默认进程(包名为名称的进程)的私有进程，外界
+        通过相同的ShareUID以及相同签名也无法与此私有进程运行在一起
+        -->
+        <receiver
+            android:name="com.mt.myapplication.photogallery.StartupReceiver"
+            android:exported="false"
+            android:process=":poll">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <service android:name="com.mt.myapplication.photogallery.PollService"
-                 android:process=":poll"
-                 android:exported="false"/>
+        <service
+            android:name="com.mt.myapplication.photogallery.PollService"
+            android:exported="false"
+            android:process=":poll" />
 
-        <receiver android:name="com.mt.myapplication.photogallery.PollInfoReceiver"
-                  android:process=":poll"
-                  android:exported="false"><!--android:exported="false"表明仅限于本应用内部调用-->
-            <intent-filter android:priority="-999"><!--android:priority中数值越小优先级越低，用户能定义的最低优先级为-999，表示最后一个收到有序广播-->
+        <receiver
+            android:name="com.mt.myapplication.photogallery.PollInfoReceiver"
+            android:exported="false"
+            android:process=":poll"> <!-- android:exported="false"表明仅限于本应用内部调用 -->
+            <intent-filter android:priority="-999"> <!-- android:priority中数值越小优先级越低，用户能定义的最低优先级为-999，表示最后一个收到有序广播 -->
                 <action android:name="com.bignerdranch.android.photogallery.SHOW_NOTIFICATION" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name="com.mt.myapplication.photogallery.StartActivitiesReceiver"
+            android:exported="false"
+            android:process=":poll"></receiver>
 
-        <receiver android:name="com.mt.myapplication.photogallery.StartActivitiesReceiver"
-                  android:process=":poll"
-                  android:exported="false">
-        </receiver>
-
-        <activity android:name="com.mt.myapplication.oschina.view.OsChinaActivity"
-            android:parentActivityName=".MainActivity"
+        <activity
+            android:name="com.mt.myapplication.oschina.view.OsChinaActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
             android:label="OsChinaActivity"
-            android:theme="@style/PhotoGalleryTheam"
             android:launchMode="singleTask"
-            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"/>
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/PhotoGalleryTheam" />
+        <activity
+            android:name="com.mt.myapplication.novicetutorial.view.activities.NoviceGridActivity"
+            android:label="@string/novice_tutorial"></activity>
     </application>
-
 
 </manifest>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>backupandrestore_content</itemtitle>
+        <itemcontent>backupandrestore_content_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>backupandrestore_backup</itemtitle>
+        <itemcontent>backupandrestore_backup_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>backupandrestore_restore</itemtitle>
+        <itemcontent>backupandrestore_restore_description</itemcontent>
+    </item>
+
+</functionkeyscontent>

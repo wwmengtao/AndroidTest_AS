@@ -117,8 +117,8 @@ public class CrimeListFragment extends ALogFragment implements View.OnClickListe
         if(-1 != itemClickPosition)mRecyclerView.post(new Runnable() {
             @Override
             public void run() {
-            mRecyclerView.smoothScrollToPosition(itemClickPosition);//直接调用不起作用，必须放在View.post里
-            ALog.Log("mRecyclerView_getWidth: "+mRecyclerView.getWidth());//此时mRecyclerView的宽度不为空
+                mRecyclerView.smoothScrollToPosition(itemClickPosition);//直接调用不起作用，必须放在View.post里
+                ALog.Log("mRecyclerView_getWidth: "+mRecyclerView.getWidth());//此时mRecyclerView的宽度不为空
             }
         });
         //

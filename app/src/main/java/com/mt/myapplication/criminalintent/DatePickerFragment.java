@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
+ * 横屏状态下日期选择使用Fragment方式
  * Created by Mengtao1 on 2016/12/9.
  */
 
