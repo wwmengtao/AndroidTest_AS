@@ -15,6 +15,7 @@
  */
 package com.mt.myapplication.novicetutorial.presenter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceGridView;
 
@@ -24,6 +25,11 @@ import com.mt.myapplication.novicetutorial.view.interfaces.NoviceGridView;
  */
 public class NoviceGridPresenter implements Presenter {
   private NoviceGridView viewGridView;
+
+  public NoviceGridPresenter(Context mContext){
+
+  }
+
   public void setView(@NonNull NoviceGridView view) {
     this.viewGridView = view;
   }

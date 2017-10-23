@@ -26,7 +26,6 @@ import com.mt.myapplication.novicetutorial.domain.User;
  * Mapper class used to transform {@link User} (in the domain layer) to {@link UserModel} in the
  * presentation layer.
  */
-@PerActivity
 public class UserModelDataMapper {
 
   @Inject

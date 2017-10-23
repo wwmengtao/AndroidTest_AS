@@ -15,20 +15,24 @@
  */
 package com.mt.myapplication.novicetutorial.presenter;
 
+import android.content.Context;
+
 /**
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
 public class NoviceDetailPresenter implements Presenter {
+    public NoviceDetailPresenter(Context mContext){
 
-  @Override
-  public void resume() {}
+    }
+    @Override
+    public void resume() {}
 
-  @Override
-  public void pause() {}
+    @Override
+    public void pause() {}
 
-  @Override
-  public void destroy() {
-  }
+    @Override
+    public void destroy() {
+    }
 
 }
