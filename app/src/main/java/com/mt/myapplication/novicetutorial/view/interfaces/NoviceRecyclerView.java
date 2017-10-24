@@ -13,12 +13,12 @@ import com.mt.myapplication.novicetutorial.model.UserModel;
  */
 public interface NoviceRecyclerView extends LoadDataView{
 
-  void getUserList(Collection<UserModel> userModelCollection);
+  void setUserList(Collection<UserModel> userModelCollection);
 
   /**
    * View a {@link UserModel} profile/details.
    *
    * @param userModel The user that will be shown.
    */
-  void viewUser(UserModel userModel);
+  void showUser(UserModel userModel);
 }

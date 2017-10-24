@@ -19,6 +19,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.mt.myapplication.novicetutorial.model.UserModel;
+import com.mt.myapplication.novicetutorial.model.domain.User;
+import com.mt.myapplication.novicetutorial.model.domain.exception.DefaultErrorBundle;
+import com.mt.myapplication.novicetutorial.model.domain.exception.ErrorBundle;
+import com.mt.myapplication.novicetutorial.model.domain.exception.ErrorMessageFactory;
+import com.mt.myapplication.novicetutorial.model.domain.interactor.DefaultObserver;
 import com.mt.myapplication.novicetutorial.model.mapper.UserModelDataMapper;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
 
@@ -41,8 +46,45 @@ public class NoviceListPresenter implements Presenter {
     mNoviceRecyclerView = view;
   }
 
+  /**
+   * Initializes the presenter by start retrieving the user list.
+   */
+  public void initialize() {
+    this.loadUserList();
+  }
+
   public void onUserClicked(UserModel userModel) {
-    mNoviceRecyclerView.viewUser(userModel);
+    mNoviceRecyclerView.showUser(userModel);
+  }
+
+  /**
+   * Loads all users.
+   */
+  private void loadUserList() {
+    hideViewRetry();
+    showViewLoading();
+    getUserList();
+  }
+
+  private void showViewLoading() {
+    this.mNoviceRecyclerView.showLoading();
+  }
+
+  private void hideViewLoading() {
+    this.mNoviceRecyclerView.hideLoading();
+  }
+
+  private void showViewRetry() {
+    this.mNoviceRecyclerView.showRetry();
+  }
+
+  private void hideViewRetry() {
+    this.mNoviceRecyclerView.hideRetry();
+  }
+
+  //获取数据
+  private void getUserList() {
+
   }
 
   @Override
@@ -55,4 +97,32 @@ public class NoviceListPresenter implements Presenter {
   public void destroy() {
   }
 
+
+  private void showErrorMessage(ErrorBundle errorBundle) {
+    String errorMessage = ErrorMessageFactory.create(this.mNoviceRecyclerView.context(),
+            errorBundle.getException());
+    this.mNoviceRecyclerView.showError(errorMessage);
+  }
+
+  private void showUserDetailsInView(User user) {
+    final UserModel userModel = this.mUserModelDataMapper.transform(user);
+    this.mNoviceRecyclerView.showUser(userModel);
+  }
+
+  private final class UserDetailsObserver extends DefaultObserver<User> {
+
+    @Override public void onComplete() {
+      NoviceListPresenter.this.hideViewLoading();
+    }
+
+    @Override public void onError(Throwable e) {
+      NoviceListPresenter.this.hideViewLoading();
+      NoviceListPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+      NoviceListPresenter.this.showViewRetry();
+    }
+
+    @Override public void onNext(User user) {
+      NoviceListPresenter.this.showUserDetailsInView(user);
+    }
+  }
 }

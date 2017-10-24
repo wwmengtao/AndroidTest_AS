@@ -15,7 +15,6 @@ import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.alog.AndroidTest_AS_Application;
 import com.mt.myapplication.novicetutorial.model.UserModel;
 import com.mt.myapplication.novicetutorial.presenter.NoviceGridPresenter;
-import com.mt.myapplication.novicetutorial.presenter.NoviceListPresenter;
 import com.mt.myapplication.novicetutorial.view.adapter.UsersAdapter;
 import com.mt.myapplication.novicetutorial.view.interfaces.LoadDataView;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
@@ -50,8 +49,7 @@ public class NoviceGridFragment extends ALogFragment implements NoviceRecyclerVi
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_novice_grid, container, false);
         ButterKnife.bind(this, v);
@@ -76,7 +74,7 @@ public class NoviceGridFragment extends ALogFragment implements NoviceRecyclerVi
 
     @Override public void onDestroyView() {
         super.onDestroyView();
-        mRecyclerView.setAdapter(null);
+        this.mRecyclerView.setAdapter(null);
         ButterKnife.unbind(this);
     }
 
@@ -87,7 +85,7 @@ public class NoviceGridFragment extends ALogFragment implements NoviceRecyclerVi
 
     @Override public void onDetach() {
         super.onDetach();
-        onItemClickListener = null;
+        this.onItemClickListener = null;
         this.userListListener = null;
     }
     private UsersAdapter.OnItemClickListener onItemClickListener =
@@ -106,12 +104,12 @@ public class NoviceGridFragment extends ALogFragment implements NoviceRecyclerVi
     }
 
     @Override
-    public void getUserList(Collection<UserModel> userModelCollection) {
+    public void setUserList(Collection<UserModel> userModelCollection) {
 
     }
 
     @Override
-    public void viewUser(UserModel userModel) {
+    public void showUser(UserModel userModel) {
         if (this.userListListener != null) {
             this.userListListener.onUserClicked(userModel);
         }
@@ -144,6 +142,6 @@ public class NoviceGridFragment extends ALogFragment implements NoviceRecyclerVi
 
     @Override
     public Context context() {
-        return null;
+        return mContext;
     }
 }

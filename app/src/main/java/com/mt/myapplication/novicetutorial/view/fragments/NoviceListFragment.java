@@ -32,36 +32,6 @@ public class NoviceListFragment extends ALogFragment implements NoviceRecyclerVi
     @Inject NoviceListPresenter mNoviceListPresenter;
     private UserListListener userListListener;
 
-    @Override
-    public void showLoading() {
-        
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void showRetry() {
-
-    }
-
-    @Override
-    public void hideRetry() {
-
-    }
-
-    @Override
-    public void showError(String message) {
-
-    }
-
-    @Override
-    public Context context() {
-        return null;
-    }
-
     /**
      * Interface for listening user list events.
      */
@@ -84,13 +54,27 @@ public class NoviceListFragment extends ALogFragment implements NoviceRecyclerVi
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_novice_grid, container, false);
         ButterKnife.bind(this, v);
         setupRecyclerView();
         return v;
+    }
+
+    @Override public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.mNoviceListPresenter.setView(this);
+        if (savedInstanceState == null) {
+            this.loadUserList();
+        }
+    }
+
+    /**
+     * Loads all users.
+     */
+    private void loadUserList() {
+        this.mNoviceListPresenter.initialize();
     }
 
     @Override public void onDestroyView() {
@@ -126,14 +110,48 @@ public class NoviceListFragment extends ALogFragment implements NoviceRecyclerVi
     }
 
     @Override
-    public void getUserList(Collection<UserModel> userModelCollection) {
-
+    public void setUserList(Collection<UserModel> userModelCollection) {
+        if (userModelCollection != null) {
+            this.usersAdapter.setUsersCollection(userModelCollection);
+        }
     }
 
     @Override
-    public void viewUser(UserModel userModel) {
+    public void showUser(UserModel userModel) {
         if (this.userListListener != null) {
             this.userListListener.onUserClicked(userModel);
         }
     }
+
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showRetry() {
+
+    }
+
+    @Override
+    public void hideRetry() {
+
+    }
+
+    @Override
+    public void showError(String message) {
+
+    }
+
+    @Override
+    public Context context() {
+        return mContext;
+    }
+
 }
