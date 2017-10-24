@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mt.myapplication.novicetutorial.model;
+package com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model;
 
 /**
  * Class that represents a user in the presentation layer.

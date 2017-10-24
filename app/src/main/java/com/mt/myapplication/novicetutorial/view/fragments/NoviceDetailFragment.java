@@ -8,12 +8,20 @@ import android.view.ViewGroup;
 
 import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.alog.ALogFragment;
-import com.mt.myapplication.novicetutorial.model.UserModel;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceDetailView;
 
 import butterknife.ButterKnife;
 
-public class NoviceDetailFragment extends ALogFragment implements NoviceDetailView{
+public class NoviceDetailFragment extends BaseFragment implements NoviceDetailView{
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.getComponent(UserComponent.class).inject(this);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

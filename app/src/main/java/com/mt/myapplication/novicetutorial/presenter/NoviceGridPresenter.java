@@ -15,12 +15,20 @@
  */
 package com.mt.myapplication.novicetutorial.presenter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.mt.myapplication.novicetutorial.model.UserModel;
-import com.mt.myapplication.novicetutorial.model.mapper.UserModelDataMapper;
+import com.fernandocejas.android10.sample.domain.User;
+import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
+import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
+import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserList;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
+
+import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -30,11 +38,12 @@ import javax.inject.Inject;
  */
 public class NoviceGridPresenter implements Presenter {
   private NoviceRecyclerView mNoviceRecyclerView;
+  private final GetUserList mGetUserList;
   private final UserModelDataMapper mUserModelDataMapper;
-
   @Inject
-  public NoviceGridPresenter(){
-    mUserModelDataMapper = new UserModelDataMapper();
+  public NoviceGridPresenter(GetUserList getUserListUserCase, UserModelDataMapper userModelDataMapper){
+    this.mGetUserList = getUserListUserCase;
+    this.mUserModelDataMapper = userModelDataMapper;
   }
 
   public void onUserClicked(UserModel userModel) {
@@ -77,9 +86,38 @@ public class NoviceGridPresenter implements Presenter {
     this.mNoviceRecyclerView.hideRetry();
   }
 
+  private void showErrorMessage(ErrorBundle errorBundle) {
+    String errorMessage = ErrorMessageFactory.create(this.mNoviceRecyclerView.context(),
+            errorBundle.getException());
+    this.mNoviceRecyclerView.showError(errorMessage);
+  }
+
   //获取数据
   private void getUserList() {
+    this.mGetUserList.execute(new UserRecyclerViewObserver(), null);
+  }
 
+  private void showUsersCollectionInView(Collection<User> usersCollection) {
+    final Collection<UserModel> userModelsCollection =
+            this.mUserModelDataMapper.transform(usersCollection);
+    this.mNoviceRecyclerView.setUserList(userModelsCollection);
+  }
+
+  private final class UserRecyclerViewObserver extends DefaultObserver<List<User>> {
+
+    @Override public void onComplete() {
+      NoviceGridPresenter.this.hideViewLoading();
+    }
+
+    @Override public void onError(Throwable e) {
+      NoviceGridPresenter.this.hideViewLoading();
+      NoviceGridPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+      NoviceGridPresenter.this.showViewRetry();
+    }
+
+    @Override public void onNext(List<User> users) {
+      NoviceGridPresenter.this.showUsersCollectionInView(users);
+    }
   }
 
   @Override

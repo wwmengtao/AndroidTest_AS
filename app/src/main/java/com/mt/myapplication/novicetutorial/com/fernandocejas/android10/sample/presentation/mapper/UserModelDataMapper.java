@@ -13,19 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mt.myapplication.novicetutorial.model.mapper;
+package com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper;
+
+import com.fernandocejas.android10.sample.domain.User;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.PerActivity;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+
 import javax.inject.Inject;
 
-import com.mt.myapplication.novicetutorial.model.UserModel;
-import com.mt.myapplication.novicetutorial.model.domain.User;
 /**
  * Mapper class used to transform {@link User} (in the domain layer) to {@link UserModel} in the
  * presentation layer.
  */
+@PerActivity
 public class UserModelDataMapper {
 
   @Inject
@@ -41,12 +46,12 @@ public class UserModelDataMapper {
     if (user == null) {
       throw new IllegalArgumentException("Cannot transform a null value");
     }
-    final UserModel userModel = new UserModel(user.getId().hashCode());
-//    userModel.setCoverUrl(user.getCoverUrl());
-//    userModel.setFullName(user.getFullName());
-//    userModel.setEmail(user.getEmail());
-//    userModel.setDescription(user.getDescription());
-//    userModel.setFollowers(user.getFollowers());
+    final UserModel userModel = new UserModel(user.getUserId());
+    userModel.setCoverUrl(user.getCoverUrl());
+    userModel.setFullName(user.getFullName());
+    userModel.setEmail(user.getEmail());
+    userModel.setDescription(user.getDescription());
+    userModel.setFollowers(user.getFollowers());
 
     return userModel;
   }

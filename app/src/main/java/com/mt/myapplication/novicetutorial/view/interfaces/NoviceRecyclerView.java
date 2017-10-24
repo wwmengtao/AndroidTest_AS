@@ -5,8 +5,10 @@
 package com.mt.myapplication.novicetutorial.view.interfaces;
 
 
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
+
 import java.util.Collection;
-import com.mt.myapplication.novicetutorial.model.UserModel;
+
 /**
  * NoviceRecyclerView：代表了界面显示的各种类型的RecyclerView
  * Interface representing a View in a model view presenter (MVP) pattern.

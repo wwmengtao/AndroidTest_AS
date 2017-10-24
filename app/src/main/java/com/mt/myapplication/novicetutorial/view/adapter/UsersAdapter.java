@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mt.androidtest_as.R;
-import com.mt.myapplication.novicetutorial.model.UserModel;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 
 import java.util.Collection;
 import java.util.Collections;

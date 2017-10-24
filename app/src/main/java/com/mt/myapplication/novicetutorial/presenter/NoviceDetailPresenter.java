@@ -17,15 +17,14 @@ package com.mt.myapplication.novicetutorial.presenter;
 
 import android.support.annotation.NonNull;
 
-import com.mt.myapplication.novicetutorial.model.UserModel;
-import com.mt.myapplication.novicetutorial.model.domain.User;
-import com.mt.myapplication.novicetutorial.model.domain.exception.DefaultErrorBundle;
-import com.mt.myapplication.novicetutorial.model.domain.exception.ErrorBundle;
-import com.mt.myapplication.novicetutorial.model.domain.exception.ErrorMessageFactory;
-import com.mt.myapplication.novicetutorial.model.domain.interactor.DefaultObserver;
-import com.mt.myapplication.novicetutorial.model.domain.interactor.GetUserDetails;
-import com.mt.myapplication.novicetutorial.model.domain.interactor.GetUserDetails.Params;
-import com.mt.myapplication.novicetutorial.model.mapper.UserModelDataMapper;
+import com.fernandocejas.android10.sample.domain.User;
+import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
+import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
+import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceDetailView;
 
 import javax.inject.Inject;
@@ -34,7 +33,7 @@ import javax.inject.Inject;
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
-public class NoviceDetailsPresenter implements Presenter {
+public class NoviceDetailPresenter implements Presenter {
 
     private NoviceDetailView mNoviceDetailView;
 
@@ -42,7 +41,7 @@ public class NoviceDetailsPresenter implements Presenter {
     private final UserModelDataMapper userModelDataMapper;
 
     @Inject
-    public NoviceDetailsPresenter(GetUserDetails getUserDetailsUseCase,
+    public NoviceDetailPresenter(GetUserDetails getUserDetailsUseCase,
                                 UserModelDataMapper userModelDataMapper) {
         this.getUserDetailsUseCase = getUserDetailsUseCase;
         this.userModelDataMapper = userModelDataMapper;
@@ -72,7 +71,7 @@ public class NoviceDetailsPresenter implements Presenter {
     }
 
     private void getUserDetails(int userId) {
-        this.getUserDetailsUseCase.execute(new UserDetailsObserver(), Params.forUser(userId));
+        this.getUserDetailsUseCase.execute(new UserDetailsObserver(), GetUserDetails.Params.forUser(userId));
     }
 
     private void showViewLoading() {
@@ -105,17 +104,17 @@ public class NoviceDetailsPresenter implements Presenter {
     private final class UserDetailsObserver extends DefaultObserver<User> {
 
         @Override public void onComplete() {
-            NoviceDetailsPresenter.this.hideViewLoading();
+            NoviceDetailPresenter.this.hideViewLoading();
         }
 
         @Override public void onError(Throwable e) {
-            NoviceDetailsPresenter.this.hideViewLoading();
-            NoviceDetailsPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
-            NoviceDetailsPresenter.this.showViewRetry();
+            NoviceDetailPresenter.this.hideViewLoading();
+            NoviceDetailPresenter.this.showErrorMessage(new DefaultErrorBundle((Exception) e));
+            NoviceDetailPresenter.this.showViewRetry();
         }
 
         @Override public void onNext(User user) {
-            NoviceDetailsPresenter.this.showUserDetailsInView(user);
+            NoviceDetailPresenter.this.showUserDetailsInView(user);
         }
     }
 }

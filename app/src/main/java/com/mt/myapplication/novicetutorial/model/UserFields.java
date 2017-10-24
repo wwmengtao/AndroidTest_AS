@@ -1,4 +1,4 @@
-package com.mt.myapplication.novicetutorial.model.domain;
+package com.mt.myapplication.novicetutorial.model;
 
 /**
  * UserFields代表了数据表中的列元素

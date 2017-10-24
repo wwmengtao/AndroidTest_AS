@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mt.androidtest_as.R;
-import com.mt.androidtest_as.alog.ALogFragment;
-import com.mt.androidtest_as.alog.AndroidTest_AS_Application;
-import com.mt.myapplication.novicetutorial.model.UserModel;
+
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.mt.myapplication.novicetutorial.presenter.NoviceListPresenter;
 import com.mt.myapplication.novicetutorial.view.adapter.UsersAdapter;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
@@ -24,7 +24,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NoviceListFragment extends ALogFragment implements NoviceRecyclerView {
+public class NoviceListFragment extends BaseFragment implements NoviceRecyclerView {
     Activity mActivity = null;
     @Inject Context mContext;
     @Bind(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
@@ -50,7 +50,7 @@ public class NoviceListFragment extends ALogFragment implements NoviceRecyclerVi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((AndroidTest_AS_Application)mActivity.getApplication()).getAppComponent().inject(this);
+        this.getComponent(UserComponent.class).inject(this);
     }
 
     @Override

@@ -15,17 +15,20 @@
  */
 package com.mt.myapplication.novicetutorial.presenter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.mt.myapplication.novicetutorial.model.UserModel;
-import com.mt.myapplication.novicetutorial.model.domain.User;
-import com.mt.myapplication.novicetutorial.model.domain.exception.DefaultErrorBundle;
-import com.mt.myapplication.novicetutorial.model.domain.exception.ErrorBundle;
-import com.mt.myapplication.novicetutorial.model.domain.exception.ErrorMessageFactory;
-import com.mt.myapplication.novicetutorial.model.domain.interactor.DefaultObserver;
-import com.mt.myapplication.novicetutorial.model.mapper.UserModelDataMapper;
+import com.fernandocejas.android10.sample.domain.User;
+import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
+import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
+import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserList;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
+
+import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -35,13 +38,13 @@ import javax.inject.Inject;
  */
 public class NoviceListPresenter implements Presenter {
   private NoviceRecyclerView mNoviceRecyclerView;
+  private final GetUserList mGetUserList;
   private final UserModelDataMapper mUserModelDataMapper;
-
   @Inject
-  public NoviceListPresenter(){
-    this.mUserModelDataMapper = new UserModelDataMapper();
+  public NoviceListPresenter(GetUserList getUserListUserCase, UserModelDataMapper userModelDataMapper){
+    this.mGetUserList = getUserListUserCase;
+    this.mUserModelDataMapper = userModelDataMapper;
   }
-
   public void setView(@NonNull NoviceRecyclerView view) {
     mNoviceRecyclerView = view;
   }
@@ -104,12 +107,13 @@ public class NoviceListPresenter implements Presenter {
     this.mNoviceRecyclerView.showError(errorMessage);
   }
 
-  private void showUserDetailsInView(User user) {
-    final UserModel userModel = this.mUserModelDataMapper.transform(user);
-    this.mNoviceRecyclerView.showUser(userModel);
+  private void showUsersCollectionInView(Collection<User> usersCollection) {
+    final Collection<UserModel> userModelsCollection =
+            this.mUserModelDataMapper.transform(usersCollection);
+    this.mNoviceRecyclerView.setUserList(userModelsCollection);
   }
 
-  private final class UserDetailsObserver extends DefaultObserver<User> {
+  private final class UserRecyclerViewObserver extends DefaultObserver<List<User>> {
 
     @Override public void onComplete() {
       NoviceListPresenter.this.hideViewLoading();
@@ -121,8 +125,8 @@ public class NoviceListPresenter implements Presenter {
       NoviceListPresenter.this.showViewRetry();
     }
 
-    @Override public void onNext(User user) {
-      NoviceListPresenter.this.showUserDetailsInView(user);
+    @Override public void onNext(List<User> users) {
+      NoviceListPresenter.this.showUsersCollectionInView(users);
     }
   }
 }

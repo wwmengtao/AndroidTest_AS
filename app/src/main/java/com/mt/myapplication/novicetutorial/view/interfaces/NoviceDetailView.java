@@ -3,7 +3,8 @@
  * @author Fernando Cejas (the android10 coder)
  */
 package com.mt.myapplication.novicetutorial.view.interfaces;
-import com.mt.myapplication.novicetutorial.model.UserModel;
+
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 
 /**
  * Interface representing a View in a model view presenter (MVP) pattern.

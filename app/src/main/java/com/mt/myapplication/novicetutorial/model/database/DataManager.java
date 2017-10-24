@@ -6,12 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
-import com.mt.myapplication.novicetutorial.model.domain.User;
+
+import com.fernandocejas.android10.sample.domain.User;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -43,7 +43,7 @@ public class DataManager {
 
     public Collection<User> getAllData(){
         mData.clear();
-        CursorWrapper cursor = queryCrimes(null, null);
+        CursorWrapper cursor = queryAllTableData(null, null);
         try{
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
@@ -56,29 +56,29 @@ public class DataManager {
         return mData;
     }
 
-    public User getData(UUID itemId){
-        CursorWrapper cursor = queryCrimes(CrimeTable.Cols.UUID+" = ?", new String[]{itemId.toString()});
-        User mCrime=null;
+    public User getData(int itemId){
+        CursorWrapper cursor = queryAllTableData(CrimeTable.Cols.UUID+" = ?", new String[]{Integer.toString(itemId)});
+        User mUser=null;
         try{
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                mCrime = cursor.getCrime();
-                if(mCrime.getId().equals(itemId))break;
+                mUser = cursor.getCrime();
+                if(mUser.getUserId() == itemId)break;
                 cursor.moveToNext();
             }
         }finally {
             cursor.close();
         }
-        return mCrime;
+        return mUser;
     }
 
-    private static ContentValues getContentValues(User crime) {
+    private static ContentValues getContentValues(User mUser) {
         ContentValues values = new ContentValues();
-        values.put(CrimeTable.Cols.UUID, crime.getId().toString());
-        values.put(CrimeTable.Cols.TITLE, crime.getTitle());
-        values.put(CrimeTable.Cols.DATE, crime.getDate().getTime());
-        values.put(CrimeTable.Cols.SOLVED, crime.isReSolved() ? 1 : 0);
-        values.put(CrimeTable.Cols.SUSPECT, crime.getSuspect());
+        values.put(CrimeTable.Cols.UUID, Integer.toString(mUser.getUserId()));
+//        values.put(CrimeTable.Cols.TITLE, mUser.getTitle());
+//        values.put(CrimeTable.Cols.DATE, mUser.getDate().getTime());
+//        values.put(CrimeTable.Cols.SOLVED, mUser.isReSolved() ? 1 : 0);
+//        values.put(CrimeTable.Cols.SUSPECT, mUser.getSuspect());
 
         return values;
     }
@@ -87,19 +87,13 @@ public class DataManager {
         mSQLiteDatabase.insert(CrimeTable.NAME, null, getContentValues(c));
     }
 
-    public void delCrime(User c){
-        mSQLiteDatabase.delete(CrimeTable.NAME, CrimeTable.Cols.UUID+" = ?", new String[]{c.getId().toString()});
-    }
-
-    public void delAllCrimes(){
-        mSQLiteDatabase.delete(CrimeTable.NAME,null,null);
-    }
-
-    public void updateCrime(User c){
-        mSQLiteDatabase.update(CrimeTable.NAME, getContentValues(c), CrimeTable.Cols.UUID+" = ?", new String[]{c.getId().toString()});
-    }
-
-    public CursorWrapper queryCrimes(String whereClause, String[] whereArgs) {
+    /**
+     * 查找SQLite中某数据表中所有数据
+     * @param whereClause
+     * @param whereArgs
+     * @return
+     */
+    public CursorWrapper queryAllTableData(String whereClause, String[] whereArgs) {
         Cursor cursor = mSQLiteDatabase.query(
                 CrimeTable.NAME,
                 null, // Columns - null selects all columns
@@ -110,29 +104,5 @@ public class DataManager {
                 null  // orderBy
         );
         return new CursorWrapper(cursor);
-    }
-
-    public File getPhotoFile(User crime) {
-        File externalFilesDir = mContext
-                .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-
-        if (externalFilesDir == null) {
-            return null;
-        }
-
-        return new File(externalFilesDir, crime.getPhotoFilename());
-    }
-
-    /**
-     * generateDemoCrimes:自动产生一定数量的Crime演示数据存入数据库中
-     */
-    public void generateDemoCrimes(){
-        User crime = null;
-        for(int i=0; i<20; i++){
-            crime = new User();
-            crime.setTitle("#"+(i+1));
-            crime.setSolved(0==(i%2));
-            addCrime(crime);
-        }
     }
 }
