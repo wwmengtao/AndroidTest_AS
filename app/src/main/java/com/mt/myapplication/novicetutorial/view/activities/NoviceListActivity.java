@@ -9,7 +9,7 @@ import com.mt.myapplication.novicetutorial.model.UserModel;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceGridFragment;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceListFragment;
 
-public class NoviceGridActivity extends BaseActivity implements NoviceListFragment.UserListListener{
+public class NoviceListActivity extends BaseActivity implements NoviceListFragment.UserListListener{
     private Fragment mFragment;
     @Override
     protected Integer getResourceID() {
@@ -18,12 +18,12 @@ public class NoviceGridActivity extends BaseActivity implements NoviceListFragme
 
     @Override
     public Fragment getFragment() {
-        mFragment = new NoviceGridFragment();
+        mFragment = new NoviceListFragment();
         return mFragment;
     }
 
     @Override
     public void onUserClicked(UserModel userModel) {
-        ALog.Log("NoviceGridActivity.onUserClicked");
+        ALog.Log("NoviceListActivity.onUserClicked");
     }
 }

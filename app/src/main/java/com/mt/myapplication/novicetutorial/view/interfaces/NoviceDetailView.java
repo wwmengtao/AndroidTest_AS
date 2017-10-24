@@ -15,5 +15,5 @@ public interface NoviceDetailView extends LoadDataView {
    *
    * @param user The {@link UserModel} that will be shown.
    */
-  void renderUser(UserModel user);
+  void showUser(UserModel user);
 }

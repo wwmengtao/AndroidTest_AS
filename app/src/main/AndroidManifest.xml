@@ -144,6 +144,7 @@
             android:launchMode="singleTask"
             android:parentActivityName=".MainActivity"
             android:theme="@style/PhotoGalleryTheam" />
+
         <activity
             android:name="com.mt.myapplication.novicetutorial.view.activities.NoviceGridActivity"
             android:label="@string/novice_tutorial"></activity>

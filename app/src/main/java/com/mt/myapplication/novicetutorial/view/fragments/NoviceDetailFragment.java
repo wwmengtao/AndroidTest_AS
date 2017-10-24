@@ -59,7 +59,7 @@ public class NoviceDetailFragment extends ALogFragment implements NoviceDetailVi
     }
 
     @Override
-    public void renderUser(UserModel user) {
+    public void showUser(UserModel user) {
 
     }
 }

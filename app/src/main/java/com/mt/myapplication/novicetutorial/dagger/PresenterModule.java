@@ -21,7 +21,7 @@ public class PresenterModule {
     @Provides
     @Singleton
     Presenter provideGridPresenter(Context context) {
-        return new NoviceGridPresenter(context);
+        return new NoviceGridPresenter();
     }
 
     @Provides

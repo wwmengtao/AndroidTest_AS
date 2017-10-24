@@ -9,15 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mt.androidtest_as.alog.ALogFragment;
-
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.ALogFragment;
 import com.mt.androidtest_as.alog.AndroidTest_AS_Application;
 import com.mt.myapplication.novicetutorial.model.UserModel;
-import com.mt.myapplication.novicetutorial.presenter.NoviceGridPresenter;
 import com.mt.myapplication.novicetutorial.presenter.NoviceListPresenter;
 import com.mt.myapplication.novicetutorial.view.adapter.UsersAdapter;
-import com.mt.myapplication.novicetutorial.view.interfaces.LoadDataView;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
 
 import java.util.Collection;
@@ -27,99 +24,17 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NoviceGridFragment extends ALogFragment implements NoviceRecyclerView, LoadDataView {
+public class NoviceListFragment extends ALogFragment implements NoviceRecyclerView {
     Activity mActivity = null;
     @Inject Context mContext;
     @Bind(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
     @Inject UsersAdapter usersAdapter;
-    @Inject NoviceGridPresenter mNoviceGridPresenter;
-    private NoviceListFragment.UserListListener userListListener;
-
-    @Override public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mActivity = activity;
-        if (activity instanceof NoviceListFragment.UserListListener) {
-            this.userListListener = (NoviceListFragment.UserListListener) activity;
-        }
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((AndroidTest_AS_Application)mActivity.getApplication()).getAppComponent().inject(this);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        super.onCreateView(inflater,container,savedInstanceState);
-        View v = inflater.inflate(R.layout.fragment_novice_grid, container, false);
-        ButterKnife.bind(this, v);
-        setupRecyclerView();
-        return v;
-    }
-
-    @Override public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        this.mNoviceGridPresenter.setView(this);
-        if (savedInstanceState == null) {
-            this.loadUserList();
-        }
-    }
-
-    /**
-     * Loads all users.
-     */
-    private void loadUserList() {
-        this.mNoviceGridPresenter.initialize();
-    }
-
-    @Override public void onDestroyView() {
-        super.onDestroyView();
-        mRecyclerView.setAdapter(null);
-        ButterKnife.unbind(this);
-    }
-
-    @Override public void onDestroy() {
-        super.onDestroy();
-        this.mNoviceGridPresenter.destroy();
-    }
-
-    @Override public void onDetach() {
-        super.onDetach();
-        onItemClickListener = null;
-        this.userListListener = null;
-    }
-    private UsersAdapter.OnItemClickListener onItemClickListener =
-            new UsersAdapter.OnItemClickListener() {
-                @Override public void onUserAdapterItemClicked(UserModel userModel) {
-                    if (NoviceGridFragment.this.mNoviceGridPresenter != null && userModel != null) {
-                        NoviceGridFragment.this.mNoviceGridPresenter.onUserClicked(userModel);
-                    }
-                }
-            };
-
-    private void setupRecyclerView() {
-        usersAdapter.setOnItemClickListener(onItemClickListener);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
-        mRecyclerView.setAdapter(usersAdapter);
-    }
-
-    @Override
-    public void getUserList(Collection<UserModel> userModelCollection) {
-
-    }
-
-    @Override
-    public void viewUser(UserModel userModel) {
-        if (this.userListListener != null) {
-            this.userListListener.onUserClicked(userModel);
-        }
-    }
+    @Inject NoviceListPresenter mNoviceListPresenter;
+    private UserListListener userListListener;
 
     @Override
     public void showLoading() {
-
+        
     }
 
     @Override
@@ -145,5 +60,80 @@ public class NoviceGridFragment extends ALogFragment implements NoviceRecyclerVi
     @Override
     public Context context() {
         return null;
+    }
+
+    /**
+     * Interface for listening user list events.
+     */
+    public interface UserListListener {
+        void onUserClicked(final UserModel userModel);
+    }
+
+    @Override public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
+        if (activity instanceof UserListListener) {
+            this.userListListener = (UserListListener) activity;
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((AndroidTest_AS_Application)mActivity.getApplication()).getAppComponent().inject(this);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater,container,savedInstanceState);
+        View v = inflater.inflate(R.layout.fragment_novice_grid, container, false);
+        ButterKnife.bind(this, v);
+        setupRecyclerView();
+        return v;
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        mRecyclerView.setAdapter(null);
+        ButterKnife.unbind(this);
+    }
+
+    @Override public void onDestroy() {
+        super.onDestroy();
+        this.mNoviceListPresenter.destroy();
+    }
+
+    @Override public void onDetach() {
+        super.onDetach();
+        onItemClickListener = null;
+        this.userListListener = null;
+    }
+
+    private UsersAdapter.OnItemClickListener onItemClickListener =
+            new UsersAdapter.OnItemClickListener() {
+                @Override public void onUserAdapterItemClicked(UserModel userModel) {
+                    if (NoviceListFragment.this.mNoviceListPresenter != null && userModel != null) {
+                        NoviceListFragment.this.mNoviceListPresenter.onUserClicked(userModel);
+                    }
+                }
+            };
+
+    private void setupRecyclerView() {
+        usersAdapter.setOnItemClickListener(onItemClickListener);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+        mRecyclerView.setAdapter(usersAdapter);
+    }
+
+    @Override
+    public void getUserList(Collection<UserModel> userModelCollection) {
+
+    }
+
+    @Override
+    public void viewUser(UserModel userModel) {
+        if (this.userListListener != null) {
+            this.userListListener.onUserClicked(userModel);
+        }
     }
 }

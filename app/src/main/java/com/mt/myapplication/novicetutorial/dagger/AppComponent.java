@@ -6,6 +6,7 @@ import com.mt.myapplication.novicetutorial.view.activities.NoviceDetailActivity;
 import com.mt.myapplication.novicetutorial.view.activities.NoviceGridActivity;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceDetailFragment;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceGridFragment;
+import com.mt.myapplication.novicetutorial.view.fragments.NoviceListFragment;
 
 import javax.inject.Singleton;
 
@@ -21,6 +22,7 @@ public interface AppComponent {
     void inject(NoviceGridActivity target);
     void inject(NoviceDetailActivity target);
     void inject(NoviceGridFragment target);
+    void inject(NoviceListFragment target);
     void inject(NoviceDetailFragment target);
     void inject(NoviceGridPresenter target);
     void inject(NoviceDetailPresenter target);

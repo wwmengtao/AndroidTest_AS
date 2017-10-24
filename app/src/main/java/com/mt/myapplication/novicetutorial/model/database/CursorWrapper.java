@@ -1,27 +1,26 @@
-package com.mt.myapplication.criminalintent.database;
+package com.mt.myapplication.novicetutorial.model.database;
 
 import android.database.Cursor;
-import android.database.CursorWrapper;
 
-import com.mt.myapplication.criminalintent.crimebasedata.Crime;
 import com.mt.myapplication.criminalintent.database.CrimeDbSchema.CrimeTable;
+import com.mt.myapplication.novicetutorial.model.domain.User;
 
 import java.util.Date;
 import java.util.UUID;
 
-public class CrimeCursorWrapper extends CursorWrapper {
-    public CrimeCursorWrapper(Cursor cursor) {
+public class CursorWrapper extends android.database.CursorWrapper {
+    public CursorWrapper(Cursor cursor) {
         super(cursor);
     }
 
-    public Crime getData() {
+    public User getCrime() {
         String uuidString = getString(getColumnIndex(CrimeTable.Cols.UUID));
         String title = getString(getColumnIndex(CrimeTable.Cols.TITLE));
         long date = getLong(getColumnIndex(CrimeTable.Cols.DATE));
         int isSolved = getInt(getColumnIndex(CrimeTable.Cols.SOLVED));
         String suspect = getString(getColumnIndex(CrimeTable.Cols.SUSPECT));
 
-        Crime crime = new Crime(UUID.fromString(uuidString));
+        User crime = new User(UUID.fromString(uuidString));
         crime.setTitle(title);
         crime.setDate(new Date(date));
         crime.setSolved(isSolved != 0);

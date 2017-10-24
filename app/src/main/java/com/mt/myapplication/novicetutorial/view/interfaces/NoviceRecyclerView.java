@@ -8,9 +8,10 @@ package com.mt.myapplication.novicetutorial.view.interfaces;
 import java.util.Collection;
 import com.mt.myapplication.novicetutorial.model.UserModel;
 /**
+ * NoviceRecyclerView：代表了界面显示的各种类型的RecyclerView
  * Interface representing a View in a model view presenter (MVP) pattern.
  */
-public interface NoviceGridView{
+public interface NoviceRecyclerView extends LoadDataView{
 
   void getUserList(Collection<UserModel> userModelCollection);
 

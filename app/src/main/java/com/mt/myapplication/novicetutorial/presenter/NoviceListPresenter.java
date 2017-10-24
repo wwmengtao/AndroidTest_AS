@@ -28,58 +28,21 @@ import javax.inject.Inject;
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
-public class NoviceGridPresenter implements Presenter {
+public class NoviceListPresenter implements Presenter {
   private NoviceRecyclerView mNoviceRecyclerView;
   private final UserModelDataMapper mUserModelDataMapper;
 
   @Inject
-  public NoviceGridPresenter(){
-    mUserModelDataMapper = new UserModelDataMapper();
+  public NoviceListPresenter(){
+    this.mUserModelDataMapper = new UserModelDataMapper();
+  }
+
+  public void setView(@NonNull NoviceRecyclerView view) {
+    mNoviceRecyclerView = view;
   }
 
   public void onUserClicked(UserModel userModel) {
     mNoviceRecyclerView.viewUser(userModel);
-  }
-
-  public void setView(@NonNull NoviceRecyclerView view) {
-    this.mNoviceRecyclerView = view;
-  }
-
-  /**
-   * Initializes the presenter by start retrieving the user list.
-   */
-  public void initialize() {
-    this.loadUserList();
-  }
-
-  /**
-   * Loads all users.
-   */
-  private void loadUserList() {
-    this.hideViewRetry();
-    this.showViewLoading();
-    this.getUserList();
-  }
-
-  private void showViewLoading() {
-    this.mNoviceRecyclerView.showLoading();
-  }
-
-  private void hideViewLoading() {
-    this.mNoviceRecyclerView.hideLoading();
-  }
-
-  private void showViewRetry() {
-    this.mNoviceRecyclerView.showRetry();
-  }
-
-  private void hideViewRetry() {
-    this.mNoviceRecyclerView.hideRetry();
-  }
-
-  //获取数据
-  private void getUserList() {
-
   }
 
   @Override
