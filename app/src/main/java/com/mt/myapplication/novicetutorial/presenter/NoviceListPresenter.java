@@ -85,11 +85,6 @@ public class NoviceListPresenter implements Presenter {
     this.mNoviceRecyclerView.hideRetry();
   }
 
-  //获取数据
-  private void getUserList() {
-
-  }
-
   @Override
   public void resume() {}
 
@@ -98,6 +93,8 @@ public class NoviceListPresenter implements Presenter {
 
   @Override
   public void destroy() {
+      this.mGetUserList.dispose();
+      this.mNoviceRecyclerView = null;
   }
 
 
@@ -113,8 +110,16 @@ public class NoviceListPresenter implements Presenter {
     this.mNoviceRecyclerView.setUserList(userModelsCollection);
   }
 
-  private final class UserRecyclerViewObserver extends DefaultObserver<List<User>> {
+  //获取数据
+  private void getUserList() {
+    this.mGetUserList.execute(new UserRecyclerViewObserver(), null);
+  }
 
+  private final class UserRecyclerViewObserver extends DefaultObserver<List<User>> {
+    /**
+     * 根据Observable协议的定义，onNext可能会被调用零次或者很多次，最后会有一次onCompleted或onError调用
+     * （不会同时），传递数据给onNext通常被称作发射，onCompleted和onError被称作通知。
+     */
     @Override public void onComplete() {
       NoviceListPresenter.this.hideViewLoading();
     }

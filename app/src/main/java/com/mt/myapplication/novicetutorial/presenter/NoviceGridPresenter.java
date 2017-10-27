@@ -92,16 +92,17 @@ public class NoviceGridPresenter implements Presenter {
     this.mNoviceRecyclerView.showError(errorMessage);
   }
 
-  //获取数据
-  private void getUserList() {
-    this.mGetUserList.execute(new UserRecyclerViewObserver(), null);
-  }
-
   private void showUsersCollectionInView(Collection<User> usersCollection) {
     final Collection<UserModel> userModelsCollection =
             this.mUserModelDataMapper.transform(usersCollection);
     this.mNoviceRecyclerView.setUserList(userModelsCollection);
   }
+
+  //获取数据
+  private void getUserList() {
+    this.mGetUserList.execute(new UserRecyclerViewObserver(), null);
+  }
+
 
   private final class UserRecyclerViewObserver extends DefaultObserver<List<User>> {
 
@@ -128,6 +129,8 @@ public class NoviceGridPresenter implements Presenter {
 
   @Override
   public void destroy() {
+    this.mGetUserList.dispose();
+    this.mNoviceRecyclerView = null;
   }
 
 }

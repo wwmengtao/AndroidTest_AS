@@ -18,6 +18,7 @@ package com.fernandocejas.android10.sample.domain.interactor;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.arrow.checks.Preconditions;
+
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -59,9 +60,9 @@ public abstract class UseCase<T, Params> {
   public void execute(DisposableObserver<T> observer, Params params) {
     Preconditions.checkNotNull(observer);
     final Observable<T> observable = this.buildUseCaseObservable(params)
-        .subscribeOn(Schedulers.from(threadExecutor))
-        .observeOn(postExecutionThread.getScheduler());
-    addDisposable(observable.subscribeWith(observer));
+        .subscribeOn(Schedulers.from(threadExecutor))//subscribeOn：指定Observable自身在哪个调度器上执行(此时为自定义数据库)
+        .observeOn(postExecutionThread.getScheduler());//observeOn：指定一个观察者在哪个调度器上观察这个Observable，即回调发生的线程(此时为UI线程)
+      addDisposable(observable.subscribeWith(observer));
   }
 
   /**

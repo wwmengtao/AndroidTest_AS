@@ -22,6 +22,7 @@ import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails.Params;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
@@ -70,10 +71,6 @@ public class NoviceDetailPresenter implements Presenter {
         this.getUserDetails(userId);
     }
 
-    private void getUserDetails(int userId) {
-        this.getUserDetailsUseCase.execute(new UserDetailsObserver(), GetUserDetails.Params.forUser(userId));
-    }
-
     private void showViewLoading() {
         this.mNoviceDetailView.showLoading();
     }
@@ -99,6 +96,10 @@ public class NoviceDetailPresenter implements Presenter {
     private void showUserDetailsInView(User user) {
         final UserModel userModel = this.userModelDataMapper.transform(user);
         this.mNoviceDetailView.showUser(userModel);
+    }
+
+    private void getUserDetails(int userId) {
+        this.getUserDetailsUseCase.execute(new UserDetailsObserver(), Params.forUser(userId));
     }
 
     private final class UserDetailsObserver extends DefaultObserver<User> {

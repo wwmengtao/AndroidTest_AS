@@ -18,12 +18,15 @@ package com.fernandocejas.android10.sample.data.net;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityJsonMapper;
 import com.fernandocejas.android10.sample.data.exception.NetworkConnectionException;
-import io.reactivex.Observable;
+
 import java.net.MalformedURLException;
 import java.util.List;
+
+import io.reactivex.Observable;
 
 /**
  * {@link RestApi} implementation for retrieving data from the network.
@@ -48,6 +51,17 @@ public class RestApiImpl implements RestApi {
   }
 
   @Override public Observable<List<UserEntity>> userEntityList() {
+//    下列JAVA1.7及以下版本语法方式可以简写为JAVA1.8版本的e->{}方式
+//    Observable.create(new ObservableOnSubscribe<Integer>() {
+//      @Override
+//      public void subscribe(ObservableEmitter<Integer> e) throws Exception {
+//        e.onNext(1);
+//        e.onNext(2);
+//        e.onNext(3);
+//        e.onNext(4);
+//        e.onComplete();
+//      }
+//    });
     return Observable.create(emitter -> {
       if (isThereInternetConnection()) {
         try {
