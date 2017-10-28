@@ -6,9 +6,10 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8' //添加apt命令
         classpath 'me.tatarka:gradle-retrolambda:3.2.3'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -28,10 +29,6 @@ allprojects {
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         testApplicationId = 'com.mt.androidtest_as.test'
     }
-}
-//编译JAVA文件时采用UTF-8
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
 }
 
 task clean(type: Delete) {

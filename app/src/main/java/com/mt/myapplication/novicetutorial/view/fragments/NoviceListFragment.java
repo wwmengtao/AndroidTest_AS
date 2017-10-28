@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mt.androidtest_as.R;
-
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.mt.myapplication.novicetutorial.presenter.NoviceListPresenter;
@@ -21,13 +20,15 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class NoviceListFragment extends BaseFragment implements NoviceRecyclerView {
+    public Unbinder unbinder;
     Activity mActivity = null;
     @Inject Context mContext;
-    @Bind(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
+    @BindView(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
     @Inject UsersAdapter usersAdapter;
     @Inject NoviceListPresenter mNoviceListPresenter;
     private UserListListener userListListener;
@@ -57,7 +58,7 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_novice_grid, container, false);
-        ButterKnife.bind(this, v);
+        unbinder = ButterKnife.bind(this, v);
         setupRecyclerView();
         return v;
     }
@@ -80,7 +81,7 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     @Override public void onDestroyView() {
         super.onDestroyView();
         mRecyclerView.setAdapter(null);
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override public void onDestroy() {

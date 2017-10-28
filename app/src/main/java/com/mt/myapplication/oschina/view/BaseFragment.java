@@ -19,6 +19,7 @@ import com.mt.myapplication.oschina.tools.ImageLoader;
 import java.io.Serializable;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Fragment基础类
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
 
 @SuppressWarnings("WeakerAccess")
 public abstract class BaseFragment extends ALogFragment {
+    private Unbinder mUnbinder;
     protected Context mContext;
     protected View mRoot;
     protected Bundle mBundle;
@@ -65,7 +67,7 @@ public abstract class BaseFragment extends ALogFragment {
             // Do something
             onBindViewBefore(mRoot);
             // Bind view
-            ButterKnife.bind(this, mRoot);
+            mUnbinder = ButterKnife.bind(this, mRoot);
             // Get savedInstanceState
             if (savedInstanceState != null)
                 onRestartInstance(savedInstanceState);
@@ -83,7 +85,7 @@ public abstract class BaseFragment extends ALogFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
         mImgLoader = null;
         mBundle = null;
     }

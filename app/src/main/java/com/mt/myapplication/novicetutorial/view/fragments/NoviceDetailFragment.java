@@ -7,15 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mt.androidtest_as.R;
-import com.mt.androidtest_as.alog.ALogFragment;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceDetailView;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class NoviceDetailFragment extends BaseFragment implements NoviceDetailView{
-
+    private Unbinder mUnbinder;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +27,13 @@ public class NoviceDetailFragment extends BaseFragment implements NoviceDetailVi
                              Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_novice_detail, container, false);
-        ButterKnife.bind(this, v);
+        mUnbinder = ButterKnife.bind(this, v);
         return v;
     }
 
     @Override public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
     }
 
     @Override

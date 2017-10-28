@@ -21,13 +21,15 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerView, LoadDataView {
+    public Unbinder unbinder;
     Activity mActivity = null;
     @Inject Context mContext;
-    @Bind(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
+    @BindView(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
     @Inject UsersAdapter usersAdapter;
     @Inject NoviceGridPresenter mNoviceGridPresenter;
     private NoviceListFragment.UserListListener userListListener;
@@ -50,7 +52,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_novice_grid, container, false);
-        ButterKnife.bind(this, v);
+        unbinder = ButterKnife.bind(this, v);
         setupRecyclerView();
         return v;
     }
@@ -73,7 +75,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     @Override public void onDestroyView() {
         super.onDestroyView();
         this.mRecyclerView.setAdapter(null);
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     @Override public void onDestroy() {

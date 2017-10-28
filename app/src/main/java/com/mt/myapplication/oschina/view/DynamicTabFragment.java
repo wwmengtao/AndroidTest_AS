@@ -32,7 +32,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -42,13 +42,13 @@ import butterknife.OnClick;
 
 public class DynamicTabFragment extends BaseTitleFragment implements OnTabReselectListener {
     static Context mHereContext = null;
-    @Bind(R.id.layout_tab)
+    @BindView(R.id.layout_tab)
     TabLayout mLayoutTab;
-    @Bind(R.id.view_tab_picker)
+    @BindView(R.id.view_tab_picker)
     TabPickerView mViewTabPicker;
-    @Bind(R.id.view_pager)
+    @BindView(R.id.view_pager)
     ViewPager mViewPager;
-    @Bind(R.id.iv_arrow_down)
+    @BindView(R.id.iv_arrow_down)
     ImageView mViewArrowDown;
 
     private OsChinaActivity activity;

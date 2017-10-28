@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -15,23 +14,25 @@ import com.mt.androidtest_as.alog.ALogFragment;
 
 import java.util.Random;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * Created by Mengtao1 on 2017/5/3.
  */
 
 public class SolarSystemFragment extends ALogFragment {
+    private Unbinder mUnbinder;
     protected View mRoot;
     protected Context mContext;
     //
-    @Bind(R.id.user_view_solar_system)
+    @BindView(R.id.user_view_solar_system)
     SolarSystemView mSolarSystem;
-    @Bind(R.id.rl_show_my_info)
+    @BindView(R.id.rl_show_my_info)
     LinearLayout mRlShowInfo;
-    @Bind(R.id.user_info_icon_container)
+    @BindView(R.id.user_info_icon_container)
     ImageView mFlUserInfoIconContainer;
     //
     private float mPx;
@@ -49,7 +50,7 @@ public class SolarSystemFragment extends ALogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mRoot = inflater.inflate(R.layout.fragment_solarsystem, container, false);
-        ButterKnife.bind(this, mRoot);
+        mUnbinder = ButterKnife.bind(this, mRoot);
         initSolar();
         return mRoot;
     }
@@ -57,7 +58,7 @@ public class SolarSystemFragment extends ALogFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+        mUnbinder.unbind();
     }
 
     /**
