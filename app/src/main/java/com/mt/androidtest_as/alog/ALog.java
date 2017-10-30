@@ -6,10 +6,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ALog {
-	private static String TAG_M = "M_T_AT";
-	private  static String TAG_M1 = "M_T_AT1";
-	private  static String TAG_M2 = "M_T_AT2";
-	private  static String TAG_M_T = "M_T_AT_TIME";
+	private static String TAG_M = "M_T_AT_AS";
+	private  static String TAG_M1 = "M_T_AT_AS1";
+	private  static String TAG_M2 = "M_T_AT_AS2";
+	private  static String TAG_M_T = "M_T_AT_AS_TIME";
 	public static void Log(String info){
 		Log.e(TAG_M,info);
 	}
