@@ -57,7 +57,7 @@ public class NoviceListPresenter implements Presenter {
   }
 
   public void onUserClicked(UserModel userModel) {
-    mNoviceRecyclerView.showUser(userModel);
+    mNoviceRecyclerView.viewUser(userModel);
   }
 
   /**

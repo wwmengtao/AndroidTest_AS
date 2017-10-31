@@ -9,7 +9,7 @@ import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceListFragment;
 
-public class NoviceListActivity extends BaseActivity implements NoviceListFragment.UserListListener{
+public class NoviceListActivity extends BaseActivity implements NoviceListFragment.OnUserClickedListener{
     private Fragment mFragment;
 
     private static final String INTENT_EXTRA_PARAM_USER_ID = "org.android10.INTENT_PARAM_USER_ID";

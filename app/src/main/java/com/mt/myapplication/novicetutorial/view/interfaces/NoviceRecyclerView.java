@@ -22,5 +22,5 @@ public interface NoviceRecyclerView extends LoadDataView{
    *
    * @param userModel The user that will be shown.
    */
-  void showUser(UserModel userModel);
+  void viewUser(UserModel userModel);
 }

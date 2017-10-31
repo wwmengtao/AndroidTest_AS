@@ -3,7 +3,7 @@ package com.mt.myapplication.novicetutorial.view.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,20 +31,20 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     @BindView(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
     @Inject UsersAdapter usersAdapter;
     @Inject NoviceListPresenter mNoviceListPresenter;
-    private UserListListener userListListener;
+    private OnUserClickedListener mOnUserClickedListener;
 
     /**
      * Interface for listening user list events.
      */
-    public interface UserListListener {
+    public interface OnUserClickedListener {
         void onUserClicked(final UserModel userModel);
     }
 
     @Override public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
-        if (activity instanceof UserListListener) {
-            this.userListListener = (UserListListener) activity;
+        if (activity instanceof OnUserClickedListener) {
+            this.mOnUserClickedListener = (OnUserClickedListener) activity;
         }
     }
 
@@ -92,7 +92,7 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     @Override public void onDetach() {
         super.onDetach();
         onItemClickListener = null;
-        this.userListListener = null;
+        this.mOnUserClickedListener = null;
     }
 
     private UsersAdapter.OnItemClickListener onItemClickListener =
@@ -106,7 +106,7 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
 
     private void setupRecyclerView() {
         usersAdapter.setOnItemClickListener(onItemClickListener);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(usersAdapter);
     }
 
@@ -118,9 +118,9 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     }
 
     @Override
-    public void showUser(UserModel userModel) {
-        if (this.userListListener != null) {
-            this.userListListener.onUserClicked(userModel);
+    public void viewUser(UserModel userModel) {
+        if (this.mOnUserClickedListener != null) {
+            this.mOnUserClickedListener.onUserClicked(userModel);
         }
     }
 

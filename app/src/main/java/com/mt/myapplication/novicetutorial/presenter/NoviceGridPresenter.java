@@ -47,7 +47,7 @@ public class NoviceGridPresenter implements Presenter {
   }
 
   public void onUserClicked(UserModel userModel) {
-    mNoviceRecyclerView.showUser(userModel);
+    mNoviceRecyclerView.viewUser(userModel);
   }
 
   public void setView(@NonNull NoviceRecyclerView view) {

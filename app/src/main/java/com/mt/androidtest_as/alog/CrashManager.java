@@ -183,7 +183,7 @@ public class CrashManager implements Thread.UncaughtExceptionHandler {
     private String writeCrash(Throwable exc){
     	String CrashFileName = null;
         StringBuffer sb = new StringBuffer();
-        sb.append("------------------crash----------------------");
+        sb.append("------------------crash begin----------------------");
         sb.append("\r\n");
         for (Map.Entry<String,String> entry : infos.entrySet()) {
             String key = entry.getKey();
@@ -193,7 +193,7 @@ public class CrashManager implements Thread.UncaughtExceptionHandler {
         Writer writer = new StringWriter();
         PrintWriter pw = new PrintWriter(writer);
         exc.printStackTrace(pw);
-        sb.append("-------------crash_getCause---------------");
+        sb.append("-------------Throwable.printStackTrace---------------");
         sb.append("\r\n");
         Throwable excCause = exc.getCause();
         while (excCause != null) {
@@ -204,7 +204,7 @@ public class CrashManager implements Thread.UncaughtExceptionHandler {
         String result = writer.toString();
         sb.append(result);
         sb.append("\r\n");
-        sb.append("-------------------end-----------------------");
+        sb.append("-------------------crash end-----------------------");
         sb.append("\r\n");
         if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
         {

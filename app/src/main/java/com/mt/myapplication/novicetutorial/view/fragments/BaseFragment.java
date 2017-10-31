@@ -8,13 +8,14 @@ package com.mt.myapplication.novicetutorial.view.fragments;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import com.mt.androidtest_as.alog.ALogFragment;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.HasComponent;
 
 
 /**
  * Base {@link Fragment} class for every fragment in this application.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends ALogFragment {
   /**
    * Shows a {@link Toast} message.
    *

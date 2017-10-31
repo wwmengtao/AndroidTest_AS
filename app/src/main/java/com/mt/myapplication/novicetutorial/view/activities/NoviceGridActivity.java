@@ -10,7 +10,7 @@ import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.pr
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceGridFragment;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceListFragment;
 
-public class NoviceGridActivity extends BaseActivity implements NoviceListFragment.UserListListener{
+public class NoviceGridActivity extends BaseActivity implements NoviceListFragment.OnUserClickedListener{
     private Fragment mFragment;
 
     public static Intent getCallingIntent(Context context) {

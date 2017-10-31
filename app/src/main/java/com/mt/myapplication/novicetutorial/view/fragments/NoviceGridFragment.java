@@ -32,13 +32,13 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     @BindView(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
     @Inject UsersAdapter usersAdapter;
     @Inject NoviceGridPresenter mNoviceGridPresenter;
-    private NoviceListFragment.UserListListener userListListener;
+    private NoviceListFragment.OnUserClickedListener mOnUserClickedListener;
 
-    @Override public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mActivity = activity;
-        if (activity instanceof NoviceListFragment.UserListListener) {
-            this.userListListener = (NoviceListFragment.UserListListener) activity;
+    @Override public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivity = (Activity)context;
+        if (context instanceof NoviceListFragment.OnUserClickedListener) {
+            this.mOnUserClickedListener = (NoviceListFragment.OnUserClickedListener) context;
         }
     }
 
@@ -86,7 +86,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     @Override public void onDetach() {
         super.onDetach();
         this.onItemClickListener = null;
-        this.userListListener = null;
+        this.mOnUserClickedListener = null;
     }
     private UsersAdapter.OnItemClickListener onItemClickListener =
             new UsersAdapter.OnItemClickListener() {
@@ -105,13 +105,15 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
 
     @Override
     public void setUserList(Collection<UserModel> userModelCollection) {
-
+        if (userModelCollection != null) {
+            this.usersAdapter.setUsersCollection(userModelCollection);
+        }
     }
 
     @Override
-    public void showUser(UserModel userModel) {
-        if (this.userListListener != null) {
-            this.userListListener.onUserClicked(userModel);
+    public void viewUser(UserModel userModel) {
+        if (this.mOnUserClickedListener != null) {
+            this.mOnUserClickedListener.onUserClicked(userModel);
         }
     }
 
