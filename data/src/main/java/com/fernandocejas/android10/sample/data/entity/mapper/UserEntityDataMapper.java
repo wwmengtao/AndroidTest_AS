@@ -17,9 +17,11 @@ package com.fernandocejas.android10.sample.data.entity.mapper;
 
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.domain.User;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -59,7 +61,7 @@ public class UserEntityDataMapper {
    * @return {@link User} if valid {@link UserEntity} otherwise null.
    */
   public List<User> transform(Collection<UserEntity> userEntityCollection) {
-    final List<User> userList = new ArrayList<>(20);
+    final List<User> userList = new ArrayList<>();
     for (UserEntity userEntity : userEntityCollection) {
       final User user = transform(userEntity);
       if (user != null) {

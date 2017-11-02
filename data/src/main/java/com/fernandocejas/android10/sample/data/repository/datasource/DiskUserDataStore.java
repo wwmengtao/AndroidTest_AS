@@ -17,8 +17,11 @@ package com.fernandocejas.android10.sample.data.repository.datasource;
 
 import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
-import io.reactivex.Observable;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
+
 import java.util.List;
+
+import io.reactivex.Observable;
 
 /**
  * {@link UserDataStore} implementation based on file system data store.
@@ -41,7 +44,17 @@ class DiskUserDataStore implements UserDataStore {
     throw new UnsupportedOperationException("Operation is not available!!!");
   }
 
+  @Override
+  public Observable<List<UserEntity>> userEntityList(GetUserListDetails.Params params) {
+    return null;
+  }
+
   @Override public Observable<UserEntity> userEntityDetails(final int userId) {
      return this.userCache.get(userId);
+  }
+
+  @Override
+  public Observable<UserEntity> userEntityDetails(GetUserListDetails.Params params) {
+    return null;
   }
 }

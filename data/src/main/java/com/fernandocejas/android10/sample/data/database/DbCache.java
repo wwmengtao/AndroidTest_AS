@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.android10.sample.domain.repository;
+package com.fernandocejas.android10.sample.data.database;
 
-import com.fernandocejas.android10.sample.domain.User;
+import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
 
 import java.util.List;
@@ -23,20 +23,17 @@ import java.util.List;
 import io.reactivex.Observable;
 
 /**
- * Interface that represents a Repository for getting {@link User} related data.
+ * An interface representing a user Cache.
  */
-public interface UserRepository {
-  /**
-   * Get an {@link Observable} which will emit a List of {@link User}.
-   */
-  Observable<List<User>> users();
+public interface DbCache {
+  Observable<UserEntity> get(final GetUserListDetails.Params params);
+  Observable<List<UserEntity>> getCollection(final GetUserListDetails.Params params);
 
-  Observable<List<User>> users(GetUserListDetails.Params params);
+  void put(UserEntity userEntity,GetUserListDetails.Params params);
+  void put(List<UserEntity> userEntityList,GetUserListDetails.Params params);
 
-    /**
-     * Get an {@link Observable} which will emit a {@link User}.
-     *
-     * @param userId The user id used to retrieve user data.
-     */
-  Observable<User> user(final int userId);
+  boolean isCached(final GetUserListDetails.Params params);
+
+  boolean isExpired();
+  void evictAll();
 }

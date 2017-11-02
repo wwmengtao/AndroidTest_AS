@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.android10.sample.domain.repository;
+package com.fernandocejas.android10.sample.data.database.xmlOps;
 
-import com.fernandocejas.android10.sample.domain.User;
+import com.fernandocejas.android10.sample.data.database.DbCache;
+import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
 
 import java.util.List;
@@ -23,20 +24,9 @@ import java.util.List;
 import io.reactivex.Observable;
 
 /**
- * Interface that represents a Repository for getting {@link User} related data.
+ * ParseXml for retrieving data from the xml files.
  */
-public interface UserRepository {
-  /**
-   * Get an {@link Observable} which will emit a List of {@link User}.
-   */
-  Observable<List<User>> users();
-
-  Observable<List<User>> users(GetUserListDetails.Params params);
-
-    /**
-     * Get an {@link Observable} which will emit a {@link User}.
-     *
-     * @param userId The user id used to retrieve user data.
-     */
-  Observable<User> user(final int userId);
+public interface ParseXml {
+  Observable<List<UserEntity>> userEntityList(final GetUserListDetails.Params params, DbCache dbCache);
+  Observable<UserEntity> userEntity(final GetUserListDetails.Params params, DbCache dbCache);
 }

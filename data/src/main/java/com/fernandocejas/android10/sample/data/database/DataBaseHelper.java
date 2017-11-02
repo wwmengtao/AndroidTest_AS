@@ -1,12 +1,11 @@
-package com.mt.myapplication.novicetutorial.model.database;
+package com.fernandocejas.android10.sample.data.database;
 
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.mt.androidtest_as.alog.ALog;
-import com.mt.myapplication.criminalintent.database.CrimeDbSchema.CrimeTable;
+import com.fernandocejas.android10.sample.data.database.DbSchema.FirstLevelTitleTable;
+import com.fernandocejas.android10.sample.data.ALog;
 
 /**
  * SQLiteOpenHelper是一个辅助类，用来管理数据库的创建和版本，它提供两个方面的功能
@@ -39,14 +38,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		ALog.Log("create a database");
 		//execSQL用于执行SQL语句
-		db.execSQL("create table "+CrimeTable.NAME+"("
-				+" _id integer primary key autoincrement, "
-				+CrimeTable.Cols.UUID+", "
-				+CrimeTable.Cols.TITLE+", "
-				+CrimeTable.Cols.DATE+", "
-				+CrimeTable.Cols.SOLVED+", "
-				+CrimeTable.Cols.SUSPECT+")"
-		);
+//		db.execSQL("create table "+FirstLevelTitleTable.NAME+"("
+//				+" _id integer primary key autoincrement, "
+//				+FirstLevelTitleTable.Cols.UUID+", "
+//				+FirstLevelTitleTable.Cols.TITLE+", "
+//				+FirstLevelTitleTable.Cols.DATE+", "
+//				+FirstLevelTitleTable.Cols.SOLVED+", "
+//				+FirstLevelTitleTable.Cols.SUSPECT+")"
+//		);
 	}
 
 	@Override
@@ -54,7 +53,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		ALog.Log("upgrade a database");
         try {
-            db.execSQL("drop table if exists "+CrimeTable.NAME);
+            db.execSQL("drop table if exists "+FirstLevelTitleTable.NAME);
             onCreate(db);
         } catch (SQLException e) {
             e.printStackTrace();

@@ -15,9 +15,9 @@
  */
 package com.fernandocejas.android10.sample.data.repository.datasource;
 
-import com.fernandocejas.android10.sample.data.cache.UserCache;
+import com.fernandocejas.android10.sample.data.database.DbCache;
+import com.fernandocejas.android10.sample.data.database.xmlOps.ParseXml;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
-import com.fernandocejas.android10.sample.data.net.RestApi;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
 
 import java.util.List;
@@ -27,38 +27,42 @@ import io.reactivex.Observable;
 /**
  * {@link UserDataStore} implementation based on connections to the api (Cloud).
  */
-class CloudUserDataStore implements UserDataStore {
+class DBUserDataStore implements UserDataStore {
 
-  private final RestApi restApi;
-  private final UserCache userCache;
+  private final ParseXml parseXml;
+  private final DbCache dbCache;
 
   /**
    * Construct a {@link UserDataStore} based on connections to the api (Cloud).
    *
-   * @param restApi The {@link RestApi} implementation to use.
-   * @param userCache A {@link UserCache} to cache data retrieved from the api.
+   * @param parseXml The {@link ParseXml} implementation to use.
+   * @param dbCache A {@link DbCache} to cache data retrieved from the data base.
    */
-  CloudUserDataStore(RestApi restApi, UserCache userCache) {
-    this.restApi = restApi;
-    this.userCache = userCache;
-  }
-
-  @Override public Observable<List<UserEntity>> userEntityList() {
-    return this.restApi.userEntityList();
+  DBUserDataStore(ParseXml parseXml, DbCache dbCache) {
+    this.parseXml = parseXml;
+    this.dbCache = dbCache;
   }
 
   @Override
-  public Observable<List<UserEntity>> userEntityList(GetUserListDetails.Params params) {
+  public Observable<List<UserEntity>> userEntityList() {
     return null;
   }
 
+  @Override public Observable<List<UserEntity>> userEntityList(GetUserListDetails.Params params) {
+    if(dbCache.isCached(params)){
+      return this.dbCache.getCollection(params);
+    }
+    return this.parseXml.userEntityList(params,dbCache);
+//    return this.parseXml.userEntityList(params).doOnNext(DBUserDataStore.this.dbCache::put);
+  }
+
   @Override public Observable<UserEntity> userEntityDetails(final int userId) {
-    return this.restApi.userEntityById(userId).doOnNext(CloudUserDataStore.this.userCache::put);
+    return null;
   }
 
   @Override
   public Observable<UserEntity> userEntityDetails(GetUserListDetails.Params params) {
-    return null;
+    if(null == params)return null;
+    return this.dbCache.get(params);
   }
-
 }

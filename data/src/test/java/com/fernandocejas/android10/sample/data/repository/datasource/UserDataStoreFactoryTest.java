@@ -17,6 +17,8 @@ package com.fernandocejas.android10.sample.data.repository.datasource;
 
 import com.fernandocejas.android10.sample.data.ApplicationTestCase;
 import com.fernandocejas.android10.sample.data.cache.UserCache;
+import com.fernandocejas.android10.sample.data.database.DbCache;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -36,10 +38,10 @@ public class UserDataStoreFactoryTest extends ApplicationTestCase {
   private UserDataStoreFactory userDataStoreFactory;
 
   @Mock private UserCache mockUserCache;
-
+  @Mock private DbCache mockDbCache;
   @Before
   public void setUp() {
-    userDataStoreFactory = new UserDataStoreFactory(RuntimeEnvironment.application, mockUserCache);
+    userDataStoreFactory = new UserDataStoreFactory(RuntimeEnvironment.application, mockUserCache, mockDbCache);
   }
 
   @Test

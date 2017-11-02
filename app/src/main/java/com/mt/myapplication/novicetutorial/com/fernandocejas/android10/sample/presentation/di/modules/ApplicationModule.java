@@ -19,6 +19,8 @@ import android.content.Context;
 
 import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.cache.UserCacheImpl;
+import com.fernandocejas.android10.sample.data.database.DbCache;
+import com.fernandocejas.android10.sample.data.database.DbCacheImpl;
 import com.fernandocejas.android10.sample.data.executor.JobExecutor;
 import com.fernandocejas.android10.sample.data.repository.UserDataRepository;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
@@ -58,6 +60,12 @@ public class ApplicationModule {
   @Singleton
   PostExecutionThread providePostExecutionThread(UIThread uiThread) {
     return uiThread;
+  }
+
+  @Provides
+  @Singleton
+  DbCache provideDbCache(DbCacheImpl dbCache) {
+    return dbCache;
   }
 
   @Provides
