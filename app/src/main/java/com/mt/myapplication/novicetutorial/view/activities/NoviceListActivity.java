@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 
 import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.alog.ALog;
-import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceListFragment;
 
 public class NoviceListActivity extends BaseActivity implements NoviceListFragment.OnUserClickedListener{
@@ -33,7 +33,7 @@ public class NoviceListActivity extends BaseActivity implements NoviceListFragme
     }
 
     @Override
-    public void onUserClicked(UserModel userModel) {
+    public void onUserClicked(UserModelNT userModel) {
         ALog.Log("NoviceListActivity.onUserClicked");
     }
 }

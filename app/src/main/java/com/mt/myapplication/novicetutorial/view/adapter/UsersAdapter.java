@@ -9,10 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mt.androidtest_as.R;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -29,10 +31,10 @@ import butterknife.ButterKnife;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
 
   public interface OnItemClickListener {
-    void onUserAdapterItemClicked(UserModel userModel);
+    void onUserAdapterItemClicked(UserModelNT userModel);
   }
 
-  private List<UserModel> usersCollection;
+  private List<UserModelNT> usersCollection;
   private final LayoutInflater layoutInflater;
 
   private OnItemClickListener onItemClickListener;
@@ -57,14 +59,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
   @Override
   public void onBindViewHolder(UserViewHolder holder, final int position) {
-    final UserModel userModel = new UserModel(0);
-//    final UserModel userModel = this.usersCollection.get(position);
-//    holder.textViewTitle.setText(userModel.getFullName());
+    final UserModelNT mUserModelNT = usersCollection.get(position);
+    holder.mTextView.setText(mUserModelNT.getKey());
     holder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         if (UsersAdapter.this.onItemClickListener != null) {
-          UsersAdapter.this.onItemClickListener.onUserAdapterItemClicked(userModel);
+          UsersAdapter.this.onItemClickListener.onUserAdapterItemClicked(mUserModelNT);
         }
       }
     });
@@ -75,9 +76,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     return position;
   }
 
-  public void setUsersCollection(Collection<UserModel> usersCollection) {
+  public void setUsersCollection(Collection<UserModelNT> usersCollection) {
     this.validateUsersCollection(usersCollection);
-    this.usersCollection = (List<UserModel>) usersCollection;
+    this.usersCollection = (List<UserModelNT>) usersCollection;
     this.notifyDataSetChanged();
   }
 
@@ -85,16 +86,17 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     this.onItemClickListener = onItemClickListener;
   }
 
-  private void validateUsersCollection(Collection<UserModel> usersCollection) {
+  private void validateUsersCollection(Collection<UserModelNT> usersCollection) {
     if (usersCollection == null) {
       throw new IllegalArgumentException("The list cannot be null");
     }
   }
 
   static class UserViewHolder extends RecyclerView.ViewHolder {
+    @BindView(R.id.item_grid_image)
+    ImageView mImageView;
     @BindView(R.id.item_grid_tv)
-    TextView textViewTitle;
-
+    TextView mTextView;
     UserViewHolder(View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);

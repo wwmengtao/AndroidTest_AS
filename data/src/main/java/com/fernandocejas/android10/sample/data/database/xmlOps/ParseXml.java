@@ -16,7 +16,7 @@
 package com.fernandocejas.android10.sample.data.database.xmlOps;
 
 import com.fernandocejas.android10.sample.data.database.DbCache;
-import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
 
 import java.util.List;
@@ -27,6 +27,6 @@ import io.reactivex.Observable;
  * ParseXml for retrieving data from the xml files.
  */
 public interface ParseXml {
-  Observable<List<UserEntity>> userEntityList(final GetUserListDetails.Params params, DbCache dbCache);
-  Observable<UserEntity> userEntity(final GetUserListDetails.Params params, DbCache dbCache);
+  Observable<List<UserEntityNT>> userEntityNTList(final GetUserListDetails.Params params, DbCache dbCache);
+  Observable<UserEntityNT> userEntityNT(final GetUserListDetails.Params params, DbCache dbCache);
 }

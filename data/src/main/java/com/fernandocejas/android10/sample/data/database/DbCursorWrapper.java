@@ -2,14 +2,15 @@ package com.fernandocejas.android10.sample.data.database;
 
 import android.database.Cursor;
 
-import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
+
 
 public class DbCursorWrapper extends android.database.CursorWrapper {
     public DbCursorWrapper(Cursor cursor) {
         super(cursor);
     }
 
-    public UserEntity getUserEntity() {
+    public UserEntityNT getUserEntity() {
 //        String uuidString = getString(getColumnIndex(FirstLevelTitleTable.Cols.UUID));
 //        String title = getString(getColumnIndex(FirstLevelTitleTable.Cols.TITLE));
 //        long date = getLong(getColumnIndex(FirstLevelTitleTable.Cols.DATE));

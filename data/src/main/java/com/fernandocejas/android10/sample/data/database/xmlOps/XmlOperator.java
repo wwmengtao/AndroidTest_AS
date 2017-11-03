@@ -5,7 +5,7 @@ import android.content.res.AssetManager;
 import android.util.Xml;
 
 import com.fernandocejas.android10.sample.data.ALog;
-import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -20,13 +20,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class XmlOperator {
-	private static final String NoviceAssetsXmlDir = "novicetutorial"+ File.separator+"xmlfiles";//玩家教程存储xml文件的Assets根目录
+	private static final String TAG = "XmlOperator: ";
+	private static final String NoviceAssetsXmlDir = "novicetutorial"+File.separator+"xmlfiles";//玩家教程存储xml文件的Assets根目录
 	private XmlPullParser mXmlPullParser = null;//读取xml文件
 	private String ioEncoding=null;
 	private InputStream mInputStream=null;
 	private Context mContext=null;
 	private AssetManager mAssetManager = null;
-	private Collection<UserEntity> mUserEntityCollection = null;
+	private Collection<UserEntityNT> mUserEntityCollection = null;
 	//
 	public XmlOperator(Context context){
 		mContext=context.getApplicationContext();
@@ -36,22 +37,31 @@ public class XmlOperator {
 		mUserEntityCollection = new ArrayList<>();
 	}
 
-	public void howToReadXml(Context context){
-		String fileName="writeXml.xml";
-		String tagOfDoc="tagOfDoc";
-		String eleName="eleName";
-		String attr="attr";
-		XmlOperator mXmlOperator=new XmlOperator(context);
-		mXmlOperator.readFromXml("");
+	/**
+	 * 读取xml文件中的数据写入数据列表并且返回
+	 * @param params
+	 * @return
+	 */
+	public Collection<UserEntityNT> UserEntityCollectionXml(GetUserListDetails.Params params){
+		if(null == params)return null;
+		mUserEntityCollection.clear();
+		//如果是一级、二级菜单文件那么就解析xml文件
+		if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1 ||
+				params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL2){
+			readFromXmlFile(params);
+		}
+//		visitCollection(mUserEntityCollection);//浏览mUserEntityCollection中的数据内容
+		return mUserEntityCollection;
 	}
 
-
-	public void readFromXml(String fileName){
+	public void readFromXmlFile(GetUserListDetails.Params params){
+		ALog.Log(TAG+"readFromXmlFile");
+		String fileName = NoviceAssetsXmlDir+File.separator+params.getFileName();
 		try {
 			mInputStream = mAssetManager.open(fileName);
 			mXmlPullParser.setInput(new BufferedInputStream(mInputStream), ioEncoding);
-			filterBeforeFirstElement(mXmlPullParser, "file");
-			parseXml(mXmlPullParser);
+			filterBeforeRootElement(mXmlPullParser, params);
+			parseXmlFirstElement(mXmlPullParser, params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -67,14 +77,56 @@ public class XmlOperator {
 		}
 	}
 
-	public void parseXml(XmlPullParser parser){
+	/**
+	 * filterBeforeRootElement：过滤掉达到指定标签rootElementName之前的所有内容
+	 * @param parser
+	 * @param params
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	public void filterBeforeRootElement(XmlPullParser parser, GetUserListDetails.Params params)
+			throws XmlPullParserException, IOException{
+		String rootElementName = null;
+		if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1){
+			rootElementName = XmlItemTags.LEVEL1_ITEM_TAGS.ROOT_ELEMENT_TAG;
+		}else if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL2){
+			rootElementName = XmlItemTags.LEVEL2_ITEM_TAGS.ROOT_ELEMENT_TAG;
+		}
+
+		int type;
+		//首先过滤掉非标签类事件
+		while ((type=parser.next()) != XmlPullParser.START_TAG && type != XmlPullParser.END_DOCUMENT) {
+			;
+		}
+		//已经到了END_DOCUMENT
+		if (type != XmlPullParser.START_TAG) {
+			throw new XmlPullParserException("No start tag");
+		}
+		//已经到了START_TAG
+		if (!parser.getName().equals(rootElementName)) {
+			throw new XmlPullParserException("Unexpected start tag: "+parser.getName()+", expected: " + rootElementName);
+		}
+	}
+
+	/**
+	 * parseXmlFirstElement：解析xml文件中firstElement所包含的子标签内容
+	 * @param parser
+	 * @param params
+	 */
+	public void parseXmlFirstElement(XmlPullParser parser, GetUserListDetails.Params params){
+		String firstEleTag = null;
+		if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1){
+			firstEleTag = XmlItemTags.LEVEL1_ITEM_TAGS.FIRST_ELEMENT_TAG;
+		}else if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL2){
+			firstEleTag = XmlItemTags.LEVEL2_ITEM_TAGS.FIRST_ELEMENT_TAG;
+		}
 		int type;
 		try {
 			while ((type = parser.next()) != XmlPullParser.END_DOCUMENT) {
 				switch (type) {
 					case XmlPullParser.START_TAG:
-						if (parser.getName().equals("item")) {
-							parseItemType1(parser);
+						if (parser.getName().equals(firstEleTag)) {
+							parseTagItem(parser,firstEleTag, params);
 						}
 						break;
 					case XmlPullParser.END_TAG:
@@ -93,91 +145,59 @@ public class XmlOperator {
 			e.printStackTrace();
 		}
 	}
-	private String[] LEVEL1_ITEM_TAGS={"filename","filestring","filebackpic"};
-	private boolean isLEVEL1_ITEM_TAGS(String tag){
-		if(null == tag)return false;
-		for(String level1:LEVEL1_ITEM_TAGS){
-			if(level1.equals(tag)){
-				return true;
-			}
-		}
-		return false;
-	}
 
-	private void parseItemType1(XmlPullParser parser) throws XmlPullParserException,IOException,ParseException {
-		int count = 0;
+	/**
+	 * parseTagItem：解析xml文件中第一标签内的其他标签元素
+	 * @param parser
+	 * @param FIRST_TAG_NAME 第一标签名称
+	 * @param params
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	private void parseTagItem(XmlPullParser parser, final String FIRST_TAG_NAME, GetUserListDetails.Params params) throws XmlPullParserException,IOException,ParseException {
+		ALog.Log("parseTagItem: "+FIRST_TAG_NAME);
 		int type;
-		StringBuffer str = new StringBuffer("");
-		while (true) {
+		UserEntityNT mUserEntityNT = new UserEntityNT();
+		String tag = null,value = null;
+		for (;;) {
 			type = parser.next();
 			switch (type){
 				case XmlPullParser.START_TAG:
-					str.append(parser.getName()+": ");
+					tag = parser.getName();
 					break;
 				case XmlPullParser.TEXT:
-					str.append(parser.getText().trim());
+					if(null == tag)break;
+					value = parser.getText().trim();
+//					ALog.Log("tag: "+tag+" val: "+value);
+					if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1){
+						XmlItemTags.LEVEL1_ITEM_TAGS.setTagValue(mUserEntityNT,tag,value);
+					}else if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL2){
+						XmlItemTags.LEVEL2_ITEM_TAGS.setTagValue(mUserEntityNT,tag,value);
+					}
+					tag = null;
 					break;
 				case XmlPullParser.END_TAG:
-					count ++;
-					ALog.Log("parseItemType1: "+str.toString());
-					str.setLength(0);
-					if(LEVEL1_ITEM_TAGS.length == count)return;
+					if(FIRST_TAG_NAME.equals(parser.getName())){
+						mUserEntityCollection.add(mUserEntityNT);
+						return;
+					}
 					break;
+			}//end switch
+		}//end for(;;)
+	}//end parseTagItem
+
+	private void visitCollection(Collection<UserEntityNT> mUserEntityCollection){
+		if(null != mUserEntityCollection && mUserEntityCollection.size() > 0){
+			ALog.Log(TAG+"mUserEntityCollection.size(): "+mUserEntityCollection.size());
+			for(UserEntityNT mUserEntityNT : mUserEntityCollection){
+				ALog.Log(TAG+"visitCollection");
+				ALog.Log("key: "+mUserEntityNT.getKey());
+				ALog.Log("adj: "+mUserEntityNT.getAdjunction());
+				ALog.Log("pic: "+mUserEntityNT.getPic());
+				ALog.Log("ind: "+mUserEntityNT.getIndex());
 			}
 		}
 	}
-	/**
-	 * filterBeforeFirstElement：过滤掉达到指定标签firstElementName之前的所有内容
-	 * @param parser
-	 * @param firstElementName
-	 * @throws XmlPullParserException
-	 * @throws IOException
-	 */
-	public void filterBeforeFirstElement(XmlPullParser parser, String firstElementName)
-			throws XmlPullParserException, IOException{
-		int type;
-		//首先过滤掉非标签类事件
-		while ((type=parser.next()) != XmlPullParser.START_TAG && type != XmlPullParser.END_DOCUMENT) {
-			;
-		}
-		//已经到了END_DOCUMENT
-		if (type != XmlPullParser.START_TAG) {
-			throw new XmlPullParserException("No start tag");
-		}
-		//已经到了START_TAG
-		if (!parser.getName().equals(firstElementName)) {
-			throw new XmlPullParserException("Unexpected start tag: "+parser.getName()+", expected: " + firstElementName);
-		}
-	}
 
-	/**
-	 * 读取xml文件中的数据写入数据列表并且返回
-	 * @param params
-	 * @return
-	 */
-	public Collection<UserEntity> UserEntityCollectionXml(GetUserListDetails.Params params){
-		mUserEntityCollection.clear();
-		if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1){
-			readFromXml(NoviceAssetsXmlDir+File.separator+params.getFileName());
-		}
-		return mUserEntityCollection;
-	}
-
-	private void getXmlData(){
-		int resID = mContext.getResources().getIdentifier(
-				"app_name","string",mContext.getPackageName());
-		ALog.Log("createDBDataStore: "+mContext.getResources().getString(resID));
-
-		String []files = null;
-		try {
-			files = mAssetManager.list(NoviceAssetsXmlDir);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if(null!=files&&files.length>0){
-			for(String file:files){
-				ALog.Log("createDBDataStore2: "+file);
-			}
-		}
-	}
 }

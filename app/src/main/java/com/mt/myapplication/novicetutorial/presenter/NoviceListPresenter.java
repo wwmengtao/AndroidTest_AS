@@ -17,14 +17,14 @@ package com.mt.myapplication.novicetutorial.presenter;
 
 import android.support.annotation.NonNull;
 
-import com.fernandocejas.android10.sample.domain.User;
+import com.fernandocejas.android10.sample.domain.UserNT;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserList;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
-import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
-import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataNTMapper;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
 
 import java.util.Collection;
@@ -38,12 +38,12 @@ import javax.inject.Inject;
  */
 public class NoviceListPresenter implements Presenter {
   private NoviceRecyclerView mNoviceRecyclerView;
-  private final GetUserList mGetUserList;
-  private final UserModelDataMapper mUserModelDataMapper;
+  private final GetUserListDetails mGetUserListDetails;
+  private final UserModelDataNTMapper mUserModelDataNTMapper;
   @Inject
-  public NoviceListPresenter(GetUserList getUserListUserCase, UserModelDataMapper userModelDataMapper){
-    this.mGetUserList = getUserListUserCase;
-    this.mUserModelDataMapper = userModelDataMapper;
+  public NoviceListPresenter(GetUserListDetails mGetUserListDetails, UserModelDataNTMapper mUserModelDataNTMapper){
+    this.mGetUserListDetails = mGetUserListDetails;
+    this.mUserModelDataNTMapper = mUserModelDataNTMapper;
   }
   public void setView(@NonNull NoviceRecyclerView view) {
     mNoviceRecyclerView = view;
@@ -56,7 +56,7 @@ public class NoviceListPresenter implements Presenter {
     this.loadUserList();
   }
 
-  public void onUserClicked(UserModel userModel) {
+  public void onUserClicked(UserModelNT userModel) {
     mNoviceRecyclerView.viewUser(userModel);
   }
 
@@ -93,7 +93,7 @@ public class NoviceListPresenter implements Presenter {
 
   @Override
   public void destroy() {
-      this.mGetUserList.dispose();
+      this.mGetUserListDetails.dispose();
       this.mNoviceRecyclerView = null;
   }
 
@@ -104,18 +104,18 @@ public class NoviceListPresenter implements Presenter {
     this.mNoviceRecyclerView.showError(errorMessage);
   }
 
-  private void showUsersCollectionInView(Collection<User> usersCollection) {
-    final Collection<UserModel> userModelsCollection =
-            this.mUserModelDataMapper.transform(usersCollection);
+  private void showUsersCollectionInView(Collection<UserNT> usersCollection) {
+    final Collection<UserModelNT> userModelsCollection =
+            this.mUserModelDataNTMapper.transform(usersCollection);
     this.mNoviceRecyclerView.setUserList(userModelsCollection);
   }
 
   //获取数据
   private void getUserList() {
-    this.mGetUserList.execute(new UserRecyclerViewObserver(), null);
+    this.mGetUserListDetails.execute(new UserRecyclerViewObserver(), null);
   }
 
-  private final class UserRecyclerViewObserver extends DefaultObserver<List<User>> {
+  private final class UserRecyclerViewObserver extends DefaultObserver<List<UserNT>> {
     /**
      * 根据Observable协议的定义，onNext可能会被调用零次或者很多次，最后会有一次onCompleted或onError调用
      * （不会同时），传递数据给onNext通常被称作发射，onCompleted和onError被称作通知。
@@ -130,7 +130,7 @@ public class NoviceListPresenter implements Presenter {
       NoviceListPresenter.this.showViewRetry();
     }
 
-    @Override public void onNext(List<User> users) {
+    @Override public void onNext(List<UserNT> users) {
       NoviceListPresenter.this.showUsersCollectionInView(users);
     }
   }

@@ -19,7 +19,7 @@ import android.content.Context;
 
 import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.cache.UserCache;
-import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 import com.fernandocejas.android10.sample.data.exception.UserNotFoundException;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
@@ -52,9 +52,9 @@ public class DbCacheImpl implements DbCache {
   }
 
   @Override
-  public Observable<List<UserEntity>> getCollection(final GetUserListDetails.Params params) {
+  public Observable<List<UserEntityNT>> getCollection(final GetUserListDetails.Params params) {
     return Observable.create(emitter -> {
-      final List<UserEntity> userEntityList = (List<UserEntity>)mDataManager.getUserEntityCollection(params);
+      final List<UserEntityNT> userEntityList = (List<UserEntityNT>)mDataManager.getUserEntityCollection(params);
       if (userEntityList != null) {
         emitter.onNext(userEntityList);
         emitter.onComplete();
@@ -65,9 +65,9 @@ public class DbCacheImpl implements DbCache {
   }
 
   @Override
-  public Observable<UserEntity> get(final GetUserListDetails.Params params) {
+  public Observable<UserEntityNT> get(final GetUserListDetails.Params params) {
     return Observable.create(emitter -> {
-      final UserEntity userEntity = mDataManager.getUserEntity(params);
+      final UserEntityNT userEntity = mDataManager.getUserEntity(params);
       if (userEntity != null) {
         emitter.onNext(userEntity);
         emitter.onComplete();
@@ -79,7 +79,7 @@ public class DbCacheImpl implements DbCache {
 
 
   @Override
-  public void put(List<UserEntity> userEntityList, GetUserListDetails.Params params) {
+  public void put(List<UserEntityNT> userEntityList, GetUserListDetails.Params params) {
     ALog.Log("DbCacheImpl_putUserEntityList");
     if (userEntityList != null) {
       if (!isCached(params)) {
@@ -88,7 +88,7 @@ public class DbCacheImpl implements DbCache {
     }
   }
 
-  @Override public void put(UserEntity userEntity, GetUserListDetails.Params params) {
+  @Override public void put(UserEntityNT userEntity, GetUserListDetails.Params params) {
     ALog.Log("DbCacheImpl_putUserEntity");
     if (userEntity != null) {
       if (!isCached(params)) {
@@ -127,17 +127,17 @@ public class DbCacheImpl implements DbCache {
   private static class CacheWriter implements Runnable {
     private final DataManager mDataManager;
     private final GetUserListDetails.Params params;
-    private UserEntity userEntity;
-    private List<UserEntity> userEntityList;
+    private UserEntityNT userEntity;
+    private List<UserEntityNT> userEntityList;
 
-    public CacheWriter(DataManager mDataManager, UserEntity userEntity, GetUserListDetails.Params params) {
+    public CacheWriter(DataManager mDataManager, UserEntityNT userEntity, GetUserListDetails.Params params) {
       this.mDataManager = mDataManager;
       this.params = params;
       this.userEntity = userEntity;
       this.userEntityList = null;
     }
 
-    public CacheWriter(DataManager mDataManager, List<UserEntity> userEntityList, GetUserListDetails.Params params) {
+    public CacheWriter(DataManager mDataManager, List<UserEntityNT> userEntityList, GetUserListDetails.Params params) {
       this.mDataManager = mDataManager;
       this.params = params;
       this.userEntityList = userEntityList;

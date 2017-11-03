@@ -17,15 +17,16 @@ package com.mt.myapplication.novicetutorial.presenter;
 
 import android.support.annotation.NonNull;
 
-import com.fernandocejas.android10.sample.domain.User;
+import com.fernandocejas.android10.sample.data.ALog;
+import com.fernandocejas.android10.sample.domain.UserNT;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails.Params;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
-import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
-import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataNTMapper;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
 
 import java.util.Collection;
@@ -40,17 +41,17 @@ import javax.inject.Inject;
 public class NoviceGridPresenter implements Presenter {
   private NoviceRecyclerView mNoviceRecyclerView;
   private final GetUserListDetails mGetUserListDetails;//获取标题对应的一类数据，如功能键，桌面等
-  private final UserModelDataMapper mUserModelDataMapper;
+  private final UserModelDataNTMapper mUserModelDataNTMapper;
   private Params mParams;
 
   @Inject
-  public NoviceGridPresenter(GetUserListDetails getUserListUserCase, UserModelDataMapper userModelDataMapper){
+  public NoviceGridPresenter(GetUserListDetails getUserListUserCase, UserModelDataNTMapper mUserModelDataNTMapper){
     this.mGetUserListDetails = getUserListUserCase;
-    this.mUserModelDataMapper = userModelDataMapper;
+    this.mUserModelDataNTMapper = mUserModelDataNTMapper;
     this.mParams = new Params(Params.DataType.COLLECTION_DATA_LEVEL1,"xmlfiles.xml", null);//第一个界面解析xmlfiles.xml中一级标题
   }
 
-  public void onUserClicked(UserModel userModel) {
+  public void onUserClicked(UserModelNT userModel) {
     mNoviceRecyclerView.viewUser(userModel);
   }
 
@@ -96,9 +97,9 @@ public class NoviceGridPresenter implements Presenter {
     this.mNoviceRecyclerView.showError(errorMessage);
   }
 
-  private void showUsersCollectionInView(Collection<User> usersCollection) {
-    final Collection<UserModel> userModelsCollection =
-            this.mUserModelDataMapper.transform(usersCollection);
+  private void showUsersCollectionInView(Collection<UserNT> usersCollection) {
+    final Collection<UserModelNT> userModelsCollection =
+            this.mUserModelDataNTMapper.transform(usersCollection);
     this.mNoviceRecyclerView.setUserList(userModelsCollection);
   }
 
@@ -107,7 +108,7 @@ public class NoviceGridPresenter implements Presenter {
     this.mGetUserListDetails.execute(new UserRecyclerViewObserver(), mParams);
   }
 
-  private final class UserRecyclerViewObserver extends DefaultObserver<List<User>> {
+  private final class UserRecyclerViewObserver extends DefaultObserver<List<UserNT>> {
 
     @Override public void onComplete() {
       NoviceGridPresenter.this.hideViewLoading();
@@ -119,11 +120,22 @@ public class NoviceGridPresenter implements Presenter {
       NoviceGridPresenter.this.showViewRetry();
     }
 
-    @Override public void onNext(List<User> users) {
+    @Override public void onNext(List<UserNT> users) {
       NoviceGridPresenter.this.showUsersCollectionInView(users);
+      visitCollection(users);
     }
   }
-
+  private void visitCollection(Collection<UserNT> mUserEntityCollection){
+    if(null != mUserEntityCollection && mUserEntityCollection.size() > 0){
+      ALog.Log("mUserEntityCollection.size(): "+mUserEntityCollection.size());
+      for(UserNT mUserEntityNT : mUserEntityCollection){
+        ALog.Log("key: "+mUserEntityNT.getKey());
+        ALog.Log("adj: "+mUserEntityNT.getAdjunction());
+        ALog.Log("pic: "+mUserEntityNT.getPic());
+        ALog.Log("ind: "+mUserEntityNT.getIndex());
+      }
+    }
+  }
   @Override
   public void resume() {}
 

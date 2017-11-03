@@ -16,7 +16,9 @@
 package com.fernandocejas.android10.sample.data.entity.mapper;
 
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 import com.fernandocejas.android10.sample.domain.User;
+import com.fernandocejas.android10.sample.domain.UserNT;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,6 +56,18 @@ public class UserEntityDataMapper {
     return user;
   }
 
+  public UserNT transformNT(UserEntityNT userEntityNT) {
+    UserNT userNT = null;
+    if (userEntityNT != null) {
+      userNT = new UserNT();
+      userNT.setKey(userEntityNT.getKey());
+      userNT.setAdjunction(userEntityNT.getAdjunction());
+      userNT.setPic(userEntityNT.getPic());
+      userNT.setIndex(userEntityNT.getIndex());
+    }
+    return userNT;
+  }
+
   /**
    * Transform a List of {@link UserEntity} into a Collection of {@link User}.
    *
@@ -69,5 +83,16 @@ public class UserEntityDataMapper {
       }
     }
     return userList;
+  }
+
+  public List<UserNT> transformNT(Collection<UserEntityNT> userEntityCollection) {
+    final List<UserNT> userListNT = new ArrayList<>();
+    for (UserEntityNT userEntity : userEntityCollection) {
+      final UserNT user = transformNT(userEntity);
+      if (user != null) {
+        userListNT.add(user);
+      }
+    }
+    return userListNT;
   }
 }

@@ -19,7 +19,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.fernandocejas.android10.sample.data.database.DbCache;
-import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityXmlMapper;
 import com.fernandocejas.android10.sample.data.exception.NetworkConnectionException;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
@@ -63,10 +63,10 @@ public class ParseXmlImpl implements ParseXml {
 //    });
 
   @Override
-  public Observable<List<UserEntity>> userEntityList(@NonNull GetUserListDetails.Params params, DbCache dbCache) {
+  public Observable<List<UserEntityNT>> userEntityNTList(@NonNull GetUserListDetails.Params params, DbCache dbCache) {
     if(null == params)return null;
-    String key = params.getKey();
-    List<UserEntity> mUserEntityList = mUserEntityXmlMapper.transformUserEntityCollection(params);
+    String key = params.getFileName();
+    List<UserEntityNT> mUserEntityList = mUserEntityXmlMapper.transformUserEntityCollection(params);
     dbCache.put(mUserEntityList, params);//首先将xml文件解析的数据保存在数据库中
     return Observable.create(emitter -> {
       try {
@@ -86,7 +86,7 @@ public class ParseXmlImpl implements ParseXml {
   /**
    * 解析xml中单一数据这个功能暂时不用
    */
-  public Observable<UserEntity> userEntity(GetUserListDetails.Params params, DbCache dbCache) {
+  public Observable<UserEntityNT> userEntityNT(GetUserListDetails.Params params, DbCache dbCache) {
     if(null == params)return null;
     String key = params.getKey();
     return Observable.create(emitter -> {

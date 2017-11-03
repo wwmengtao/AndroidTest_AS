@@ -8,10 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.database.xmlOps.XmlOperator;
-import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -21,7 +20,7 @@ import java.util.Collection;
 
 public class DataManager {
     private static volatile DataManager mDataManager=null;
-    private Collection<UserEntity> mData = null;
+    private Collection<UserEntityNT> mData = null;
     private Context mContext=null;
     private SQLiteDatabase mSQLiteDatabase = null;
     private XmlOperator mXmlOperator = null;
@@ -46,7 +45,7 @@ public class DataManager {
      * @param params
      * @return
      */
-    public UserEntity UserEntityXml(GetUserListDetails.Params params) {
+    public UserEntityNT UserEntityXml(GetUserListDetails.Params params) {
         ALog.Log("UserEntityXml: "+params.getKey());
         return null;
     }
@@ -56,14 +55,14 @@ public class DataManager {
      * @param params
      * @return
      */
-    public Collection<UserEntity> UserEntityCollectionXml(GetUserListDetails.Params params) {
-        ALog.Log("UserEntityCollectionXml: "+params.getKey());
+    public Collection<UserEntityNT> UserEntityCollectionXml(GetUserListDetails.Params params) {
+        ALog.Log("UserEntityCollectionXml: "+params.getFileName());
         return mXmlOperator.UserEntityCollectionXml(params);
     }
 
 
 
-    public Collection<UserEntity> getUserEntityCollection(GetUserListDetails.Params params){
+    public Collection<UserEntityNT> getUserEntityCollection(GetUserListDetails.Params params){
         mData.clear();
         String fileName = params.getFileName();
         DbCursorWrapper cursor = queryCrimes(fileName,null, null);
@@ -79,17 +78,17 @@ public class DataManager {
         return mData;
     }
 
-    public UserEntity getUserEntity(GetUserListDetails.Params params){
+    public UserEntityNT getUserEntity(GetUserListDetails.Params params){
         String dbTableName = params.getFileName();
         String title = params.getKey();
         String columnName=null;
         DbCursorWrapper cursor = queryCrimes(dbTableName,columnName+" = ?", new String[]{title});
-        UserEntity mUserEntity=null;
+        UserEntityNT mUserEntity=null;
         try{
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 mUserEntity = cursor.getUserEntity();
-                if(mUserEntity.getFullname().equals(title))break;
+                if(mUserEntity.getKey().equals(title))break;
                 cursor.moveToNext();
             }
         }finally {
@@ -98,13 +97,13 @@ public class DataManager {
         return mUserEntity;
     }
 
-    private static ContentValues getContentValues(String []tableColumns, UserEntity mUserEntity) {
+    private static ContentValues getContentValues(String []tableColumns, UserEntityNT mUserEntity) {
         if(null == tableColumns){
             return null;
         }
         ContentValues values = new ContentValues();
         for(String str:tableColumns){
-            values.put(str, mUserEntity.getFullname());
+            values.put(str, mUserEntity.getKey());
         }
 //        values.put(CrimeTable.Cols.TITLE, crime.getTitle());
 //        values.put(CrimeTable.Cols.DATE, crime.getDate().getTime());
@@ -114,15 +113,15 @@ public class DataManager {
         return values;
     }
 
-    public void put(UserEntity userEntity, GetUserListDetails.Params params){
+    public void put(UserEntityNT userEntity, GetUserListDetails.Params params){
 
     }
 
-    public void put(Collection<UserEntity> userEntityCollection, GetUserListDetails.Params params){
+    public void put(Collection<UserEntityNT> userEntityCollection, GetUserListDetails.Params params){
 
     }
 
-    public void addCrime(String dbTableName, String []tableColumns, UserEntity mUserEntity) {
+    public void addCrime(String dbTableName, String []tableColumns, UserEntityNT mUserEntity) {
         mSQLiteDatabase.insert(dbTableName, null, getContentValues(tableColumns, mUserEntity));
     }
 

@@ -17,6 +17,7 @@ package com.fernandocejas.android10.sample.data.entity.mapper;
 
 import com.fernandocejas.android10.sample.data.database.DataManager;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
 
@@ -39,11 +40,11 @@ public class UserEntityXmlMapper {
     this.mDataManager = mDataManager;
   }
 
-  public List<UserEntity> transformUserEntityCollection(GetUserListDetails.Params params){
-    return (List<UserEntity>)mDataManager.UserEntityCollectionXml(params);
+  public List<UserEntityNT> transformUserEntityCollection(GetUserListDetails.Params params){
+    return (List<UserEntityNT>)mDataManager.UserEntityCollectionXml(params);
   }
 
-  public UserEntity transformUserEntity(GetUserListDetails.Params params){
+  public UserEntityNT transformUserEntity(GetUserListDetails.Params params){
     return mDataManager.UserEntityXml(params);
   }
 }

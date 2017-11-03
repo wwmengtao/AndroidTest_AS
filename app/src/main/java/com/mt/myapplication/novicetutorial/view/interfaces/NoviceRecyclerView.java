@@ -6,6 +6,7 @@ package com.mt.myapplication.novicetutorial.view.interfaces;
 
 
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 
 import java.util.Collection;
 
@@ -15,12 +16,12 @@ import java.util.Collection;
  */
 public interface NoviceRecyclerView extends LoadDataView{
 
-  void setUserList(Collection<UserModel> userModelCollection);
+  void setUserList(Collection<UserModelNT> userModelCollection);
 
   /**
    * View a {@link UserModel} profile/details.
    *
    * @param userModel The user that will be shown.
    */
-  void viewUser(UserModel userModel);
+  void viewUser(UserModelNT userModel);
 }

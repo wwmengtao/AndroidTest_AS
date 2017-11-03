@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.mt.androidtest_as.R;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
-import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceListPresenter;
 import com.mt.myapplication.novicetutorial.view.adapter.UsersAdapter;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
@@ -37,7 +37,7 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
      * Interface for listening user list events.
      */
     public interface OnUserClickedListener {
-        void onUserClicked(final UserModel userModel);
+        void onUserClicked(final UserModelNT userModel);
     }
 
     @Override public void onAttach(Activity activity) {
@@ -97,7 +97,7 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
 
     private UsersAdapter.OnItemClickListener onItemClickListener =
             new UsersAdapter.OnItemClickListener() {
-                @Override public void onUserAdapterItemClicked(UserModel userModel) {
+                @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
                     if (NoviceListFragment.this.mNoviceListPresenter != null && userModel != null) {
                         NoviceListFragment.this.mNoviceListPresenter.onUserClicked(userModel);
                     }
@@ -111,14 +111,14 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     }
 
     @Override
-    public void setUserList(Collection<UserModel> userModelCollection) {
+    public void setUserList(Collection<UserModelNT> userModelCollection) {
         if (userModelCollection != null) {
             this.usersAdapter.setUsersCollection(userModelCollection);
         }
     }
 
     @Override
-    public void viewUser(UserModel userModel) {
+    public void viewUser(UserModelNT userModel) {
         if (this.mOnUserClickedListener != null) {
             this.mOnUserClickedListener.onUserClicked(userModel);
         }

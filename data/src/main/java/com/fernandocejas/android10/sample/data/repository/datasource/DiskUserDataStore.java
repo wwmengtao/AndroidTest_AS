@@ -17,6 +17,7 @@ package com.fernandocejas.android10.sample.data.repository.datasource;
 
 import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
+import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
 
 import java.util.List;
@@ -45,7 +46,7 @@ class DiskUserDataStore implements UserDataStore {
   }
 
   @Override
-  public Observable<List<UserEntity>> userEntityList(GetUserListDetails.Params params) {
+  public Observable<List<UserEntityNT>> userEntityNTList(GetUserListDetails.Params params) {
     return null;
   }
 
@@ -54,7 +55,7 @@ class DiskUserDataStore implements UserDataStore {
   }
 
   @Override
-  public Observable<UserEntity> userEntityDetails(GetUserListDetails.Params params) {
+  public Observable<UserEntityNT> userEntityNTDetails(GetUserListDetails.Params params) {
     return null;
   }
 }
