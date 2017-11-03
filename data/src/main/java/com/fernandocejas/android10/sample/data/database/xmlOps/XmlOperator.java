@@ -21,7 +21,8 @@ import java.util.Collection;
 
 public class XmlOperator {
 	private static final String TAG = "XmlOperator: ";
-	private static final String NoviceAssetsXmlDir = "novicetutorial"+File.separator+"xmlfiles";//玩家教程存储xml文件的Assets根目录
+	public static final String NoviceAssetsXmlDir = "novicetutorial"+File.separator+"xmlfiles";//玩家教程存储xml文件的Assets根目录
+	public static final String NoviceAssetsPicDir = "novicetutorial"+File.separator+"title1_pics";//玩家教程存储图片的Assets根目录
 	private XmlPullParser mXmlPullParser = null;//读取xml文件
 	private String ioEncoding=null;
 	private InputStream mInputStream=null;

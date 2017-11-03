@@ -2,6 +2,10 @@ package com.fernandocejas.android10.sample.data.database.xmlOps;
 
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 
+import java.io.File;
+
+import static com.fernandocejas.android10.sample.data.database.xmlOps.XmlOperator.NoviceAssetsPicDir;
+
 /**
  * XmlItemTags：用于记录不同种类xml文件的各级标签名称
  * Created by mengtao1 on 2017/11/3.
@@ -20,7 +24,7 @@ public class XmlItemTags {
             }else if(tag.equals(FIRST_ELEMENT_TAGS[1])){
                 mUserEntityNT.setAdjunction(value);
             }else if(tag.equals(FIRST_ELEMENT_TAGS[2])){
-                mUserEntityNT.setPic(value);
+                mUserEntityNT.setPic(NoviceAssetsPicDir+ File.separator+value);
             }
         }
     }
@@ -37,7 +41,7 @@ public class XmlItemTags {
             }else if(tag.equals(FIRST_ELEMENT_TAGS[1])){
                 mUserEntityNT.setAdjunction(value);
             }else if(tag.equals(FIRST_ELEMENT_TAGS[2])){
-                mUserEntityNT.setPic(value);
+                mUserEntityNT.setPic(NoviceAssetsPicDir+ File.separator+value);
             }
         }
     }

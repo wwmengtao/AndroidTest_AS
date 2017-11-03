@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 
@@ -29,11 +31,7 @@ import butterknife.ButterKnife;
  * Adaptar that manages a collection of {@link UserModel}.
  */
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
-
-  public interface OnItemClickListener {
-    void onUserAdapterItemClicked(UserModelNT userModel);
-  }
-
+  private Context mContext;
   private List<UserModelNT> usersCollection;
   private final LayoutInflater layoutInflater;
 
@@ -41,11 +39,14 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
   @Inject
   UsersAdapter(Context context) {
+    this.mContext = context;
     this.layoutInflater =
             (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     this.usersCollection = Collections.emptyList();
   }
-
+  public interface OnItemClickListener {
+    void onUserAdapterItemClicked(UserModelNT userModel);
+  }
   @Override
   public int getItemCount() {
     return (this.usersCollection != null) ? this.usersCollection.size() : 0;
@@ -61,6 +62,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   public void onBindViewHolder(UserViewHolder holder, final int position) {
     final UserModelNT mUserModelNT = usersCollection.get(position);
     holder.mTextView.setText(mUserModelNT.getKey());
+    Glide.with(mContext)
+            .load("file:///android_asset/"+mUserModelNT.getPic())//加载Asset文件夹下的图片资源
+            .into(holder.mImageView);
+    ALog.Log("onBindViewHolder:"+mUserModelNT.getPic());
     holder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
