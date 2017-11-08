@@ -1,12 +1,13 @@
 package com.fernandocejas.android10.sample.data.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.fernandocejas.android10.sample.data.database.DbSchema.FirstLevelTitleTable;
-import com.fernandocejas.android10.sample.data.ALog;
 
+import com.fernandocejas.android10.sample.data.ALog;
+import com.fernandocejas.android10.sample.data.database.DbSchema.Level1TitleTable;
 /**
  * SQLiteOpenHelper是一个辅助类，用来管理数据库的创建和版本，它提供两个方面的功能
  * 第一，getReadableDatabase()、getWritableDatabase()可以获得SQLiteDatabase对象，通过该对象可以对数据库进行操作
@@ -14,7 +15,7 @@ import com.fernandocejas.android10.sample.data.ALog;
  */
 public class DataBaseHelper extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 1;
-	private static final String DATABASE_NAME = "crimesRecord.db";
+	private static final String DATABASE_NAME = "novicetutorial.db";
 	private static volatile DataBaseHelper sInstance = null;
 
     private DataBaseHelper(Context context) {
@@ -37,15 +38,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		ALog.Log("create a database");
-		//execSQL用于执行SQL语句
-//		db.execSQL("create table "+FirstLevelTitleTable.NAME+"("
-//				+" _id integer primary key autoincrement, "
-//				+FirstLevelTitleTable.Cols.UUID+", "
-//				+FirstLevelTitleTable.Cols.TITLE+", "
-//				+FirstLevelTitleTable.Cols.DATE+", "
-//				+FirstLevelTitleTable.Cols.SOLVED+", "
-//				+FirstLevelTitleTable.Cols.SUSPECT+")"
-//		);
+		try{
+		//execSQL用于执行SQL语句，注意：1)数据表名称不能包含".";2)数据表中，列名不能用"index"(大小写都不允许)，否则报错。
+		db.execSQL("CREATE TABLE " + Level1TitleTable.NAME+" (" +
+				 "_id" + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+				Level1TitleTable.Cols.KEY +  " TEXT," +
+				Level1TitleTable.Cols.ADJUNCTION +  " TEXT," +
+				Level1TitleTable.Cols.PIC +  " TEXT," +
+				Level1TitleTable.Cols.NUM + " INTEGER" + ");"
+		);}
+		catch (SQLException e){
+			ALog.Log("SQLException\n"+e.fillInStackTrace());
+		}
+		ALog.Log("tabIsExist: "+tabIsExist(Level1TitleTable.NAME));
+
 	}
 
 	@Override
@@ -53,11 +59,58 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		ALog.Log("upgrade a database");
         try {
-            db.execSQL("drop table if exists "+FirstLevelTitleTable.NAME);
+            db.execSQL("drop table if exists "+Level1TitleTable.NAME);
             onCreate(db);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+	}
+
+	public void createTable(String tableName){
+    	if(tabIsExist(tableName))return;//如果数据表存在就不创建了
+		this.getReadableDatabase().execSQL("CREATE TABLE " + tableName+" (" +
+				"_id" + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+				Level1TitleTable.Cols.KEY +  " TEXT," +
+				Level1TitleTable.Cols.ADJUNCTION +  " TEXT," +
+				Level1TitleTable.Cols.PIC +  " TEXT," +
+				Level1TitleTable.Cols.NUM + " INTEGER" + ");"
+		);
+	}
+
+	public void deleteTable(String tableName){
+		this.getReadableDatabase().execSQL("drop table if exists "+tableName);
+	}
+
+	public boolean tabIsExist(String tabName){
+		boolean result = false;
+		if(tabName == null){
+			return false;
+		}
+		SQLiteDatabase db = null;
+		Cursor cursor = null;
+		try {
+			db = this.getReadableDatabase();//此this是继承SQLiteOpenHelper类得到的
+			String sql = "SELECT count(*) FROM sqlite_master WHERE type='table' AND name='"+tabName+"'";
+			cursor = db.rawQuery(sql, null);
+			if(cursor.moveToNext()){
+				int count = cursor.getInt(0);
+				ALog.Log("count: "+count);
+				if(count>0){
+					result = true;
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			if(null != cursor && !cursor.isClosed()){
+				cursor.close() ;
+			}
+		}
+		return result;
+	}
+
+	public void close() {
+		sInstance.close();
 	}
 }
 

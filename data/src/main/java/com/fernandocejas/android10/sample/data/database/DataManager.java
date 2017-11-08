@@ -2,7 +2,6 @@ package com.fernandocejas.android10.sample.data.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -24,12 +23,10 @@ public class DataManager {
     private Context mContext=null;
     private SQLiteDatabase mSQLiteDatabase = null;
     private XmlOperator mXmlOperator = null;
-    private AssetManager mAssetManager = null;
     public DataManager(Context context){
         mContext = context.getApplicationContext();
         mData = new ArrayList<>();
         mSQLiteDatabase = DataBaseHelper.getInstance(mContext).getWritableDatabase();
-        mAssetManager = mContext.getAssets();
         mXmlOperator = new XmlOperator(mContext);
     }
 
@@ -114,11 +111,17 @@ public class DataManager {
     }
 
     public void put(UserEntityNT userEntity, GetUserListDetails.Params params){
-
+        if(params.getDataType()==GetUserListDetails.Params.DataType.SINGLE_DATA)return;
+//        mSQLiteDatabase.insert(params.getFileName(), null, getContentValues(tableColumns, mUserEntity));
     }
 
     public void put(Collection<UserEntityNT> userEntityCollection, GetUserListDetails.Params params){
-
+        if(null == userEntityCollection || null == params){
+            return;
+        }
+        for(UserEntityNT mUserEntityNT : userEntityCollection){
+            put(mUserEntityNT, params);
+        }
     }
 
     public void addCrime(String dbTableName, String []tableColumns, UserEntityNT mUserEntity) {

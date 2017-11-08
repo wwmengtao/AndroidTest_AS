@@ -19,6 +19,9 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * XmlOperator：解析assets目录下的玩家教程xml文件
+ */
 public class XmlOperator {
 	private static final String TAG = "XmlOperator: ";
 	public static final String NoviceAssetsXmlDir = "novicetutorial"+File.separator+"xmlfiles";//玩家教程存储xml文件的Assets根目录
@@ -196,7 +199,7 @@ public class XmlOperator {
 				ALog.Log("key: "+mUserEntityNT.getKey());
 				ALog.Log("adj: "+mUserEntityNT.getAdjunction());
 				ALog.Log("pic: "+mUserEntityNT.getPic());
-				ALog.Log("ind: "+mUserEntityNT.getIndex());
+				ALog.Log("num: "+mUserEntityNT.getNumber());
 			}
 		}
 	}

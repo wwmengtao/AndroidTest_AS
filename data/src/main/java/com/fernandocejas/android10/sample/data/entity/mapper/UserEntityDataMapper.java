@@ -63,7 +63,7 @@ public class UserEntityDataMapper {
       userNT.setKey(userEntityNT.getKey());
       userNT.setAdjunction(userEntityNT.getAdjunction());
       userNT.setPic(userEntityNT.getPic());
-      userNT.setIndex(userEntityNT.getIndex());
+      userNT.setIndex(userEntityNT.getNumber());
     }
     return userNT;
   }

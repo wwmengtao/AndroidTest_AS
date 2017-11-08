@@ -13,6 +13,7 @@ import static com.fernandocejas.android10.sample.data.database.xmlOps.XmlOperato
 
 public class XmlItemTags {
     public static final class LEVEL1_ITEM_TAGS{
+        public static final String ROOT_FILE_NAME = "xmlfiles";//文件名称，可用作数据库的数据表名称
         public static final String ROOT_ELEMENT_TAG = "file";//文件根标签
         public static final String FIRST_ELEMENT_TAG = "item";//文件第一标签
         private static String[] FIRST_ELEMENT_TAGS={"filename","filestring","filebackpic"};//文件第一标签包含的子标签

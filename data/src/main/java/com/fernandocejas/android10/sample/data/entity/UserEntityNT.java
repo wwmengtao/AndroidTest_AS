@@ -24,7 +24,7 @@ public class UserEntityNT {
     private String key = null;//key代表玩家教程一二级标题或者三级标题详情标识，代表xml文件名称或者标题
     private String adjunction = null;//代表标题涵盖的内容
     private String pic = null;//背景图或者其他待显示图片
-    private int index = -1;
+    private int num = -1;
 
     public UserEntityNT(){}
     public UserEntityNT(String key) {
@@ -52,10 +52,10 @@ public class UserEntityNT {
     this.pic = pic;
     }
 
-    public int getIndex() {
-    return index;
+    public int getNumber() {
+    return num;
     }
-    public void setIndex(int index) {
-    this.index = index;
+    public void setNumber(int index) {
+    this.num = index;
     }
 }
