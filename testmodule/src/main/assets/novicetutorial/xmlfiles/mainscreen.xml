@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>mainscreen_move</itemtitle>
+        <itemcontent>mainscreen_move_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>mainscreen_delete</itemtitle>
+        <itemcontent>mainscreen_delete_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>mainscreen_add</itemtitle>
+        <itemcontent>mainscreen_add_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>mainscreen_icon</itemtitle>
+        <itemcontentimage>notificationintroduce</itemcontentimage>
+    </item>
+    
+    <item>
+        <itemtitle>mainscreen_fourgrass_edit</itemtitle>
+        <itemcontent>mainscreen_fourgrass_edit_description</itemcontent>
+        <itemcontentimage>lessons10</itemcontentimage>
+    </item>
+    
+    <item>
+        <itemtitle>mainscreen_fourgrass_delete</itemtitle>
+        <itemcontent>mainscreen_fourgrass_delete_desecription</itemcontent>
+    </item>    
+    
+    <item>
+        <itemtitle>mainscreen_fourgrass_restore</itemtitle>
+        <itemcontent>mainscreen_fourgrass_restore_description</itemcontent>
+    </item>
+        
+    <item>
+        <itemtitle>mainscreen_wallpaper</itemtitle>
+        <itemcontent>mainscreen_wallpaper_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>mainscreen_folder</itemtitle>
+        <itemcontent>mainscreen_folder_description</itemcontent>
+    </item>
+
+    <item>
+        <itemtitle>mainscreen_thumbnail</itemtitle>
+        <itemcontent>mainscreen_thumbnail_description</itemcontent>
+        <itemcontentimage>lessons7</itemcontentimage>
+    </item>
+    
+</functionkeyscontent>

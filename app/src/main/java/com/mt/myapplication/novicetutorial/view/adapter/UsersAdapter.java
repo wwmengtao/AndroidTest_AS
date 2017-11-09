@@ -5,6 +5,8 @@
 package com.mt.myapplication.novicetutorial.view.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,15 +33,17 @@ import butterknife.ButterKnife;
  * Adaptar that manages a collection of {@link UserModel}.
  */
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
-  private Context mContext;
-  private List<UserModelNT> usersCollection;
-  private final LayoutInflater layoutInflater;
+  protected Context mContext;
+  protected Resources mResources;
+  protected List<UserModelNT> usersCollection;
+  protected final LayoutInflater layoutInflater;
 
-  private OnItemClickListener onItemClickListener;
+  protected OnItemClickListener onItemClickListener;
 
   @Inject
   UsersAdapter(Context context) {
     this.mContext = context;
+    mResources = context.getResources();
     this.layoutInflater =
             (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     this.usersCollection = Collections.emptyList();
@@ -61,7 +65,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   @Override
   public void onBindViewHolder(UserViewHolder holder, final int position) {
     final UserModelNT mUserModelNT = usersCollection.get(position);
-    holder.mTextView.setText(mUserModelNT.getKey());
+    holder.mTextView.setText(getString(mUserModelNT.getAdjunction()));
     Glide.with(mContext)
             .load("file:///android_asset/"+mUserModelNT.getPic())//加载Asset文件夹下的图片资源
             .into(holder.mImageView);
@@ -74,6 +78,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         }
       }
     });
+  }
+
+  protected String getString(String strName){
+    int strID = mResources.getIdentifier(strName, "string" ,mContext.getPackageName());
+    return mResources.getString(strID);
   }
 
   @Override
@@ -99,6 +108,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
   static class UserViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.item_grid_image)
+    @Nullable
     ImageView mImageView;
     @BindView(R.id.item_grid_tv)
     TextView mTextView;

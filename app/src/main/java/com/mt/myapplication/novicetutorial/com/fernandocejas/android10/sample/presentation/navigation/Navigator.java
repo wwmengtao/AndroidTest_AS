@@ -19,7 +19,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.mt.myapplication.novicetutorial.view.activities.NoviceGridActivity;
-import com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -54,8 +53,8 @@ public class Navigator {
    */
   public void navigateToUserDetails(Context context, int userId) {
     if (context != null) {
-      Intent intentToLaunch = NoviceListActivity.getCallingIntent(context, userId);
-      context.startActivity(intentToLaunch);
+//      Intent intentToLaunch = NoviceListActivity.getCallingIntent(context, userId);
+//      context.startActivity(intentToLaunch);
     }
   }
 }

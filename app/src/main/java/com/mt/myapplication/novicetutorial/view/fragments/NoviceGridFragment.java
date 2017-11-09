@@ -2,7 +2,9 @@ package com.mt.myapplication.novicetutorial.view.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,6 +35,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     @Inject UsersAdapter usersAdapter;
     @Inject NoviceGridPresenter mNoviceGridPresenter;
     private NoviceListFragment.OnUserClickedListener mOnUserClickedListener;
+    private Intent mIntent = null;
 
     @Override public void onAttach(Context context) {
         super.onAttach(context);
@@ -40,6 +43,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
         if (context instanceof NoviceListFragment.OnUserClickedListener) {
             this.mOnUserClickedListener = (NoviceListFragment.OnUserClickedListener) context;
         }
+        mIntent = mActivity.getIntent();
     }
 
     @Override
@@ -101,6 +105,13 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
         usersAdapter.setOnItemClickListener(onItemClickListener);
         mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         mRecyclerView.setAdapter(usersAdapter);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL |
+                DividerItemDecoration.VERTICAL));
+    }
+
+    @Override
+    public Intent getViewIntent() {
+        return mIntent;
     }
 
     @Override

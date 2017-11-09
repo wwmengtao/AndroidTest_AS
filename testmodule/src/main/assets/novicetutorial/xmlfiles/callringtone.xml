@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>callringtone_choose</itemtitle>
+        <itemcontent>callringtone_choose_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>callringtone_adjust</itemtitle>
+        <itemcontent>callringtone_adjust_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>callringtone_mute</itemtitle>
+        <itemcontent>callringtone_mute_description</itemcontent>
+        <itemcontentimage>lessons8</itemcontentimage>
+    </item>
+    
+    <item>
+        <itemtitle>callringtone_decrease</itemtitle>
+        <itemcontent>callringtone_decrease_description</itemcontent>
+    </item>
+ 
+     <item>
+        <itemtitle>callringtone_increase</itemtitle>
+        <itemcontent>callringtone_increase_description</itemcontent>
+    </item>
+
+</functionkeyscontent>

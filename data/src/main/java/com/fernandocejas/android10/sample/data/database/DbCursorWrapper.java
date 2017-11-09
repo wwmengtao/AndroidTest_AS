@@ -3,26 +3,28 @@ package com.fernandocejas.android10.sample.data.database;
 import android.database.Cursor;
 
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
 
 
 public class DbCursorWrapper extends android.database.CursorWrapper {
-    public DbCursorWrapper(Cursor cursor) {
+    private GetUserListDetails.Params mParams;
+    public DbCursorWrapper(Cursor cursor, GetUserListDetails.Params mParams) {
         super(cursor);
+        this.mParams = mParams;
     }
 
-    public UserEntityNT getUserEntity() {
-//        String uuidString = getString(getColumnIndex(FirstLevelTitleTable.Cols.UUID));
-//        String title = getString(getColumnIndex(FirstLevelTitleTable.Cols.TITLE));
-//        long date = getLong(getColumnIndex(FirstLevelTitleTable.Cols.DATE));
-//        int isSolved = getInt(getColumnIndex(FirstLevelTitleTable.Cols.SOLVED));
-//        String suspect = getString(getColumnIndex(FirstLevelTitleTable.Cols.SUSPECT));
+    public UserEntityNT getUserEntityNT() {
+        boolean haveNum = mParams.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1;
+        String key = getString(getColumnIndex(DbSchema.Level1TitleTable.Cols.KEY));
+        String adj = getString(getColumnIndex(DbSchema.Level1TitleTable.Cols.ADJUNCTION));
+        String pic = getString(getColumnIndex(DbSchema.Level1TitleTable.Cols.PIC));
+        int num = -1;
+        if(haveNum)num = getInt(getColumnIndex(DbSchema.Level1TitleTable.Cols.NUM));
 
-//        User crime = new User(1);
-//        crime.setTitle(title);
-//        crime.setDate(new Date(date));
-//        crime.setSolved(isSolved != 0);
-//        crime.setSuspect(suspect);
-
-        return null;
+        UserEntityNT mUserEntityNT = new UserEntityNT(key);
+        mUserEntityNT.setAdjunction(adj);
+        mUserEntityNT.setPic(pic);
+        if(haveNum)mUserEntityNT.setNumber(num);
+        return mUserEntityNT;
     }
 }

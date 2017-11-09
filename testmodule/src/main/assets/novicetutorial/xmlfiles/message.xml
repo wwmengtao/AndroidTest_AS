@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>message_send</itemtitle>
+        <itemcontent>message_send_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>message_zoom</itemtitle>
+        <itemcontent>message_zoom_description</itemcontent>
+        <itemcontentimage>lessons9</itemcontentimage>
+    </item>
+    
+    <item>
+        <itemtitle>message_delete</itemtitle>
+        <itemcontent>message_delete_description</itemcontent>
+    </item>
+    
+     <item>
+        <itemtitle>message_save</itemtitle>
+        <itemcontent>message_save_description</itemcontent>
+    </item>
+
+</functionkeyscontent>

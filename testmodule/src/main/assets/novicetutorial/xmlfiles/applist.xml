@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>applist_edit</itemtitle>
+        <itemcontent>applist_edit_description</itemcontent>
+        <itemcontentimage>lessons5</itemcontentimage>
+    </item>
+    
+    <item>
+        <itemtitle>applist_uninstall</itemtitle>
+        <itemcontent>applist_uninstall_description</itemcontent>
+        <itemcontentimage>lessons5</itemcontentimage>
+    </item>
+    
+    <item>
+        <itemtitle>applist_move</itemtitle>
+        <itemcontent>applist_move_description</itemcontent>
+    </item>
+
+</functionkeyscontent>

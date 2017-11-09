@@ -18,6 +18,7 @@ package com.fernandocejas.android10.sample.data.database.xmlOps;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.database.DbCache;
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityXmlMapper;
@@ -65,6 +66,7 @@ public class ParseXmlImpl implements ParseXml {
   @Override
   public Observable<List<UserEntityNT>> userEntityNTList(@NonNull GetUserListDetails.Params params, DbCache dbCache) {
     if(null == params)return null;
+    ALog.Log("ParseXmlImpl_userEntityNTList");
     String key = params.getFileName();
     List<UserEntityNT> mUserEntityList = mUserEntityXmlMapper.transformUserEntityCollection(params);
     dbCache.put(mUserEntityList, params);//首先将xml文件解析的数据保存在数据库中

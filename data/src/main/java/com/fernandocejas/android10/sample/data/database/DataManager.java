@@ -21,12 +21,14 @@ public class DataManager {
     private static volatile DataManager mDataManager=null;
     private Collection<UserEntityNT> mData = null;
     private Context mContext=null;
+    private DataBaseHelper mDataBaseHelper=null;
     private SQLiteDatabase mSQLiteDatabase = null;
     private XmlOperator mXmlOperator = null;
     public DataManager(Context context){
         mContext = context.getApplicationContext();
         mData = new ArrayList<>();
-        mSQLiteDatabase = DataBaseHelper.getInstance(mContext).getWritableDatabase();
+        mDataBaseHelper = DataBaseHelper.getInstance(mContext);
+        mSQLiteDatabase = mDataBaseHelper.getWritableDatabase();
         mXmlOperator = new XmlOperator(mContext);
     }
 
@@ -42,7 +44,7 @@ public class DataManager {
      * @param params
      * @return
      */
-    public UserEntityNT UserEntityXml(GetUserListDetails.Params params) {
+    public UserEntityNT UserEntityNTXml(GetUserListDetails.Params params) {
         ALog.Log("UserEntityXml: "+params.getKey());
         return null;
     }
@@ -52,21 +54,24 @@ public class DataManager {
      * @param params
      * @return
      */
-    public Collection<UserEntityNT> UserEntityCollectionXml(GetUserListDetails.Params params) {
+    public Collection<UserEntityNT> UserEntityNTCollectionXml(GetUserListDetails.Params params) {
         ALog.Log("UserEntityCollectionXml: "+params.getFileName());
-        return mXmlOperator.UserEntityCollectionXml(params);
+        return mXmlOperator.UserEntityNTCollectionXml(params);
     }
 
 
-
+    /**
+     * getUserEntityCollection：查询数据表中所有数据
+     * @param params
+     * @return
+     */
     public Collection<UserEntityNT> getUserEntityCollection(GetUserListDetails.Params params){
         mData.clear();
-        String fileName = params.getFileName();
-        DbCursorWrapper cursor = queryCrimes(fileName,null, null);
+        DbCursorWrapper cursor = queryTableData(null, null, params);
         try{
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                mData.add(cursor.getUserEntity());
+                mData.add(cursor.getUserEntityNT());
                 cursor.moveToNext();
             }
         }finally {
@@ -75,69 +80,18 @@ public class DataManager {
         return mData;
     }
 
-    public UserEntityNT getUserEntity(GetUserListDetails.Params params){
-        String dbTableName = params.getFileName();
-        String title = params.getKey();
-        String columnName=null;
-        DbCursorWrapper cursor = queryCrimes(dbTableName,columnName+" = ?", new String[]{title});
-        UserEntityNT mUserEntity=null;
-        try{
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                mUserEntity = cursor.getUserEntity();
-                if(mUserEntity.getKey().equals(title))break;
-                cursor.moveToNext();
-            }
-        }finally {
-            cursor.close();
-        }
-        return mUserEntity;
-    }
-
-    private static ContentValues getContentValues(String []tableColumns, UserEntityNT mUserEntity) {
-        if(null == tableColumns){
-            return null;
-        }
-        ContentValues values = new ContentValues();
-        for(String str:tableColumns){
-            values.put(str, mUserEntity.getKey());
-        }
-//        values.put(CrimeTable.Cols.TITLE, crime.getTitle());
-//        values.put(CrimeTable.Cols.DATE, crime.getDate().getTime());
-//        values.put(CrimeTable.Cols.SOLVED, crime.isReSolved() ? 1 : 0);
-//        values.put(CrimeTable.Cols.SUSPECT, crime.getSuspect());
-
-        return values;
-    }
-
-    public void put(UserEntityNT userEntity, GetUserListDetails.Params params){
-        if(params.getDataType()==GetUserListDetails.Params.DataType.SINGLE_DATA)return;
-//        mSQLiteDatabase.insert(params.getFileName(), null, getContentValues(tableColumns, mUserEntity));
-    }
-
-    public void put(Collection<UserEntityNT> userEntityCollection, GetUserListDetails.Params params){
-        if(null == userEntityCollection || null == params){
-            return;
-        }
-        for(UserEntityNT mUserEntityNT : userEntityCollection){
-            put(mUserEntityNT, params);
-        }
-    }
-
-    public void addCrime(String dbTableName, String []tableColumns, UserEntityNT mUserEntity) {
-        mSQLiteDatabase.insert(dbTableName, null, getContentValues(tableColumns, mUserEntity));
-    }
-
     /**
-     *
-     * @param dbTableName 数据表名称
+     * queryTableData：查询数据表中的满足条件的所有数据
      * @param whereClause
      * @param whereArgs
+     * @param mParams
      * @return
      */
-    public DbCursorWrapper queryCrimes(String dbTableName, String whereClause, String[] whereArgs) {
+    public DbCursorWrapper queryTableData(String whereClause, String[] whereArgs, GetUserListDetails.Params mParams) {
+        if(mParams.getDataType() != GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1 &&
+                mParams.getDataType() != GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL2)return null;
         Cursor cursor = mSQLiteDatabase.query(
-                dbTableName,
+                mParams.getTableName(),
                 null, // Columns - null selects all columns
                 whereClause,
                 whereArgs,
@@ -145,10 +99,65 @@ public class DataManager {
                 null, // having
                 null  // orderBy
         );
-        return new DbCursorWrapper(cursor);
+        return new DbCursorWrapper(cursor, mParams);
     }
 
+    public UserEntityNT queryUserEntityNT(String key, GetUserListDetails.Params mParams){
+        DbCursorWrapper cursor = queryTableData(DbSchema.Level1TitleTable.Cols.KEY+" = ?", new String[]{key}, mParams);
+        UserEntityNT mUserEntityNT=null;
+        try{
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                mUserEntityNT = cursor.getUserEntityNT();
+                if(mUserEntityNT.getKey().equals(key))break;
+                cursor.moveToNext();
+            }
+        }finally {
+            cursor.close();
+        }
+        return mUserEntityNT;
+    }
+
+    /**
+     * put：将mUserEntityCollection内容保存在相应的数据表中
+     * @param mUserEntityCollection
+     * @param mParams
+     */
+    public void put(Collection<UserEntityNT> mUserEntityCollection, GetUserListDetails.Params mParams){
+        if(mParams.getDataType() != GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1 &&
+                mParams.getDataType() != GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL2)return;
+        if(null != mUserEntityCollection && mUserEntityCollection.size() > 0){
+            if(!exists(mParams))mDataBaseHelper.createTable(mParams.getTableName());
+            for(UserEntityNT mUserEntityNT : mUserEntityCollection){
+                put(mUserEntityNT, mParams);
+            }
+        }
+    }
+
+    public void put(UserEntityNT mUserEntity, GetUserListDetails.Params mParams){
+        String dbTableName = mParams.getTableName();
+        mSQLiteDatabase.insert(dbTableName, null, getContentValues(mUserEntity, mParams));
+        ALog.Log("mSQLiteDatabase.insert: "+exists(mParams));
+    }
+
+    private ContentValues getContentValues(UserEntityNT mUserEntity, GetUserListDetails.Params mParams) {
+        ContentValues values = new ContentValues();
+        values.put(DbSchema.Level1TitleTable.Cols.KEY, mUserEntity.getKey());
+        values.put(DbSchema.Level1TitleTable.Cols.ADJUNCTION, mUserEntity.getAdjunction());
+        values.put(DbSchema.Level1TitleTable.Cols.PIC, mUserEntity.getPic());
+        if(mParams.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1) {
+            values.put(DbSchema.Level1TitleTable.Cols.NUM, mUserEntity.getNumber());
+        }
+        return values;
+    }
+
+    /**
+     * exists：查询数据表是否存在
+     * @param params
+     * @return
+     */
     public boolean exists(GetUserListDetails.Params params){
-        return false;
+        if(null == params)return false;
+        return mDataBaseHelper.tabIsExist(params.getTableName());
     }
 }

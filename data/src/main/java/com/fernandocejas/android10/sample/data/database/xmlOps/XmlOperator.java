@@ -31,14 +31,14 @@ public class XmlOperator {
 	private InputStream mInputStream=null;
 	private Context mContext=null;
 	private AssetManager mAssetManager = null;
-	private Collection<UserEntityNT> mUserEntityCollection = null;
+	private Collection<UserEntityNT> mUserEntityNTCollection = null;
 	//
 	public XmlOperator(Context context){
 		mContext=context.getApplicationContext();
 		ioEncoding = "UTF-8";//"ISO-8859-1","UTF-16BE","UTF-16LE"
 		mXmlPullParser = Xml.newPullParser();
 		mAssetManager = mContext.getAssets();
-		mUserEntityCollection = new ArrayList<>();
+		mUserEntityNTCollection = new ArrayList<>();
 	}
 
 	/**
@@ -46,21 +46,21 @@ public class XmlOperator {
 	 * @param params
 	 * @return
 	 */
-	public Collection<UserEntityNT> UserEntityCollectionXml(GetUserListDetails.Params params){
+	public Collection<UserEntityNT> UserEntityNTCollectionXml(GetUserListDetails.Params params){
 		if(null == params)return null;
-		mUserEntityCollection.clear();
+		mUserEntityNTCollection.clear();
 		//如果是一级、二级菜单文件那么就解析xml文件
 		if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1 ||
 				params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL2){
 			readFromXmlFile(params);
 		}
-//		visitCollection(mUserEntityCollection);//浏览mUserEntityCollection中的数据内容
-		return mUserEntityCollection;
+		visitCollection(mUserEntityNTCollection);//浏览mUserEntityCollection中的数据内容
+		return mUserEntityNTCollection;
 	}
 
 	public void readFromXmlFile(GetUserListDetails.Params params){
 		ALog.Log(TAG+"readFromXmlFile");
-		String fileName = NoviceAssetsXmlDir+File.separator+params.getFileName();
+		String fileName = NoviceAssetsXmlDir + File.separator + params.getFileName();
 		try {
 			mInputStream = mAssetManager.open(fileName);
 			mXmlPullParser.setInput(new BufferedInputStream(mInputStream), ioEncoding);
@@ -134,8 +134,6 @@ public class XmlOperator {
 						}
 						break;
 					case XmlPullParser.END_TAG:
-						if (parser.getName().equals("mblog")) {
-						}
 						break;
 					default:
 						break;
@@ -183,7 +181,7 @@ public class XmlOperator {
 					break;
 				case XmlPullParser.END_TAG:
 					if(FIRST_TAG_NAME.equals(parser.getName())){
-						mUserEntityCollection.add(mUserEntityNT);
+						mUserEntityNTCollection.add(mUserEntityNT);
 						return;
 					}
 					break;
@@ -191,7 +189,7 @@ public class XmlOperator {
 		}//end for(;;)
 	}//end parseTagItem
 
-	private void visitCollection(Collection<UserEntityNT> mUserEntityCollection){
+	public void visitCollection(Collection<UserEntityNT> mUserEntityCollection){
 		if(null != mUserEntityCollection && mUserEntityCollection.size() > 0){
 			ALog.Log(TAG+"mUserEntityCollection.size(): "+mUserEntityCollection.size());
 			for(UserEntityNT mUserEntityNT : mUserEntityCollection){

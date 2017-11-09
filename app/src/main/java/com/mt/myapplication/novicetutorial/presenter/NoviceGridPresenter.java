@@ -122,7 +122,7 @@ public class NoviceGridPresenter implements Presenter {
 
     @Override public void onNext(List<UserNT> users) {
       NoviceGridPresenter.this.showUsersCollectionInView(users);
-      visitCollection(users);
+//      visitCollection(users);
     }
   }
   private void visitCollection(Collection<UserNT> mUserEntityCollection){

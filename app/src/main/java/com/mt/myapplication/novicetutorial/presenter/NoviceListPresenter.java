@@ -15,6 +15,7 @@
  */
 package com.mt.myapplication.novicetutorial.presenter;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.fernandocejas.android10.sample.domain.UserNT;
@@ -22,6 +23,7 @@ import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails.Params;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataNTMapper;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
@@ -32,6 +34,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity.INTENT_EXTRA_PARAM_USER_KEY;
+
 /**
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
@@ -40,6 +44,8 @@ public class NoviceListPresenter implements Presenter {
   private NoviceRecyclerView mNoviceRecyclerView;
   private final GetUserListDetails mGetUserListDetails;
   private final UserModelDataNTMapper mUserModelDataNTMapper;
+  private GetUserListDetails.Params mParams;
+
   @Inject
   public NoviceListPresenter(GetUserListDetails mGetUserListDetails, UserModelDataNTMapper mUserModelDataNTMapper){
     this.mGetUserListDetails = mGetUserListDetails;
@@ -112,7 +118,11 @@ public class NoviceListPresenter implements Presenter {
 
   //获取数据
   private void getUserList() {
-    this.mGetUserListDetails.execute(new UserRecyclerViewObserver(), null);
+    Intent intent = mNoviceRecyclerView.getViewIntent();
+    String key = intent.getStringExtra(INTENT_EXTRA_PARAM_USER_KEY);//key内容为functionkeyscontent.xml之类的xml文件名称
+    if(null == key)return;
+    this.mParams = new GetUserListDetails.Params(Params.DataType.COLLECTION_DATA_LEVEL2, key, null);//第一个界面解析xmlfiles.xml中一级标题
+    this.mGetUserListDetails.execute(new UserRecyclerViewObserver(), this.mParams);
   }
 
   private final class UserRecyclerViewObserver extends DefaultObserver<List<UserNT>> {

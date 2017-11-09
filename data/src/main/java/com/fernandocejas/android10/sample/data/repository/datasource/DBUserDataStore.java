@@ -15,6 +15,7 @@
  */
 package com.fernandocejas.android10.sample.data.repository.datasource;
 
+import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.database.DbCache;
 import com.fernandocejas.android10.sample.data.database.xmlOps.ParseXml;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
@@ -51,8 +52,10 @@ class DBUserDataStore implements UserDataStore {
 
   @Override public Observable<List<UserEntityNT>> userEntityNTList(GetUserListDetails.Params params) {
     if(dbCache.isCached(params)){
+      ALog.Log("DBUserDataStore_dbCache.isCached");
       return this.dbCache.getCollection(params);
     }
+    ALog.Log("DBUserDataStore_parseXml.userEntityNTList");
     return this.parseXml.userEntityNTList(params,dbCache);
 //    return this.parseXml.userEntityList(params).doOnNext(DBUserDataStore.this.dbCache::put);
   }

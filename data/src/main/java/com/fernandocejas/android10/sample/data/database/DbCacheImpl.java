@@ -67,7 +67,7 @@ public class DbCacheImpl implements DbCache {
   @Override
   public Observable<UserEntityNT> get(final GetUserListDetails.Params params) {
     return Observable.create(emitter -> {
-      final UserEntityNT userEntity = mDataManager.getUserEntity(params);
+      final UserEntityNT userEntity = mDataManager.queryUserEntityNT(params.getKey(), params);
       if (userEntity != null) {
         emitter.onNext(userEntity);
         emitter.onComplete();

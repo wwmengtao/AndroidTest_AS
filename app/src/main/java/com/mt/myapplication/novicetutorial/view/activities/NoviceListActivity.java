@@ -12,12 +12,12 @@ import com.mt.myapplication.novicetutorial.view.fragments.NoviceListFragment;
 public class NoviceListActivity extends BaseActivity implements NoviceListFragment.OnUserClickedListener{
     private Fragment mFragment;
 
-    private static final String INTENT_EXTRA_PARAM_USER_ID = "org.android10.INTENT_PARAM_USER_ID";
+    public static final String INTENT_EXTRA_PARAM_USER_KEY = "NoviceListActivity.USERNT_KEY";
     private static final String INSTANCE_STATE_PARAM_USER_ID = "org.android10.STATE_PARAM_USER_ID";
 
-    public static Intent getCallingIntent(Context context, int userId) {
+    public static Intent getCallingIntent(Context context, String key) {
         Intent callingIntent = new Intent(context, NoviceListActivity.class);
-        callingIntent.putExtra(INTENT_EXTRA_PARAM_USER_ID, userId);
+        callingIntent.putExtra(INTENT_EXTRA_PARAM_USER_KEY, key);
         return callingIntent;
     }
 

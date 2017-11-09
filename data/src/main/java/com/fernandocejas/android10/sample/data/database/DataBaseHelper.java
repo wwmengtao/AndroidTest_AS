@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.database.DbSchema.Level1TitleTable;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * SQLiteOpenHelper是一个辅助类，用来管理数据库的创建和版本，它提供两个方面的功能
  * 第一，getReadableDatabase()、getWritableDatabase()可以获得SQLiteDatabase对象，通过该对象可以对数据库进行操作
@@ -37,21 +41,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-		ALog.Log("create a database");
-		try{
-		//execSQL用于执行SQL语句，注意：1)数据表名称不能包含".";2)数据表中，列名不能用"index"(大小写都不允许)，否则报错。
-		db.execSQL("CREATE TABLE " + Level1TitleTable.NAME+" (" +
-				 "_id" + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
-				Level1TitleTable.Cols.KEY +  " TEXT," +
-				Level1TitleTable.Cols.ADJUNCTION +  " TEXT," +
-				Level1TitleTable.Cols.PIC +  " TEXT," +
-				Level1TitleTable.Cols.NUM + " INTEGER" + ");"
-		);}
-		catch (SQLException e){
-			ALog.Log("SQLException\n"+e.fillInStackTrace());
-		}
-		ALog.Log("tabIsExist: "+tabIsExist(Level1TitleTable.NAME));
-
+		ALog.Log("DataBaseHelper_onCreate");
 	}
 
 	@Override
@@ -59,7 +49,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		ALog.Log("upgrade a database");
         try {
-            db.execSQL("drop table if exists "+Level1TitleTable.NAME);
+			dropTables();
             onCreate(db);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,17 +58,66 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 	public void createTable(String tableName){
     	if(tabIsExist(tableName))return;//如果数据表存在就不创建了
-		this.getReadableDatabase().execSQL("CREATE TABLE " + tableName+" (" +
-				"_id" + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
-				Level1TitleTable.Cols.KEY +  " TEXT," +
-				Level1TitleTable.Cols.ADJUNCTION +  " TEXT," +
-				Level1TitleTable.Cols.PIC +  " TEXT," +
-				Level1TitleTable.Cols.NUM + " INTEGER" + ");"
-		);
+		ALog.Log("create table: "+tableName);
+		try{
+			//execSQL用于执行SQL语句，注意：1)数据表名称不能包含".";2)数据表中，列名不能用"index"(大小写都不允许)，否则报错。
+			this.getWritableDatabase().execSQL("CREATE TABLE " + tableName+" (" +
+					"_id" + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+					Level1TitleTable.Cols.KEY +  " TEXT," +
+					Level1TitleTable.Cols.ADJUNCTION +  " TEXT," +
+					Level1TitleTable.Cols.PIC +  " TEXT," +
+					Level1TitleTable.Cols.NUM + " INTEGER" + ");"
+			);}
+		catch (SQLException e){
+			ALog.Log("createTable_SQLException\n"+e.fillInStackTrace());
+		}
 	}
 
-	public void deleteTable(String tableName){
-		this.getReadableDatabase().execSQL("drop table if exists "+tableName);
+	public void dropTables(){
+		List<String> allTableNames = getAllTables();
+		if(allTableNames.size()>0){
+			SQLiteDatabase db = null;
+			try {
+				db = this.getReadableDatabase();//此this是继承SQLiteOpenHelper类得到的
+				for (String tableName : allTableNames) {
+					db.execSQL("drop table if exists " + tableName);
+				}
+			}catch (Exception e){
+				ALog.Log("dropTables_Exception\n"+e.fillInStackTrace());
+			}
+		}
+	}
+
+
+	/**
+	 * 获取数据库文件中所有数据表名称(不包含不感兴趣的数据表名称，例如android_metadata、sqlite_sequence)
+	 * */
+	public List<String> getAllTables(){
+		List<String> allTableNames = new ArrayList<>();
+		SQLiteDatabase db = null;
+		Cursor cursor = null;
+		String tableName = null;
+		try {
+			db = this.getReadableDatabase();//此this是继承SQLiteOpenHelper类得到的
+			String sql = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE 'android_%'";
+			cursor = db.rawQuery(sql, null);
+			if (cursor.moveToFirst()) {
+				while ( !cursor.isAfterLast() ) {
+					tableName = cursor.getString(0);
+					allTableNames.add(tableName);
+					ALog.Log("tableName: "+tableName);
+					cursor.moveToNext();
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}finally {
+			if(null != cursor && !cursor.isClosed()){
+				cursor.close() ;
+			}
+		}
+		return allTableNames;
 	}
 
 	public boolean tabIsExist(String tabName){

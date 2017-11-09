@@ -2,7 +2,9 @@ package com.mt.myapplication.novicetutorial.view.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import com.mt.androidtest_as.R;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceListPresenter;
+import com.mt.myapplication.novicetutorial.view.adapter.UserAdapterList;
 import com.mt.myapplication.novicetutorial.view.adapter.UsersAdapter;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
 
@@ -29,9 +32,10 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     Activity mActivity = null;
     @Inject Context mContext;
     @BindView(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
-    @Inject UsersAdapter usersAdapter;
+    @Inject UserAdapterList usersAdapter;
     @Inject NoviceListPresenter mNoviceListPresenter;
     private OnUserClickedListener mOnUserClickedListener;
+    private Intent mIntent = null;
 
     /**
      * Interface for listening user list events.
@@ -46,6 +50,7 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
         if (activity instanceof OnUserClickedListener) {
             this.mOnUserClickedListener = (OnUserClickedListener) activity;
         }
+        mIntent = mActivity.getIntent();
     }
 
     @Override
@@ -108,6 +113,13 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
         usersAdapter.setOnItemClickListener(onItemClickListener);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(usersAdapter);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL |
+                DividerItemDecoration.VERTICAL));
+    }
+
+    @Override
+    public Intent getViewIntent() {
+        return mIntent;
     }
 
     @Override

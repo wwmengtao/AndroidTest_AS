@@ -5,6 +5,8 @@
 package com.mt.myapplication.novicetutorial.view.interfaces;
 
 
+import android.content.Intent;
+
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 
@@ -15,6 +17,8 @@ import java.util.Collection;
  * Interface representing a View in a model view presenter (MVP) pattern.
  */
 public interface NoviceRecyclerView extends LoadDataView{
+
+  Intent getViewIntent();
 
   void setUserList(Collection<UserModelNT> userModelCollection);
 

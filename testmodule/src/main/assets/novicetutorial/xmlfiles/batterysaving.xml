@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>batterysaving_introduce</itemtitle>
+        <itemcontent>batterysaving_introduce_description</itemcontent>
+    </item>
+
+    <item>
+        <itemtitle>batterysaving_lowbattery</itemtitle>
+        <itemcontent>batterysaving_lowbattery_descritpion</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>batterysaving_mode</itemtitle>
+        <itemcontent>batterysaving_mode_description</itemcontent>
+    </item>
+
+</functionkeyscontent>

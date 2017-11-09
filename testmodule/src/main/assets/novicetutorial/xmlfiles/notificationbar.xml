@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>notificationbar_open</itemtitle>
+        <itemcontent>notificationbar_open_description</itemcontent>
+        <itemcontentimage>lessons2a</itemcontentimage>
+    </item>
+    
+    <item>
+        <itemtitle>notificationbar_close</itemtitle>
+        <itemcontent>notificationbar_close_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>notificationbar_quick</itemtitle>
+        <itemcontent>notificationbar_quick_description</itemcontent>
+        <itemcontentimage>lessons2b</itemcontentimage>
+    </item>
+    
+</functionkeyscontent>

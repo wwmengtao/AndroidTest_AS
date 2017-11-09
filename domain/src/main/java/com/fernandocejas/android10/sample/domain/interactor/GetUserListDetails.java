@@ -43,6 +43,7 @@ public class GetUserListDetails extends UseCase<List<UserNT>, GetUserListDetails
   }
 
   @Override Observable<List<UserNT>> buildUseCaseObservable(GetUserListDetails.Params params) {
+    System.out.println("buildUseCaseObservable");
     return this.userRepository.users(params);
   }
 
@@ -53,11 +54,13 @@ public class GetUserListDetails extends UseCase<List<UserNT>, GetUserListDetails
       SINGLE_DATA//玩家教程二级标题数据
     }
     private DataType mDataType;
-    private String fileName;//对应数据库的数据表
-    private String key;//对应数据表中的主键
+    private String fileName;//xml文件名称
+    private String tableName;//对应数据库的数据表
+    private String key;//对应数据表中的主键，适用于单个数据
     public Params(DataType mDataType, String fileName, String key) {
       this.mDataType = mDataType;
       this.fileName = fileName;
+      this.tableName = fileName.replace(".xml","");
       this.key = key;
     }
     public DataType getDataType(){
@@ -65,6 +68,9 @@ public class GetUserListDetails extends UseCase<List<UserNT>, GetUserListDetails
     }
     public String getFileName(){
       return fileName;
+    }
+    public String getTableName(){
+      return tableName;
     }
     public String getKey(){
       return key;

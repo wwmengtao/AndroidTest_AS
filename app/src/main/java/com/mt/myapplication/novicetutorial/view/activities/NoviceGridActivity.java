@@ -30,6 +30,8 @@ public class NoviceGridActivity extends BaseActivity implements NoviceListFragme
 
     @Override
     public void onUserClicked(UserModelNT userModel) {
-        ALog.Log("NoviceGridActivity.onUserClicked: "+userModel.getPic());
+        ALog.Log("NoviceGridActivity.onUserClicked: "+userModel.getKey());
+        Intent intent = NoviceListActivity.getCallingIntent(this, userModel.getKey());
+        this.startActivity(intent);
     }
 }

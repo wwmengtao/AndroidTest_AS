@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>connect_device</itemtitle>
+        <itemcontent>connect_device_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>connect_mode</itemtitle>
+        <itemcontent>connect_mode_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>connect_pc</itemtitle>
+        <itemcontent>connect_pc_description</itemcontent>
+    </item>
+ 
+</functionkeyscontent>

@@ -41,10 +41,10 @@ public class UserEntityXmlMapper {
   }
 
   public List<UserEntityNT> transformUserEntityCollection(GetUserListDetails.Params params){
-    return (List<UserEntityNT>)mDataManager.UserEntityCollectionXml(params);
+    return (List<UserEntityNT>)mDataManager.UserEntityNTCollectionXml(params);
   }
 
   public UserEntityNT transformUserEntity(GetUserListDetails.Params params){
-    return mDataManager.UserEntityXml(params);
+    return mDataManager.UserEntityNTXml(params);
   }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<functionkeyscontent>
+    <item>
+        <itemtitle>contactsmanage_add</itemtitle>
+        <itemcontent>contactsmanage_add_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>contactsmanage_remove</itemtitle>
+        <itemcontent>contactsmanage_remove_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>contactsmanage_lookup</itemtitle>
+        <itemcontent>contactsmanage_lookup_description</itemcontent>
+    </item>
+
+    <item>
+        <itemtitle>contactsmanage_copy</itemtitle>
+        <itemcontent>contactsmanage_copy_description</itemcontent>
+    </item>
+    
+    <item>
+        <itemtitle>contactsmanage_share</itemtitle>
+        <itemcontent>contactsmanage_share_description</itemcontent>
+    </item>
+</functionkeyscontent>
