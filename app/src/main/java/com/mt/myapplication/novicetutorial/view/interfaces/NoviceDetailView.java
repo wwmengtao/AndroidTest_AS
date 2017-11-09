@@ -4,6 +4,8 @@
  */
 package com.mt.myapplication.novicetutorial.view.interfaces;
 
+import android.content.Intent;
+
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 
@@ -18,4 +20,7 @@ public interface NoviceDetailView extends LoadDataView {
    * @param user The {@link UserModel} that will be shown.
    */
   void showUser(UserModelNT user);
+
+  Intent getViewIntent();
+
 }

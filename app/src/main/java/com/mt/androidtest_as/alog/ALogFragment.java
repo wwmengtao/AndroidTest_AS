@@ -40,6 +40,11 @@ public abstract class ALogFragment extends Fragment {
 		return getResources().getString(strID);
 	}
 
+	protected int getPicID(String picName){
+		int strID = getResources().getIdentifier(picName, "drawable" ,getActivity().getPackageName());
+		return strID;
+	}
+
 	@Override
 	public void onAttach(Activity mActivity) {
 		super.onAttach(mActivity);

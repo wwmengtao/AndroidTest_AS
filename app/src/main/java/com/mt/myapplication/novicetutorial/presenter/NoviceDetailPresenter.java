@@ -15,6 +15,7 @@
  */
 package com.mt.myapplication.novicetutorial.presenter;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.fernandocejas.android10.sample.domain.UserNT;
@@ -30,6 +31,8 @@ import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.pr
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceDetailView;
 
 import javax.inject.Inject;
+
+import static com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity.NOVICE_LIST_ACTIVITY_TABLE;
 
 /**
  * {@link Presenter} that controls communication between views and models of the presentation
@@ -99,9 +102,19 @@ public class NoviceDetailPresenter implements Presenter {
         this.mNoviceDetailView.showUser(userModel);
     }
 
+    /**
+     * getUserDetails：此函数用于展示RX2从数据库中获取单个数据的方法，其实可以直接用userModel显示内容
+     * @param userModel
+     */
     private void getUserDetails(UserModelNT userModel) {
         ALog.Log("getUserDetails_userModel: "+userModel.toString());
-        mParams = new GetUserNTList.Params(GetUserNTList.Params.DataType.SINGLE_DATA, "" ,userModel.getKey());
+        Intent mIntent = mNoviceDetailView.getViewIntent();
+        String tableName = mIntent.getStringExtra(NOVICE_LIST_ACTIVITY_TABLE);
+        ALog.Log("getUserDetails_userModel_tableName: "+tableName);
+        mParams = new GetUserNTList.Params();
+        mParams.setDataType(GetUserNTList.Params.DataType.SINGLE_DATA);
+        mParams.setTableName(tableName);
+        mParams.setKey(userModel.getKey());
         this.mGetUserNTDetails.execute(new UserDetailsObserver(), mParams);
     }
 

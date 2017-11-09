@@ -52,27 +52,59 @@ public class GetUserNTList extends UseCase<List<UserNT>, GetUserNTList.Params> {
       COLLECTION_DATA_LEVEL2,//玩家教程二级标题数据
       SINGLE_DATA//玩家教程二级标题数据
     }
-    private DataType mDataType;
-    private String fileName;//xml文件名称
-    private String tableName;//对应数据库的数据表
-    private String key;//对应数据表中的主键，适用于单个数据
+    private DataType mDataType = null;
+    private String fileName = null;//xml文件名称
+    private String tableName = null;//对应数据库的数据表
+    private String key = null;//对应数据表中的主键，适用于单个数据
+
+    public Params(){
+
+    }
+
     public Params(DataType mDataType, String fileName, String key) {
       this.mDataType = mDataType;
       this.fileName = fileName;
       this.tableName = fileName.replace(".xml","");
       this.key = key;
     }
+
+    public void setDataType(DataType mDataType){
+      this.mDataType = mDataType;
+    }
     public DataType getDataType(){
       return mDataType;
+    }
+
+    public void setFileName(String fileName){
+      this.fileName = fileName;
     }
     public String getFileName(){
       return fileName;
     }
+
+    public void setTableName(String tableName){
+      this.tableName = tableName;
+    }
     public String getTableName(){
       return tableName;
     }
+
+    public void setKey(String key){
+      this.key = key;
+    }
     public String getKey(){
       return key;
+    }
+
+    public String toString(){
+      String str =
+        "/----------------GetUserNTList.Params.toString----------------/" + "\n" +
+        "mDataType: "+mDataType + "\n" +
+        "fileName: "+fileName + "\n" +
+        "tableName: "+tableName + "\n" +
+        "key: "+key + "\n" +
+        "/----------------GetUserNTList.Params.toString----------------/";
+      return str;
     }
   }
 }

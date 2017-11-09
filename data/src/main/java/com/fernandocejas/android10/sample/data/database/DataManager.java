@@ -89,7 +89,8 @@ public class DataManager {
      */
     public DbCursorWrapper queryTableData(String whereClause, String[] whereArgs, GetUserNTList.Params mParams) {
         if(mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1 &&
-                mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2)return null;
+                mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2 &&
+                mParams.getDataType() != GetUserNTList.Params.DataType.SINGLE_DATA)return null;
         Cursor cursor = mSQLiteDatabase.query(
                 mParams.getTableName(),
                 null, // Columns - null selects all columns
@@ -103,6 +104,7 @@ public class DataManager {
     }
 
     public UserEntityNT queryUserEntityNT(String key, GetUserNTList.Params mParams){
+//        ALog.Log("queryUserEntityNT:"+key+" "+mParams.toString());
         DbCursorWrapper cursor = queryTableData(DbSchema.Level1TitleTable.Cols.KEY+" = ?", new String[]{key}, mParams);
         UserEntityNT mUserEntityNT=null;
         try{

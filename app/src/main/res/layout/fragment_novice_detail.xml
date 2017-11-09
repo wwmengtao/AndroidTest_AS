@@ -11,13 +11,17 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/detail_tv"
+                android:id="@+id/novice_detail_tv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_24"
+                android:visibility="invisible"/>
             <ImageView
-                android:id="@+id/detail_img"
+                android:id="@+id/novice_detail_img"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:visibility="invisible"/>
         </LinearLayout>
     </ScrollView>
 

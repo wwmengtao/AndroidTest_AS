@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceDetailPresenter;
@@ -29,12 +32,18 @@ public class NoviceDetailFragment extends BaseFragment implements NoviceDetailVi
     private Activity mActivity = null;
     private Intent mIntent = null;
     @Inject Context mContext;
-    @BindView(R.id.detail_tv) TextView mTextView;
+    @BindView(R.id.novice_detail_tv) TextView mTextView;
+    @BindView(R.id.novice_detail_img) ImageView mImageView;
+
     @Inject NoviceDetailPresenter mNoviceDetailPresenter;
 
     @Override public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
+        mIntent = mActivity.getIntent();
+        UserModelNT userModel = (UserModelNT)mIntent.getParcelableExtra(NOVICE_DETAIL_ACTIVITY_KEY);
+//        ALog.Log("NoviceDetailFragment_onAttach: "+userModel.toString());
+        mActivity.setTitle(getString(userModel.getKey()));
     }
 
     @Override
@@ -66,6 +75,23 @@ public class NoviceDetailFragment extends BaseFragment implements NoviceDetailVi
      */
     private void loadUserList(UserModelNT userModel) {
         this.mNoviceDetailPresenter.initialize(userModel);
+    }
+
+    @Override
+    public void showUser(UserModelNT user) {
+        ALog.Log("NoviceDetailFragment_showUser: "+user.toString());
+        String content = user.getAdjunction();
+        String picName = user.getPic();
+        if(null != content){
+            mTextView.setText(getString(content));
+            mTextView.setVisibility(View.VISIBLE);
+        }
+        if(null != picName){
+            Glide.with(mContext)
+                    .load(getPicID(picName))//加载res/drawblexxx文件夹中的图片资源
+                    .into(mImageView);
+            mImageView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override public void onDestroyView() {
@@ -100,11 +126,11 @@ public class NoviceDetailFragment extends BaseFragment implements NoviceDetailVi
 
     @Override
     public Context context() {
-        return null;
+        return mContext;
     }
 
     @Override
-    public void showUser(UserModelNT user) {
-
+    public Intent getViewIntent() {
+        return mIntent;
     }
 }
