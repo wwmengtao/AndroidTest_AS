@@ -20,7 +20,7 @@ import com.fernandocejas.android10.sample.data.database.DbCache;
 import com.fernandocejas.android10.sample.data.database.xmlOps.ParseXml;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ class DBUserDataStore implements UserDataStore {
     return null;
   }
 
-  @Override public Observable<List<UserEntityNT>> userEntityNTList(GetUserListDetails.Params params) {
+  @Override public Observable<List<UserEntityNT>> userEntityNTList(GetUserNTList.Params params) {
     if(dbCache.isCached(params)){
       ALog.Log("DBUserDataStore_dbCache.isCached");
       return this.dbCache.getCollection(params);
@@ -65,7 +65,7 @@ class DBUserDataStore implements UserDataStore {
   }
 
   @Override
-  public Observable<UserEntityNT> userEntityNTDetails(GetUserListDetails.Params params) {
+  public Observable<UserEntityNT> userEntityNTDetails(GetUserNTList.Params params) {
     if(null == params)return null;
     return this.dbCache.get(params);
   }

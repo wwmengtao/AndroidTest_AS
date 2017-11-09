@@ -20,7 +20,7 @@ import com.fernandocejas.android10.sample.data.repository.datasource.UserDataSto
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStoreFactory;
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.UserNT;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 
 import java.util.List;
@@ -58,7 +58,13 @@ public class UserDataRepository implements UserRepository {
     return userDataStore.userEntityList().map(this.userEntityDataMapper::transform);
   }
 
-  @Override public Observable<List<UserNT>> users(GetUserListDetails.Params params) {
+  @Override
+  public Observable<UserNT> user(GetUserNTList.Params params) {
+    final UserDataStore userDataStore = this.userDataStoreFactory.createDBDataStore();
+    return userDataStore.userEntityNTDetails(params).map(this.userEntityDataMapper::transformNT);
+  }
+
+  @Override public Observable<List<UserNT>> users(GetUserNTList.Params params) {
     final UserDataStore userDataStore = this.userDataStoreFactory.createDBDataStore();
     return userDataStore.userEntityNTList(params).map(this.userEntityDataMapper::transformNT);
   }

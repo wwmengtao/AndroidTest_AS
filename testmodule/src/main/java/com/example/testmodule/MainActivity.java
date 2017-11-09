@@ -15,7 +15,7 @@ import com.fernandocejas.android10.sample.data.database.DbCursorWrapper;
 import com.fernandocejas.android10.sample.data.database.DbSchema;
 import com.fernandocejas.android10.sample.data.database.xmlOps.XmlOperator;
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 
 import java.util.Collection;
 import java.util.List;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private DataBaseHelper mDataBaseHelper;
     private SQLiteDatabase mSQLiteDatabase;
     private List<UserEntityNT> userEntityList;
-    private GetUserListDetails.Params params;
+    private GetUserNTList.Params params;
     private String fileName = "xmlfiles.xml";
     private String tableName = "xmlfiles";
     private XmlOperator mXmlOperator;
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         mDataBaseHelper = DataBaseHelper.getInstance(this.getApplicationContext());
         mSQLiteDatabase = mDataBaseHelper.getWritableDatabase();
         mXmlOperator = new XmlOperator(this.getApplicationContext());
-        params = new GetUserListDetails.Params(GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1, fileName, null);
+        params = new GetUserNTList.Params(GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1, fileName, null);
     }
 
     protected void onResume(){
@@ -110,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
         mDataBaseHelper.dropTables();
     }
 
-    public void saveCollection(Collection<UserEntityNT> mUserEntityCollection, GetUserListDetails.Params mParams){
-        if(mParams.getDataType() != GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1 &&
-                mParams.getDataType() != GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL2)return;
+    public void saveCollection(Collection<UserEntityNT> mUserEntityCollection, GetUserNTList.Params mParams){
+        if(mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1 &&
+                mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2)return;
         if(null != mUserEntityCollection && mUserEntityCollection.size() > 0){
             for(UserEntityNT mUserEntityNT : mUserEntityCollection){
                 saveData(mUserEntityNT, mParams);
@@ -120,26 +120,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void saveData(UserEntityNT mUserEntity, GetUserListDetails.Params mParams) {
+    public void saveData(UserEntityNT mUserEntity, GetUserNTList.Params mParams) {
         String dbTableName = mParams.getTableName();
         mSQLiteDatabase.insert(dbTableName, null, getContentValues(mUserEntity, mParams));
     }
 
-    private ContentValues getContentValues(UserEntityNT mUserEntity, GetUserListDetails.Params mParams) {
+    private ContentValues getContentValues(UserEntityNT mUserEntity, GetUserNTList.Params mParams) {
         ALog.Log("getContentValues");
         ContentValues values = new ContentValues();
         values.put(DbSchema.Level1TitleTable.Cols.KEY, mUserEntity.getKey());
         values.put(DbSchema.Level1TitleTable.Cols.ADJUNCTION, mUserEntity.getAdjunction());
         values.put(DbSchema.Level1TitleTable.Cols.PIC, mUserEntity.getPic());
-        if(mParams.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1) {
+        if(mParams.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1) {
             values.put(DbSchema.Level1TitleTable.Cols.NUM, mUserEntity.getNumber());
         }
         return values;
     }
 
-    public DbCursorWrapper queryTableData(String whereClause, String[] whereArgs, GetUserListDetails.Params mParams) {
-        if(mParams.getDataType() != GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1 &&
-                mParams.getDataType() != GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL2)return null;
+    public DbCursorWrapper queryTableData(String whereClause, String[] whereArgs, GetUserNTList.Params mParams) {
+        if(mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1 &&
+                mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2)return null;
         Cursor cursor = mSQLiteDatabase.query(
                 mParams.getTableName(),
                 null, // Columns - null selects all columns
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         return new DbCursorWrapper(cursor, mParams);
     }
 
-    public UserEntityNT queryUserEntityNT(String key, GetUserListDetails.Params mParams){
+    public UserEntityNT queryUserEntityNT(String key, GetUserNTList.Params mParams){
         DbCursorWrapper cursor = queryTableData(DbSchema.Level1TitleTable.Cols.KEY+" = ?", new String[]{key}, mParams);
         UserEntityNT mUserEntityNT=null;
         try{

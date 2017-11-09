@@ -57,4 +57,15 @@ public class UserNT {
   public void setIndex(int index) {
     this.index = index;
   }
+
+  public String toString(){
+    String str =
+      "/----------------UserNT.toString----------------/" + "\n" +
+      "key: "+key + "\n" +
+      "adjunction: "+adjunction + "\n" +
+      "pic: "+pic + "\n" +
+      "index: "+index + "\n" +
+      "/----------------UserNT.toString----------------/";
+    return str;
+  }
 }

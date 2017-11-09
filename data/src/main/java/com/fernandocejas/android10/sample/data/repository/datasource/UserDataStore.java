@@ -17,7 +17,7 @@ package com.fernandocejas.android10.sample.data.repository.datasource;
 
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public interface UserDataStore {
    */
   Observable<List<UserEntity>> userEntityList();
 
-  Observable<List<UserEntityNT>> userEntityNTList(final GetUserListDetails.Params params);
+  Observable<List<UserEntityNT>> userEntityNTList(final GetUserNTList.Params params);
 
   /**
    * Get an {@link Observable} which will emit a {@link UserEntity} by its id.
@@ -41,5 +41,5 @@ public interface UserDataStore {
    */
   Observable<UserEntity> userEntityDetails(final int userId);
 
-  Observable<UserEntityNT> userEntityNTDetails(final GetUserListDetails.Params params);
+  Observable<UserEntityNT> userEntityNTDetails(final GetUserNTList.Params params);
 }

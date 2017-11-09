@@ -23,7 +23,7 @@ import com.fernandocejas.android10.sample.data.database.DbCache;
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityXmlMapper;
 import com.fernandocejas.android10.sample.data.exception.NetworkConnectionException;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 
 import java.util.List;
 
@@ -64,7 +64,7 @@ public class ParseXmlImpl implements ParseXml {
 //    });
 
   @Override
-  public Observable<List<UserEntityNT>> userEntityNTList(@NonNull GetUserListDetails.Params params, DbCache dbCache) {
+  public Observable<List<UserEntityNT>> userEntityNTList(@NonNull GetUserNTList.Params params, DbCache dbCache) {
     if(null == params)return null;
     ALog.Log("ParseXmlImpl_userEntityNTList");
     String key = params.getFileName();
@@ -88,7 +88,7 @@ public class ParseXmlImpl implements ParseXml {
   /**
    * 解析xml中单一数据这个功能暂时不用
    */
-  public Observable<UserEntityNT> userEntityNT(GetUserListDetails.Params params, DbCache dbCache) {
+  public Observable<UserEntityNT> userEntityNT(GetUserNTList.Params params, DbCache dbCache) {
     if(null == params)return null;
     String key = params.getKey();
     return Observable.create(emitter -> {

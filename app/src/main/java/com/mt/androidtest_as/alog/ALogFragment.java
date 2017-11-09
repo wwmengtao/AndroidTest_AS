@@ -35,6 +35,10 @@ public abstract class ALogFragment extends Fragment {
 		return mHandler;
 	}
 
+	protected String getString(String strName){
+		int strID = getResources().getIdentifier(strName, "string" ,getActivity().getPackageName());
+		return getResources().getString(strID);
+	}
 
 	@Override
 	public void onAttach(Activity mActivity) {

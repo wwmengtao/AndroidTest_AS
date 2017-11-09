@@ -159,6 +159,15 @@
             android:launchMode="singleTask"
             android:parentActivityName="com.mt.myapplication.novicetutorial.view.activities.NoviceGridActivity">
         </activity>
+
+        <activity
+            android:name="com.mt.myapplication.novicetutorial.view.activities.NoviceDetailActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+            android:label="NoviceDetailActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity">
+        </activity>
+
     </application>
 
 </manifest>

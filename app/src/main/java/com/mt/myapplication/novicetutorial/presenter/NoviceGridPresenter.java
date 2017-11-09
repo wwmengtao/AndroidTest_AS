@@ -22,8 +22,8 @@ import com.fernandocejas.android10.sample.domain.UserNT;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails.Params;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList.Params;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataNTMapper;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
@@ -40,13 +40,13 @@ import javax.inject.Inject;
  */
 public class NoviceGridPresenter implements Presenter {
   private NoviceRecyclerView mNoviceRecyclerView;
-  private final GetUserListDetails mGetUserListDetails;//获取标题对应的一类数据，如功能键，桌面等
+  private final GetUserNTList mGetUserNTList;//获取标题对应的一类数据，如功能键，桌面等
   private final UserModelDataNTMapper mUserModelDataNTMapper;
   private Params mParams;
 
   @Inject
-  public NoviceGridPresenter(GetUserListDetails getUserListUserCase, UserModelDataNTMapper mUserModelDataNTMapper){
-    this.mGetUserListDetails = getUserListUserCase;
+  public NoviceGridPresenter(GetUserNTList getUserListUserCase, UserModelDataNTMapper mUserModelDataNTMapper){
+    this.mGetUserNTList = getUserListUserCase;
     this.mUserModelDataNTMapper = mUserModelDataNTMapper;
     this.mParams = new Params(Params.DataType.COLLECTION_DATA_LEVEL1,"xmlfiles.xml", null);//第一个界面解析xmlfiles.xml中一级标题
   }
@@ -105,7 +105,7 @@ public class NoviceGridPresenter implements Presenter {
 
   //获取数据
   private void getUserList() {
-    this.mGetUserListDetails.execute(new UserRecyclerViewObserver(), mParams);
+    this.mGetUserNTList.execute(new UserRecyclerViewObserver(), mParams);
   }
 
   private final class UserRecyclerViewObserver extends DefaultObserver<List<UserNT>> {
@@ -144,7 +144,7 @@ public class NoviceGridPresenter implements Presenter {
 
   @Override
   public void destroy() {
-    this.mGetUserListDetails.dispose();
+    this.mGetUserNTList.dispose();
     this.mNoviceRecyclerView = null;
   }
 

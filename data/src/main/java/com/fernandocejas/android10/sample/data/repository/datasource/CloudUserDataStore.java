@@ -19,7 +19,7 @@ import com.fernandocejas.android10.sample.data.cache.UserCache;
 import com.fernandocejas.android10.sample.data.entity.UserEntity;
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 import com.fernandocejas.android10.sample.data.net.RestApi;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ class CloudUserDataStore implements UserDataStore {
   }
 
   @Override
-  public Observable<List<UserEntityNT>> userEntityNTList(GetUserListDetails.Params params) {
+  public Observable<List<UserEntityNT>> userEntityNTList(GetUserNTList.Params params) {
     return null;
   }
 
@@ -58,7 +58,7 @@ class CloudUserDataStore implements UserDataStore {
   }
 
   @Override
-  public Observable<UserEntityNT> userEntityNTDetails(GetUserListDetails.Params params) {
+  public Observable<UserEntityNT> userEntityNTDetails(GetUserNTList.Params params) {
     return null;
   }
 }

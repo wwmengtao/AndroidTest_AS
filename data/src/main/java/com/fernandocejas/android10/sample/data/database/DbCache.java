@@ -16,7 +16,7 @@
 package com.fernandocejas.android10.sample.data.database;
 
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 
 import java.util.List;
 
@@ -26,13 +26,13 @@ import io.reactivex.Observable;
  * An interface representing a user Cache.
  */
 public interface DbCache {
-  Observable<UserEntityNT> get(final GetUserListDetails.Params params);
-  Observable<List<UserEntityNT>> getCollection(final GetUserListDetails.Params params);
+  Observable<UserEntityNT> get(final GetUserNTList.Params params);
+  Observable<List<UserEntityNT>> getCollection(final GetUserNTList.Params params);
 
-  void put(UserEntityNT userEntity,GetUserListDetails.Params params);
-  void put(List<UserEntityNT> userEntityList,GetUserListDetails.Params params);
+  void put(UserEntityNT userEntity,GetUserNTList.Params params);
+  void put(List<UserEntityNT> userEntityList,GetUserNTList.Params params);
 
-  boolean isCached(final GetUserListDetails.Params params);
+  boolean isCached(final GetUserNTList.Params params);
 
   boolean isExpired();
   void evictAll();

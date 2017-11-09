@@ -17,15 +17,16 @@ package com.mt.myapplication.novicetutorial.presenter;
 
 import android.support.annotation.NonNull;
 
-import com.fernandocejas.android10.sample.domain.User;
+import com.fernandocejas.android10.sample.domain.UserNT;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserDetails.Params;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
-import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataMapper;
-import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataNTMapper;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceDetailView;
 
 import javax.inject.Inject;
@@ -38,14 +39,14 @@ public class NoviceDetailPresenter implements Presenter {
 
     private NoviceDetailView mNoviceDetailView;
 
-    private final GetUserDetails getUserDetailsUseCase;
-    private final UserModelDataMapper userModelDataMapper;
-
+    private final GetUserNTDetails mGetUserNTDetails;
+    private final UserModelDataNTMapper mUserModelDataNTMapper;
+    private GetUserNTList.Params mParams;
     @Inject
-    public NoviceDetailPresenter(GetUserDetails getUserDetailsUseCase,
-                                UserModelDataMapper userModelDataMapper) {
-        this.getUserDetailsUseCase = getUserDetailsUseCase;
-        this.userModelDataMapper = userModelDataMapper;
+    public NoviceDetailPresenter(GetUserNTDetails mGetUserNTDetails,
+                                 UserModelDataNTMapper mUserModelDataNTMapper) {
+        this.mGetUserNTDetails = mGetUserNTDetails;
+        this.mUserModelDataNTMapper = mUserModelDataNTMapper;
     }
 
     public void setView(@NonNull NoviceDetailView view) {
@@ -57,7 +58,7 @@ public class NoviceDetailPresenter implements Presenter {
     @Override public void pause() {}
 
     @Override public void destroy() {
-        this.getUserDetailsUseCase.dispose();
+        this.mGetUserNTDetails.dispose();
         this.mNoviceDetailView = null;
     }
 
@@ -65,10 +66,10 @@ public class NoviceDetailPresenter implements Presenter {
      * Initializes the presenter by showing/hiding proper views
      * and retrieving user details.
      */
-    public void initialize(int userId) {
+    public void initialize(UserModelNT userModel) {
         this.hideViewRetry();
         this.showViewLoading();
-        this.getUserDetails(userId);
+        this.getUserDetails(userModel);
     }
 
     private void showViewLoading() {
@@ -93,16 +94,18 @@ public class NoviceDetailPresenter implements Presenter {
         this.mNoviceDetailView.showError(errorMessage);
     }
 
-    private void showUserDetailsInView(User user) {
-        final UserModel userModel = this.userModelDataMapper.transform(user);
+    private void showUserDetailsInView(UserNT user) {
+        final UserModelNT userModel = this.mUserModelDataNTMapper.transform(user);
         this.mNoviceDetailView.showUser(userModel);
     }
 
-    private void getUserDetails(int userId) {
-        this.getUserDetailsUseCase.execute(new UserDetailsObserver(), Params.forUser(userId));
+    private void getUserDetails(UserModelNT userModel) {
+        ALog.Log("getUserDetails_userModel: "+userModel.toString());
+        mParams = new GetUserNTList.Params(GetUserNTList.Params.DataType.SINGLE_DATA, "" ,userModel.getKey());
+        this.mGetUserNTDetails.execute(new UserDetailsObserver(), mParams);
     }
 
-    private final class UserDetailsObserver extends DefaultObserver<User> {
+    private final class UserDetailsObserver extends DefaultObserver<UserNT> {
 
         @Override public void onComplete() {
             NoviceDetailPresenter.this.hideViewLoading();
@@ -114,7 +117,7 @@ public class NoviceDetailPresenter implements Presenter {
             NoviceDetailPresenter.this.showViewRetry();
         }
 
-        @Override public void onNext(User user) {
+        @Override public void onNext(UserNT user) {
             NoviceDetailPresenter.this.showUserDetailsInView(user);
         }
     }

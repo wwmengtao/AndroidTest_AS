@@ -27,6 +27,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity.NOVICE_LIST_ACTIVITY_KEY;
+
+
 public class NoviceListFragment extends BaseFragment implements NoviceRecyclerView {
     public Unbinder unbinder;
     Activity mActivity = null;
@@ -51,6 +54,9 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
             this.mOnUserClickedListener = (OnUserClickedListener) activity;
         }
         mIntent = mActivity.getIntent();
+        UserModelNT userModel = (UserModelNT)mIntent.getParcelableExtra(NOVICE_LIST_ACTIVITY_KEY);
+//        ALog.Log("NoviceListFragment_onAttach: "+userModel.toString());
+        mActivity.setTitle(getString(userModel.getAdjunction()));
     }
 
     @Override
@@ -62,7 +68,7 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
-        View v = inflater.inflate(R.layout.fragment_novice_grid, container, false);
+        View v = inflater.inflate(R.layout.fragment_novice_recview, container, false);
         unbinder = ButterKnife.bind(this, v);
         setupRecyclerView();
         return v;

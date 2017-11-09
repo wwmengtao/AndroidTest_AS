@@ -3,18 +3,18 @@ package com.fernandocejas.android10.sample.data.database;
 import android.database.Cursor;
 
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 
 
 public class DbCursorWrapper extends android.database.CursorWrapper {
-    private GetUserListDetails.Params mParams;
-    public DbCursorWrapper(Cursor cursor, GetUserListDetails.Params mParams) {
+    private GetUserNTList.Params mParams;
+    public DbCursorWrapper(Cursor cursor, GetUserNTList.Params mParams) {
         super(cursor);
         this.mParams = mParams;
     }
 
     public UserEntityNT getUserEntityNT() {
-        boolean haveNum = mParams.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1;
+        boolean haveNum = mParams.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1;
         String key = getString(getColumnIndex(DbSchema.Level1TitleTable.Cols.KEY));
         String adj = getString(getColumnIndex(DbSchema.Level1TitleTable.Cols.ADJUNCTION));
         String pic = getString(getColumnIndex(DbSchema.Level1TitleTable.Cols.PIC));

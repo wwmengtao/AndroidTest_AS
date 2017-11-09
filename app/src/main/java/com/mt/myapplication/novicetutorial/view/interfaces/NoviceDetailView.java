@@ -5,6 +5,7 @@
 package com.mt.myapplication.novicetutorial.view.interfaces;
 
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 
 /**
  * Interface representing a View in a model view presenter (MVP) pattern.
@@ -16,5 +17,5 @@ public interface NoviceDetailView extends LoadDataView {
    *
    * @param user The {@link UserModel} that will be shown.
    */
-  void showUser(UserModel user);
+  void showUser(UserModelNT user);
 }

@@ -12,12 +12,11 @@ import com.mt.myapplication.novicetutorial.view.fragments.NoviceListFragment;
 public class NoviceListActivity extends BaseActivity implements NoviceListFragment.OnUserClickedListener{
     private Fragment mFragment;
 
-    public static final String INTENT_EXTRA_PARAM_USER_KEY = "NoviceListActivity.USERNT_KEY";
-    private static final String INSTANCE_STATE_PARAM_USER_ID = "org.android10.STATE_PARAM_USER_ID";
+    public static final String NOVICE_LIST_ACTIVITY_KEY = "NoviceDetailActivity_UserModelNT";
 
-    public static Intent getCallingIntent(Context context, String key) {
+    public static Intent getCallingIntent(Context context, UserModelNT userModel) {
         Intent callingIntent = new Intent(context, NoviceListActivity.class);
-        callingIntent.putExtra(INTENT_EXTRA_PARAM_USER_KEY, key);
+        callingIntent.putExtra(NOVICE_LIST_ACTIVITY_KEY, userModel);
         return callingIntent;
     }
 
@@ -34,6 +33,8 @@ public class NoviceListActivity extends BaseActivity implements NoviceListFragme
 
     @Override
     public void onUserClicked(UserModelNT userModel) {
-        ALog.Log("NoviceListActivity.onUserClicked");
+        ALog.Log("NoviceListActivity.onUserClicked\n" + userModel.toString());
+        Intent intent = NoviceDetailActivity.getCallingIntent(this, userModel);
+        startActivity(intent);
     }
 }

@@ -6,7 +6,7 @@ import android.util.Xml;
 
 import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -46,19 +46,19 @@ public class XmlOperator {
 	 * @param params
 	 * @return
 	 */
-	public Collection<UserEntityNT> UserEntityNTCollectionXml(GetUserListDetails.Params params){
+	public Collection<UserEntityNT> UserEntityNTCollectionXml(GetUserNTList.Params params){
 		if(null == params)return null;
 		mUserEntityNTCollection.clear();
 		//如果是一级、二级菜单文件那么就解析xml文件
-		if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1 ||
-				params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL2){
+		if(params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1 ||
+				params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2){
 			readFromXmlFile(params);
 		}
 		visitCollection(mUserEntityNTCollection);//浏览mUserEntityCollection中的数据内容
 		return mUserEntityNTCollection;
 	}
 
-	public void readFromXmlFile(GetUserListDetails.Params params){
+	public void readFromXmlFile(GetUserNTList.Params params){
 		ALog.Log(TAG+"readFromXmlFile");
 		String fileName = NoviceAssetsXmlDir + File.separator + params.getFileName();
 		try {
@@ -88,12 +88,12 @@ public class XmlOperator {
 	 * @throws XmlPullParserException
 	 * @throws IOException
 	 */
-	public void filterBeforeRootElement(XmlPullParser parser, GetUserListDetails.Params params)
+	public void filterBeforeRootElement(XmlPullParser parser, GetUserNTList.Params params)
 			throws XmlPullParserException, IOException{
 		String rootElementName = null;
-		if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1){
+		if(params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1){
 			rootElementName = XmlItemTags.LEVEL1_ITEM_TAGS.ROOT_ELEMENT_TAG;
-		}else if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL2){
+		}else if(params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2){
 			rootElementName = XmlItemTags.LEVEL2_ITEM_TAGS.ROOT_ELEMENT_TAG;
 		}
 
@@ -117,11 +117,11 @@ public class XmlOperator {
 	 * @param parser
 	 * @param params
 	 */
-	public void parseXmlFirstElement(XmlPullParser parser, GetUserListDetails.Params params){
+	public void parseXmlFirstElement(XmlPullParser parser, GetUserNTList.Params params){
 		String firstEleTag = null;
-		if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1){
+		if(params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1){
 			firstEleTag = XmlItemTags.LEVEL1_ITEM_TAGS.FIRST_ELEMENT_TAG;
-		}else if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL2){
+		}else if(params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2){
 			firstEleTag = XmlItemTags.LEVEL2_ITEM_TAGS.FIRST_ELEMENT_TAG;
 		}
 		int type;
@@ -157,7 +157,7 @@ public class XmlOperator {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	private void parseTagItem(XmlPullParser parser, final String FIRST_TAG_NAME, GetUserListDetails.Params params) throws XmlPullParserException,IOException,ParseException {
+	private void parseTagItem(XmlPullParser parser, final String FIRST_TAG_NAME, GetUserNTList.Params params) throws XmlPullParserException,IOException,ParseException {
 		ALog.Log("parseTagItem: "+FIRST_TAG_NAME);
 		int type;
 		UserEntityNT mUserEntityNT = new UserEntityNT();
@@ -172,9 +172,9 @@ public class XmlOperator {
 					if(null == tag)break;
 					value = parser.getText().trim();
 //					ALog.Log("tag: "+tag+" val: "+value);
-					if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL1){
+					if(params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1){
 						XmlItemTags.LEVEL1_ITEM_TAGS.setTagValue(mUserEntityNT,tag,value);
-					}else if(params.getDataType() == GetUserListDetails.Params.DataType.COLLECTION_DATA_LEVEL2){
+					}else if(params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2){
 						XmlItemTags.LEVEL2_ITEM_TAGS.setTagValue(mUserEntityNT,tag,value);
 					}
 					tag = null;

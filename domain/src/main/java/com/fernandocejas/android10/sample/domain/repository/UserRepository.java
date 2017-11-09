@@ -17,7 +17,7 @@ package com.fernandocejas.android10.sample.domain.repository;
 
 import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.UserNT;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 
 import java.util.List;
 
@@ -32,7 +32,8 @@ public interface UserRepository {
    */
   Observable<List<User>> users();
 
-  Observable<List<UserNT>> users(GetUserListDetails.Params params);
+  Observable<UserNT> user(GetUserNTList.Params params);
+  Observable<List<UserNT>> users(GetUserNTList.Params params);
 
     /**
      * Get an {@link Observable} which will emit a {@link User}.

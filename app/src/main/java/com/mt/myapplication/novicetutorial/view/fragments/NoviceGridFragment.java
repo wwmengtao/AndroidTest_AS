@@ -55,7 +55,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
-        View v = inflater.inflate(R.layout.fragment_novice_grid, container, false);
+        View v = inflater.inflate(R.layout.fragment_novice_recview, container, false);
         unbinder = ButterKnife.bind(this, v);
         setupRecyclerView();
         return v;

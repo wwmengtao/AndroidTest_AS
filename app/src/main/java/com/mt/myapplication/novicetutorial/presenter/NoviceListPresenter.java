@@ -22,8 +22,8 @@ import com.fernandocejas.android10.sample.domain.UserNT;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserListDetails.Params;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList.Params;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataNTMapper;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
@@ -34,7 +34,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity.INTENT_EXTRA_PARAM_USER_KEY;
+import static com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity.NOVICE_LIST_ACTIVITY_KEY;
 
 /**
  * {@link Presenter} that controls communication between views and models of the presentation
@@ -42,13 +42,13 @@ import static com.mt.myapplication.novicetutorial.view.activities.NoviceListActi
  */
 public class NoviceListPresenter implements Presenter {
   private NoviceRecyclerView mNoviceRecyclerView;
-  private final GetUserListDetails mGetUserListDetails;
+  private final GetUserNTList mGetUserNTList;
   private final UserModelDataNTMapper mUserModelDataNTMapper;
-  private GetUserListDetails.Params mParams;
+  private GetUserNTList.Params mParams;
 
   @Inject
-  public NoviceListPresenter(GetUserListDetails mGetUserListDetails, UserModelDataNTMapper mUserModelDataNTMapper){
-    this.mGetUserListDetails = mGetUserListDetails;
+  public NoviceListPresenter(GetUserNTList mGetUserNTList, UserModelDataNTMapper mUserModelDataNTMapper){
+    this.mGetUserNTList = mGetUserNTList;
     this.mUserModelDataNTMapper = mUserModelDataNTMapper;
   }
   public void setView(@NonNull NoviceRecyclerView view) {
@@ -99,7 +99,7 @@ public class NoviceListPresenter implements Presenter {
 
   @Override
   public void destroy() {
-      this.mGetUserListDetails.dispose();
+      this.mGetUserNTList.dispose();
       this.mNoviceRecyclerView = null;
   }
 
@@ -118,11 +118,12 @@ public class NoviceListPresenter implements Presenter {
 
   //获取数据
   private void getUserList() {
-    Intent intent = mNoviceRecyclerView.getViewIntent();
-    String key = intent.getStringExtra(INTENT_EXTRA_PARAM_USER_KEY);//key内容为functionkeyscontent.xml之类的xml文件名称
-    if(null == key)return;
-    this.mParams = new GetUserListDetails.Params(Params.DataType.COLLECTION_DATA_LEVEL2, key, null);//第一个界面解析xmlfiles.xml中一级标题
-    this.mGetUserListDetails.execute(new UserRecyclerViewObserver(), this.mParams);
+    Intent mIntent = mNoviceRecyclerView.getViewIntent();
+    UserModelNT userModel = (UserModelNT)mIntent.getParcelableExtra(NOVICE_LIST_ACTIVITY_KEY);
+    String xmlFileName = userModel.getKey();//xmlFileName内容为functionkeyscontent.xml之类的xml文件名称
+    if(null == xmlFileName)return;
+    this.mParams = new GetUserNTList.Params(Params.DataType.COLLECTION_DATA_LEVEL2, xmlFileName, null);//第一个界面解析xmlfiles.xml中一级标题
+    this.mGetUserNTList.execute(new UserRecyclerViewObserver(), this.mParams);
   }
 
   private final class UserRecyclerViewObserver extends DefaultObserver<List<UserNT>> {

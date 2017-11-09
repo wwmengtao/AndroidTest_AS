@@ -15,7 +15,6 @@
  */
 package com.fernandocejas.android10.sample.domain.interactor;
 
-import com.fernandocejas.android10.sample.domain.User;
 import com.fernandocejas.android10.sample.domain.UserNT;
 import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
@@ -29,20 +28,20 @@ import io.reactivex.Observable;
 
 /**
  * This class is an implementation of {@link UseCase} that represents a use case for
- * retrieving a collection of all {@link User}.
+ * retrieving a collection of all {@link UserNT}.
  */
-public class GetUserListDetails extends UseCase<List<UserNT>, GetUserListDetails.Params> {
+public class GetUserNTList extends UseCase<List<UserNT>, GetUserNTList.Params> {
 
   private final UserRepository userRepository;
 
   @Inject
-  GetUserListDetails(UserRepository userRepository, ThreadExecutor threadExecutor,
+  GetUserNTList(UserRepository userRepository, ThreadExecutor threadExecutor,
                      PostExecutionThread postExecutionThread) {
     super(threadExecutor, postExecutionThread);
     this.userRepository = userRepository;
   }
 
-  @Override Observable<List<UserNT>> buildUseCaseObservable(GetUserListDetails.Params params) {
+  @Override Observable<List<UserNT>> buildUseCaseObservable(GetUserNTList.Params params) {
     System.out.println("buildUseCaseObservable");
     return this.userRepository.users(params);
   }
