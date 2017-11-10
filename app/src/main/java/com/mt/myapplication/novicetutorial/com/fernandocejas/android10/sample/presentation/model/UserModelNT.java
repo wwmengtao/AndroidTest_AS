@@ -62,12 +62,12 @@ public class UserModelNT implements Parcelable {
 
   public String toString(){
     String str =
-      "/----------------UserNT.toString----------------/" + "\n" +
+      "/----------------UserModelNT.toString----------------/" + "\n" +
       "key: "+key + "\n" +
       "adjunction: "+adjunction + "\n" +
       "pic: "+pic + "\n" +
       "index: "+index + "\n" +
-      "/----------------UserNT.toString----------------/";
+      "/----------------UserModelNT.toString----------------/" + "\n";
     return str;
   }
 

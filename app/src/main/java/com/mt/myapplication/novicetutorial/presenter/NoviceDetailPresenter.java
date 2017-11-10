@@ -97,20 +97,32 @@ public class NoviceDetailPresenter implements Presenter {
         this.mNoviceDetailView.showError(errorMessage);
     }
 
+    /**
+     * showUserDetailsInView：RX2返回查询到的结果，其实结果和getUserDetails方法参数userModel是一样的。
+     * @param user
+     */
     private void showUserDetailsInView(UserNT user) {
         final UserModelNT userModel = this.mUserModelDataNTMapper.transform(user);
         this.mNoviceDetailView.showUser(userModel);
+        ALog.Log("showUserDetailsInView_userModel: "+userModel.toString());
     }
 
     /**
-     * getUserDetails：此函数用于展示RX2从数据库中获取单个数据的方法，其实可以直接用userModel显示内容
+     * getUserDetails：此函数用于展示RX2从数据库中获取单个数据的方法，其实可以直接用userModel显示内容，例如点击
+     * call列表的第六项，此时tableName为call，userModel内容如下：
+     * /----------------UserModelNT.toString----------------/
+     * key: call_mapping
+     * adjunction: call_mapping_description
+     * pic: lessons6
+     * index: -1
+     * /----------------UserModelNT.toString----------------/
      * @param userModel
      */
     private void getUserDetails(UserModelNT userModel) {
-        ALog.Log("getUserDetails_userModel: "+userModel.toString());
         Intent mIntent = mNoviceDetailView.getViewIntent();
         String tableName = mIntent.getStringExtra(NOVICE_LIST_ACTIVITY_TABLE);
-        ALog.Log("getUserDetails_userModel_tableName: "+tableName);
+        ALog.Log("getUserDetails_tableName: "+tableName);
+        ALog.Log("getUserDetails_userModel: "+userModel.toString());
         mParams = new GetUserNTList.Params();
         mParams.setDataType(GetUserNTList.Params.DataType.SINGLE_DATA);
         mParams.setTableName(tableName);

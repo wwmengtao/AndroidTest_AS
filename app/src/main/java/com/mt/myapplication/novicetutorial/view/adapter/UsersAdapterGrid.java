@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.alog.ALog;
-import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 
 import java.util.Collection;
@@ -30,9 +29,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Adaptar that manages a collection of {@link UserModel}.
+ * UsersAdapter：用于主界面的GridView。
  */
-public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
+public class UsersAdapterGrid extends RecyclerView.Adapter<UsersAdapterGrid.UserViewHolder> {
   protected Context mContext;
   protected Resources mResources;
   protected List<UserModelNT> usersCollection;
@@ -41,7 +40,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   protected OnItemClickListener onItemClickListener;
 
   @Inject
-  UsersAdapter(Context context) {
+  UsersAdapterGrid(Context context) {
     this.mContext = context;
     mResources = context.getResources();
     this.layoutInflater =
@@ -73,16 +72,31 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     holder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (UsersAdapter.this.onItemClickListener != null) {
-          UsersAdapter.this.onItemClickListener.onUserAdapterItemClicked(mUserModelNT);
+        if (UsersAdapterGrid.this.onItemClickListener != null) {
+          UsersAdapterGrid.this.onItemClickListener.onUserAdapterItemClicked(mUserModelNT);
         }
       }
     });
   }
 
+  /**
+   * getString：根据字符串名称strName获取字符串内容
+   * @param strName
+   * @return
+   */
   protected String getString(String strName){
     int strID = mResources.getIdentifier(strName, "string" ,mContext.getPackageName());
     return mResources.getString(strID);
+  }
+
+  /**
+   * getColorId：根据颜色ID，即R.color.xxx获取控件setTextColor可以使用的颜色资源。
+   * @param id
+   * @return
+   */
+  protected int getColorId(int id){
+    int colorID = mResources.getColor(id);
+    return colorID;
   }
 
   @Override

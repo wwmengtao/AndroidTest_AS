@@ -16,7 +16,7 @@ import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.pr
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceListPresenter;
 import com.mt.myapplication.novicetutorial.view.adapter.UserAdapterList;
-import com.mt.myapplication.novicetutorial.view.adapter.UsersAdapter;
+import com.mt.myapplication.novicetutorial.view.adapter.UsersAdapterGrid;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
 
 import java.util.Collection;
@@ -106,8 +106,8 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
         this.mOnUserClickedListener = null;
     }
 
-    private UsersAdapter.OnItemClickListener onItemClickListener =
-            new UsersAdapter.OnItemClickListener() {
+    private UsersAdapterGrid.OnItemClickListener onItemClickListener =
+            new UsersAdapterGrid.OnItemClickListener() {
                 @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
                     if (NoviceListFragment.this.mNoviceListPresenter != null && userModel != null) {
                         NoviceListFragment.this.mNoviceListPresenter.onUserClicked(userModel);

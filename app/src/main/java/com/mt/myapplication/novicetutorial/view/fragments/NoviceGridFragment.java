@@ -15,7 +15,7 @@ import com.mt.androidtest_as.R;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceGridPresenter;
-import com.mt.myapplication.novicetutorial.view.adapter.UsersAdapter;
+import com.mt.myapplication.novicetutorial.view.adapter.UsersAdapterGrid;
 import com.mt.myapplication.novicetutorial.view.interfaces.LoadDataView;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
 
@@ -32,7 +32,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     Activity mActivity = null;
     @Inject Context mContext;
     @BindView(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
-    @Inject UsersAdapter usersAdapter;
+    @Inject UsersAdapterGrid mUsersAdapterGrid;
     @Inject NoviceGridPresenter mNoviceGridPresenter;
     private NoviceListFragment.OnUserClickedListener mOnUserClickedListener;
     private Intent mIntent = null;
@@ -92,8 +92,8 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
         this.onItemClickListener = null;
         this.mOnUserClickedListener = null;
     }
-    private UsersAdapter.OnItemClickListener onItemClickListener =
-            new UsersAdapter.OnItemClickListener() {
+    private UsersAdapterGrid.OnItemClickListener onItemClickListener =
+            new UsersAdapterGrid.OnItemClickListener() {
                 @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
                     if (NoviceGridFragment.this.mNoviceGridPresenter != null && userModel != null) {
                         NoviceGridFragment.this.mNoviceGridPresenter.onUserClicked(userModel);
@@ -102,9 +102,9 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
             };
 
     private void setupRecyclerView() {
-        usersAdapter.setOnItemClickListener(onItemClickListener);
+        mUsersAdapterGrid.setOnItemClickListener(onItemClickListener);
         mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
-        mRecyclerView.setAdapter(usersAdapter);
+        mRecyclerView.setAdapter(mUsersAdapterGrid);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL |
                 DividerItemDecoration.VERTICAL));
     }
@@ -117,7 +117,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     @Override
     public void setUserList(Collection<UserModelNT> userModelCollection) {
         if (userModelCollection != null) {
-            this.usersAdapter.setUsersCollection(userModelCollection);
+            this.mUsersAdapterGrid.setUsersCollection(userModelCollection);
         }
     }
 
