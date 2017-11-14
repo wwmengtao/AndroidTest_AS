@@ -17,11 +17,10 @@ package com.mt.androidtest_as.alog;
 
 import android.app.Application;
 
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.BuildConfig;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.ApplicationComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.DaggerApplicationComponent;
-
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.modules.ApplicationModule;
-import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.BuildConfig;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -37,7 +36,7 @@ public class AndroidTest_AS_Application extends Application {
         this.initializeLeakDetection();
         //以下为应用注册未捕获异常处理接口
         CrashManager crashHandler = new CrashManager(this);
-        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+//        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
     }
 
     private void initializeInjector() {

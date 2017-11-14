@@ -15,7 +15,9 @@
  */
 package com.mt.myapplication.novicetutorial.presenter;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.fernandocejas.android10.sample.domain.UserNT;
@@ -45,7 +47,13 @@ public class NoviceListPresenter implements Presenter {
   private final GetUserNTList mGetUserNTList;
   private final UserModelDataNTMapper mUserModelDataNTMapper;
   private GetUserNTList.Params mParams;
-
+  private Collection<UserModelNT> userModelsCollection = null;//当前数据表显示的所有数据
+  //以下定义用户浏览条目的方式
+  private SharedPreferences mSharedPreferences = null;
+  private SharedPreferences.Editor mSharedPreferencesEditor = null;
+  private String preferenceFileName = "NoviceListFragment_ViewItemStyle";
+  private String VIEW_ITEM_BY_VIEWPAGER="VIEW_ITEM_BY_VIEWPAGER";
+  @Inject Context mContext;
   @Inject
   public NoviceListPresenter(GetUserNTList mGetUserNTList, UserModelDataNTMapper mUserModelDataNTMapper){
     this.mGetUserNTList = mGetUserNTList;
@@ -59,11 +67,26 @@ public class NoviceListPresenter implements Presenter {
    * Initializes the presenter by start retrieving the user list.
    */
   public void initialize() {
+    mSharedPreferences	= mContext.getSharedPreferences(preferenceFileName, Context.MODE_PRIVATE);
+    mSharedPreferencesEditor = mSharedPreferences.edit();
     this.loadUserList();
   }
 
   public void onUserClicked(UserModelNT userModel) {
     mNoviceRecyclerView.viewUser(userModel);
+  }
+
+  /**
+   * ifViewItemByViewPager：用于判断NoviceListFragment当前用户期望浏览条目的方式是否通过ViewPager
+   * @return
+   */
+  public boolean ifViewItemByViewPager(){
+    return mSharedPreferences.getBoolean(VIEW_ITEM_BY_VIEWPAGER, false);
+  }
+
+  public void setViewItemByViewPager(boolean viewItemByViewPager){
+    mSharedPreferencesEditor.putBoolean(VIEW_ITEM_BY_VIEWPAGER, viewItemByViewPager);
+    mSharedPreferencesEditor.commit();
   }
 
   /**
@@ -101,6 +124,7 @@ public class NoviceListPresenter implements Presenter {
   public void destroy() {
       this.mGetUserNTList.dispose();
       this.mNoviceRecyclerView = null;
+      if(null != this.userModelsCollection)this.userModelsCollection.clear();
   }
 
 
@@ -111,9 +135,13 @@ public class NoviceListPresenter implements Presenter {
   }
 
   private void showUsersCollectionInView(Collection<UserNT> usersCollection) {
-    final Collection<UserModelNT> userModelsCollection =
-            this.mUserModelDataNTMapper.transform(usersCollection);
+    userModelsCollection = this.mUserModelDataNTMapper.transform(usersCollection);
     this.mNoviceRecyclerView.setUserList(userModelsCollection);
+  }
+
+  //返回当前数据表中所有数据
+  public Collection<UserModelNT> getUserModelNTCollection(){
+    return userModelsCollection;
   }
 
   //获取数据

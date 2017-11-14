@@ -168,6 +168,14 @@
             android:parentActivityName="com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity">
         </activity>
 
+        <activity
+            android:name="com.mt.myapplication.novicetutorial.view.activities.NoviceViewPagerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+            android:label="NoviceViewPagerActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName="com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity">
+        </activity>
+
     </application>
 
 </manifest>

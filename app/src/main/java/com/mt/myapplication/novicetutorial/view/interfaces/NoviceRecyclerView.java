@@ -21,6 +21,7 @@ public interface NoviceRecyclerView extends LoadDataView{
   Intent getViewIntent();
 
   void setUserList(Collection<UserModelNT> userModelCollection);
+  void setUserList(final UserModelNT mUserModelNT, final Collection<UserModelNT> userModelCollection);
 
   /**
    * View a {@link UserModel} profile/details.

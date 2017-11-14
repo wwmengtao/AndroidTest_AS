@@ -16,7 +16,6 @@ import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.pr
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceGridPresenter;
 import com.mt.myapplication.novicetutorial.view.adapter.UsersAdapterGrid;
-import com.mt.myapplication.novicetutorial.view.interfaces.LoadDataView;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
 
 import java.util.Collection;
@@ -27,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerView, LoadDataView {
+public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerView{
     public Unbinder unbinder;
     Activity mActivity = null;
     @Inject Context mContext;
@@ -119,6 +118,11 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
         if (userModelCollection != null) {
             this.mUsersAdapterGrid.setUsersCollection(userModelCollection);
         }
+    }
+
+    @Override
+    public void setUserList(UserModelNT mUserModelNT, Collection<UserModelNT> userModelCollection) {
+
     }
 
     @Override

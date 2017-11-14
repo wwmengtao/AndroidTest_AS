@@ -30,9 +30,8 @@ public abstract class BaseActivity extends ALogActivity implements HasComponent<
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    this.getApplicationComponent().inject(this);
-    setContentView(getResourceID());
     this.initializeInjector();
+    setContentView(getResourceID());
     FragmentManager fm = getSupportFragmentManager();
     Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 

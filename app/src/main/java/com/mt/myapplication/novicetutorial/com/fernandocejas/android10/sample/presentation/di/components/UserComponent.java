@@ -19,9 +19,12 @@ package com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.p
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.PerActivity;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.modules.ActivityModule;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.modules.UserModule;
+import com.mt.myapplication.novicetutorial.view.fragments.BaseFragment;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceDetailFragment;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceGridFragment;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceListFragment;
+import com.mt.myapplication.novicetutorial.view.fragments.NoviceViewPagerFragment;
+import com.mt.myapplication.novicetutorial.view.fragments.PagerItemFragment;
 
 import dagger.Component;
 
@@ -35,5 +38,7 @@ public interface UserComponent extends ActivityComponent {
   void inject(NoviceGridFragment mNoviceGridFragment);
   void inject(NoviceListFragment mNoviceListFragment);
   void inject(NoviceDetailFragment mNoviceDetailFragment);
-
+  void inject(NoviceViewPagerFragment mNoviceViewPagerFragment);
+  void inject(PagerItemFragment mPagerItemFragment);
+  void inject(BaseFragment mBaseFragment);
 }

@@ -8,10 +8,14 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceListPresenter;
@@ -39,7 +43,9 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     @Inject NoviceListPresenter mNoviceListPresenter;
     private OnUserClickedListener mOnUserClickedListener;
     private Intent mIntent = null;
-
+    //以下定义用户浏览条目的方式
+    private MenuItem item_viewpager;//用于让用户选择条目浏览方式，例如是否通过ViewPager浏览
+    private boolean mViewItemByViewPager;
     /**
      * Interface for listening user list events.
      */
@@ -47,9 +53,14 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
         void onUserClicked(final UserModelNT userModel);
     }
 
+    public NoviceListPresenter getPresenter(){
+        return mNoviceListPresenter;
+    }
+
     @Override public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
+        setHasOptionsMenu(true);
         if (activity instanceof OnUserClickedListener) {
             this.mOnUserClickedListener = (OnUserClickedListener) activity;
         }
@@ -102,7 +113,7 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
 
     @Override public void onDetach() {
         super.onDetach();
-        onItemClickListener = null;
+        this.onItemClickListener = null;
         this.mOnUserClickedListener = null;
     }
 
@@ -129,10 +140,20 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     }
 
     @Override
+    public Context context() {
+        return mContext;
+    }
+
+    @Override
     public void setUserList(Collection<UserModelNT> userModelCollection) {
         if (userModelCollection != null) {
             this.usersAdapter.setUsersCollection(userModelCollection);
         }
+    }
+
+    @Override
+    public void setUserList(UserModelNT mUserModelNT, Collection<UserModelNT> userModelCollection) {
+
     }
 
     @Override
@@ -141,7 +162,6 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
             this.mOnUserClickedListener.onUserClicked(userModel);
         }
     }
-
 
     @Override
     public void showLoading() {
@@ -169,8 +189,27 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     }
 
     @Override
-    public Context context() {
-        return mContext;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_view_item_style, menu);
+        item_viewpager = menu.findItem(R.id.menu_item_by_viewpager);
+        item_viewpager.setCheckable(true);
+        mViewItemByViewPager = mNoviceListPresenter.ifViewItemByViewPager();
+        item_viewpager.setChecked(mViewItemByViewPager);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_by_viewpager:
+                mViewItemByViewPager = mNoviceListPresenter.ifViewItemByViewPager();
+                item_viewpager.setChecked(!mViewItemByViewPager);
+                mNoviceListPresenter.setViewItemByViewPager(!mViewItemByViewPager);
+                ALog.Log("onOptionsItemSelected_1");
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
 }
