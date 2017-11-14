@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 //        mXmlOperator.visitCollection(mUserEntityNTCollection);
     }
 
+    @Override
     protected void onDestroy(){
         super.onDestroy();
         mUnbinder.unbind();
@@ -109,6 +110,17 @@ public class MainActivity extends AppCompatActivity {
     public void onClick7(View view){
         mDataBaseHelper.dropTables();
     }
+
+    @OnClick(R.id.btn8)
+    public void onClick8(View view){
+        startActivity(WebViewActivity.getCallingIntent(this));
+    }
+
+    @OnClick(R.id.btn9)
+    public void onClick9(View view){
+        startActivity(EventBusActivity.getCallingIntent(this));
+    }
+
 
     public void saveCollection(Collection<UserEntityNT> mUserEntityCollection, GetUserNTList.Params mParams){
         if(mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1 &&
