@@ -11,7 +11,11 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_SERVER_URL", '"https://www.oschina.net/;http://192.168.1.10/"')
-
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [eventBusIndex: 'M_T_Eventbus']
+            }
+        }
     }
     buildTypes {
         release {
@@ -48,6 +52,10 @@ dependencies {
     //以下使用ButterKnife
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //以下使用EventBus
+    compile 'org.greenrobot:eventbus:3.0.0'
+    annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.0.0'
+    //glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
