@@ -43,7 +43,14 @@ public class GetUserNTDetails extends UseCase<UserNT, GetUserNTList.Params> {
 
   @Override Observable<UserNT> buildUseCaseObservable(GetUserNTList.Params params) {
     Preconditions.checkNotNull(params);
+    System.out.println("buildUseCaseObservable");
     return this.userRepository.user(params);
+  }
+
+  @Override Observable<UserNT> buildUseCaseObservable_Update(UserNT mUserNT, GetUserNTList.Params params) {
+    Preconditions.checkNotNull(params);
+    System.out.println("GetUserNTDetails_buildUseCaseObservable_Update");
+    return this.userRepository.updateUserNT(mUserNT, params);
   }
 
 }

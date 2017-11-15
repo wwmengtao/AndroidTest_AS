@@ -28,7 +28,7 @@ import io.reactivex.Observable;
 public interface DbCache {
   Observable<UserEntityNT> get(final GetUserNTList.Params params);
   Observable<List<UserEntityNT>> getCollection(final GetUserNTList.Params params);
-  void update(UserEntityNT userEntity,GetUserNTList.Params params);
+  Observable<UserEntityNT> update(UserEntityNT userEntity,GetUserNTList.Params params);
   void put(UserEntityNT userEntity,GetUserNTList.Params params);
   void put(List<UserEntityNT> userEntityList,GetUserNTList.Params params);
 

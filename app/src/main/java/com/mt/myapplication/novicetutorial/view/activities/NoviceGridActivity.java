@@ -38,7 +38,7 @@ public class NoviceGridActivity extends BaseActivity implements NoviceListFragme
      上述adjunction即为NoviceListActivity所显示全部数据的数据库中数据表名称。
      */
     public void onUserClicked(UserModelNT userModel) {
-        ALog.Log("NoviceGridActivity.onUserClicked: "+userModel.toString());
+        ALog.Log("NoviceGridActivity.onUserClicked: "+userModel.getKey()+" "+userModel.getIndex());
         Intent intent = NoviceListActivity.getCallingIntent(this, userModel);
         this.startActivity(intent);
     }

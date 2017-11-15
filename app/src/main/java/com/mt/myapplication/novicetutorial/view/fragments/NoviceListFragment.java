@@ -13,8 +13,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceListPresenter;
@@ -39,6 +42,9 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     private UserModelNT mUserModelNT = null;
     @Inject Context mContext;
     @BindView(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
+    @BindView(R.id.rl_progress) RelativeLayout rl_progress;
+    @BindView(R.id.rl_retry) RelativeLayout rl_retry;
+    @BindView(R.id.bt_retry) Button bt_retry;
     @Inject UserAdapterList mUserAdapterList;
     @Inject NoviceListPresenter mNoviceListPresenter;
     private OnUserClickedListener mOnUserClickedListener;
@@ -103,8 +109,11 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     @Override public void onDestroyView() {
         super.onDestroyView();
         //保存用户最终浏览的条目序号
-        mUserModelNT.setIndex(mUserAdapterList.getCurrentIndex());
-        mNoviceListPresenter.updateUserEntityNT(mUserModelNT);
+        if(mUserAdapterList.getCurrentIndex() != mUserModelNT.getIndex()){
+            mUserModelNT.setIndex(mUserAdapterList.getCurrentIndex());
+            mNoviceListPresenter.updateUserEntityNT(mUserModelNT);
+            ALog.Log1("mUserAdapterList.getcurrentIndex: "+mUserAdapterList.getCurrentIndex());
+        }
         //
         mRecyclerView.setAdapter(null);
         mUserAdapterList.clearData();
@@ -154,6 +163,7 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
         if (userModelCollection != null) {
             this.mUserAdapterList.setCurrentIndex(mUserModelNT.getIndex());//设置用户之前的浏览序号记录
             this.mUserAdapterList.setUsersCollection(userModelCollection);
+            this.mNoviceListPresenter.smoothScrollToPosition(mRecyclerView, mUserModelNT.getIndex());
         }
     }
 
@@ -165,12 +175,7 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
         if(currentIndex >= 0 && currentIndex != this.mUserAdapterList.getCurrentIndex()){
             this.mUserAdapterList.setCurrentIndex(currentIndex);
             this.mUserAdapterList.notifyDataSetChanged();
-            mRecyclerView.post(new Runnable() {
-                @Override
-                public void run() {
-                    mRecyclerView.smoothScrollToPosition(currentIndex);//直接调用可能不起作用，必须放在View.post里
-                }
-            });
+            this.mNoviceListPresenter.smoothScrollToPosition(mRecyclerView, currentIndex);
         }
     }
 
@@ -188,27 +193,27 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
 
     @Override
     public void showLoading() {
-
+        this.rl_progress.setVisibility(View.VISIBLE);
+        this.getActivity().setProgressBarIndeterminateVisibility(true);
     }
 
     @Override
     public void hideLoading() {
-
+        this.rl_progress.setVisibility(View.GONE);
+        this.getActivity().setProgressBarIndeterminateVisibility(false);
     }
 
-    @Override
-    public void showRetry() {
-
+    @Override public void showRetry() {
+        this.rl_retry.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void hideRetry() {
-
+    @Override public void hideRetry() {
+        this.rl_retry.setVisibility(View.GONE);
     }
 
     @Override
     public void showError(String message) {
-
+        this.showToastMessage(message);
     }
 
     @Override

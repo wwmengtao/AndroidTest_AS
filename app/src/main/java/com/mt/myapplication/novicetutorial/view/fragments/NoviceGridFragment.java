@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.mt.androidtest_as.R;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
@@ -31,6 +33,9 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     Activity mActivity = null;
     @Inject Context mContext;
     @BindView(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
+    @BindView(R.id.rl_progress) RelativeLayout rl_progress;
+    @BindView(R.id.rl_retry) RelativeLayout rl_retry;
+    @BindView(R.id.bt_retry) Button bt_retry;
     @Inject UserAdapterGrid mUserAdapterGrid;
     @Inject NoviceGridPresenter mNoviceGridPresenter;
     private NoviceListFragment.OnUserClickedListener mOnUserClickedListener;
@@ -63,11 +68,9 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     @Override public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.mNoviceGridPresenter.setView(this);
-    }
-
-    @Override public void onResume(){
-        super.onResume();
-        this.loadUserList();
+        if (savedInstanceState == null) {
+            this.loadUserList();
+        }
     }
 
     /**
@@ -136,27 +139,29 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
 
     @Override
     public void showLoading() {
-
+        this.mRecyclerView.setVisibility(View.INVISIBLE);
+        this.rl_progress.setVisibility(View.VISIBLE);
+        this.getActivity().setProgressBarIndeterminateVisibility(true);
     }
 
     @Override
     public void hideLoading() {
-
+        this.rl_progress.setVisibility(View.GONE);
+        this.mRecyclerView.setVisibility(View.VISIBLE);
+        this.getActivity().setProgressBarIndeterminateVisibility(false);
     }
 
-    @Override
-    public void showRetry() {
-
+    @Override public void showRetry() {
+        this.rl_retry.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void hideRetry() {
-
+    @Override public void hideRetry() {
+        this.rl_retry.setVisibility(View.GONE);
     }
 
     @Override
     public void showError(String message) {
-
+        this.showToastMessage(message);
     }
 
     @Override
@@ -166,5 +171,6 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
 
     @Override
     public void setCurrentItemBackGround(int currentIndex){
+        loadUserList();
     }
 }

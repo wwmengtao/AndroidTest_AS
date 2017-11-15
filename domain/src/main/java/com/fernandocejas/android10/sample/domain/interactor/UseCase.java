@@ -50,6 +50,7 @@ public abstract class UseCase<T, Params> {
    */
   abstract Observable<T> buildUseCaseObservable(Params params);
 
+  abstract Observable<T> buildUseCaseObservable_Update(T mUserNT, Params params);
   /**
    * Executes the current use case.
    *
@@ -65,6 +66,13 @@ public abstract class UseCase<T, Params> {
       addDisposable(observable.subscribeWith(observer));
   }
 
+  public void execute(DisposableObserver<T> observer, T mUserNT, Params params) {
+    Preconditions.checkNotNull(observer);
+    final Observable<T> observable = this.buildUseCaseObservable_Update(mUserNT, params)
+            .subscribeOn(Schedulers.from(threadExecutor))//subscribeOn：指定Observable自身在哪个调度器上执行(此时为自定义数据库)
+            .observeOn(postExecutionThread.getScheduler());//observeOn：指定一个观察者在哪个调度器上观察这个Observable，即回调发生的线程(此时为UI线程)
+    addDisposable(observable.subscribeWith(observer));
+  }
   /**
    * Dispose from current {@link CompositeDisposable}.
    */

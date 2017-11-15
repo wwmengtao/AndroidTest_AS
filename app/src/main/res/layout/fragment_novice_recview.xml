@@ -7,4 +7,11 @@
         android:id="@+id/novice_grid_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <include
+        layout="@layout/view_progress"
+    />
+
+    <include
+        layout="@layout/view_retry"
+    />
 </FrameLayout>

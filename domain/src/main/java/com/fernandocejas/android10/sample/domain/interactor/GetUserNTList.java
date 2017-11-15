@@ -42,12 +42,13 @@ public class GetUserNTList extends UseCase<List<UserNT>, GetUserNTList.Params> {
   }
 
   @Override Observable<List<UserNT>> buildUseCaseObservable(GetUserNTList.Params params) {
-    System.out.println("buildUseCaseObservable");
+    System.out.println("GetUserNTList_buildUseCaseObservable");
     return this.userRepository.users(params);
   }
 
-  public void updateUserNT(UserNT mUserNT, GetUserNTList.Params params){
-    this.userRepository.updateUserNT(mUserNT, params);
+  @Override
+  Observable<List<UserNT>> buildUseCaseObservable_Update(List<UserNT> mUserNT, Params params) {
+    return null;
   }
 
   public static final class Params {

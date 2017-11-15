@@ -51,7 +51,9 @@ public class NoviceViewPagerPresenter implements Presenter {
    * Initializes the presenter by start retrieving the user list.
    */
   public void initialize() {
-    EventBus.getDefault().register(this);
+    if(!EventBus.getDefault().isRegistered(this)) {
+      EventBus.getDefault().register(this);
+    }
   }
 
   public void onUserClicked(UserModelNT userModel) {
@@ -94,6 +96,9 @@ public class NoviceViewPagerPresenter implements Presenter {
   }
 
   @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
+  /**
+   * onMessage：由于ListFragment和ViewPager显示所需的数据相同，因此需要接收前者的数据并在收到数据后取消sticky事件
+   */
   public void onMessage(MessageEvent event) {
     if(event.getEventType() != MessageEvent.EVENT_TYPE.TO_VIEWPAGER)return;
     UserModelNT mUserModelNT = event.getData();
@@ -102,6 +107,16 @@ public class NoviceViewPagerPresenter implements Presenter {
     setUserList(mUserModelNT, mUserModelNTCollection);
     //取消事件只允许在ThreadMode在ThreadMode.PostThread的事件处理方法中
     EventBus.getDefault().cancelEventDelivery(event);
+  }
+
+  /**
+   * returnDataToCaller：NoviceViewPagerFragment退出前向调用者返回当前显示条目的序号
+   */
+  public void returnCurrentIndexToCaller(int currentIndex){
+    MessageEvent mMessageEvent = new MessageEvent();
+    mMessageEvent.setEventType(MessageEvent.EVENT_TYPE.FROM_VIEWPAGE);
+    mMessageEvent.setCurrentIndex(currentIndex);
+    EventBus.getDefault().post(mMessageEvent);
   }
 
   /**

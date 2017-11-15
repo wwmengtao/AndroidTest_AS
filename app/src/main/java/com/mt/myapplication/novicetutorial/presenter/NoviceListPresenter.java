@@ -19,11 +19,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 
 import com.fernandocejas.android10.sample.domain.UserNT;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTDetails;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList.Params;
 import com.mt.androidtest_as.alog.ALog;
@@ -52,6 +54,7 @@ import static com.mt.myapplication.novicetutorial.view.activities.NoviceListActi
 public class NoviceListPresenter implements Presenter {
   private NoviceRecyclerView mNoviceRecyclerView;
   private final GetUserNTList mGetUserNTList;
+  private final GetUserNTDetails mGetUserNTDetails;
   private final UserModelDataNTMapper mUserModelDataNTMapper;
   private GetUserNTList.Params mParams;
   private Collection<UserModelNT> userModelsCollection = null;//当前数据表显示的所有数据
@@ -62,8 +65,10 @@ public class NoviceListPresenter implements Presenter {
   private String VIEW_ITEM_BY_VIEWPAGER="VIEW_ITEM_BY_VIEWPAGER";
   @Inject Context mContext;
   @Inject
-  public NoviceListPresenter(GetUserNTList mGetUserNTList, UserModelDataNTMapper mUserModelDataNTMapper){
+  public NoviceListPresenter(GetUserNTList mGetUserNTList, GetUserNTDetails mGetUserNTDetails,
+                             UserModelDataNTMapper mUserModelDataNTMapper){
     this.mGetUserNTList = mGetUserNTList;
+    this.mGetUserNTDetails = mGetUserNTDetails;
     this.mUserModelDataNTMapper = mUserModelDataNTMapper;
   }
   public void setView(@NonNull NoviceRecyclerView view) {
@@ -74,7 +79,9 @@ public class NoviceListPresenter implements Presenter {
    * Initializes the presenter by start retrieving the user list.
    */
   public void initialize() {
-    EventBus.getDefault().register(this);
+    if(!EventBus.getDefault().isRegistered(this)) {
+      EventBus.getDefault().register(this);
+    }
     mSharedPreferences	= mContext.getSharedPreferences(preferenceFileName, Context.MODE_PRIVATE);
     mSharedPreferencesEditor = mSharedPreferences.edit();
     this.loadUserList();
@@ -104,6 +111,16 @@ public class NoviceListPresenter implements Presenter {
     hideViewRetry();
     showViewLoading();
     getUserList();
+  }
+
+  public void smoothScrollToPosition(final RecyclerView mRecyclerView, final int currentIndex){
+    if(currentIndex < 0)return;
+    mRecyclerView.post(new Runnable() {
+      @Override
+      public void run() {
+        mRecyclerView.smoothScrollToPosition(currentIndex);//直接调用可能不起作用，必须放在View.post里
+      }
+    });
   }
 
   private void showViewLoading() {
@@ -192,7 +209,7 @@ public class NoviceListPresenter implements Presenter {
   }
 
   /**
-   * updateUserEntityNT：将用户最终操作的二级目录信息更新到数据库，此时待更新的数据内容为条目序号
+   * updateUserEntityNT：将用户最终操作的二级目录信息更新到数据库一级数据表中，此时待更新的数据内容为条目序号。
    * @param mUserModelNT
    */
   public void updateUserEntityNT(UserModelNT mUserModelNT){
@@ -201,6 +218,38 @@ public class NoviceListPresenter implements Presenter {
     this.mParams.setDataType(Params.DataType.COLLECTION_DATA_LEVEL1);
     this.mParams.setTableName(ROOT_XMLFILE_NAME.replace(".xml",""));
     this.mParams.setKey(mUserModelNT.getKey());
-    mGetUserNTList.updateUserNT(mUserModelDataNTMapper.transform(mUserModelNT), this.mParams);
+    mGetUserNTDetails.execute(new UpdateUserNTObserver(), mUserModelDataNTMapper.transform(mUserModelNT), this.mParams);
+  }
+
+  private final class UpdateUserNTObserver extends DefaultObserver<UserNT> {
+    private static final String TAG = "UpdateUserNTObserver";
+    @Override public void onNext(UserNT mUserNT) {
+      // no-op by default.
+      if(null != mUserNT){
+        ALog.Log(TAG+"_onNext: "+mUserNT.getIndex());
+        returnCurrentIndexToCaller(mUserNT.getIndex());
+      }
+    }
+
+    @Override public void onComplete() {
+      // no-op by default.
+      ALog.Log(TAG+"_onComplete");
+    }
+
+    @Override public void onError(Throwable exception) {
+      // no-op by default.
+      ALog.Log(TAG+"_onError");
+    }
+  }
+
+  /**
+   * returnCurrentIndexToCaller：NoviceListFragment退出前向调用者返回当前显示条目的序号
+   * @param currentIndex
+   */
+  public void returnCurrentIndexToCaller(int currentIndex){
+    MessageEvent mMessageEvent = new MessageEvent();
+    mMessageEvent.setEventType(MessageEvent.EVENT_TYPE.FROM_LISTVIEW);
+    mMessageEvent.setCurrentIndex(currentIndex);
+    EventBus.getDefault().post(mMessageEvent);
   }
 }

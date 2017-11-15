@@ -32,6 +32,7 @@ import butterknife.ButterKnife;
  * UsersAdapter：用于主界面的GridView。
  */
 public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserViewHolder> {
+  private static final String TAG = "UserAdapterGrid";
   protected Context mContext;
   protected Resources mResources;
   protected List<UserModelNT> usersCollection;
@@ -41,6 +42,7 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
   protected OnItemClickListener onItemClickListener;
 
   public void setCurrentIndex(int currentIndex){
+    ALog.Log1(TAG+"setCurrentIndex: "+currentIndex);
     this.currentIndex = currentIndex;
   }
 
@@ -73,16 +75,19 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
   @Override
   public void onBindViewHolder(UserViewHolder holder, final int position) {
     final UserModelNT mUserModelNT = usersCollection.get(position);
-    holder.mTextView.setText(getString(mUserModelNT.getAdjunction()));
+    holder.mTextView.setText(getString(mUserModelNT.getAdjunction())+"\n"+(mUserModelNT.getIndex()));
     Glide.with(mContext)
             .load("file:///android_asset/"+mUserModelNT.getPic())//加载Asset文件夹下的图片资源
             .into(holder.mImageView);
-    ALog.Log("onBindViewHolder:"+mUserModelNT.getPic());
+    ALog.Log(TAG+"_onBindViewHolder:"+mUserModelNT.getPic());
     holder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         if (UserAdapterGrid.this.onItemClickListener != null) {
-          UserAdapterGrid.this.onItemClickListener.onUserAdapterItemClicked(mUserModelNT);
+          UserModelNT mData = usersCollection.get(position);
+          UserAdapterGrid.this.onItemClickListener.onUserAdapterItemClicked(mData);
+          ALog.Log(TAG+"_onClick: "+mData.getKey()+" "+mData.getIndex());
+          ALog.visitCollection2(TAG, usersCollection);
         }
       }
     });
@@ -115,6 +120,7 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
 
   public void setUsersCollection(Collection<UserModelNT> usersCollection) {
     this.validateUsersCollection(usersCollection);
+    clearData();
     this.usersCollection = (List<UserModelNT>) usersCollection;
     this.notifyDataSetChanged();
   }
@@ -122,7 +128,6 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
   public void clearData(){
     if(null != usersCollection && usersCollection.size() > 0) {
       usersCollection.clear();
-      usersCollection = null;
     }
   }
 

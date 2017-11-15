@@ -20,8 +20,10 @@ import com.fernandocejas.android10.sample.domain.executor.PostExecutionThread;
 import com.fernandocejas.android10.sample.domain.executor.ThreadExecutor;
 import com.fernandocejas.android10.sample.domain.repository.UserRepository;
 import com.fernandocejas.arrow.checks.Preconditions;
-import io.reactivex.Observable;
+
 import javax.inject.Inject;
+
+import io.reactivex.Observable;
 
 /**
  * This class is an implementation of {@link UseCase} that represents a use case for
@@ -41,6 +43,11 @@ public class GetUserDetails extends UseCase<User, GetUserDetails.Params> {
   @Override Observable<User> buildUseCaseObservable(Params params) {
     Preconditions.checkNotNull(params);
     return this.userRepository.user(params.userId);
+  }
+
+  @Override
+  Observable<User> buildUseCaseObservable_Update(User mUserNT, Params params) {
+    return null;
   }
 
   public static final class Params {

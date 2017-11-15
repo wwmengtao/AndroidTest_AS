@@ -27,7 +27,12 @@ import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataNTMapper;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
+import com.mt.myapplication.novicetutorial.model.MessageEvent;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Collection;
 import java.util.List;
@@ -63,6 +68,9 @@ public class NoviceGridPresenter implements Presenter {
    * Initializes the presenter by start retrieving the user list.
    */
   public void initialize() {
+    if(!EventBus.getDefault().isRegistered(this)) {
+      EventBus.getDefault().register(this);
+    }
     this.loadUserList();
   }
 
@@ -124,11 +132,17 @@ public class NoviceGridPresenter implements Presenter {
 
     @Override public void onNext(List<UserNT> users) {
       NoviceGridPresenter.this.showUsersCollectionInView(users);
-      ALog.visitCollection(TAG, users);
+      ALog.visitCollection(TAG+"_onNext", users);
     }
   }
 
-
+  @Subscribe(threadMode = ThreadMode.POSTING)
+  public void onMessage(MessageEvent event) {//此时收到ViewPagar视图返回的当前页序号，保存该序号便可存储用户操作记录
+    if(event.getEventType() != MessageEvent.EVENT_TYPE.FROM_LISTVIEW)return;
+    int currentIndex = event.getCurrentIndex();
+    mNoviceRecyclerView.setCurrentItemBackGround(currentIndex);
+    ALog.Log1("NoviceGridPresenter_onMessage_currentIndex: "+currentIndex);
+  }
 
   @Override
   public void resume() {}
@@ -138,6 +152,7 @@ public class NoviceGridPresenter implements Presenter {
 
   @Override
   public void destroy() {
+    EventBus.getDefault().unregister(this);
     this.mGetUserNTList.dispose();
     this.mNoviceRecyclerView = null;
   }

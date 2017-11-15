@@ -10,7 +10,8 @@ import java.util.Collection;
 public class MessageEvent {
     public static enum EVENT_TYPE{
         TO_VIEWPAGER,//此时的EventBus事件是发送给ViewPager类型视图对象的
-        FROM_VIEWPAGE
+        FROM_VIEWPAGE,
+        FROM_LISTVIEW,//此时的EventBus事件是接收自LIST类型视图对象的
     };
 
     private String message = null;
@@ -33,15 +34,20 @@ public class MessageEvent {
     }
 
     /**
-     * 一、下列setXXX以及getXXX等设置/获取数据的操作是接收ViewPager对象返回数据的，此时的事件类型为EVENT_TYPE.FROM_VIEWPAGE
+     * 一、下列setXXX以及getXXX等设置/获取数据的操作是接收ViewPager/ListView对象返回数据的，此时的事件类型为EVENT_TYPE.FROM_VIEWPAGE
      */
     private int currentIndex = -1;
     public void setCurrentIndex(int currentIndex){
-        this.currentIndex = currentIndex;
+        if(null != mEventType && (mEventType == EVENT_TYPE.FROM_VIEWPAGE || mEventType == EVENT_TYPE.FROM_LISTVIEW)) {
+            this.currentIndex = currentIndex;
+        }
     }
 
     public int getCurrentIndex(){
-        return currentIndex;
+        if(null != mEventType && (mEventType == EVENT_TYPE.FROM_VIEWPAGE || mEventType == EVENT_TYPE.FROM_LISTVIEW)) {
+            return currentIndex;
+        }
+        return -99;
     }
 
     /**

@@ -68,6 +68,7 @@ public class DataManager {
      */
     public Collection<UserEntityNT> query(GetUserNTList.Params params){
         ALog.Log(TAG+"query: "+params.toString());
+//        ALog.sleep(2000);
         mData.clear();
         DbCursorWrapper cursor = queryTableData(null, null, params);
         try{
@@ -79,7 +80,7 @@ public class DataManager {
         }finally {
             cursor.close();
         }
-        ALog.visitCollection(TAG, mData);
+        if(params.getTableName().equals("xmlfiles"))ALog.visitCollection("currentIndex_"+TAG, mData);
         return mData;
     }
 
@@ -108,6 +109,7 @@ public class DataManager {
 
     public UserEntityNT query(String key, GetUserNTList.Params mParams){
         ALog.Log(TAG+"query: "+key+" "+mParams.toString());
+//        ALog.sleep(2000);
         DbCursorWrapper cursor = queryTableData(DbSchema.Level1TitleTable.Cols.KEY+" = ?", new String[]{key}, mParams);
         UserEntityNT mUserEntityNT=null;
         try{

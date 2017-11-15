@@ -15,11 +15,8 @@ import android.view.ViewGroup;
 import com.mt.androidtest_as.R;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
-import com.mt.myapplication.novicetutorial.model.MessageEvent;
 import com.mt.myapplication.novicetutorial.presenter.NoviceViewPagerPresenter;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.Collection;
 import java.util.List;
@@ -72,7 +69,7 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
 
     @Override
     public void onDestroyView(){
-        returnDataToCaller();
+        mNoviceViewPagerPresenter.returnCurrentIndexToCaller(mViewPager.getCurrentItem());
         mUnbinder.unbind();
         super.onDestroyView();
     }
@@ -81,16 +78,6 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
         super.onDestroy();
         this.mNoviceViewPagerPresenter.destroy();
 
-    }
-
-    /**
-     * returnDataToCaller：NoviceViewPagerFragment退出前向调用者返回当前显示条目的序号
-     */
-    private void returnDataToCaller(){
-        MessageEvent mMessageEvent = new MessageEvent();
-        mMessageEvent.setEventType(MessageEvent.EVENT_TYPE.FROM_VIEWPAGE);
-        mMessageEvent.setCurrentIndex(mViewPager.getCurrentItem());
-        EventBus.getDefault().post(mMessageEvent);
     }
 
     /**
@@ -154,6 +141,7 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
         for (int i = 0; i < mData.size(); i++) {
             if (mNoviceViewPagerPresenter.userModelNTsEqual(mData.get(i), mUserModelNT)) {
                 mViewPager.setCurrentItem(i);
+                mActivity.setTitle(getString(mData.get(i).getKey()));
                 break;
             }
         }

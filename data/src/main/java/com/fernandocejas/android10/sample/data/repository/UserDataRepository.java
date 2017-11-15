@@ -15,6 +15,7 @@
  */
 package com.fernandocejas.android10.sample.data.repository;
 
+import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.entity.mapper.UserEntityDataMapper;
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStore;
 import com.fernandocejas.android10.sample.data.repository.datasource.UserDataStoreFactory;
@@ -65,9 +66,10 @@ public class UserDataRepository implements UserRepository {
   }
 
   @Override
-  public void updateUserNT(UserNT mUserNT, GetUserNTList.Params params){
+  public Observable<UserNT> updateUserNT(UserNT mUserNT, GetUserNTList.Params params){
+    ALog.Log("UserDataRepository_updateUserNT");
     final UserDataStore userDataStore = this.userDataStoreFactory.createDBDataStore();
-    userDataStore.updateUserEntityNT(userEntityDataMapper.transformNT(mUserNT), params);
+    return userDataStore.updateUserEntityNT(userEntityDataMapper.transformNT(mUserNT), params).map(this.userEntityDataMapper::transformNT);
   }
 
   @Override public Observable<List<UserNT>> users(GetUserNTList.Params params) {

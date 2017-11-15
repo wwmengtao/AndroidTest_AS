@@ -16,5 +16,4 @@
         android:layout_gravity="center"
         android:text="NoviceTitle"
         android:gravity="bottom|end"/>
-
 </FrameLayout>

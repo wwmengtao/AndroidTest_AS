@@ -61,12 +61,12 @@ class DBUserDataStore implements UserDataStore {
   }
 
   /**
-   * 向数据库中写入数据
+   * updateUserEntityNT：向数据库中更新数据
    * @param mUserEntityNT
    * @param params
    */
-  public void updateUserEntityNT(UserEntityNT mUserEntityNT, GetUserNTList.Params params){
-    this.dbCache.update(mUserEntityNT, params);
+  public Observable<UserEntityNT> updateUserEntityNT(UserEntityNT mUserEntityNT, GetUserNTList.Params params){
+    return this.dbCache.update(mUserEntityNT, params);
   }
 
   @Override public Observable<UserEntity> userEntityDetails(final int userId) {

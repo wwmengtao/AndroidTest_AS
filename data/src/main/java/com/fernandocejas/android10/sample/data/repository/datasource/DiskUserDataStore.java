@@ -60,7 +60,7 @@ class DiskUserDataStore implements UserDataStore {
   }
 
   @Override
-  public void updateUserEntityNT(UserEntityNT mUserEntityNT, GetUserNTList.Params params) {
-
+  public Observable<UserEntityNT> updateUserEntityNT(UserEntityNT mUserEntityNT, GetUserNTList.Params params) {
+    return null;
   }
 }

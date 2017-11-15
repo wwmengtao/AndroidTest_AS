@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -34,7 +36,9 @@ public class NoviceDetailFragment extends BaseFragment implements NoviceDetailVi
     @Inject Context mContext;
     @BindView(R.id.novice_detail_tv) TextView mTextView;
     @BindView(R.id.novice_detail_img) ImageView mImageView;
-
+    @BindView(R.id.rl_progress) RelativeLayout rl_progress;
+    @BindView(R.id.rl_retry) RelativeLayout rl_retry;
+    @BindView(R.id.bt_retry) Button bt_retry;
     @Inject NoviceDetailPresenter mNoviceDetailPresenter;
 
     @Override public void onAttach(Activity activity) {
@@ -106,27 +110,27 @@ public class NoviceDetailFragment extends BaseFragment implements NoviceDetailVi
 
     @Override
     public void showLoading() {
-
+        this.rl_progress.setVisibility(View.VISIBLE);
+        this.getActivity().setProgressBarIndeterminateVisibility(true);
     }
 
     @Override
     public void hideLoading() {
-
+        this.rl_progress.setVisibility(View.GONE);
+        this.getActivity().setProgressBarIndeterminateVisibility(false);
     }
 
-    @Override
-    public void showRetry() {
-
+    @Override public void showRetry() {
+        this.rl_retry.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void hideRetry() {
-
+    @Override public void hideRetry() {
+        this.rl_retry.setVisibility(View.GONE);
     }
 
     @Override
     public void showError(String message) {
-
+        this.showToastMessage(message);
     }
 
     @Override
