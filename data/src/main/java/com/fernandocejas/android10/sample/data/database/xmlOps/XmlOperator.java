@@ -23,7 +23,7 @@ import java.util.Collection;
  * XmlOperator：解析assets目录下的玩家教程xml文件
  */
 public class XmlOperator {
-	private static final String TAG = "XmlOperator: ";
+	private static final String TAG = "XmlOperator_";
 	public static final String NoviceAssetsXmlDir = "novicetutorial"+File.separator+"xmlfiles";//玩家教程存储xml文件的Assets根目录
 	public static final String NoviceAssetsPicDir = "novicetutorial"+File.separator+"title1_pics";//玩家教程存储图片的Assets根目录
 	private XmlPullParser mXmlPullParser = null;//读取xml文件
@@ -54,7 +54,7 @@ public class XmlOperator {
 				params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2){
 			readFromXmlFile(params);
 		}
-		visitCollection(mUserEntityNTCollection);//浏览mUserEntityCollection中的数据内容
+		ALog.visitCollection(TAG, mUserEntityNTCollection);//浏览mUserEntityCollection中的数据内容
 		return mUserEntityNTCollection;
 	}
 
@@ -158,7 +158,7 @@ public class XmlOperator {
 	 * @throws ParseException
 	 */
 	private void parseTagItem(XmlPullParser parser, final String FIRST_TAG_NAME, GetUserNTList.Params params) throws XmlPullParserException,IOException,ParseException {
-		ALog.Log("parseTagItem: "+FIRST_TAG_NAME);
+		ALog.Log(TAG + "parseTagItem: "+FIRST_TAG_NAME);
 		int type;
 		UserEntityNT mUserEntityNT = new UserEntityNT();
 		String tag = null,value = null;
@@ -171,7 +171,7 @@ public class XmlOperator {
 				case XmlPullParser.TEXT:
 					if(null == tag)break;
 					value = parser.getText().trim();
-//					ALog.Log("tag: "+tag+" val: "+value);
+					ALog.Log("tag: "+tag+" val: "+value);
 					if(params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1){
 						XmlItemTags.LEVEL1_ITEM_TAGS.setTagValue(mUserEntityNT,tag,value);
 					}else if(params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2){
@@ -188,18 +188,4 @@ public class XmlOperator {
 			}//end switch
 		}//end for(;;)
 	}//end parseTagItem
-
-	public void visitCollection(Collection<UserEntityNT> mUserEntityCollection){
-		if(null != mUserEntityCollection && mUserEntityCollection.size() > 0){
-			ALog.Log(TAG+"mUserEntityCollection.size(): "+mUserEntityCollection.size());
-			for(UserEntityNT mUserEntityNT : mUserEntityCollection){
-				ALog.Log(TAG+"visitCollection");
-				ALog.Log("key: "+mUserEntityNT.getKey());
-				ALog.Log("adj: "+mUserEntityNT.getAdjunction());
-				ALog.Log("pic: "+mUserEntityNT.getPic());
-				ALog.Log("num: "+mUserEntityNT.getNumber());
-			}
-		}
-	}
-
 }

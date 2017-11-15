@@ -64,6 +64,12 @@ public class UserDataRepository implements UserRepository {
     return userDataStore.userEntityNTDetails(params).map(this.userEntityDataMapper::transformNT);
   }
 
+  @Override
+  public void updateUserNT(UserNT mUserNT, GetUserNTList.Params params){
+    final UserDataStore userDataStore = this.userDataStoreFactory.createDBDataStore();
+    userDataStore.updateUserEntityNT(userEntityDataMapper.transformNT(mUserNT), params);
+  }
+
   @Override public Observable<List<UserNT>> users(GetUserNTList.Params params) {
     final UserDataStore userDataStore = this.userDataStoreFactory.createDBDataStore();
     return userDataStore.userEntityNTList(params).map(this.userEntityDataMapper::transformNT);

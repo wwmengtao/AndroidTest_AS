@@ -54,7 +54,7 @@ public class DbCacheImpl implements DbCache {
   @Override
   public Observable<List<UserEntityNT>> getCollection(final GetUserNTList.Params params) {
     return Observable.create(emitter -> {
-      final List<UserEntityNT> userEntityList = (List<UserEntityNT>)mDataManager.getUserEntityCollection(params);
+      final List<UserEntityNT> userEntityList = (List<UserEntityNT>)mDataManager.query(params);
       if (userEntityList != null) {
         emitter.onNext(userEntityList);
         emitter.onComplete();
@@ -67,7 +67,7 @@ public class DbCacheImpl implements DbCache {
   @Override
   public Observable<UserEntityNT> get(final GetUserNTList.Params params) {
     return Observable.create(emitter -> {
-      final UserEntityNT userEntity = mDataManager.queryUserEntityNT(params.getKey(), params);
+      final UserEntityNT userEntity = mDataManager.query(params.getKey(), params);
       if (userEntity != null) {
         emitter.onNext(userEntity);
         emitter.onComplete();
@@ -80,21 +80,33 @@ public class DbCacheImpl implements DbCache {
 
   @Override
   public void put(List<UserEntityNT> userEntityList, GetUserNTList.Params params) {
-    ALog.Log("DbCacheImpl_putUserEntityList");
+    ALog.Log("DbCacheImpl_put_List");
     if (userEntityList != null) {
       if (!isCached(params)) {
-        this.executeAsynchronously(new CacheWriter(this.mDataManager, userEntityList, params));
+        CacheWriter mCacheWriter = new CacheWriter(this.mDataManager, userEntityList, params);
+        mCacheWriter.setCacheType(CacheWriter.CACHE_TYPE.PUT);
+        this.executeAsynchronously(mCacheWriter);
       }
     }
   }
 
   @Override public void put(UserEntityNT userEntity, GetUserNTList.Params params) {
-    ALog.Log("DbCacheImpl_putUserEntity");
+    ALog.Log("DbCacheImpl_put");
     if (userEntity != null) {
       if (!isCached(params)) {
-        this.executeAsynchronously(new CacheWriter(this.mDataManager, userEntity, params));
+        CacheWriter mCacheWriter = new CacheWriter(this.mDataManager, userEntity, params);
+        mCacheWriter.setCacheType(CacheWriter.CACHE_TYPE.PUT);
+        this.executeAsynchronously(mCacheWriter);
       }
     }
+  }
+
+  @Override
+  public void update(UserEntityNT userEntity, GetUserNTList.Params params) {
+    ALog.Log("DbCacheImpl_update");
+    CacheWriter mCacheWriter = new CacheWriter(this.mDataManager, userEntity, params);
+    mCacheWriter.setCacheType(CacheWriter.CACHE_TYPE.UPDATE);
+    this.executeAsynchronously(mCacheWriter);
   }
 
   @Override public boolean isCached(GetUserNTList.Params params) {
@@ -125,31 +137,46 @@ public class DbCacheImpl implements DbCache {
    * {@link Runnable} class for writing to disk.
    */
   private static class CacheWriter implements Runnable {
+    public static enum CACHE_TYPE{
+      PUT,
+      UPDATE
+    }
     private final DataManager mDataManager;
     private final GetUserNTList.Params params;
-    private UserEntityNT userEntity;
-    private List<UserEntityNT> userEntityList;
-
+    private UserEntityNT mUserEntityNT;
+    private List<UserEntityNT> mUserEntityNTList;
+    private CACHE_TYPE mCacheType;
     public CacheWriter(DataManager mDataManager, UserEntityNT userEntity, GetUserNTList.Params params) {
       this.mDataManager = mDataManager;
       this.params = params;
-      this.userEntity = userEntity;
-      this.userEntityList = null;
+      this.mUserEntityNT = userEntity;
+      this.mUserEntityNTList = null;
+    }
+
+    public void setCacheType(CACHE_TYPE mCacheType){
+      this.mCacheType = mCacheType;
     }
 
     public CacheWriter(DataManager mDataManager, List<UserEntityNT> userEntityList, GetUserNTList.Params params) {
       this.mDataManager = mDataManager;
       this.params = params;
-      this.userEntityList = userEntityList;
-      this.userEntity = null;
+      this.mUserEntityNTList = userEntityList;
+      this.mUserEntityNT = null;
     }
 
     @Override public void run() {
 //      this.fileManager.writeToFile(fileToWrite, fileContent);
-      if(null == this.userEntityList)
-        this.mDataManager.put(this.userEntity, params);
-      else
-        this.mDataManager.put(this.userEntityList, params);
+      if(null == this.mUserEntityNTList) {
+        if (mCacheType == CACHE_TYPE.PUT) {
+          this.mDataManager.put(this.mUserEntityNT, params);
+        } else if (mCacheType == CACHE_TYPE.UPDATE) {
+          this.mDataManager.update(this.mUserEntityNT, params);
+        }
+      }else{
+          if(mCacheType == CACHE_TYPE.PUT){
+            this.mDataManager.put(this.mUserEntityNTList, params);
+          }
+        }
     }
   }
 

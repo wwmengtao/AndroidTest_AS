@@ -18,6 +18,7 @@ import java.util.List;
  * 第二，提供了onCreate()、onUpgrade()两个回调函数，允许我们再创建和升级数据库时，进行自己的操作
  */
 public class DataBaseHelper extends SQLiteOpenHelper {
+	private static final String TAG = "SQLiteOpenHelper_";
 	private static final int DATABASE_VERSION = 1;
 	private static final String DATABASE_NAME = "novicetutorial.db";
 	private static volatile DataBaseHelper sInstance = null;
@@ -41,13 +42,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-		ALog.Log("DataBaseHelper_onCreate");
+		ALog.Log(TAG+"onCreate");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
 		// TODO Auto-generated method stub
-		ALog.Log("upgrade a database");
+		ALog.Log(TAG+"onUpgrade");
         try {
 			dropTables();
             onCreate(db);
@@ -58,7 +59,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 	public void createTable(String tableName){
     	if(tabIsExist(tableName))return;//如果数据表存在就不创建了
-		ALog.Log("create table: "+tableName);
+		ALog.Log(TAG+"createTable: "+tableName);
 		try{
 			//execSQL用于执行SQL语句，注意：1)数据表名称不能包含".";2)数据表中，列名不能用"index"(大小写都不允许)，否则报错。
 			this.getWritableDatabase().execSQL("CREATE TABLE " + tableName+" (" +
@@ -69,7 +70,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 					Level1TitleTable.Cols.NUM + " INTEGER" + ");"
 			);}
 		catch (SQLException e){
-			ALog.Log("createTable_SQLException\n"+e.fillInStackTrace());
+			ALog.Log(TAG+"createTable_SQLException\n"+e.fillInStackTrace());
 		}
 	}
 
@@ -83,7 +84,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 					db.execSQL("drop table if exists " + tableName);
 				}
 			}catch (Exception e){
-				ALog.Log("dropTables_Exception\n"+e.fillInStackTrace());
+				ALog.Log(TAG+"dropTables_Exception\n"+e.fillInStackTrace());
 			}
 		}
 	}
@@ -133,7 +134,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 			cursor = db.rawQuery(sql, null);
 			if(cursor.moveToNext()){
 				int count = cursor.getInt(0);
-				ALog.Log("count: "+count);
+				ALog.Log(TAG+"count: "+count);
 				if(count>0){
 					result = true;
 				}

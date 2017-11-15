@@ -58,4 +58,15 @@ public class UserEntityNT {
     public void setNumber(int index) {
     this.num = index;
     }
+
+    public String toString(){
+        String str =
+        "/----------------UserEntityNT.toString----------------/" + "\n" +
+        "key: "+key + "\n" +
+        "adj: "+adjunction + "\n" +
+        "pic: "+pic + "\n" +
+        "num: "+num + "\n" +
+        "/----------------UserEntityNT.toString----------------/";
+        return str;
+    }
 }

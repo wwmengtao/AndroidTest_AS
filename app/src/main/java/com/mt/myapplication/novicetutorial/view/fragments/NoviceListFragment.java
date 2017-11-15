@@ -15,12 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mt.androidtest_as.R;
-import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceListPresenter;
+import com.mt.myapplication.novicetutorial.view.adapter.UserAdapterGrid;
 import com.mt.myapplication.novicetutorial.view.adapter.UserAdapterList;
-import com.mt.myapplication.novicetutorial.view.adapter.UsersAdapterGrid;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
 
 import java.util.Collection;
@@ -36,10 +35,11 @@ import static com.mt.myapplication.novicetutorial.view.activities.NoviceListActi
 
 public class NoviceListFragment extends BaseFragment implements NoviceRecyclerView {
     public Unbinder unbinder;
-    Activity mActivity = null;
+    private Activity mActivity = null;
+    private UserModelNT mUserModelNT = null;
     @Inject Context mContext;
     @BindView(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
-    @Inject UserAdapterList usersAdapter;
+    @Inject UserAdapterList mUserAdapterList;
     @Inject NoviceListPresenter mNoviceListPresenter;
     private OnUserClickedListener mOnUserClickedListener;
     private Intent mIntent = null;
@@ -65,9 +65,9 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
             this.mOnUserClickedListener = (OnUserClickedListener) activity;
         }
         mIntent = mActivity.getIntent();
-        UserModelNT userModel = (UserModelNT)mIntent.getParcelableExtra(NOVICE_LIST_ACTIVITY_KEY);
+        mUserModelNT = mIntent.getParcelableExtra(NOVICE_LIST_ACTIVITY_KEY);
 //        ALog.Log("NoviceListFragment_onAttach: "+userModel.toString());
-        mActivity.setTitle(getString(userModel.getAdjunction()));
+        mActivity.setTitle(getString(mUserModelNT.getAdjunction()));
     }
 
     @Override
@@ -102,7 +102,12 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
 
     @Override public void onDestroyView() {
         super.onDestroyView();
+        //保存用户最终浏览的条目序号
+        mUserModelNT.setIndex(mUserAdapterList.getCurrentIndex());
+        mNoviceListPresenter.updateUserEntityNT(mUserModelNT);
+        //
         mRecyclerView.setAdapter(null);
+        mUserAdapterList.clearData();
         unbinder.unbind();
     }
 
@@ -117,8 +122,8 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
         this.mOnUserClickedListener = null;
     }
 
-    private UsersAdapterGrid.OnItemClickListener onItemClickListener =
-            new UsersAdapterGrid.OnItemClickListener() {
+    private UserAdapterGrid.OnItemClickListener onItemClickListener =
+            new UserAdapterGrid.OnItemClickListener() {
                 @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
                     if (NoviceListFragment.this.mNoviceListPresenter != null && userModel != null) {
                         NoviceListFragment.this.mNoviceListPresenter.onUserClicked(userModel);
@@ -127,9 +132,9 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
             };
 
     private void setupRecyclerView() {
-        usersAdapter.setOnItemClickListener(onItemClickListener);
+        mUserAdapterList.setOnItemClickListener(onItemClickListener);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecyclerView.setAdapter(usersAdapter);
+        mRecyclerView.setAdapter(mUserAdapterList);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL |
                 DividerItemDecoration.VERTICAL));
     }
@@ -147,7 +152,25 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     @Override
     public void setUserList(Collection<UserModelNT> userModelCollection) {
         if (userModelCollection != null) {
-            this.usersAdapter.setUsersCollection(userModelCollection);
+            this.mUserAdapterList.setCurrentIndex(mUserModelNT.getIndex());//设置用户之前的浏览序号记录
+            this.mUserAdapterList.setUsersCollection(userModelCollection);
+        }
+    }
+
+    @Override
+    /**
+     * setCurrentItemBackGround：当用户选中某个不同条目时，变换条目背景颜色
+     */
+    public void setCurrentItemBackGround(final int currentIndex){
+        if(currentIndex >= 0 && currentIndex != this.mUserAdapterList.getCurrentIndex()){
+            this.mUserAdapterList.setCurrentIndex(currentIndex);
+            this.mUserAdapterList.notifyDataSetChanged();
+            mRecyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mRecyclerView.smoothScrollToPosition(currentIndex);//直接调用可能不起作用，必须放在View.post里
+                }
+            });
         }
     }
 
@@ -205,7 +228,6 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
                 mViewItemByViewPager = mNoviceListPresenter.ifViewItemByViewPager();
                 item_viewpager.setChecked(!mViewItemByViewPager);
                 mNoviceListPresenter.setViewItemByViewPager(!mViewItemByViewPager);
-                ALog.Log("onOptionsItemSelected_1");
                 break;
             default:
                 return super.onOptionsItemSelected(item);

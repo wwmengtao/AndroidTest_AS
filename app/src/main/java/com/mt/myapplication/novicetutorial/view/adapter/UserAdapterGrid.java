@@ -31,16 +31,25 @@ import butterknife.ButterKnife;
 /**
  * UsersAdapter：用于主界面的GridView。
  */
-public class UsersAdapterGrid extends RecyclerView.Adapter<UsersAdapterGrid.UserViewHolder> {
+public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserViewHolder> {
   protected Context mContext;
   protected Resources mResources;
   protected List<UserModelNT> usersCollection;
   protected final LayoutInflater layoutInflater;
+  private int currentIndex = -1;//当前选中条目的序号
 
   protected OnItemClickListener onItemClickListener;
 
+  public void setCurrentIndex(int currentIndex){
+    this.currentIndex = currentIndex;
+  }
+
+  public int getCurrentIndex(){
+    return currentIndex;
+  }
+
   @Inject
-  UsersAdapterGrid(Context context) {
+  UserAdapterGrid(Context context) {
     this.mContext = context;
     mResources = context.getResources();
     this.layoutInflater =
@@ -72,8 +81,8 @@ public class UsersAdapterGrid extends RecyclerView.Adapter<UsersAdapterGrid.User
     holder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (UsersAdapterGrid.this.onItemClickListener != null) {
-          UsersAdapterGrid.this.onItemClickListener.onUserAdapterItemClicked(mUserModelNT);
+        if (UserAdapterGrid.this.onItemClickListener != null) {
+          UserAdapterGrid.this.onItemClickListener.onUserAdapterItemClicked(mUserModelNT);
         }
       }
     });
@@ -110,6 +119,13 @@ public class UsersAdapterGrid extends RecyclerView.Adapter<UsersAdapterGrid.User
     this.notifyDataSetChanged();
   }
 
+  public void clearData(){
+    if(null != usersCollection && usersCollection.size() > 0) {
+      usersCollection.clear();
+      usersCollection = null;
+    }
+  }
+
   public void setOnItemClickListener (OnItemClickListener onItemClickListener) {
     this.onItemClickListener = onItemClickListener;
   }
@@ -121,6 +137,7 @@ public class UsersAdapterGrid extends RecyclerView.Adapter<UsersAdapterGrid.User
   }
 
   static class UserViewHolder extends RecyclerView.ViewHolder {
+    private View mView = null;
     @BindView(R.id.item_grid_image)
     @Nullable
     ImageView mImageView;
@@ -128,7 +145,12 @@ public class UsersAdapterGrid extends RecyclerView.Adapter<UsersAdapterGrid.User
     TextView mTextView;
     UserViewHolder(View itemView) {
       super(itemView);
+      mView = itemView;
       ButterKnife.bind(this, itemView);
+    }
+    public void setBackGround(boolean itemSelected){
+      mView.setBackgroundColor(mView.getResources().getColor(itemSelected ? android.R.color.holo_green_light
+              : android.R.color.transparent));
     }
   }
 }

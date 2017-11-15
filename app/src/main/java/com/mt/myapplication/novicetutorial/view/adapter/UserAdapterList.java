@@ -13,7 +13,7 @@ import javax.inject.Inject;
  * Created by mengtao1 on 2017/11/9.
  */
 
-public class UserAdapterList extends UsersAdapterGrid {
+public class UserAdapterList extends UserAdapterGrid {
     @Inject
     public UserAdapterList(Context context) {
         super(context);
@@ -29,6 +29,7 @@ public class UserAdapterList extends UsersAdapterGrid {
     public void onBindViewHolder(UserViewHolder holder, final int position) {
         final UserModelNT mUserModelNT = usersCollection.get(position);
         //        ALog.Log("UserAdapterList_onBindViewHolder:"+mUserModelNT.getKey());
+        holder.setBackGround(position == getCurrentIndex());//根据当前是否选中来确定该item的背景颜色
         holder.mTextView.setText(getString(mUserModelNT.getKey()));
         if(null != mUserModelNT.getPic()){//如果说明条目中存有图片的话，那么标题颜色设置为特定颜色
             holder.mTextView.setTextColor(getColorId(R.color.blue));

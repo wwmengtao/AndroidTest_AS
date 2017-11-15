@@ -55,6 +55,18 @@ public class UserModelDataNTMapper {
     return userModel;
   }
 
+  public UserNT transform(UserModelNT mUserModelNT) {
+    if (mUserModelNT == null) {
+      throw new IllegalArgumentException("Cannot transform a null value");
+    }
+    final UserNT mUserNT = new UserNT();
+    mUserNT.setKey(mUserModelNT.getKey());
+    mUserNT.setAdjunction(mUserModelNT.getAdjunction());
+    mUserNT.setPic(mUserModelNT.getPic());
+    mUserNT.setIndex(mUserModelNT.getIndex());
+    return mUserNT;
+  }
+
   /**
    * Transform a Collection of {@link User} into a Collection of {@link UserModel}.
    *

@@ -34,7 +34,7 @@ public interface UserRepository {
 
   Observable<UserNT> user(GetUserNTList.Params params);
   Observable<List<UserNT>> users(GetUserNTList.Params params);
-
+  void updateUserNT(UserNT mUserNT, GetUserNTList.Params params);
     /**
      * Get an {@link Observable} which will emit a {@link User}.
      *

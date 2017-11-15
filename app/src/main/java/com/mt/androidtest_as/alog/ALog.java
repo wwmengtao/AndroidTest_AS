@@ -2,6 +2,10 @@ package com.mt.androidtest_as.alog;
 
 import android.util.Log;
 
+import com.fernandocejas.android10.sample.domain.UserNT;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
+
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -76,5 +80,23 @@ public class ALog {
 	        }
 		}
 		return str;
+	}
+
+	public static void visitCollection(String TAG, Collection<UserNT> mUserNTCollection){
+		if(null != mUserNTCollection && mUserNTCollection.size() > 0){
+			ALog.Log(TAG+" VisitUserNTData:");
+			for(UserNT mUserNT : mUserNTCollection){
+				ALog.Log(mUserNT.toString());
+			}
+		}
+	}
+
+	public static void visitCollection2(String TAG, Collection<UserModelNT> mUserModelNTCollection){
+		if(null != mUserModelNTCollection && mUserModelNTCollection.size() > 0){
+			ALog.Log(TAG+" VisitUserModelNTData:");
+			for(UserModelNT mUserModelNT : mUserModelNTCollection){
+				ALog.Log(mUserModelNT.toString());
+			}
+		}
 	}
 }

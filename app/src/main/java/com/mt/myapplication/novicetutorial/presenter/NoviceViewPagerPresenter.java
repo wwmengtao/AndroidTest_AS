@@ -37,14 +37,9 @@ import javax.inject.Inject;
  */
 public class NoviceViewPagerPresenter implements Presenter {
   private NoviceRecyclerView mNoviceRecyclerView;
-//  private final GetUserNTList mGetUserNTList;
-//  private final UserModelDataNTMapper mUserModelDataNTMapper;
 
   @Inject Context mContext;
-//  @Inject public NoviceViewPagerPresenter(GetUserNTList mGetUserNTList, UserModelDataNTMapper mUserModelDataNTMapper){
-//    this.mGetUserNTList = mGetUserNTList;
-//    this.mUserModelDataNTMapper = mUserModelDataNTMapper;
-//  }
+
   @Inject public NoviceViewPagerPresenter(){
 
   }
@@ -87,7 +82,6 @@ public class NoviceViewPagerPresenter implements Presenter {
 
   @Override
     public void destroy() {
-//      this.mGetUserNTList.dispose();
       this.mNoviceRecyclerView = null;
       EventBus.getDefault().unregister(this);
   }
@@ -101,15 +95,21 @@ public class NoviceViewPagerPresenter implements Presenter {
 
   @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
   public void onMessage(MessageEvent event) {
-    if(event.getEventType() != MessageEvent.EVENT_TYPE.VIEWPAGER)return;
+    if(event.getEventType() != MessageEvent.EVENT_TYPE.TO_VIEWPAGER)return;
     UserModelNT mUserModelNT = event.getData();
-    ALog.fillInStackTrace("onMessage_mUserModelNT: "+mUserModelNT.getKey());
+    ALog.Log1("onMessage_mUserModelNT: "+mUserModelNT.getKey());
     Collection<UserModelNT> mUserModelNTCollection = event.getDataCollection();
     setUserList(mUserModelNT, mUserModelNTCollection);
     //取消事件只允许在ThreadMode在ThreadMode.PostThread的事件处理方法中
     EventBus.getDefault().cancelEventDelivery(event);
   }
 
+  /**
+   * userModelNTsEqual：判断两个数据是否相同
+   * @param user1
+   * @param user2
+   * @return
+   */
   public boolean userModelNTsEqual(UserModelNT user1, UserModelNT user2){
     boolean equal = false;
     if(user1.getKey()!=null && user2.getKey()!=null){

@@ -68,6 +68,18 @@ public class UserEntityDataMapper {
     return userNT;
   }
 
+  public UserEntityNT transformNT(UserNT mUserNT) {
+    UserEntityNT mUserEntityNT = null;
+    if (mUserNT != null) {
+      mUserEntityNT = new UserEntityNT();
+      mUserEntityNT.setKey(mUserNT.getKey());
+      mUserEntityNT.setAdjunction(mUserNT.getAdjunction());
+      mUserEntityNT.setPic(mUserNT.getPic());
+      mUserEntityNT.setNumber(mUserNT.getIndex());
+    }
+    return mUserEntityNT;
+  }
+
   /**
    * Transform a List of {@link UserEntity} into a Collection of {@link User}.
    *

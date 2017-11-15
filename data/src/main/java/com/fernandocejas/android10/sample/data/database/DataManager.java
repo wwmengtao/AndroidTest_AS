@@ -18,6 +18,7 @@ import java.util.Collection;
  */
 
 public class DataManager {
+    private static final String TAG = "DataManager_";
     private static volatile DataManager mDataManager=null;
     private Collection<UserEntityNT> mData = null;
     private Context mContext=null;
@@ -45,7 +46,7 @@ public class DataManager {
      * @return
      */
     public UserEntityNT UserEntityNTXml(GetUserNTList.Params params) {
-        ALog.Log("UserEntityXml: "+params.getKey());
+        ALog.Log(TAG + "UserEntityXml: "+params.getKey());
         return null;
     }
 
@@ -55,7 +56,7 @@ public class DataManager {
      * @return
      */
     public Collection<UserEntityNT> UserEntityNTCollectionXml(GetUserNTList.Params params) {
-        ALog.Log("UserEntityCollectionXml: "+params.getFileName());
+        ALog.Log(TAG + "UserEntityCollectionXml: "+params.getFileName());
         return mXmlOperator.UserEntityNTCollectionXml(params);
     }
 
@@ -65,7 +66,8 @@ public class DataManager {
      * @param params
      * @return
      */
-    public Collection<UserEntityNT> getUserEntityCollection(GetUserNTList.Params params){
+    public Collection<UserEntityNT> query(GetUserNTList.Params params){
+        ALog.Log(TAG+"query: "+params.toString());
         mData.clear();
         DbCursorWrapper cursor = queryTableData(null, null, params);
         try{
@@ -77,6 +79,7 @@ public class DataManager {
         }finally {
             cursor.close();
         }
+        ALog.visitCollection(TAG, mData);
         return mData;
     }
 
@@ -103,8 +106,8 @@ public class DataManager {
         return new DbCursorWrapper(cursor, mParams);
     }
 
-    public UserEntityNT queryUserEntityNT(String key, GetUserNTList.Params mParams){
-//        ALog.Log("queryUserEntityNT:"+key+" "+mParams.toString());
+    public UserEntityNT query(String key, GetUserNTList.Params mParams){
+        ALog.Log(TAG+"query: "+key+" "+mParams.toString());
         DbCursorWrapper cursor = queryTableData(DbSchema.Level1TitleTable.Cols.KEY+" = ?", new String[]{key}, mParams);
         UserEntityNT mUserEntityNT=null;
         try{
@@ -126,6 +129,7 @@ public class DataManager {
      * @param mParams
      */
     public void put(Collection<UserEntityNT> mUserEntityCollection, GetUserNTList.Params mParams){
+        ALog.Log(TAG+"put_Collection: "+exists(mParams));
         if(mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1 &&
                 mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2)return;
         if(null != mUserEntityCollection && mUserEntityCollection.size() > 0){
@@ -137,9 +141,18 @@ public class DataManager {
     }
 
     public void put(UserEntityNT mUserEntity, GetUserNTList.Params mParams){
+        ALog.Log(TAG+"put: "+exists(mParams));
         String dbTableName = mParams.getTableName();
         mSQLiteDatabase.insert(dbTableName, null, getContentValues(mUserEntity, mParams));
-        ALog.Log("mSQLiteDatabase.insert: "+exists(mParams));
+    }
+
+    public void update(UserEntityNT mUserEntity, GetUserNTList.Params mParams){
+        ALog.Log(TAG+"update: "+mUserEntity.toString());
+        String dbTableName = mParams.getTableName();
+        if(mParams.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1){
+            mSQLiteDatabase.update(dbTableName, getContentValues(mUserEntity, mParams),
+                    DbSchema.Level1TitleTable.Cols.KEY +" = ?", new String[]{mUserEntity.getKey()});
+        }
     }
 
     private ContentValues getContentValues(UserEntityNT mUserEntity, GetUserNTList.Params mParams) {

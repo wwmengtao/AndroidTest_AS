@@ -42,4 +42,6 @@ public interface UserDataStore {
   Observable<UserEntity> userEntityDetails(final int userId);
 
   Observable<UserEntityNT> userEntityNTDetails(final GetUserNTList.Params params);
+
+  void updateUserEntityNT(UserEntityNT mUserEntityNT, GetUserNTList.Params params);
 }

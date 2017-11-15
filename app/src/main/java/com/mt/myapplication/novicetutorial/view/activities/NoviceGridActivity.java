@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceGridFragment;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceListFragment;
@@ -37,7 +38,7 @@ public class NoviceGridActivity extends BaseActivity implements NoviceListFragme
      上述adjunction即为NoviceListActivity所显示全部数据的数据库中数据表名称。
      */
     public void onUserClicked(UserModelNT userModel) {
-//        ALog.Log("NoviceGridActivity.onUserClicked: "+userModel.toString());
+        ALog.Log("NoviceGridActivity.onUserClicked: "+userModel.toString());
         Intent intent = NoviceListActivity.getCallingIntent(this, userModel);
         this.startActivity(intent);
     }

@@ -29,4 +29,5 @@ public interface NoviceRecyclerView extends LoadDataView{
    * @param userModel The user that will be shown.
    */
   void viewUser(UserModelNT userModel);
+  void setCurrentItemBackGround(int currentIndex);
 }

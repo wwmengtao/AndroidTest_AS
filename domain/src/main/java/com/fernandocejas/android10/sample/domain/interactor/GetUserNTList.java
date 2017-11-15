@@ -46,6 +46,10 @@ public class GetUserNTList extends UseCase<List<UserNT>, GetUserNTList.Params> {
     return this.userRepository.users(params);
   }
 
+  public void updateUserNT(UserNT mUserNT, GetUserNTList.Params params){
+    this.userRepository.updateUserNT(mUserNT, params);
+  }
+
   public static final class Params {
     public static enum DataType{
       COLLECTION_DATA_LEVEL1,//玩家教程一级标题数据

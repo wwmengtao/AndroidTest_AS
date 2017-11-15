@@ -15,7 +15,7 @@ import com.mt.androidtest_as.R;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceGridPresenter;
-import com.mt.myapplication.novicetutorial.view.adapter.UsersAdapterGrid;
+import com.mt.myapplication.novicetutorial.view.adapter.UserAdapterGrid;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
 
 import java.util.Collection;
@@ -31,7 +31,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     Activity mActivity = null;
     @Inject Context mContext;
     @BindView(R.id.novice_grid_recyclerview) RecyclerView mRecyclerView;
-    @Inject UsersAdapterGrid mUsersAdapterGrid;
+    @Inject UserAdapterGrid mUserAdapterGrid;
     @Inject NoviceGridPresenter mNoviceGridPresenter;
     private NoviceListFragment.OnUserClickedListener mOnUserClickedListener;
     private Intent mIntent = null;
@@ -63,9 +63,11 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     @Override public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.mNoviceGridPresenter.setView(this);
-        if (savedInstanceState == null) {
-            this.loadUserList();
-        }
+    }
+
+    @Override public void onResume(){
+        super.onResume();
+        this.loadUserList();
     }
 
     /**
@@ -91,8 +93,8 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
         this.onItemClickListener = null;
         this.mOnUserClickedListener = null;
     }
-    private UsersAdapterGrid.OnItemClickListener onItemClickListener =
-            new UsersAdapterGrid.OnItemClickListener() {
+    private UserAdapterGrid.OnItemClickListener onItemClickListener =
+            new UserAdapterGrid.OnItemClickListener() {
                 @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
                     if (NoviceGridFragment.this.mNoviceGridPresenter != null && userModel != null) {
                         NoviceGridFragment.this.mNoviceGridPresenter.onUserClicked(userModel);
@@ -101,9 +103,9 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
             };
 
     private void setupRecyclerView() {
-        mUsersAdapterGrid.setOnItemClickListener(onItemClickListener);
+        mUserAdapterGrid.setOnItemClickListener(onItemClickListener);
         mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
-        mRecyclerView.setAdapter(mUsersAdapterGrid);
+        mRecyclerView.setAdapter(mUserAdapterGrid);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL |
                 DividerItemDecoration.VERTICAL));
     }
@@ -116,7 +118,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     @Override
     public void setUserList(Collection<UserModelNT> userModelCollection) {
         if (userModelCollection != null) {
-            this.mUsersAdapterGrid.setUsersCollection(userModelCollection);
+            this.mUserAdapterGrid.setUsersCollection(userModelCollection);
         }
     }
 
@@ -160,5 +162,9 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     @Override
     public Context context() {
         return mContext;
+    }
+
+    @Override
+    public void setCurrentItemBackGround(int currentIndex){
     }
 }

@@ -108,6 +108,11 @@ public abstract class ALogFragment extends Fragment {
 		if(isLogRun)ALog.Log("onConfigurationChanged",this);
 	}
 
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		super.onHiddenChanged(hidden);
+		if(isLogRun)ALog.Log("onHiddenChanged_hidden: "+hidden,this);
+	}
 
 	@Override
 	public void onPause(){

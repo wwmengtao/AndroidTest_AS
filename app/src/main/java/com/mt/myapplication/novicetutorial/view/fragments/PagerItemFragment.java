@@ -26,24 +26,27 @@ import butterknife.Unbinder;
 
 
 public class PagerItemFragment extends BaseFragment implements NoviceDetailView{
+    public static final String NOVICE_PAGER_ITEM_FRAGMENT_KEY = "PagerItemFragment_UserModel_KEY";
+    private UserModelNT mUserModelNT = null;
     private Unbinder mUnbinder;
     private Activity mActivity = null;
-    private static UserModelNT mUserModelNT = null;
     @Inject Context mContext;
     @BindView(R.id.novice_detail_tv) TextView mTextView;
     @BindView(R.id.novice_detail_img) ImageView mImageView;
 
     public static Fragment newFragment(UserModelNT user){
-        ALog.Log("PagerItemFragment_newFragment: "+user.toString());
+        ALog.Log1("PagerItemFragment_newFragment: "+user.getKey());
         PagerItemFragment mPagerItemFragment = new PagerItemFragment();
-        mUserModelNT = user;
+        Bundle mBundle = new Bundle();
+        mBundle.putParcelable(NOVICE_PAGER_ITEM_FRAGMENT_KEY, user);
+        mPagerItemFragment.setArguments(mBundle);
         return mPagerItemFragment;
     }
 
     @Override public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
-        mActivity.setTitle(getString(mUserModelNT.getKey()));
+        mUserModelNT = getArguments().getParcelable(NOVICE_PAGER_ITEM_FRAGMENT_KEY);
     }
 
     @Override
@@ -68,6 +71,11 @@ public class PagerItemFragment extends BaseFragment implements NoviceDetailView{
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
     /**
      * Loads all users.
      */
@@ -77,7 +85,7 @@ public class PagerItemFragment extends BaseFragment implements NoviceDetailView{
 
     @Override
     public void showUser(UserModelNT user) {
-        ALog.fillInStackTrace("PagerItemFragment_showUser: "+user.toString());
+        ALog.Log1("PagerItemFragment_showUser: "+user.getKey());
         String content = user.getAdjunction();
         String picName = user.getPic();
         if(null != content){

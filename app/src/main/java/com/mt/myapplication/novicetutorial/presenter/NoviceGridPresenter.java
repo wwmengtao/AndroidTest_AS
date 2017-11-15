@@ -17,13 +17,13 @@ package com.mt.myapplication.novicetutorial.presenter;
 
 import android.support.annotation.NonNull;
 
-import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.domain.UserNT;
 import com.fernandocejas.android10.sample.domain.exception.DefaultErrorBundle;
 import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList.Params;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataNTMapper;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
@@ -39,16 +39,16 @@ import javax.inject.Inject;
  * layer.
  */
 public class NoviceGridPresenter implements Presenter {
+  private static final String TAG = "NoviceGridPresenter";
+  public static final String ROOT_XMLFILE_NAME = "xmlfiles.xml";
   private NoviceRecyclerView mNoviceRecyclerView;
   private final GetUserNTList mGetUserNTList;//获取标题对应的一类数据，如功能键，桌面等
   private final UserModelDataNTMapper mUserModelDataNTMapper;
-  private Params mParams;
 
   @Inject
   public NoviceGridPresenter(GetUserNTList getUserListUserCase, UserModelDataNTMapper mUserModelDataNTMapper){
     this.mGetUserNTList = getUserListUserCase;
     this.mUserModelDataNTMapper = mUserModelDataNTMapper;
-    this.mParams = new Params(Params.DataType.COLLECTION_DATA_LEVEL1,"xmlfiles.xml", null);//第一个界面解析xmlfiles.xml中一级标题
   }
 
   public void onUserClicked(UserModelNT userModel) {
@@ -101,10 +101,12 @@ public class NoviceGridPresenter implements Presenter {
     final Collection<UserModelNT> userModelsCollection =
             this.mUserModelDataNTMapper.transform(usersCollection);
     this.mNoviceRecyclerView.setUserList(userModelsCollection);
+    ALog.visitCollection2(TAG, userModelsCollection);
   }
 
   //获取数据
   private void getUserList() {
+    Params mParams = new Params(Params.DataType.COLLECTION_DATA_LEVEL1, ROOT_XMLFILE_NAME, null);//第一个界面解析xmlfiles.xml中一级标题
     this.mGetUserNTList.execute(new UserRecyclerViewObserver(), mParams);
   }
 
@@ -122,20 +124,12 @@ public class NoviceGridPresenter implements Presenter {
 
     @Override public void onNext(List<UserNT> users) {
       NoviceGridPresenter.this.showUsersCollectionInView(users);
-//      visitCollection(users);
+      ALog.visitCollection(TAG, users);
     }
   }
-  private void visitCollection(Collection<UserNT> mUserEntityCollection){
-    if(null != mUserEntityCollection && mUserEntityCollection.size() > 0){
-      ALog.Log("mUserEntityCollection.size(): "+mUserEntityCollection.size());
-      for(UserNT mUserEntityNT : mUserEntityCollection){
-        ALog.Log("key: "+mUserEntityNT.getKey());
-        ALog.Log("adj: "+mUserEntityNT.getAdjunction());
-        ALog.Log("pic: "+mUserEntityNT.getPic());
-        ALog.Log("ind: "+mUserEntityNT.getIndex());
-      }
-    }
-  }
+
+
+
   @Override
   public void resume() {}
 

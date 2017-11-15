@@ -26,16 +26,23 @@ import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList.Params;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataNTMapper;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
+import com.mt.myapplication.novicetutorial.model.MessageEvent;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import static com.mt.myapplication.novicetutorial.presenter.NoviceGridPresenter.ROOT_XMLFILE_NAME;
 import static com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity.NOVICE_LIST_ACTIVITY_KEY;
 
 /**
@@ -67,6 +74,7 @@ public class NoviceListPresenter implements Presenter {
    * Initializes the presenter by start retrieving the user list.
    */
   public void initialize() {
+    EventBus.getDefault().register(this);
     mSharedPreferences	= mContext.getSharedPreferences(preferenceFileName, Context.MODE_PRIVATE);
     mSharedPreferencesEditor = mSharedPreferences.edit();
     this.loadUserList();
@@ -125,6 +133,7 @@ public class NoviceListPresenter implements Presenter {
       this.mGetUserNTList.dispose();
       this.mNoviceRecyclerView = null;
       if(null != this.userModelsCollection)this.userModelsCollection.clear();
+      EventBus.getDefault().unregister(this);
   }
 
 
@@ -172,5 +181,26 @@ public class NoviceListPresenter implements Presenter {
     @Override public void onNext(List<UserNT> users) {
       NoviceListPresenter.this.showUsersCollectionInView(users);
     }
+  }
+
+  @Subscribe(threadMode = ThreadMode.POSTING)
+  public void onMessage(MessageEvent event) {//此时收到ViewPagar视图返回的当前页序号，保存该序号便可存储用户操作记录
+    if(event.getEventType() != MessageEvent.EVENT_TYPE.FROM_VIEWPAGE)return;
+    int currentIndex = event.getCurrentIndex();
+    mNoviceRecyclerView.setCurrentItemBackGround(currentIndex);
+    ALog.Log1("NoviceListPresenter_onMessage_currentIndex: "+currentIndex);
+  }
+
+  /**
+   * updateUserEntityNT：将用户最终操作的二级目录信息更新到数据库，此时待更新的数据内容为条目序号
+   * @param mUserModelNT
+   */
+  public void updateUserEntityNT(UserModelNT mUserModelNT){
+    ALog.Log("NoviceListPresenter_updateUserEntityNT: "+mUserModelNT.toString());
+    this.mParams = new GetUserNTList.Params();
+    this.mParams.setDataType(Params.DataType.COLLECTION_DATA_LEVEL1);
+    this.mParams.setTableName(ROOT_XMLFILE_NAME.replace(".xml",""));
+    this.mParams.setKey(mUserModelNT.getKey());
+    mGetUserNTList.updateUserNT(mUserModelDataNTMapper.transform(mUserModelNT), this.mParams);
   }
 }

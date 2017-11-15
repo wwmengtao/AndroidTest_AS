@@ -60,6 +60,15 @@ class DBUserDataStore implements UserDataStore {
 //    return this.parseXml.userEntityList(params).doOnNext(DBUserDataStore.this.dbCache::put);
   }
 
+  /**
+   * 向数据库中写入数据
+   * @param mUserEntityNT
+   * @param params
+   */
+  public void updateUserEntityNT(UserEntityNT mUserEntityNT, GetUserNTList.Params params){
+    this.dbCache.update(mUserEntityNT, params);
+  }
+
   @Override public Observable<UserEntity> userEntityDetails(final int userId) {
     return null;
   }

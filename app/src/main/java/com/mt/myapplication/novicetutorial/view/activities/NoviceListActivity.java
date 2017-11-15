@@ -52,7 +52,7 @@ public class NoviceListActivity extends BaseActivity implements NoviceListFragme
         if(byViewPager){
             intent = NoviceViewPagerActivity.getCallingIntent(this);
             MessageEvent mMessageEvent = new MessageEvent();
-            mMessageEvent.setEventType(MessageEvent.EVENT_TYPE.VIEWPAGER);
+            mMessageEvent.setEventType(MessageEvent.EVENT_TYPE.TO_VIEWPAGER);
             mMessageEvent.setData(userModel);
             mMessageEvent.setDataCollection(mFragment.getPresenter().getUserModelNTCollection());
             EventBus.getDefault().postSticky(mMessageEvent);

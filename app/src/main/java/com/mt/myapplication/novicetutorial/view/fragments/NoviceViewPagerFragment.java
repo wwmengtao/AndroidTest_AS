@@ -13,11 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mt.androidtest_as.R;
-import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
+import com.mt.myapplication.novicetutorial.model.MessageEvent;
 import com.mt.myapplication.novicetutorial.presenter.NoviceViewPagerPresenter;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Collection;
 import java.util.List;
@@ -43,7 +45,6 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
     @Override public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
-//        mActivity.setTitle(getString(userModel.getKey()));
     }
 
     @Override
@@ -65,13 +66,13 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
         super.onViewCreated(view, savedInstanceState);
         this.mNoviceViewPagerPresenter.setView(this);
         if (savedInstanceState == null) {
-//            UserModelNT userModel = (UserModelNT)mActivity.getIntent().getParcelableExtra(NOVICE_DETAIL_ACTIVITY_KEY);
             this.loadUserList();
         }
     }
 
     @Override
     public void onDestroyView(){
+        returnDataToCaller();
         mUnbinder.unbind();
         super.onDestroyView();
     }
@@ -79,6 +80,17 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
     @Override public void onDestroy() {
         super.onDestroy();
         this.mNoviceViewPagerPresenter.destroy();
+
+    }
+
+    /**
+     * returnDataToCaller：NoviceViewPagerFragment退出前向调用者返回当前显示条目的序号
+     */
+    private void returnDataToCaller(){
+        MessageEvent mMessageEvent = new MessageEvent();
+        mMessageEvent.setEventType(MessageEvent.EVENT_TYPE.FROM_VIEWPAGE);
+        mMessageEvent.setCurrentIndex(mViewPager.getCurrentItem());
+        EventBus.getDefault().post(mMessageEvent);
     }
 
     /**
@@ -118,12 +130,30 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
                 return PagerItemFragment.newFragment(mData.get(position));
             }
         });
-        ALog.Log("setUserList: "+mUserModelNT.toString());
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            /**
+             * 之所以在此处设置Activity标题，因为onPageSelected判断当前处于正中间的item
+             */
+            public void onPageSelected(int position) {
+                mActivity.setTitle(getString(mData.get(position).getKey()));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         //以下确定ViewPager的当前item
         for (int i = 0; i < mData.size(); i++) {
             if (mNoviceViewPagerPresenter.userModelNTsEqual(mData.get(i), mUserModelNT)) {
                 mViewPager.setCurrentItem(i);
-                ALog.Log("currentitem: "+i+" "+mData.size());
                 break;
             }
         }
@@ -159,5 +189,7 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
 
     }
 
-
+    @Override
+    public void setCurrentItemBackGround(int currentIndex){
+    }
 }

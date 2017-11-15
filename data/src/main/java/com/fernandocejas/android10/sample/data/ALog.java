@@ -2,6 +2,10 @@ package com.fernandocejas.android10.sample.data;
 
 import android.util.Log;
 
+import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
+
+import java.util.Collection;
+
 public class ALog {
 	private static String TAG_M = "M_T_AT_AS_data";
 	private  static String TAG_M1 = "M_T_AT_AS_data1";
@@ -24,5 +28,14 @@ public class ALog {
 		RuntimeException RTE = new RuntimeException(info);
 		RTE.fillInStackTrace();
 		Log.e(TAG_M,"Called:", RTE);
+	}
+
+	public static void visitCollection(String TAG, Collection<UserEntityNT> mUserEntityCollection){
+		if(null != mUserEntityCollection && mUserEntityCollection.size() > 0){
+			ALog.Log(TAG+"VisitUserEntityNTData:");
+			for(UserEntityNT mUserEntityNT : mUserEntityCollection){
+				ALog.Log(mUserEntityNT.toString());
+			}
+		}
 	}
 }

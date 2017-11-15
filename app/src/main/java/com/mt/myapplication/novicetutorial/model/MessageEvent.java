@@ -9,7 +9,8 @@ import java.util.Collection;
  */
 public class MessageEvent {
     public static enum EVENT_TYPE{
-        VIEWPAGER//此时的EventBus事件是针对ViewPager类型
+        TO_VIEWPAGER,//此时的EventBus事件是发送给ViewPager类型视图对象的
+        FROM_VIEWPAGE
     };
 
     private String message = null;
@@ -32,32 +33,43 @@ public class MessageEvent {
     }
 
     /**
-     * 下列setXXX以及getXXX等设置/获取数据的操作是针对ViewPager浏览方式的
-     * @param mUserModelNT
+     * 一、下列setXXX以及getXXX等设置/获取数据的操作是接收ViewPager对象返回数据的，此时的事件类型为EVENT_TYPE.FROM_VIEWPAGE
+     */
+    private int currentIndex = -1;
+    public void setCurrentIndex(int currentIndex){
+        this.currentIndex = currentIndex;
+    }
+
+    public int getCurrentIndex(){
+        return currentIndex;
+    }
+
+    /**
+     * 二、下列setXXX以及getXXX等设置/获取数据的操作是发送给ViewPager对象的，此时的事件类型为EVENT_TYPE.TO_VIEWPAGER
      */
     private UserModelNT mUserModelNT = null;
     private Collection<UserModelNT> userModelsCollection = null;
     public void setData(UserModelNT mUserModelNT){
-        if(null != mEventType && mEventType == EVENT_TYPE.VIEWPAGER){
+        if(null != mEventType && mEventType == EVENT_TYPE.TO_VIEWPAGER){
             this.mUserModelNT = mUserModelNT;
         }
     }
 
     public UserModelNT getData(){
-        if(null != mEventType && mEventType == EVENT_TYPE.VIEWPAGER) {
+        if(null != mEventType && mEventType == EVENT_TYPE.TO_VIEWPAGER) {
             return mUserModelNT;
         }
         return null;
     }
 
     public void setDataCollection(Collection<UserModelNT> userModelsCollection){
-        if(null != mEventType && mEventType == EVENT_TYPE.VIEWPAGER) {
+        if(null != mEventType && mEventType == EVENT_TYPE.TO_VIEWPAGER) {
             this.userModelsCollection = userModelsCollection;
         }
     }
 
     public Collection<UserModelNT> getDataCollection(){
-        if(null != mEventType && mEventType == EVENT_TYPE.VIEWPAGER) {
+        if(null != mEventType && mEventType == EVENT_TYPE.TO_VIEWPAGER) {
             return userModelsCollection;
         }
         return null;
