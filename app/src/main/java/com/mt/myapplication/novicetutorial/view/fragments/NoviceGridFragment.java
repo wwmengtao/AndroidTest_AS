@@ -96,6 +96,10 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
         this.mOnFragmentClickListener = null;
     }
 
+    /**
+     * onUserAdapterItemClicked：内部的Adapter数据有点击事件时产生的在fragment中的回调
+     * @param userModel
+     */
     @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
         if (NoviceGridFragment.this.mNoviceGridPresenter != null && userModel != null) {
             NoviceGridFragment.this.mNoviceGridPresenter.onUserClicked(userModel);

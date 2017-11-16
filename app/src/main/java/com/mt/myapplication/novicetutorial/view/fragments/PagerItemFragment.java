@@ -141,7 +141,7 @@ public class PagerItemFragment extends BaseFragment implements NoviceDetailView{
     }
 
     @Override
-    public void onActivityFinish() {
+    public void onActivityFinish() {//NoviceViewPagerActivity在finish时的回调
 
     }
 }
