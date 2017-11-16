@@ -12,6 +12,8 @@ import com.mt.myapplication.novicetutorial.view.fragments.NoviceListFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Collection;
+
 public class NoviceListActivity extends BaseActivity implements NoviceListFragment.OnUserClickedListener{
     private NoviceListFragment mFragment;
 
@@ -49,15 +51,16 @@ public class NoviceListActivity extends BaseActivity implements NoviceListFragme
         ALog.Log("NoviceListActivity.onUserClicked\n" + userModel.toString());
         boolean byViewPager = mFragment.getPresenter().ifViewItemByViewPager();
         Intent intent = null;
+        Collection<UserModelNT> mDataCollection = mFragment.getPresenter().getUserModelNTCollection();
         if(byViewPager){
             intent = NoviceViewPagerActivity.getCallingIntent(this);
             MessageEvent mMessageEvent = new MessageEvent();
             mMessageEvent.setEventType(MessageEvent.EVENT_TYPE.TO_VIEWPAGER);
             mMessageEvent.setData(userModel);
-            mMessageEvent.setDataCollection(mFragment.getPresenter().getUserModelNTCollection());
+            mMessageEvent.setDataCollection(mDataCollection);
             EventBus.getDefault().postSticky(mMessageEvent);
         }else{
-            UserModelNT mUserModelNTUpLevel = (UserModelNT)getIntent().getParcelableExtra(NOVICE_LIST_ACTIVITY_KEY);
+            UserModelNT mUserModelNTUpLevel = getIntent().getParcelableExtra(NOVICE_LIST_ACTIVITY_KEY);
             intent = NoviceDetailActivity.getCallingIntent(this, userModel);
             intent.putExtra(NOVICE_LIST_ACTIVITY_TABLE, mUserModelNTUpLevel.getAdjunction());//传递当前点击数据所在数据表名称
         }

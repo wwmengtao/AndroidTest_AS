@@ -28,7 +28,10 @@ import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataNTMapper;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
+import com.mt.myapplication.novicetutorial.model.MessageEvent;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceDetailView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
@@ -39,9 +42,8 @@ import static com.mt.myapplication.novicetutorial.view.activities.NoviceListActi
  * layer.
  */
 public class NoviceDetailPresenter implements Presenter {
-
+    private static final String TAG = "NoviceDetailPresenter";
     private NoviceDetailView mNoviceDetailView;
-
     private final GetUserNTDetails mGetUserNTDetails;
     private final UserModelDataNTMapper mUserModelDataNTMapper;
     private GetUserNTList.Params mParams;
@@ -145,5 +147,16 @@ public class NoviceDetailPresenter implements Presenter {
         @Override public void onNext(UserNT user) {
             NoviceDetailPresenter.this.showUserDetailsInView(user);
         }
+    }
+
+    /**
+     * returnDataToCaller：NoviceViewPagerFragment退出前向调用者返回当前显示条目的序号
+     */
+    public void returnCurrentIndexToCaller(int currentIndex){
+        MessageEvent mMessageEvent = new MessageEvent();
+        mMessageEvent.setEventType(MessageEvent.EVENT_TYPE.FROM_DETAILVIEW);
+        mMessageEvent.setCurrentIndex(currentIndex);
+        EventBus.getDefault().post(mMessageEvent);
+        ALog.Log(TAG+"_returnCurrentIndexToCaller: "+currentIndex);
     }
 }

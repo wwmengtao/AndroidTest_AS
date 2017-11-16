@@ -75,7 +75,7 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
   @Override
   public void onBindViewHolder(UserViewHolder holder, final int position) {
     final UserModelNT mUserModelNT = usersCollection.get(position);
-    holder.mTextView.setText(getString(mUserModelNT.getAdjunction())+"\n"+(mUserModelNT.getIndex()));
+    holder.mTextView.setText(getString(mUserModelNT.getAdjunction())+"\n"+(mUserModelNT.getIndex()+1));
     Glide.with(mContext)
             .load("file:///android_asset/"+mUserModelNT.getPic())//加载Asset文件夹下的图片资源
             .into(holder.mImageView);
@@ -84,9 +84,8 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
       @Override
       public void onClick(View v) {
         if (UserAdapterGrid.this.onItemClickListener != null) {
-          UserModelNT mData = usersCollection.get(position);
-          UserAdapterGrid.this.onItemClickListener.onUserAdapterItemClicked(mData);
-          ALog.Log(TAG+"_onClick: "+mData.getKey()+" "+mData.getIndex());
+          UserAdapterGrid.this.onItemClickListener.onUserAdapterItemClicked(mUserModelNT);
+          ALog.Log(TAG+"_onClick: "+mUserModelNT.getKey()+" "+mUserModelNT.getIndex());
           ALog.visitCollection2(TAG, usersCollection);
         }
       }

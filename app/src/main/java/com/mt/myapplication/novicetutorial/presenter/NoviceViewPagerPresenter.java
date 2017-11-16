@@ -36,12 +36,10 @@ import javax.inject.Inject;
  * layer.
  */
 public class NoviceViewPagerPresenter implements Presenter {
+  private static final String TAG = "NoviceViewPagerPresenter";
   private NoviceRecyclerView mNoviceRecyclerView;
-
   @Inject Context mContext;
-
   @Inject public NoviceViewPagerPresenter(){
-
   }
   public void setView(@NonNull NoviceRecyclerView view) {
     mNoviceRecyclerView = view;
@@ -117,22 +115,6 @@ public class NoviceViewPagerPresenter implements Presenter {
     mMessageEvent.setEventType(MessageEvent.EVENT_TYPE.FROM_VIEWPAGE);
     mMessageEvent.setCurrentIndex(currentIndex);
     EventBus.getDefault().post(mMessageEvent);
-  }
-
-  /**
-   * userModelNTsEqual：判断两个数据是否相同
-   * @param user1
-   * @param user2
-   * @return
-   */
-  public boolean userModelNTsEqual(UserModelNT user1, UserModelNT user2){
-    boolean equal = false;
-    if(user1.getKey()!=null && user2.getKey()!=null){
-      if(user1.getKey().equals(user2.getKey())){
-        equal = true;
-      }
-    }
-    return equal;
   }
 
 }

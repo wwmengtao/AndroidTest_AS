@@ -12,6 +12,7 @@ public class MessageEvent {
         TO_VIEWPAGER,//此时的EventBus事件是发送给ViewPager类型视图对象的
         FROM_VIEWPAGE,
         FROM_LISTVIEW,//此时的EventBus事件是接收自LIST类型视图对象的
+        FROM_DETAILVIEW,//此时的EventBus事件是接收自DETAIL类型视图对象的
     };
 
     private String message = null;
@@ -38,13 +39,15 @@ public class MessageEvent {
      */
     private int currentIndex = -1;
     public void setCurrentIndex(int currentIndex){
-        if(null != mEventType && (mEventType == EVENT_TYPE.FROM_VIEWPAGE || mEventType == EVENT_TYPE.FROM_LISTVIEW)) {
+        if(null != mEventType && (mEventType == EVENT_TYPE.FROM_VIEWPAGE || mEventType == EVENT_TYPE.FROM_LISTVIEW ||
+                mEventType == EVENT_TYPE.FROM_DETAILVIEW)) {
             this.currentIndex = currentIndex;
         }
     }
 
     public int getCurrentIndex(){
-        if(null != mEventType && (mEventType == EVENT_TYPE.FROM_VIEWPAGE || mEventType == EVENT_TYPE.FROM_LISTVIEW)) {
+        if(null != mEventType && (mEventType == EVENT_TYPE.FROM_VIEWPAGE || mEventType == EVENT_TYPE.FROM_LISTVIEW ||
+                mEventType == EVENT_TYPE.FROM_DETAILVIEW)) {
             return currentIndex;
         }
         return -99;

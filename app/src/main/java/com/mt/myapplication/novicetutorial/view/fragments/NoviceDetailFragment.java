@@ -40,14 +40,14 @@ public class NoviceDetailFragment extends BaseFragment implements NoviceDetailVi
     @BindView(R.id.rl_retry) RelativeLayout rl_retry;
     @BindView(R.id.bt_retry) Button bt_retry;
     @Inject NoviceDetailPresenter mNoviceDetailPresenter;
-
+    private UserModelNT mUserModelNT = null;
     @Override public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
         mIntent = mActivity.getIntent();
-        UserModelNT userModel = (UserModelNT)mIntent.getParcelableExtra(NOVICE_DETAIL_ACTIVITY_KEY);
-//        ALog.Log("NoviceDetailFragment_onAttach: "+userModel.toString());
-        mActivity.setTitle(getString(userModel.getKey()));
+        mUserModelNT = mIntent.getParcelableExtra(NOVICE_DETAIL_ACTIVITY_KEY);
+//        ALog.Log("NoviceDetailFragment_onAttach: "+mUserModelNT.toString());
+        mActivity.setTitle(getString(mUserModelNT.getKey()));
     }
 
     @Override
@@ -69,8 +69,7 @@ public class NoviceDetailFragment extends BaseFragment implements NoviceDetailVi
         super.onViewCreated(view, savedInstanceState);
         this.mNoviceDetailPresenter.setView(this);
         if (savedInstanceState == null) {
-            UserModelNT userModel = (UserModelNT)mActivity.getIntent().getParcelableExtra(NOVICE_DETAIL_ACTIVITY_KEY);
-            if(null != userModel)this.loadUserList(userModel);
+            if(null != mUserModelNT)this.loadUserList(mUserModelNT);
         }
     }
 
@@ -99,8 +98,9 @@ public class NoviceDetailFragment extends BaseFragment implements NoviceDetailVi
     }
 
     @Override public void onDestroyView() {
-        super.onDestroyView();
+        mNoviceDetailPresenter.returnCurrentIndexToCaller(mUserModelNT.getIndex());
         mUnbinder.unbind();
+        super.onDestroyView();
     }
 
     @Override public void onDestroy() {

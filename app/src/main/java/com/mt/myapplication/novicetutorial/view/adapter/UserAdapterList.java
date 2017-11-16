@@ -38,6 +38,7 @@ public class UserAdapterList extends UserAdapterGrid {
             @Override
             public void onClick(View v) {
                 if (UserAdapterList.this.onItemClickListener != null) {
+                    mUserModelNT.setIndex(position);//设置当前用户点击的item所在整个视图中的序号
                     UserAdapterList.this.onItemClickListener.onUserAdapterItemClicked(mUserModelNT);
                 }
             }

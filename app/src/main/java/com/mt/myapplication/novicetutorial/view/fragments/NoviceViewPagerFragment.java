@@ -117,11 +117,10 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
                 return PagerItemFragment.newFragment(mData.get(position));
             }
         });
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
 
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -134,16 +133,13 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
-        //以下确定ViewPager的当前item
-        for (int i = 0; i < mData.size(); i++) {
-            if (mNoviceViewPagerPresenter.userModelNTsEqual(mData.get(i), mUserModelNT)) {
-                mViewPager.setCurrentItem(i);
-                mActivity.setTitle(getString(mData.get(i).getKey()));
-                break;
-            }
+        //以下设置ViewPager的当前item
+        int currentIndex = mUserModelNT.getIndex();
+        if(currentIndex >= 0){
+            mViewPager.setCurrentItem(currentIndex);
+            mActivity.setTitle(getString(mUserModelNT.getKey()));
         }
     }
 

@@ -52,6 +52,7 @@ import static com.mt.myapplication.novicetutorial.view.activities.NoviceListActi
  * layer.
  */
 public class NoviceListPresenter implements Presenter {
+  private static final String TAG = "NoviceListPresenter";
   private NoviceRecyclerView mNoviceRecyclerView;
   private final GetUserNTList mGetUserNTList;
   private final GetUserNTDetails mGetUserNTDetails;
@@ -173,7 +174,7 @@ public class NoviceListPresenter implements Presenter {
   //获取数据
   private void getUserList() {
     Intent mIntent = mNoviceRecyclerView.getViewIntent();
-    UserModelNT userModel = (UserModelNT)mIntent.getParcelableExtra(NOVICE_LIST_ACTIVITY_KEY);
+    UserModelNT userModel = mIntent.getParcelableExtra(NOVICE_LIST_ACTIVITY_KEY);
     String xmlFileName = userModel.getKey();//xmlFileName内容为functionkeyscontent.xml之类的xml文件名称
     if(null == xmlFileName)return;
     this.mParams = new GetUserNTList.Params(Params.DataType.COLLECTION_DATA_LEVEL2, xmlFileName, null);//第一个界面解析xmlfiles.xml中一级标题
@@ -202,10 +203,11 @@ public class NoviceListPresenter implements Presenter {
 
   @Subscribe(threadMode = ThreadMode.POSTING)
   public void onMessage(MessageEvent event) {//此时收到ViewPagar视图返回的当前页序号，保存该序号便可存储用户操作记录
-    if(event.getEventType() != MessageEvent.EVENT_TYPE.FROM_VIEWPAGE)return;
+    if(event.getEventType() != MessageEvent.EVENT_TYPE.FROM_VIEWPAGE &&
+            event.getEventType() != MessageEvent.EVENT_TYPE.FROM_DETAILVIEW)return;
     int currentIndex = event.getCurrentIndex();
     mNoviceRecyclerView.setCurrentItemBackGround(currentIndex);
-    ALog.Log1("NoviceListPresenter_onMessage_currentIndex: "+currentIndex);
+    ALog.Log1(TAG+"_onMessage_currentIndex: "+currentIndex);
   }
 
   /**
@@ -213,7 +215,7 @@ public class NoviceListPresenter implements Presenter {
    * @param mUserModelNT
    */
   public void updateUserEntityNT(UserModelNT mUserModelNT){
-    ALog.Log("NoviceListPresenter_updateUserEntityNT: "+mUserModelNT.toString());
+    ALog.Log(TAG+"_NoviceListPresenter_updateUserEntityNT: "+mUserModelNT.toString());
     this.mParams = new GetUserNTList.Params();
     this.mParams.setDataType(Params.DataType.COLLECTION_DATA_LEVEL1);
     this.mParams.setTableName(ROOT_XMLFILE_NAME.replace(".xml",""));
@@ -243,7 +245,7 @@ public class NoviceListPresenter implements Presenter {
   }
 
   /**
-   * returnCurrentIndexToCaller：NoviceListFragment退出前向调用者返回当前显示条目的序号
+   * returnCurrentIndexToCaller：NoviceListFragment退出前向上级视图返回当前显示条目的序号
    * @param currentIndex
    */
   public void returnCurrentIndexToCaller(int currentIndex){
