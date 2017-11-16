@@ -108,7 +108,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
 
     @Override
     public void onActivityFinish(){//NoviceGridActivity在finish时的回调
- 
+
     }
 
     private void setupRecyclerView() {
