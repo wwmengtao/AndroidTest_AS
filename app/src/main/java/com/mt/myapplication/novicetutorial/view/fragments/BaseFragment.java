@@ -10,12 +10,14 @@ import android.widget.Toast;
 
 import com.mt.androidtest_as.alog.ALogFragment;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.HasComponent;
+import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
+import com.mt.myapplication.novicetutorial.view.activities.BaseActivity;
 
 
 /**
  * Base {@link Fragment} class for every fragment in this application.
  */
-public abstract class BaseFragment extends ALogFragment {
+public abstract class BaseFragment extends ALogFragment implements BaseActivity.OnActivityFinishListener {
   /**
    * Shows a {@link Toast} message.
    *
@@ -31,5 +33,12 @@ public abstract class BaseFragment extends ALogFragment {
   @SuppressWarnings("unchecked")
   protected <C> C getComponent(Class<C> componentType) {
     return componentType.cast(((HasComponent<C>) getActivity()).getComponent());
+  }
+
+  /**
+   * Interface for listening user list events.
+   */
+  public interface OnFragmentClickListener {
+    void onFragmentClicked(final UserModelNT userModel);//表明监听的是Fragment内的点击事件
   }
 }

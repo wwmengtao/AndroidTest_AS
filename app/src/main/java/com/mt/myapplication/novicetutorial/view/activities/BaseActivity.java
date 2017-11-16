@@ -79,4 +79,8 @@ public abstract class BaseActivity extends ALogActivity implements HasComponent<
   protected ActivityModule getActivityModule() {
     return new ActivityModule(this);
   }
+
+  public interface OnActivityFinishListener{
+    void onActivityFinish();
+  }
 }

@@ -38,14 +38,14 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     @BindView(R.id.bt_retry) Button bt_retry;
     @Inject UserAdapterGrid mUserAdapterGrid;
     @Inject NoviceGridPresenter mNoviceGridPresenter;
-    private NoviceListFragment.OnUserClickedListener mOnUserClickedListener;
+    private BaseFragment.OnFragmentClickListener mOnFragmentClickListener;
     private Intent mIntent = null;
 
     @Override public void onAttach(Context context) {
         super.onAttach(context);
         mActivity = (Activity)context;
-        if (context instanceof NoviceListFragment.OnUserClickedListener) {
-            this.mOnUserClickedListener = (NoviceListFragment.OnUserClickedListener) context;
+        if (context instanceof BaseFragment.OnFragmentClickListener) {
+            this.mOnFragmentClickListener = (BaseFragment.OnFragmentClickListener) context;
         }
         mIntent = mActivity.getIntent();
     }
@@ -93,20 +93,22 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
 
     @Override public void onDetach() {
         super.onDetach();
-        this.onItemClickListener = null;
-        this.mOnUserClickedListener = null;
+        this.mOnFragmentClickListener = null;
     }
-    private UserAdapterGrid.OnItemClickListener onItemClickListener =
-            new UserAdapterGrid.OnItemClickListener() {
-                @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
-                    if (NoviceGridFragment.this.mNoviceGridPresenter != null && userModel != null) {
-                        NoviceGridFragment.this.mNoviceGridPresenter.onUserClicked(userModel);
-                    }
-                }
-            };
+
+    @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
+        if (NoviceGridFragment.this.mNoviceGridPresenter != null && userModel != null) {
+            NoviceGridFragment.this.mNoviceGridPresenter.onUserClicked(userModel);
+        }
+    }
+
+    @Override
+    public void onActivityFinish(){//NoviceGridActivity在finish时的回调
+
+    }
 
     private void setupRecyclerView() {
-        mUserAdapterGrid.setOnItemClickListener(onItemClickListener);
+        mUserAdapterGrid.setOnItemClickListener(this);
         mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         mRecyclerView.setAdapter(mUserAdapterGrid);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL |
@@ -132,8 +134,8 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
 
     @Override
     public void viewUser(UserModelNT userModel) {
-        if (this.mOnUserClickedListener != null) {
-            this.mOnUserClickedListener.onUserClicked(userModel);
+        if (this.mOnFragmentClickListener != null) {
+            this.mOnFragmentClickListener.onFragmentClicked(userModel);
         }
     }
 
@@ -170,7 +172,11 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     }
 
     @Override
-    public void setCurrentItemBackGround(int currentIndex){
-        loadUserList();
+    /**
+     * setCurrentItemBackGround：当用户由主界面进入具体条目并且退出后，此时展示具体条目的序号变换效果
+     */
+    public void setCurrentItemBackGround(int currentSubLevelIndex){
+        this.mUserAdapterGrid.setCurrentSubLevelIndex(currentSubLevelIndex);//
+        this.mUserAdapterGrid.notifyCertainSubLevelDataChanged();
     }
 }

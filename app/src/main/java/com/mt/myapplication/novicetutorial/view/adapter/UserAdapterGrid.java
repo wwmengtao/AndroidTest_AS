@@ -37,17 +37,56 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
   protected Resources mResources;
   protected List<UserModelNT> usersCollection;
   protected final LayoutInflater layoutInflater;
+  //以下定义当前视图的前后选中序号
+  private int previousIndex = -1;//之前选中条目的序号
   private int currentIndex = -1;//当前选中条目的序号
+  //以下定义当前视图的下级视图的前后选中序号
+  private int previousSubLevelIndex = -1;
+  private int currentSubLevelIndex = -1;
 
-  protected OnItemClickListener onItemClickListener;
+  protected OnAdapterClickListener mOnAdapterClickListener;
 
   public void setCurrentIndex(int currentIndex){
     ALog.Log1(TAG+"setCurrentIndex: "+currentIndex);
+    this.previousIndex = this.currentIndex;
     this.currentIndex = currentIndex;
   }
 
   public int getCurrentIndex(){
     return currentIndex;
+  }
+
+  public void setCurrentSubLevelIndex(int currentSubLevelIndex){
+    ALog.Log1(TAG+"setCurrentSubLevelIndex: "+currentIndex);
+    this.previousSubLevelIndex = this.currentSubLevelIndex;
+    this.currentSubLevelIndex = currentSubLevelIndex;
+  }
+
+  /**
+   * notifyCertainSubLevelDataChanged：更新界面上有变化的数据，此时的数据变化为主界面条目的序号变化
+   * 出于性能方面的考虑，只更新有变化的两个item
+   */
+  public void notifyCertainSubLevelDataChanged(){
+    if(previousSubLevelIndex != currentSubLevelIndex){
+      if(currentSubLevelIndex > -1){
+        usersCollection.get(currentIndex).setIndex(currentSubLevelIndex);
+        notifyItemChanged(currentIndex);
+      }
+    }
+  }
+
+  /**
+   * notifyCertainDataChanged：更新界面上有变化的数据
+   * 出于性能方面的考虑，只更新有变化的两个item
+   */
+  public boolean notifyCertainDataChanged(){
+    boolean dataChanged = false;
+    if(previousIndex != currentIndex){
+      if(previousIndex > -1)notifyItemChanged(previousIndex);
+      if(currentIndex > -1)notifyItemChanged(currentIndex);
+      dataChanged = true;
+    }
+    return dataChanged;
   }
 
   @Inject
@@ -58,8 +97,8 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
             (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     this.usersCollection = Collections.emptyList();
   }
-  public interface OnItemClickListener {
-    void onUserAdapterItemClicked(UserModelNT userModel);
+  public interface OnAdapterClickListener {
+    void onUserAdapterItemClicked(UserModelNT userModel);//说明点击事件来自于Adapter
   }
   @Override
   public int getItemCount() {
@@ -84,10 +123,13 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
     holder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (UserAdapterGrid.this.onItemClickListener != null) {
-          UserAdapterGrid.this.onItemClickListener.onUserAdapterItemClicked(mUserModelNT);
-          ALog.Log(TAG+"_onClick: "+mUserModelNT.getKey()+" "+mUserModelNT.getIndex());
-          ALog.visitCollection2(TAG, usersCollection);
+        if (UserAdapterGrid.this.mOnAdapterClickListener != null) {
+          UserAdapterGrid.this.mOnAdapterClickListener.onUserAdapterItemClicked(mUserModelNT);
+          //记录下主界面用户当前点击的item的序号，该序号不同于mUserModelNT.getIndex()，后者记录的是二级菜单之前选中的item序号
+          UserAdapterGrid.this.setCurrentIndex(position);
+          UserAdapterGrid.this.setCurrentSubLevelIndex(mUserModelNT.getIndex());
+//          ALog.Log(TAG+"_onClick: "+mUserModelNT.getKey()+" "+mUserModelNT.getIndex());
+//          ALog.visitCollection2(TAG, usersCollection);
         }
       }
     });
@@ -120,7 +162,6 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
 
   public void setUsersCollection(Collection<UserModelNT> usersCollection) {
     this.validateUsersCollection(usersCollection);
-    clearData();
     this.usersCollection = (List<UserModelNT>) usersCollection;
     this.notifyDataSetChanged();
   }
@@ -131,8 +172,8 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
     }
   }
 
-  public void setOnItemClickListener (OnItemClickListener onItemClickListener) {
-    this.onItemClickListener = onItemClickListener;
+  public void setOnItemClickListener (OnAdapterClickListener mOnAdapterClickListener) {
+    this.mOnAdapterClickListener = mOnAdapterClickListener;
   }
 
   private void validateUsersCollection(Collection<UserModelNT> usersCollection) {

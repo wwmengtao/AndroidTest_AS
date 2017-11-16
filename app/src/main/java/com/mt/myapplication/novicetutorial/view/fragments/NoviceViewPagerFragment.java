@@ -68,8 +68,12 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
     }
 
     @Override
-    public void onDestroyView(){
+    public void onActivityFinish(){//NoviceViewPagerActivity在finish时的回调
         mNoviceViewPagerPresenter.returnCurrentIndexToCaller(mViewPager.getCurrentItem());
+    }
+
+    @Override
+    public void onDestroyView(){
         mUnbinder.unbind();
         super.onDestroyView();
     }
@@ -175,5 +179,10 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
 
     @Override
     public void setCurrentItemBackGround(int currentIndex){
+    }
+
+    @Override
+    public void onUserAdapterItemClicked(UserModelNT userModel) {
+
     }
 }

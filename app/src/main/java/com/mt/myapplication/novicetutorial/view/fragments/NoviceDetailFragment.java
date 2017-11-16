@@ -97,8 +97,12 @@ public class NoviceDetailFragment extends BaseFragment implements NoviceDetailVi
         }
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onActivityFinish(){//NoviceDetailActivity在finish时的回调
         mNoviceDetailPresenter.returnCurrentIndexToCaller(mUserModelNT.getIndex());
+    }
+
+    @Override public void onDestroyView() {
         mUnbinder.unbind();
         super.onDestroyView();
     }

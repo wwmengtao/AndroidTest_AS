@@ -9,6 +9,7 @@ import android.content.Intent;
 
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModel;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
+import com.mt.myapplication.novicetutorial.view.adapter.UserAdapterGrid;
 
 import java.util.Collection;
 
@@ -16,7 +17,7 @@ import java.util.Collection;
  * NoviceRecyclerView：代表了界面显示的各种类型的RecyclerView
  * Interface representing a View in a model view presenter (MVP) pattern.
  */
-public interface NoviceRecyclerView extends LoadDataView{
+public interface NoviceRecyclerView extends LoadDataView, UserAdapterGrid.OnAdapterClickListener{
 
   Intent getViewIntent();
 

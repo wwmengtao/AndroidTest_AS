@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.mt.androidtest_as.R;
+import com.mt.myapplication.novicetutorial.view.fragments.BaseFragment;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceViewPagerFragment;
 
 /**
@@ -12,7 +13,7 @@ import com.mt.myapplication.novicetutorial.view.fragments.NoviceViewPagerFragmen
  */
 public class NoviceViewPagerActivity extends BaseActivity {
     public static final String NOVICE_VIEWPAGER_ACTIVITY_KEY = "NoviceViewPagerActivity_UserModelNT";
-    private Fragment mFragment;
+    private BaseFragment mFragment;
 
     public static Intent getCallingIntent(Context mContext){
         Intent mIntent = new Intent(mContext, NoviceViewPagerActivity.class);
@@ -29,4 +30,14 @@ public class NoviceViewPagerActivity extends BaseActivity {
         return mFragment;
     }
 
+    @Override
+    public void finish() {//finish会在onPause之前调用
+        mFragment.onActivityFinish();
+        super.finish();
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();//会调用finish()
+    }
 }

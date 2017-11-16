@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import com.mt.androidtest_as.R;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
+import com.mt.myapplication.novicetutorial.view.fragments.BaseFragment;
 import com.mt.myapplication.novicetutorial.view.fragments.NoviceDetailFragment;
 
 /**
@@ -13,7 +14,7 @@ import com.mt.myapplication.novicetutorial.view.fragments.NoviceDetailFragment;
  */
 public class NoviceDetailActivity extends BaseActivity {
     public static final String NOVICE_DETAIL_ACTIVITY_KEY = "NoviceDetailActivity_UserModelNT";
-    private Fragment mFragment;
+    private BaseFragment mFragment;
 
     public static Intent getCallingIntent(Context mContext, UserModelNT userModel){
         Intent mIntent = new Intent(mContext, NoviceDetailActivity.class);
@@ -31,4 +32,14 @@ public class NoviceDetailActivity extends BaseActivity {
         return mFragment;
     }
 
+    @Override
+    public void finish() {//finish会在onPause之前调用
+        mFragment.onActivityFinish();
+        super.finish();
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();//会调用finish()
+    }
 }

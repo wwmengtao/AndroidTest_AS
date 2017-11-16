@@ -21,7 +21,6 @@ import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceListPresenter;
-import com.mt.myapplication.novicetutorial.view.adapter.UserAdapterGrid;
 import com.mt.myapplication.novicetutorial.view.adapter.UserAdapterList;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
 
@@ -47,17 +46,11 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     @BindView(R.id.bt_retry) Button bt_retry;
     @Inject UserAdapterList mUserAdapterList;
     @Inject NoviceListPresenter mNoviceListPresenter;
-    private OnUserClickedListener mOnUserClickedListener;
+    private OnFragmentClickListener mOnFragmentClickListener;
     private Intent mIntent = null;
     //以下定义用户浏览条目的方式
     private MenuItem item_viewpager;//用于让用户选择条目浏览方式，例如是否通过ViewPager浏览
     private boolean mViewItemByViewPager;
-    /**
-     * Interface for listening user list events.
-     */
-    public interface OnUserClickedListener {
-        void onUserClicked(final UserModelNT userModel);
-    }
 
     public NoviceListPresenter getPresenter(){
         return mNoviceListPresenter;
@@ -67,8 +60,8 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
         super.onAttach(activity);
         mActivity = activity;
         setHasOptionsMenu(true);
-        if (activity instanceof OnUserClickedListener) {
-            this.mOnUserClickedListener = (OnUserClickedListener) activity;
+        if (activity instanceof OnFragmentClickListener) {
+            this.mOnFragmentClickListener = (OnFragmentClickListener) activity;
         }
         mIntent = mActivity.getIntent();
         mUserModelNT = mIntent.getParcelableExtra(NOVICE_LIST_ACTIVITY_KEY);
@@ -108,12 +101,6 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
 
     @Override public void onDestroyView() {
         super.onDestroyView();
-        //保存用户最终浏览的条目序号
-        if(mUserAdapterList.getCurrentIndex() != mUserModelNT.getIndex()){
-            mUserModelNT.setIndex(mUserAdapterList.getCurrentIndex());
-            mNoviceListPresenter.updateUserEntityNT(mUserModelNT);
-            ALog.Log1("mUserAdapterList.getcurrentIndex: "+mUserAdapterList.getCurrentIndex());
-        }
         //
         mRecyclerView.setAdapter(null);
         mUserAdapterList.clearData();
@@ -127,25 +114,36 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
 
     @Override public void onDetach() {
         super.onDetach();
-        this.onItemClickListener = null;
-        this.mOnUserClickedListener = null;
+        this.mOnFragmentClickListener = null;
     }
 
-    private UserAdapterGrid.OnItemClickListener onItemClickListener =
-            new UserAdapterGrid.OnItemClickListener() {
-                @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
-                    if (NoviceListFragment.this.mNoviceListPresenter != null && userModel != null) {
-                        NoviceListFragment.this.mNoviceListPresenter.onUserClicked(userModel);
-                    }
-                }
-            };
+    @Override
+    public void onActivityFinish() {
+        updateUserEntityNT();
+    }
+
+    /**
+     * updateUserEntityNT：更新用户最终浏览的条目序号
+     */
+    public void updateUserEntityNT(){
+        if(mUserAdapterList.getCurrentIndex() != mUserModelNT.getIndex()){
+            mUserModelNT.setIndex(mUserAdapterList.getCurrentIndex());
+            mNoviceListPresenter.updateUserEntityNT(mUserModelNT);
+            ALog.Log1("mUserAdapterList.getcurrentIndex: "+mUserAdapterList.getCurrentIndex());
+        }
+    }
+
+    @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
+        if (NoviceListFragment.this.mNoviceListPresenter != null && userModel != null) {
+            NoviceListFragment.this.mNoviceListPresenter.onUserClicked(userModel);
+        }
+    }
 
     private void setupRecyclerView() {
-        mUserAdapterList.setOnItemClickListener(onItemClickListener);
+        mUserAdapterList.setOnItemClickListener(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(mUserAdapterList);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL |
-                DividerItemDecoration.VERTICAL));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL));
     }
 
     @Override
@@ -169,25 +167,22 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
 
     @Override
     /**
-     * setCurrentItemBackGround：当用户选中某个不同条目时，变换条目背景颜色
+     * setCurrentItemBackGround：当用户进入具体条目并且推出后，此时展示当前界面数据变换效果
      */
     public void setCurrentItemBackGround(final int currentIndex){
-        if(currentIndex >= 0 && currentIndex != this.mUserAdapterList.getCurrentIndex()){
-            this.mUserAdapterList.setCurrentIndex(currentIndex);
-            this.mUserAdapterList.notifyDataSetChanged();
-            this.mNoviceListPresenter.smoothScrollToPosition(mRecyclerView, currentIndex);
-        }
+        this.mUserAdapterList.setCurrentIndex(currentIndex);
+        boolean dataChanged = this.mUserAdapterList.notifyCertainDataChanged();
+        if(dataChanged)this.mNoviceListPresenter.smoothScrollToPosition(mRecyclerView, currentIndex);
     }
 
     @Override
     public void setUserList(UserModelNT mUserModelNT, Collection<UserModelNT> userModelCollection) {
-
     }
 
     @Override
     public void viewUser(UserModelNT userModel) {
-        if (this.mOnUserClickedListener != null) {
-            this.mOnUserClickedListener.onUserClicked(userModel);
+        if (this.mOnFragmentClickListener != null) {
+            this.mOnFragmentClickListener.onFragmentClicked(userModel);
         }
     }
 

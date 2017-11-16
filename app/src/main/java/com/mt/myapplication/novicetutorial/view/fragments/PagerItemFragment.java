@@ -139,4 +139,9 @@ public class PagerItemFragment extends BaseFragment implements NoviceDetailView{
     public Intent getViewIntent() {
         return null;
     }
+
+    @Override
+    public void onActivityFinish() {
+
+    }
 }
