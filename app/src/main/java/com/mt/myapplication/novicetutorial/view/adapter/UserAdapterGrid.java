@@ -46,6 +46,10 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
 
   protected OnAdapterClickListener mOnAdapterClickListener;
 
+  public interface OnAdapterClickListener {
+    void onUserAdapterItemClicked(UserModelNT userModel);//说明点击事件来自于Adapter
+  }
+
   public void setCurrentIndex(int currentIndex){
     ALog.Log1(TAG+"setCurrentIndex: "+currentIndex);
     this.previousIndex = this.currentIndex;
@@ -97,9 +101,7 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
             (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     this.usersCollection = Collections.emptyList();
   }
-  public interface OnAdapterClickListener {
-    void onUserAdapterItemClicked(UserModelNT userModel);//说明点击事件来自于Adapter
-  }
+
   @Override
   public int getItemCount() {
     return (this.usersCollection != null) ? this.usersCollection.size() : 0;
