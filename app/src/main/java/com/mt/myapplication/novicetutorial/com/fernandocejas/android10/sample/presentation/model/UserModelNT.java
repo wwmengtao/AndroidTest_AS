@@ -22,10 +22,12 @@ import android.os.Parcelable;
  * Class that represents a user in the presentation layer.
  */
 public class UserModelNT implements Parcelable {
+  private static final String TO_STRING = "/----------------UserModelNT.toString----------------/";
   private String key = null;//key代表玩家教程一二级标题或者三级标题详情标识，代表xml文件名称或者标题
   private String adjunction = null;//代表标题涵盖的内容
   private String pic = null;//背景图或者其他待显示图片
   private int index = -1;
+  private int sum = -1;//统计一级标题下的二级标题数目
 
   public UserModelNT(){}
   public UserModelNT(String key) {
@@ -60,14 +62,22 @@ public class UserModelNT implements Parcelable {
     this.index = index;
   }
 
+  public int getSum(){
+    return sum;
+  }
+  public void setSum(int sum){
+    this.sum = sum;
+  }
+
   public String toString(){
     String str =
-      "/----------------UserModelNT.toString----------------/" + "\n" +
-      "key: "+key + "\n" +
-      "adjunction: "+adjunction + "\n" +
-      "pic: "+pic + "\n" +
-      "index: "+index + "\n" +
-      "/----------------UserModelNT.toString----------------/" + "\n";
+    TO_STRING + "\n" +
+    "key: "+key + "\n" +
+    "adjunction: "+adjunction + "\n" +
+    "pic: "+pic + "\n" +
+    "index: "+index + "\n" +
+    "sum: "+sum + "\n" +
+    TO_STRING + "\n";
     return str;
   }
 
@@ -89,6 +99,7 @@ public class UserModelNT implements Parcelable {
       mUserModelNT.setAdjunction(source.readString());
       mUserModelNT.setPic(source.readString());
       mUserModelNT.setIndex(source.readInt());
+      mUserModelNT.setSum(source.readInt());
       return mUserModelNT;
     }
 
@@ -108,6 +119,7 @@ public class UserModelNT implements Parcelable {
     dest.writeString(adjunction);
     dest.writeString(pic);
     dest.writeInt(index);
+    dest.writeInt(sum);
   }
 
   @Override

@@ -27,6 +27,7 @@ public class XmlOperator {
 	public static final String NoviceAssetsXmlDir = "novicetutorial"+File.separator+"xmlfiles";//玩家教程存储xml文件的Assets根目录
 	public static final String NoviceAssetsPicDir = "novicetutorial"+File.separator+"title1_pics";//玩家教程存储图片的Assets根目录
 	private XmlPullParser mXmlPullParser = null;//读取xml文件
+	private XmlPullParser mXmlPullParser2 = null;//读取xml文件
 	private String ioEncoding=null;
 	private InputStream mInputStream=null;
 	private Context mContext=null;
@@ -37,6 +38,7 @@ public class XmlOperator {
 		mContext=context.getApplicationContext();
 		ioEncoding = "UTF-8";//"ISO-8859-1","UTF-16BE","UTF-16LE"
 		mXmlPullParser = Xml.newPullParser();
+		mXmlPullParser2 = Xml.newPullParser();
 		mAssetManager = mContext.getAssets();
 		mUserEntityNTCollection = new ArrayList<>();
 	}
@@ -113,7 +115,7 @@ public class XmlOperator {
 	}
 
 	/**
-	 * parseXmlFirstElement：解析xml文件中firstElement所包含的子标签内容
+	 * parseXmlFirstElement：解析xml文件中FIRST_ELEMENT_TAG所包含的子标签内容
 	 * @param parser
 	 * @param params
 	 */
@@ -171,9 +173,15 @@ public class XmlOperator {
 				case XmlPullParser.TEXT:
 					if(null == tag)break;
 					value = parser.getText().trim();
-					ALog.Log("tag: "+tag+" val: "+value);
+					ALog.Log(TAG+"tag: "+tag+" val: "+value);
 					if(params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1){
 						XmlItemTags.LEVEL1_ITEM_TAGS.setTagValue(mUserEntityNT,tag,value);
+						if(tag.equals(XmlItemTags.LEVEL1_ITEM_TAGS.FIRST_ELEMENT_TAGS[0])){
+							//说明此时解析到了xmlfiles.xml中标签<filename>中的内容，即二级目录内容
+							int sumOfLEVEL2 = getFirstEleSumOfLEVEL2(mXmlPullParser2, value.trim());
+//							ALog.Log(TAG+"val: "+value+" sum:"+sumOfLEVEL2);
+							XmlItemTags.LEVEL1_ITEM_TAGS.setTagValue(mUserEntityNT, sumOfLEVEL2);
+						}
 					}else if(params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2){
 						XmlItemTags.LEVEL2_ITEM_TAGS.setTagValue(mUserEntityNT,tag,value);
 					}
@@ -188,4 +196,44 @@ public class XmlOperator {
 			}//end switch
 		}//end for(;;)
 	}//end parseTagItem
+
+	/**
+	 * getFirstEleSumOfLEVEL2：获取二级标题xml文件中节点XmlItemTags.LEVEL2_ITEM_TAGS.FIRST_ELEMENT_TAG的个数
+	 * @param parser
+	 * @param file
+	 * @return
+	 */
+	public int getFirstEleSumOfLEVEL2(XmlPullParser parser, String file){
+		int sum = 0;
+		String fileName = NoviceAssetsXmlDir + File.separator + file;
+		InputStream mInputStream = null;
+		try {
+			mInputStream = mAssetManager.open(fileName);
+			parser.setInput(new BufferedInputStream(mInputStream), ioEncoding);
+			GetUserNTList.Params mParams = new GetUserNTList.Params();
+			mParams.setDataType(GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2);
+			filterBeforeRootElement(parser, mParams);
+			int type;
+			while ((type= parser.next())!=XmlPullParser.END_DOCUMENT) {
+				if(XmlPullParser.END_TAG==type &&
+						parser.getName().equals(XmlItemTags.LEVEL2_ITEM_TAGS.FIRST_ELEMENT_TAG)){
+					sum ++;
+				}//if
+			}//while
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		} finally{
+			if(null!=mInputStream){
+				try {
+					mInputStream.close();
+					mInputStream=null;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return sum;
+	}
 }

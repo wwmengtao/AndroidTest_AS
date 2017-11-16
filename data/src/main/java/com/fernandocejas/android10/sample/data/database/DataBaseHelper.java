@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.fernandocejas.android10.sample.data.ALog;
-import com.fernandocejas.android10.sample.data.database.DbSchema.Level1TitleTable;
+import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,19 +57,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 	}
 
-	public void createTable(String tableName){
+	public void createTable(GetUserNTList.Params mParams){
+		String tableName = mParams.getTableName();
     	if(tabIsExist(tableName))return;//如果数据表存在就不创建了
 		ALog.Log(TAG+"createTable: "+tableName);
 		try{
-			//execSQL用于执行SQL语句，注意：1)数据表名称不能包含".";2)数据表中，列名不能用"index"(大小写都不允许)，否则报错。
-			this.getWritableDatabase().execSQL("CREATE TABLE " + tableName+" (" +
-					"_id" + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
-					Level1TitleTable.Cols.KEY +  " TEXT," +
-					Level1TitleTable.Cols.ADJUNCTION +  " TEXT," +
-					Level1TitleTable.Cols.PIC +  " TEXT," +
-					Level1TitleTable.Cols.NUM + " INTEGER" + ");"
-			);}
-		catch (SQLException e){
+			if(mParams.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1){
+				this.getWritableDatabase().execSQL(DbSchema.Level1TitleTable.createTableSql(tableName));
+			}else if(mParams.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2){
+				this.getWritableDatabase().execSQL(DbSchema.Level2TitleTable.createTableSql(tableName));
+			}
+
+		}catch (SQLException e){
 			ALog.Log(TAG+"createTable_SQLException\n"+e.fillInStackTrace());
 		}
 	}

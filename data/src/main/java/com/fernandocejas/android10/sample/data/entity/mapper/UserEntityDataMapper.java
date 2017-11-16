@@ -64,6 +64,7 @@ public class UserEntityDataMapper {
       userNT.setAdjunction(userEntityNT.getAdjunction());
       userNT.setPic(userEntityNT.getPic());
       userNT.setIndex(userEntityNT.getNumber());
+      userNT.setSum(userEntityNT.getSum());
     }
     return userNT;
   }
@@ -76,6 +77,7 @@ public class UserEntityDataMapper {
       mUserEntityNT.setAdjunction(mUserNT.getAdjunction());
       mUserEntityNT.setPic(mUserNT.getPic());
       mUserEntityNT.setNumber(mUserNT.getIndex());
+      mUserEntityNT.setSum(mUserNT.getSum());
     }
     return mUserEntityNT;
   }

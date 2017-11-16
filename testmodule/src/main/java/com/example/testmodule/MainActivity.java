@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.database.DataManager;
-import com.fernandocejas.android10.sample.data.database.DbCursorWrapper;
+import com.fernandocejas.android10.sample.data.database.DbSchema.DbCursorWrapper;
 import com.fernandocejas.android10.sample.data.database.DbSchema;
 import com.fernandocejas.android10.sample.data.database.xmlOps.XmlOperator;
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         ALog.Log("getContentValues");
         ContentValues values = new ContentValues();
         values.put(DbSchema.Level1TitleTable.Cols.KEY, mUserEntity.getKey());
-        values.put(DbSchema.Level1TitleTable.Cols.ADJUNCTION, mUserEntity.getAdjunction());
+        values.put(DbSchema.Level1TitleTable.Cols.ADJ, mUserEntity.getAdjunction());
         values.put(DbSchema.Level1TitleTable.Cols.PIC, mUserEntity.getPic());
         if(mParams.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1) {
             values.put(DbSchema.Level1TitleTable.Cols.NUM, mUserEntity.getNumber());

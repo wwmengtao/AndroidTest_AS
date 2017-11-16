@@ -64,7 +64,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 			this.getWritableDatabase().execSQL("CREATE TABLE " + Level1TitleTable.NAME+" (" +
 					"_id" + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
 					Level1TitleTable.Cols.KEY +  " TEXT," +
-					Level1TitleTable.Cols.ADJUNCTION +  " TEXT," +
+					Level1TitleTable.Cols.ADJ +  " TEXT," +
 					Level1TitleTable.Cols.PIC +  " TEXT," +
 					Level1TitleTable.Cols.NUM + " INTEGER" + ");"
 			);}

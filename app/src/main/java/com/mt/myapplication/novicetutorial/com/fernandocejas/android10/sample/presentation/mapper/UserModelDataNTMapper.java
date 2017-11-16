@@ -52,6 +52,7 @@ public class UserModelDataNTMapper {
     userModel.setAdjunction(userNT.getAdjunction());
     userModel.setPic(userNT.getPic());
     userModel.setIndex(userNT.getIndex());
+    userModel.setSum(userNT.getSum());
     return userModel;
   }
 
@@ -64,6 +65,7 @@ public class UserModelDataNTMapper {
     mUserNT.setAdjunction(mUserModelNT.getAdjunction());
     mUserNT.setPic(mUserModelNT.getPic());
     mUserNT.setIndex(mUserModelNT.getIndex());
+    mUserNT.setSum(mUserModelNT.getSum());
     return mUserNT;
   }
 

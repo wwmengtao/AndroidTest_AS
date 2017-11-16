@@ -75,7 +75,8 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
   @Override
   public void onBindViewHolder(UserViewHolder holder, final int position) {
     final UserModelNT mUserModelNT = usersCollection.get(position);
-    holder.mTextView.setText(getString(mUserModelNT.getAdjunction())+"\n"+(mUserModelNT.getIndex()+1));
+    holder.mTextView.setText(getString(mUserModelNT.getAdjunction())+"\n"+
+            (mUserModelNT.getIndex()+1)+"/"+mUserModelNT.getSum());
     Glide.with(mContext)
             .load("file:///android_asset/"+mUserModelNT.getPic())//加载Asset文件夹下的图片资源
             .into(holder.mImageView);

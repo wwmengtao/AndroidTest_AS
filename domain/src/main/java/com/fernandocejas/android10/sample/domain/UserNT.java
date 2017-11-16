@@ -19,11 +19,12 @@ package com.fernandocejas.android10.sample.domain;
  * Class that represents a User in the domain layer.
  */
 public class UserNT {
-
+  private static final String TO_STRING = "/----------------UserNT.toString----------------/";
   private String key = null;//key代表玩家教程一二级标题或者三级标题详情标识，代表xml文件名称或者标题
-  private String adjunction = null;//代表标题涵盖的内容
+  private String adj = null;//代表标题涵盖的内容
   private String pic = null;//背景图或者其他待显示图片
   private int index = -1;
+  private int sum = -1;//统计一级标题下的二级标题数目
 
   public UserNT(){}
   public UserNT(String key) {
@@ -38,10 +39,10 @@ public class UserNT {
   }
 
   public String getAdjunction() {
-    return adjunction;
+    return adj;
   }
-  public void setAdjunction(String adjunction) {
-    this.adjunction = adjunction;
+  public void setAdjunction(String adj) {
+    this.adj = adj;
   }
 
   public String getPic() {
@@ -58,14 +59,22 @@ public class UserNT {
     this.index = index;
   }
 
+  public int getSum(){
+    return sum;
+  }
+  public void setSum(int sum){
+    this.sum = sum;
+  }
+
   public String toString(){
     String str =
-      "/----------------UserNT.toString----------------/" + "\n" +
+      TO_STRING + "\n" +
       "key: "+key + "\n" +
-      "adjunction: "+adjunction + "\n" +
+      "adj: "+adj + "\n" +
       "pic: "+pic + "\n" +
       "index: "+index + "\n" +
-      "/----------------UserNT.toString----------------/";
+      "sum: "+sum + "\n" +
+      TO_STRING + "\n";
     return str;
   }
 }
