@@ -121,6 +121,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(EventBusActivity.getCallingIntent(this));
     }
 
+    @OnClick(R.id.btn10)
+    public void onClick10(View view){
+        startActivity(XmlParserActivity.getCallingIntent(this));
+    }
 
     public void saveCollection(Collection<UserEntityNT> mUserEntityCollection, GetUserNTList.Params mParams){
         if(mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1 &&
