@@ -41,6 +41,16 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     private BaseFragment.OnFragmentClickListener mOnFragmentClickListener;
     private Intent mIntent = null;
 
+    @Override
+    public Context context() {
+        return mContext;
+    }
+
+    @Override
+    public Intent getViewIntent() {
+        return mIntent;
+    }
+
     @Override public void onAttach(Context context) {
         super.onAttach(context);
         mActivity = (Activity)context;
@@ -83,6 +93,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     @Override public void onDestroyView() {
         super.onDestroyView();
         this.mRecyclerView.setAdapter(null);
+        mUserAdapterGrid.clearData();
         unbinder.unbind();
     }
 
@@ -96,32 +107,12 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
         this.mOnFragmentClickListener = null;
     }
 
-    /**
-     * onUserAdapterItemClicked：内部的Adapter数据有点击事件时产生的在fragment中的回调
-     * @param userModel
-     */
-    @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
-        if (NoviceGridFragment.this.mNoviceGridPresenter != null && userModel != null) {
-            NoviceGridFragment.this.mNoviceGridPresenter.onUserClicked(userModel);
-        }
-    }
-
-    @Override
-    public void onActivityFinish(){//NoviceGridActivity在finish时的回调
-
-    }
-
     private void setupRecyclerView() {
         mUserAdapterGrid.setOnItemClickListener(this);
         mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         mRecyclerView.setAdapter(mUserAdapterGrid);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL |
                 DividerItemDecoration.VERTICAL));
-    }
-
-    @Override
-    public Intent getViewIntent() {
-        return mIntent;
     }
 
     @Override
@@ -132,15 +123,30 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     }
 
     @Override
-    public void setUserList(UserModelNT mUserModelNT, Collection<UserModelNT> userModelCollection) {
-
+    /**
+     * setCurrentItemBackGround：当用户由主界面进入具体条目并且退出后，此时展示具体条目的序号变换效果
+     */
+    public void setCurrentItemBackGround(int currentSubLevelIndex){
+        this.mUserAdapterGrid.setCurrentSubLevelIndex(currentSubLevelIndex);//
+        this.mUserAdapterGrid.notifyCertainSubLevelDataChanged();
     }
 
     @Override
-    public void viewUser(UserModelNT userModel) {
-        if (this.mOnFragmentClickListener != null) {
+    public void setUserList(UserModelNT mUserModelNT, Collection<UserModelNT> userModelCollection) {
+    }
+
+    /**
+     * onUserAdapterItemClicked：内部的Adapter数据有点击事件时产生的在fragment中的回调
+     * @param userModel
+     */
+    @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
+        if (this.mOnFragmentClickListener != null && userModel != null) {
             this.mOnFragmentClickListener.onFragmentClicked(userModel);
         }
+    }
+
+    @Override
+    public void onActivityFinish(){//NoviceGridActivity在finish时的回调
     }
 
     @Override
@@ -170,17 +176,4 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
         this.showToastMessage(message);
     }
 
-    @Override
-    public Context context() {
-        return mContext;
-    }
-
-    @Override
-    /**
-     * setCurrentItemBackGround：当用户由主界面进入具体条目并且退出后，此时展示具体条目的序号变换效果
-     */
-    public void setCurrentItemBackGround(int currentSubLevelIndex){
-        this.mUserAdapterGrid.setCurrentSubLevelIndex(currentSubLevelIndex);//
-        this.mUserAdapterGrid.notifyCertainSubLevelDataChanged();
-    }
 }

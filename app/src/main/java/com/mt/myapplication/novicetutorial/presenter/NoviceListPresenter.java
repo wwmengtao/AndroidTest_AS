@@ -88,10 +88,6 @@ public class NoviceListPresenter implements Presenter {
     this.loadUserList();
   }
 
-  public void onUserClicked(UserModelNT userModel) {
-    mNoviceRecyclerView.viewUser(userModel);
-  }
-
   /**
    * ifViewItemByViewPager：用于判断NoviceListFragment当前用户期望浏览条目的方式是否通过ViewPager
    * @return

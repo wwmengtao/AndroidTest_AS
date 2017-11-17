@@ -60,25 +60,6 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
     return currentIndex;
   }
 
-  public void setCurrentSubLevelIndex(int currentSubLevelIndex){
-    ALog.Log1(TAG+"setCurrentSubLevelIndex: "+currentIndex);
-    this.previousSubLevelIndex = this.currentSubLevelIndex;
-    this.currentSubLevelIndex = currentSubLevelIndex;
-  }
-
-  /**
-   * notifyCertainSubLevelDataChanged：更新界面上有变化的数据，此时的数据变化为主界面条目的序号变化
-   * 出于性能方面的考虑，只更新有变化的两个item
-   */
-  public void notifyCertainSubLevelDataChanged(){
-    if(previousSubLevelIndex != currentSubLevelIndex){
-      if(currentSubLevelIndex > -1){
-        usersCollection.get(currentIndex).setIndex(currentSubLevelIndex);
-        notifyItemChanged(currentIndex);
-      }
-    }
-  }
-
   /**
    * notifyCertainDataChanged：更新界面上有变化的数据
    * 出于性能方面的考虑，只更新有变化的两个item
@@ -91,6 +72,27 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
       dataChanged = true;
     }
     return dataChanged;
+  }
+
+  public void setCurrentSubLevelIndex(int currentSubLevelIndex){
+    ALog.Log1(TAG+"setCurrentSubLevelIndex: "+currentIndex);
+    this.previousSubLevelIndex = this.currentSubLevelIndex;
+    this.currentSubLevelIndex = currentSubLevelIndex;
+  }
+
+  /**
+   * notifyCertainSubLevelDataChanged：更新界面上有变化的数据，此时的数据变化为主界面条目的序号变化，该序号即为下级视图
+   * 中用户最后一次浏览条目的序号。
+   * 出于性能方面的考虑，只更新有变化的两个item
+   */
+  public void notifyCertainSubLevelDataChanged(){
+    if(previousSubLevelIndex != currentSubLevelIndex){
+      if(currentSubLevelIndex > -1){
+        //如果下级视图中用户浏览序号有变化那么更新这个位置数据的序号
+        usersCollection.get(currentIndex).setIndex(currentSubLevelIndex);
+        notifyItemChanged(currentIndex);
+      }
+    }
   }
 
   @Inject
@@ -126,10 +128,10 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
       @Override
       public void onClick(View v) {
         if (UserAdapterGrid.this.mOnAdapterClickListener != null) {
-          UserAdapterGrid.this.mOnAdapterClickListener.onUserAdapterItemClicked(mUserModelNT);
-          //记录下主界面用户当前点击的item的序号，该序号不同于mUserModelNT.getIndex()，后者记录的是二级菜单之前选中的item序号
           UserAdapterGrid.this.setCurrentIndex(position);
+          //记录下主界面用户当前点击的item的序号，该序号不同于mUserModelNT.getIndex()，后者记录的是二级菜单之前选中的item序号
           UserAdapterGrid.this.setCurrentSubLevelIndex(mUserModelNT.getIndex());
+          UserAdapterGrid.this.mOnAdapterClickListener.onUserAdapterItemClicked(mUserModelNT);
 //          ALog.Log(TAG+"_onClick: "+mUserModelNT.getKey()+" "+mUserModelNT.getIndex());
 //          ALog.visitCollection2(TAG, usersCollection);
         }

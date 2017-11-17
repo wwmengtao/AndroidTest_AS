@@ -34,10 +34,18 @@ import butterknife.Unbinder;
 public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyclerView{
     private Unbinder mUnbinder;
     private Activity mActivity = null;
-
     @Inject NoviceViewPagerPresenter mNoviceViewPagerPresenter;
-
     @BindView(R.id.view_item_view_pager) ViewPager mViewPager;
+
+    @Override
+    public Context context() {
+        return null;
+    }
+
+    @Override
+    public Intent getViewIntent() {
+        return null;
+    }
 
     @Override public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -92,16 +100,6 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
     }
 
     @Override
-    public Context context() {
-        return null;
-    }
-
-    @Override
-    public Intent getViewIntent() {
-        return null;
-    }
-
-    @Override
     public void setUserList(final Collection<UserModelNT> userModelCollection) {
 
     }
@@ -110,12 +108,10 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
     public void setUserList(final UserModelNT mUserModelNT, final Collection<UserModelNT> userModelCollection) {
         final List<UserModelNT> mData = (List<UserModelNT>)userModelCollection;
         mViewPager.setAdapter(new FragmentPagerAdapter(((FragmentActivity)mActivity).getSupportFragmentManager()){
-
             @Override
             public int getCount() {
                 return mData.size();
             }
-
             @Override
             public Fragment getItem(int position) {
                 return PagerItemFragment.newFragment(mData.get(position));
@@ -126,7 +122,6 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
-
             @Override
             /**
              * 之所以在此处设置Activity标题，因为onPageSelected判断当前处于正中间的item
@@ -134,7 +129,6 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
             public void onPageSelected(int position) {
                 mActivity.setTitle(getString(mData.get(position).getKey()));
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
             }
@@ -148,33 +142,23 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
     }
 
     @Override
-    public void viewUser(UserModelNT userModel) {
-
-    }
-
-    @Override
     public void showLoading() {
-
     }
 
     @Override
     public void hideLoading() {
-
     }
 
     @Override
     public void showRetry() {
-
     }
 
     @Override
     public void hideRetry() {
-
     }
 
     @Override
     public void showError(String message) {
-
     }
 
     @Override
@@ -183,6 +167,5 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
 
     @Override
     public void onUserAdapterItemClicked(UserModelNT userModel) {
-
     }
 }

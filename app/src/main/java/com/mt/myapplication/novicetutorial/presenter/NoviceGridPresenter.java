@@ -56,10 +56,6 @@ public class NoviceGridPresenter implements Presenter {
     this.mUserModelDataNTMapper = mUserModelDataNTMapper;
   }
 
-  public void onUserClicked(UserModelNT userModel) {
-    mNoviceRecyclerView.viewUser(userModel);
-  }
-
   public void setView(@NonNull NoviceRecyclerView view) {
     this.mNoviceRecyclerView = view;
   }

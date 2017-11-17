@@ -56,6 +56,16 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
         return mNoviceListPresenter;
     }
 
+    @Override
+    public Intent getViewIntent() {
+        return mIntent;
+    }
+
+    @Override
+    public Context context() {
+        return mContext;
+    }
+
     @Override public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
@@ -133,27 +143,11 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
         }
     }
 
-    @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
-        if (NoviceListFragment.this.mNoviceListPresenter != null && userModel != null) {
-            NoviceListFragment.this.mNoviceListPresenter.onUserClicked(userModel);
-        }
-    }
-
     private void setupRecyclerView() {
         mUserAdapterList.setOnItemClickListener(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(mUserAdapterList);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL));
-    }
-
-    @Override
-    public Intent getViewIntent() {
-        return mIntent;
-    }
-
-    @Override
-    public Context context() {
-        return mContext;
     }
 
     @Override
@@ -179,9 +173,8 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
     public void setUserList(UserModelNT mUserModelNT, Collection<UserModelNT> userModelCollection) {
     }
 
-    @Override
-    public void viewUser(UserModelNT userModel) {
-        if (this.mOnFragmentClickListener != null) {
+    @Override public void onUserAdapterItemClicked(UserModelNT userModel) {
+        if (this.mOnFragmentClickListener != null && userModel != null) {
             this.mOnFragmentClickListener.onFragmentClicked(userModel);
         }
     }

@@ -51,20 +51,4 @@ public class XmlItemTags {
             }
         }
     }
-
-    /**
-     * isFirstElementTag：判断标签tag是否是FIRST_ELEMENT_TAGS中的元素
-     * @param tag
-     * @param FIRST_ELEMENT_TAGS
-     * @return
-     */
-    private boolean isFirstElementTag(String tag,String[] FIRST_ELEMENT_TAGS){
-        if(null == tag||null == FIRST_ELEMENT_TAGS)return false;
-        for(String eleTag:FIRST_ELEMENT_TAGS){
-            if(eleTag.equals(tag)){
-                return true;
-            }
-        }
-        return false;
-    }
 }

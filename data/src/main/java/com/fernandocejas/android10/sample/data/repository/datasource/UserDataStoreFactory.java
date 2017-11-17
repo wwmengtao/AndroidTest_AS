@@ -77,7 +77,7 @@ public class UserDataStoreFactory {
   public UserDataStore createDBDataStore() {
     ALog.Log("createDBDataStore");
     final UserEntityXmlMapper mUserEntityXmlMapper = new UserEntityXmlMapper(DataManager.get(context));
-    final ParseXml restDb = new ParseXmlImpl(this.context, mUserEntityXmlMapper);
-    return new DBUserDataStore(restDb, this.dbCache);
+    final ParseXml mParseXml = new ParseXmlImpl(this.context, mUserEntityXmlMapper);
+    return new DBUserDataStore(mParseXml, this.dbCache);
   }
 }

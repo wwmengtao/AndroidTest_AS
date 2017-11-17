@@ -54,10 +54,6 @@ public class NoviceViewPagerPresenter implements Presenter {
     }
   }
 
-  public void onUserClicked(UserModelNT userModel) {
-    mNoviceRecyclerView.viewUser(userModel);
-  }
-
   private void showViewLoading() {
     this.mNoviceRecyclerView.showLoading();
   }
