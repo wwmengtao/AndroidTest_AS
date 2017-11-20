@@ -6,16 +6,12 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -49,13 +45,15 @@ public class MyRecyclerViewFragment extends BaseFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_myrecyclerview, container, false);
         mRecyclerView = (RecyclerView)v.findViewById(R.id.my_recyclerview);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mActivity);
+        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mBaseAdapter = new MyRvAdapter(this);
         mRecyclerView.setAdapter(mBaseAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());//增加item增删动画
         setAccentColorForEmptyView();
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.VERTICAL));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, mLinearLayoutManager.getOrientation()));
         return v;
     }
 

@@ -111,8 +111,13 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
         mUserAdapterGrid.setOnItemClickListener(this);
         mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         mRecyclerView.setAdapter(mUserAdapterGrid);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL |
-                DividerItemDecoration.VERTICAL));
+        //以下设置分隔符
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mActivity,DividerItemDecoration.HORIZONTAL);
+        mDividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.novicedividergrid));
+        mRecyclerView.addItemDecoration(mDividerItemDecoration);
+        mDividerItemDecoration = new DividerItemDecoration(mActivity,DividerItemDecoration.VERTICAL);
+        mDividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.novicedividergrid));
+        mRecyclerView.addItemDecoration(mDividerItemDecoration);
     }
 
     @Override

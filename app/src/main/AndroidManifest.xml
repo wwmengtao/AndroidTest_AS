@@ -144,12 +144,15 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/PhotoGalleryTheam" />
 
+        <!--以下设置玩家教程的主题-->
         <activity
             android:name="com.mt.myapplication.novicetutorial.view.activities.NoviceGridActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
             android:label="@string/novice_tutorial"
             android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/NoviceGridTheme"
+            >
         </activity>
 
         <activity
@@ -157,7 +160,9 @@
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
             android:label="NoviceListActivity"
             android:launchMode="singleTask"
-            android:parentActivityName="com.mt.myapplication.novicetutorial.view.activities.NoviceGridActivity">
+            android:parentActivityName="com.mt.myapplication.novicetutorial.view.activities.NoviceGridActivity"
+            android:theme="@style/NoviceGridTheme"
+            >
         </activity>
 
         <activity
@@ -165,15 +170,17 @@
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
             android:label="NoviceDetailActivity"
             android:launchMode="singleTask"
-            android:parentActivityName="com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity">
+            android:parentActivityName="com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity"
+            android:theme="@style/NoviceGridTheme">
         </activity>
-
+e
         <activity
             android:name="com.mt.myapplication.novicetutorial.view.activities.NoviceViewPagerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
             android:label="NoviceViewPagerActivity"
             android:launchMode="singleTask"
-            android:parentActivityName="com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity">
+            android:parentActivityName="com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity"
+            android:theme="@style/NoviceGridTheme">
         </activity>
 
     </application>

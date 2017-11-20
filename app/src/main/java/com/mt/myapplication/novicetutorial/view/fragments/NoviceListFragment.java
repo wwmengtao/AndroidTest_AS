@@ -145,9 +145,13 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
 
     private void setupRecyclerView() {
         mUserAdapterList.setOnItemClickListener(this);
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
+        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mActivity, mLinearLayoutManager.getOrientation());
+        mDividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.novicedividerlist));
+        mRecyclerView.addItemDecoration(mDividerItemDecoration);
         mRecyclerView.setAdapter(mUserAdapterList);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(mActivity, DividerItemDecoration.HORIZONTAL));
     }
 
     @Override

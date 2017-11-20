@@ -120,6 +120,7 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
     final UserModelNT mUserModelNT = usersCollection.get(position);
     holder.mTextView.setText(getString(mUserModelNT.getAdjunction())+"\n"+
             (mUserModelNT.getIndex()+1)+"/"+mUserModelNT.getSum());
+    ALog.Log("holder.mTextView.color: "+holder.mTextView.getCurrentTextColor());
     Glide.with(mContext)
             .load("file:///android_asset/"+mUserModelNT.getPic())//加载Asset文件夹下的图片资源
             .into(holder.mImageView);

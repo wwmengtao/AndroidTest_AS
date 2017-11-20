@@ -56,10 +56,8 @@
         <item name="colorAccent">@color/yellow</item>
         <item name="android:colorBackground">@color/white</item><!--ContentView部分的背景色-->
         <item name="android:textViewStyle">@style/TextView_PhotoGallery</item><!--TextView的显示样式-->
-        <item name="android:actionBarItemBackground">@color/darkred
-        </item><!--ActionBar中Menu(非MenuItem)的背景色-->
-        <item name="textAppearanceLargePopupMenu">@style/MenuItemTextStyle
-        </item><!--ActionBar中MenuItem的文字样式-->
+        <item name="android:actionBarItemBackground">@color/darkred</item><!--ActionBar中Menu(非MenuItem)的背景色-->
+        <item name="textAppearanceLargePopupMenu">@style/MenuItemTextStyle</item><!--ActionBar中MenuItem的文字样式-->
     </style>
 
     <!--以下定义PhotoGalleryActivity对应的TextView的主题-->
@@ -98,5 +96,36 @@
         <item name="android:layout_centerInParent">true</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:visibility">visible</item>
+    </style>
+
+    <!--以下定义NociceGridActivity对应的主题-->
+    <style name="NoviceGridTheme" parent="Theme.AppCompat">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/darkblue</item><!--colorPrimaryDark定义状态栏背景色-->
+        <item name="colorPrimary">@color/royalblue</item><!--colorPrimary定义工具栏(ActionBar所在区域)背景色-->
+        <item name="android:textViewStyle">@style/TextView_NoviceTutorial</item><!--菜单文字的显示样式-->
+        <item name="android:actionBarItemBackground">@color/green</item><!--ActionBar中Menu(非MenuItem)的背景色-->
+        <item name="textAppearanceLargePopupMenu">@style/MenuItemTextStyle</item><!--ActionBar中MenuItem的文字样式-->
+        <item name="android:textColor">@color/black</item><!--定义诸如ViewPager或者DetailActivity中显示的字体颜色-->
+        <item name="android:colorBackground">@color/white</item><!--ContentView部分的背景色-->
+    </style>
+
+    <!-- 定义RecyclerView等ListView的Item中TextView的显示样式 -->
+    <style name="NoviceListTextTheme" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:textSize">@dimen/font_16</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="NoviceListTextTheme2" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:textSize">@dimen/font_21</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!--以下定义玩家教程对应的菜单文字的显示样式-->
+    <style name="TextView_NoviceTutorial">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:ellipsize">end</item>
     </style>
 </resources>

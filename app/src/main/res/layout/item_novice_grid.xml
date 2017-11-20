@@ -11,9 +11,10 @@
         android:id="@+id/item_grid_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingEnd="12dp"
-        android:paddingBottom="12dp"
+        android:paddingEnd="@dimen/lay_4"
+        android:paddingBottom="@dimen/lay_4"
         android:layout_gravity="center"
         android:text="NoviceTitle"
+        android:textAppearance="@style/NoviceListTextTheme"
         android:gravity="bottom|end"/>
 </FrameLayout>

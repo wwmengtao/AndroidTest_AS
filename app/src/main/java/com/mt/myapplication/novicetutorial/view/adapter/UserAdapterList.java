@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 
 import javax.inject.Inject;
@@ -31,6 +32,7 @@ public class UserAdapterList extends UserAdapterGrid {
         //        ALog.Log("UserAdapterList_onBindViewHolder:"+mUserModelNT.getKey());
         holder.setBackGround(position == getCurrentIndex());//根据当前是否选中来确定该item的背景颜色
         holder.mTextView.setText(getString(mUserModelNT.getKey()));
+        ALog.Log("holder.mTextView.color: "+holder.mTextView.getCurrentTextColor());
         if(null != mUserModelNT.getPic()){//如果说明条目中存有图片的话，那么标题颜色设置为特定颜色
             holder.mTextView.setTextColor(getColorId(R.color.blue));
         }
@@ -38,7 +40,11 @@ public class UserAdapterList extends UserAdapterGrid {
             @Override
             public void onClick(View v) {
                 if (UserAdapterList.this.mOnAdapterClickListener != null) {
-                    mUserModelNT.setIndex(position);//设置当前用户点击的item所在整个视图中的序号
+                    /**
+                     *设置当前用户点击的item所在整个视图中的序号，用来给NoviceViewPagerFragment或者
+                     * NoviceDetailFragment提供准确的数据
+                     */
+                    mUserModelNT.setIndex(position);
                     UserAdapterList.this.mOnAdapterClickListener.onUserAdapterItemClicked(mUserModelNT);
                 }
             }

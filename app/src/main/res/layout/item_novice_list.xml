@@ -9,6 +9,6 @@
         android:layout_height="match_parent"
         android:text="NoviceTitle"
         android:gravity="start|center_vertical"
-        android:textSize="@dimen/font_24"/>
+        android:textAppearance="@style/NoviceListTextTheme2"/>
 
 </FrameLayout>
