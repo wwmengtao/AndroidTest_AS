@@ -44,6 +44,30 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
   private int previousSubLevelIndex = -1;
   private int currentSubLevelIndex = -1;
 
+  private int rootViewHeight = -1;
+  private int dividerItemHeight = -1;
+  private int spanCount = -1;
+
+  /**
+   * setRootViewHeight：设置RecyclerView视图的高度
+   * @param height
+   */
+  public void setRootViewHeight(int height){
+    rootViewHeight = height;
+  }
+
+  public void setDividerItemDecorationHeight(int dividerItemHeight){
+    this.dividerItemHeight = dividerItemHeight;
+  }
+
+  /**
+   * setLayoutManagerSpanCount：设置Grid类型的RecyclerView数据列数
+   * @param spanCount
+   */
+  public void setLayoutManagerSpanCount(int spanCount){
+    this.spanCount = spanCount;
+  }
+
   protected OnAdapterClickListener mOnAdapterClickListener;
 
   public interface OnAdapterClickListener {
@@ -112,6 +136,15 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
   @Override
   public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     final View view = this.layoutInflater.inflate(R.layout.item_novice_grid, parent, false);
+    if(spanCount > -1){//以下根据屏幕大小及数据占据的行数来设置主界面上Grid的行数
+      int dataRow = usersCollection.size() / spanCount;
+      int viewHeight = (rootViewHeight - dividerItemHeight * spanCount) / dataRow;
+      ViewGroup.LayoutParams mParams = view.getLayoutParams();
+      if(viewHeight > 0){
+        mParams.height = viewHeight;
+        view.setLayoutParams(mParams);
+      }
+    }
     return new UserViewHolder(view);
   }
 
@@ -120,7 +153,6 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
     final UserModelNT mUserModelNT = usersCollection.get(position);
     holder.mTextView.setText(getString(mUserModelNT.getAdjunction())+"\n"+
             (mUserModelNT.getIndex()+1)+"/"+mUserModelNT.getSum());
-    ALog.Log("holder.mTextView.color: "+holder.mTextView.getCurrentTextColor());
     Glide.with(mContext)
             .load("file:///android_asset/"+mUserModelNT.getPic())//加载Asset文件夹下的图片资源
             .into(holder.mImageView);
@@ -200,7 +232,7 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
       ButterKnife.bind(this, itemView);
     }
     public void setBackGround(boolean itemSelected){
-      mView.setBackgroundColor(mView.getResources().getColor(itemSelected ? android.R.color.holo_green_light
+      mView.setBackgroundColor(mView.getResources().getColor(itemSelected ? R.color.lightskyblue
               : android.R.color.transparent));
     }
   }

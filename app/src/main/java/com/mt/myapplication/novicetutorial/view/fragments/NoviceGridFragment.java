@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.mt.androidtest_as.R;
+import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceGridPresenter;
@@ -71,15 +72,22 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
         super.onCreateView(inflater,container,savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_novice_recview, container, false);
         unbinder = ButterKnife.bind(this, v);
-        setupRecyclerView();
         return v;
     }
 
-    @Override public void onViewCreated(View view, Bundle savedInstanceState) {
+    @Override public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.mNoviceGridPresenter.setView(this);
         if (savedInstanceState == null) {
-            this.loadUserList();
+        view.post(new Runnable() {
+            @Override
+            public void run() {
+                mUserAdapterGrid.setRootViewHeight(view.getHeight());
+                setupRecyclerView();
+                NoviceGridFragment.this.loadUserList();
+                ALog.Log("v.getHeight: "+view.getHeight());
+            }
+        });
         }
     }
 
@@ -110,11 +118,13 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
     private void setupRecyclerView() {
         mUserAdapterGrid.setOnItemClickListener(this);
         mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+        mUserAdapterGrid.setLayoutManagerSpanCount(3);
         mRecyclerView.setAdapter(mUserAdapterGrid);
         //以下设置分隔符
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mActivity,DividerItemDecoration.HORIZONTAL);
         mDividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.novicedividergrid));
         mRecyclerView.addItemDecoration(mDividerItemDecoration);
+        mUserAdapterGrid.setDividerItemDecorationHeight(getContext().getResources().getDrawable(R.drawable.novicedividergrid).getIntrinsicHeight());
         mDividerItemDecoration = new DividerItemDecoration(mActivity,DividerItemDecoration.VERTICAL);
         mDividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.novicedividergrid));
         mRecyclerView.addItemDecoration(mDividerItemDecoration);

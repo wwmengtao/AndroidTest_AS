@@ -32,7 +32,6 @@ public class UserAdapterList extends UserAdapterGrid {
         //        ALog.Log("UserAdapterList_onBindViewHolder:"+mUserModelNT.getKey());
         holder.setBackGround(position == getCurrentIndex());//根据当前是否选中来确定该item的背景颜色
         holder.mTextView.setText(getString(mUserModelNT.getKey()));
-        ALog.Log("holder.mTextView.color: "+holder.mTextView.getCurrentTextColor());
         if(null != mUserModelNT.getPic()){//如果说明条目中存有图片的话，那么标题颜色设置为特定颜色
             holder.mTextView.setTextColor(getColorId(R.color.blue));
         }
