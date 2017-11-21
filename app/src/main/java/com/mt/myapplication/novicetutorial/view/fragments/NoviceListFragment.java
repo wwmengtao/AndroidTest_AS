@@ -3,6 +3,7 @@ package com.mt.myapplication.novicetutorial.view.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +18,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.mt.androidtest_as.R;
-import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceListPresenter;
@@ -36,6 +36,7 @@ import static com.mt.myapplication.novicetutorial.view.activities.NoviceListActi
 
 
 public class NoviceListFragment extends BaseFragment implements NoviceRecyclerView {
+    private static final String TAG = "NoviceListFragment";
     public Unbinder unbinder;
     private Activity mActivity = null;
     private UserModelNT mUserModelNT = null;
@@ -75,7 +76,7 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
         }
         mIntent = mActivity.getIntent();
         mUserModelNT = mIntent.getParcelableExtra(NOVICE_LIST_ACTIVITY_KEY);
-//        ALog.Log("NoviceListFragment_onAttach: "+userModel.toString());
+//        ALog.Log(TAG+"_onAttach: "+mUserModelNT.toString());
         mActivity.setTitle(getString(mUserModelNT.getAdjunction()));
     }
 
@@ -139,7 +140,7 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
         if(mUserAdapterList.getCurrentIndex() != mUserModelNT.getIndex()){
             mUserModelNT.setIndex(mUserAdapterList.getCurrentIndex());
             mNoviceListPresenter.updateUserEntityNT(mUserModelNT);
-            ALog.Log1("mUserAdapterList.getcurrentIndex: "+mUserAdapterList.getCurrentIndex());
+//            ALog.Log1(TAG+"_updateUserEntityNT_currentIndex: "+mUserAdapterList.getCurrentIndex());
         }
     }
 
@@ -148,18 +149,27 @@ public class NoviceListFragment extends BaseFragment implements NoviceRecyclerVi
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mUserAdapterList.setLayoutManagerSpanCount(1);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mActivity, mLinearLayoutManager.getOrientation());
-        mDividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.novicedividerlist));
+        Drawable divider = getContext().getResources().getDrawable(R.drawable.novicedividerlist);
+        mDividerItemDecoration.setDrawable(divider);
+        mUserAdapterList.setDividerItemDecorationHeight(divider.getIntrinsicHeight());
         mRecyclerView.addItemDecoration(mDividerItemDecoration);
         mRecyclerView.setAdapter(mUserAdapterList);
     }
 
     @Override
-    public void setUserList(Collection<UserModelNT> userModelCollection) {
+    public void setUserList(final Collection<UserModelNT> userModelCollection) {
         if (userModelCollection != null) {
             this.mUserAdapterList.setCurrentIndex(mUserModelNT.getIndex());//设置用户之前的浏览序号记录
-            this.mUserAdapterList.setUsersCollection(userModelCollection);
-            this.mNoviceListPresenter.smoothScrollToPosition(mRecyclerView, mUserModelNT.getIndex());
+            this.getView().post(new Runnable() {
+                @Override
+                public void run() {
+                    NoviceListFragment.this.mUserAdapterList.setRootViewHeight(NoviceListFragment.this.getView().getHeight());
+                    NoviceListFragment.this.mUserAdapterList.setUsersCollection(userModelCollection);
+                    NoviceListFragment.this.mNoviceListPresenter.smoothScrollToPosition(mRecyclerView, mUserModelNT.getIndex());
+                }
+            });
         }
     }
 

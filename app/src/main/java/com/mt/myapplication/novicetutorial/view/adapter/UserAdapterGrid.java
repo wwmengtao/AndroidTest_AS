@@ -43,21 +43,17 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
   //以下定义当前视图的下级视图的前后选中序号
   private int previousSubLevelIndex = -1;
   private int currentSubLevelIndex = -1;
-
+  //以下计算最优显示高度
   private int rootViewHeight = -1;
-  private int dividerItemHeight = -1;
   private int spanCount = -1;
-
+  private int optimalViewHeight = -1;
+  private int dividerItemHeight = 0;
   /**
    * setRootViewHeight：设置RecyclerView视图的高度
    * @param height
    */
   public void setRootViewHeight(int height){
     rootViewHeight = height;
-  }
-
-  public void setDividerItemDecorationHeight(int dividerItemHeight){
-    this.dividerItemHeight = dividerItemHeight;
   }
 
   /**
@@ -68,6 +64,14 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
     this.spanCount = spanCount;
   }
 
+  /**
+   * setDividerItemDecorationHeight：设置分隔符宽度
+   * @param dividerItemHeight
+   */
+  public void setDividerItemDecorationHeight(int dividerItemHeight){
+    this.dividerItemHeight = dividerItemHeight;
+  }
+
   protected OnAdapterClickListener mOnAdapterClickListener;
 
   public interface OnAdapterClickListener {
@@ -75,7 +79,7 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
   }
 
   public void setCurrentIndex(int currentIndex){
-    ALog.Log1(TAG+"setCurrentIndex: "+currentIndex);
+//    ALog.Log1(TAG+"setCurrentIndex: "+currentIndex);
     this.previousIndex = this.currentIndex;
     this.currentIndex = currentIndex;
   }
@@ -99,7 +103,7 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
   }
 
   public void setCurrentSubLevelIndex(int currentSubLevelIndex){
-    ALog.Log1(TAG+"setCurrentSubLevelIndex: "+currentIndex);
+//    ALog.Log1(TAG+"setCurrentSubLevelIndex: "+currentIndex);
     this.previousSubLevelIndex = this.currentSubLevelIndex;
     this.currentSubLevelIndex = currentSubLevelIndex;
   }
@@ -136,16 +140,54 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
   @Override
   public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     final View view = this.layoutInflater.inflate(R.layout.item_novice_grid, parent, false);
-    if(spanCount > -1){//以下根据屏幕大小及数据占据的行数来设置主界面上Grid的行数
-      int dataRow = usersCollection.size() / spanCount;
-      int viewHeight = (rootViewHeight - dividerItemHeight * spanCount) / dataRow;
-      ViewGroup.LayoutParams mParams = view.getLayoutParams();
-      if(viewHeight > 0){
-        mParams.height = viewHeight;
-        view.setLayoutParams(mParams);
-      }
-    }
+    setViewOptimalHeight(view);
     return new UserViewHolder(view);
+  }
+
+  /**
+   * setViewOptimalHeight：根据RecyclerView以及分隔符还有view的固有高度确定最优显示行数。
+   * 注意：分隔符高度dividerItemHeight没参与计算的原因是分隔符占用的就是RecyclerView中基本item的空间，
+   * 不会另外占用高度空间
+   * @param view
+   */
+  protected void setViewOptimalHeight(View view){
+    if(rootViewHeight <=0 || spanCount <= 0)return;
+    ViewGroup.LayoutParams mViewParams = view.getLayoutParams();
+    if(optimalViewHeight <= 0){
+      //以下根据屏幕大小及数据占据的行数来设置主界面上Grid的行数
+      int dataRows = usersCollection.size() / spanCount;//首先计算所有数据应该显示的行数
+      if((usersCollection.size() % spanCount) > 0)dataRows++;
+      int finalRows = -1;//最终显示的最优行数
+      int itemHeight = mViewParams.height;//首先获取基本item和分割线的高度数值
+      for(int i = 1; i < dataRows; i++){//dividerItemHeight
+        if(itemHeight*i < rootViewHeight && itemHeight*(i+1) >= rootViewHeight){//如果显示不下i+1个但是可以显示i个
+          if(itemHeight*(i+0.5) <= rootViewHeight){
+            finalRows = i+1;
+          }else{
+            finalRows = i;
+          }
+          break;
+        }//end if
+      }//end for
+      if(-1 == finalRows){
+        if(itemHeight >= rootViewHeight){//当前视图高度太大
+          optimalViewHeight = rootViewHeight;
+        }else{//当前视图高度太小
+          optimalViewHeight = mViewParams.height;//仍然使用自身的高度数值
+        }
+      }else{
+        int remainder = rootViewHeight % finalRows;
+        optimalViewHeight = rootViewHeight / finalRows + ((remainder > 0)? 1:0);
+      }
+      ALog.Log(TAG+"_setViewOptimalHeight_rootViewHeight: "+rootViewHeight +
+              " dividerItemHeight: "+dividerItemHeight+" optimalViewHeight:"+optimalViewHeight +
+              " dataRows: "+dataRows+" finalRows: "+finalRows);
+    }
+    //设置最终的最优化高度
+    if(optimalViewHeight > 0){
+      mViewParams.height = optimalViewHeight;
+      view.setLayoutParams(mViewParams);
+    }
   }
 
   @Override
@@ -156,7 +198,7 @@ public class UserAdapterGrid extends RecyclerView.Adapter<UserAdapterGrid.UserVi
     Glide.with(mContext)
             .load("file:///android_asset/"+mUserModelNT.getPic())//加载Asset文件夹下的图片资源
             .into(holder.mImageView);
-    ALog.Log(TAG+"_onBindViewHolder:"+mUserModelNT.getPic());
+//    ALog.Log(TAG+"_onBindViewHolder: "+mUserModelNT.getPic());
     holder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {

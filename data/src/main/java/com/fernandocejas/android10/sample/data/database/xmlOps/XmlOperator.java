@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Xml;
 
-import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 
@@ -56,12 +55,12 @@ public class XmlOperator {
 				params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2){
 			readFromXmlFile(params);
 		}
-		ALog.visitCollection(TAG, mUserEntityNTCollection);//浏览mUserEntityCollection中的数据内容
+//		ALog.visitCollection(TAG, mUserEntityNTCollection);//浏览mUserEntityCollection中的数据内容
 		return mUserEntityNTCollection;
 	}
 
 	public void readFromXmlFile(GetUserNTList.Params params){
-		ALog.Log(TAG+"readFromXmlFile");
+//		ALog.Log(TAG+"readFromXmlFile");
 		String fileName = NoviceAssetsXmlDir + File.separator + params.getFileName();
 		try {
 			mInputStream = mAssetManager.open(fileName);
@@ -160,7 +159,7 @@ public class XmlOperator {
 	 * @throws ParseException
 	 */
 	private void parseTagItem(XmlPullParser parser, final String FIRST_TAG_NAME, GetUserNTList.Params params) throws XmlPullParserException,IOException,ParseException {
-		ALog.Log(TAG + "parseTagItem: "+FIRST_TAG_NAME);
+//		ALog.Log(TAG + "parseTagItem: "+FIRST_TAG_NAME);
 		int type;
 		UserEntityNT mUserEntityNT = new UserEntityNT();
 		String tag = null,value = null;
@@ -173,7 +172,7 @@ public class XmlOperator {
 				case XmlPullParser.TEXT:
 					if(null == tag)break;
 					value = parser.getText().trim();
-					ALog.Log(TAG+"tag: "+tag+" val: "+value);
+//					ALog.Log(TAG+"tag: "+tag+" val: "+value);
 					if(params.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1){
 						XmlItemTags.LEVEL1_ITEM_TAGS.setTagValue(mUserEntityNT,tag,value);
 						if(tag.equals(XmlItemTags.LEVEL1_ITEM_TAGS.FIRST_ELEMENT_TAGS[0])){

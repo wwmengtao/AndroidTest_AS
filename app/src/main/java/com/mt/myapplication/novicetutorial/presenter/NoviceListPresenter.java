@@ -28,7 +28,6 @@ import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserNTDetails;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList.Params;
-import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataNTMapper;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
@@ -203,7 +202,7 @@ public class NoviceListPresenter implements Presenter {
             event.getEventType() != MessageEvent.EVENT_TYPE.FROM_DETAILVIEW)return;
     int currentIndex = event.getCurrentIndex();
     mNoviceRecyclerView.setCurrentItemBackGround(currentIndex);
-    ALog.Log1(TAG+"_onMessage_currentIndex: "+currentIndex);
+//    ALog.Log1(TAG+"_onMessage_currentIndex: "+currentIndex);
   }
 
   /**
@@ -211,7 +210,7 @@ public class NoviceListPresenter implements Presenter {
    * @param mUserModelNT
    */
   public void updateUserEntityNT(UserModelNT mUserModelNT){
-    ALog.Log(TAG+"_NoviceListPresenter_updateUserEntityNT: "+mUserModelNT.toString());
+//    ALog.Log(TAG+"_NoviceListPresenter_updateUserEntityNT: "+mUserModelNT.toString());
     this.mParams = new GetUserNTList.Params();
     this.mParams.setDataType(Params.DataType.COLLECTION_DATA_LEVEL1);
     this.mParams.setTableName(ROOT_XMLFILE_NAME.replace(".xml",""));
@@ -224,19 +223,19 @@ public class NoviceListPresenter implements Presenter {
     @Override public void onNext(UserNT mUserNT) {
       // no-op by default.
       if(null != mUserNT){
-        ALog.Log(TAG+"_onNext: "+mUserNT.getIndex());
+//        ALog.Log(TAG+"_onNext: "+mUserNT.getIndex());
         returnCurrentIndexToCaller(mUserNT.getIndex());
       }
     }
 
     @Override public void onComplete() {
       // no-op by default.
-      ALog.Log(TAG+"_onComplete");
+//      ALog.Log(TAG+"_onComplete");
     }
 
     @Override public void onError(Throwable exception) {
       // no-op by default.
-      ALog.Log(TAG+"_onError");
+//      ALog.Log(TAG+"_onError");
     }
   }
 

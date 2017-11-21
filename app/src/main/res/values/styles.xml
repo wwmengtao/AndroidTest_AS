@@ -104,7 +104,7 @@
         <item name="colorPrimaryDark">@color/darkblue</item><!--colorPrimaryDark定义状态栏背景色-->
         <item name="colorPrimary">@color/royalblue</item><!--colorPrimary定义工具栏(ActionBar所在区域)背景色-->
         <item name="android:textViewStyle">@style/TextView_NoviceTutorial</item><!--菜单文字的显示样式-->
-        <item name="android:actionBarItemBackground">@color/green</item><!--ActionBar中Menu(非MenuItem)的背景色-->
+        <!--<item name="android:actionBarItemBackground">@color/green</item>&lt;!&ndash;ActionBar中Menu(非MenuItem)的背景色&ndash;&gt;-->
         <item name="textAppearanceLargePopupMenu">@style/MenuItemTextStyle</item><!--ActionBar中MenuItem的文字样式-->
         <item name="android:textColor">@color/black</item><!--定义诸如ViewPager或者DetailActivity中显示的字体颜色-->
         <item name="android:colorBackground">@color/white</item><!--ContentView部分的背景色-->

@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mt.androidtest_as.R;
-import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 
 import javax.inject.Inject;
@@ -23,6 +22,7 @@ public class UserAdapterList extends UserAdapterGrid {
     @Override
     public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = this.layoutInflater.inflate(R.layout.item_novice_list, parent, false);
+        setViewOptimalHeight(view);
         return new UserViewHolder(view);
     }
 

@@ -23,7 +23,6 @@ import com.fernandocejas.android10.sample.domain.exception.ErrorBundle;
 import com.fernandocejas.android10.sample.domain.interactor.DefaultObserver;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList.Params;
-import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.exception.ErrorMessageFactory;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.mapper.UserModelDataNTMapper;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
@@ -105,7 +104,7 @@ public class NoviceGridPresenter implements Presenter {
     final Collection<UserModelNT> userModelsCollection =
             this.mUserModelDataNTMapper.transform(usersCollection);
     this.mNoviceRecyclerView.setUserList(userModelsCollection);
-    ALog.visitCollection2(TAG, userModelsCollection);
+//    ALog.visitCollection2(TAG, userModelsCollection);
   }
 
   //获取数据
@@ -128,7 +127,7 @@ public class NoviceGridPresenter implements Presenter {
 
     @Override public void onNext(List<UserNT> users) {
       NoviceGridPresenter.this.showUsersCollectionInView(users);
-      ALog.visitCollection(TAG+"_onNext", users);
+//      ALog.visitCollection(TAG+"_onNext", users);
     }
   }
 
@@ -137,7 +136,7 @@ public class NoviceGridPresenter implements Presenter {
     if(event.getEventType() != MessageEvent.EVENT_TYPE.FROM_LISTVIEW)return;
     int currentIndex = event.getCurrentIndex();
     mNoviceRecyclerView.setCurrentItemBackGround(currentIndex);
-    ALog.Log1("NoviceGridPresenter_onMessage_currentIndex: "+currentIndex);
+//    ALog.Log1(TAG+"_onMessage_currentIndex: "+currentIndex);
   }
 
   @Override

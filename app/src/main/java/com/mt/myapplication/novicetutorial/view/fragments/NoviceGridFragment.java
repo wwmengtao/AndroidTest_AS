@@ -3,6 +3,7 @@ package com.mt.myapplication.novicetutorial.view.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,7 +15,6 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.mt.androidtest_as.R;
-import com.mt.androidtest_as.alog.ALog;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceGridPresenter;
@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerView{
+    private static final String TAG = "NoviceGridFragment";
     public Unbinder unbinder;
     Activity mActivity = null;
     @Inject Context mContext;
@@ -72,6 +73,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
         super.onCreateView(inflater,container,savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_novice_recview, container, false);
         unbinder = ButterKnife.bind(this, v);
+        setupRecyclerView();
         return v;
     }
 
@@ -79,15 +81,7 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
         super.onViewCreated(view, savedInstanceState);
         this.mNoviceGridPresenter.setView(this);
         if (savedInstanceState == null) {
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                mUserAdapterGrid.setRootViewHeight(view.getHeight());
-                setupRecyclerView();
-                NoviceGridFragment.this.loadUserList();
-                ALog.Log("v.getHeight: "+view.getHeight());
-            }
-        });
+            this.loadUserList();
         }
     }
 
@@ -119,22 +113,33 @@ public class NoviceGridFragment extends BaseFragment implements NoviceRecyclerVi
         mUserAdapterGrid.setOnItemClickListener(this);
         mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         mUserAdapterGrid.setLayoutManagerSpanCount(3);
-        mRecyclerView.setAdapter(mUserAdapterGrid);
         //以下设置分隔符
+        Drawable divider = getContext().getResources().getDrawable(R.drawable.novicedividergrid);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mActivity,DividerItemDecoration.HORIZONTAL);
         mDividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.novicedividergrid));
         mRecyclerView.addItemDecoration(mDividerItemDecoration);
-        mUserAdapterGrid.setDividerItemDecorationHeight(getContext().getResources().getDrawable(R.drawable.novicedividergrid).getIntrinsicHeight());
+        mUserAdapterGrid.setDividerItemDecorationHeight(divider.getIntrinsicHeight());
         mDividerItemDecoration = new DividerItemDecoration(mActivity,DividerItemDecoration.VERTICAL);
-        mDividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.novicedividergrid));
+        mDividerItemDecoration.setDrawable(divider);
         mRecyclerView.addItemDecoration(mDividerItemDecoration);
+        //
+        mRecyclerView.setAdapter(mUserAdapterGrid);
     }
 
     @Override
-    public void setUserList(Collection<UserModelNT> userModelCollection) {
+    public void setUserList(final Collection<UserModelNT> userModelCollection) {
         if (userModelCollection != null) {
             this.mUserAdapterGrid.setUsersCollection(userModelCollection);
         }
+        final View rootView = this.getView();
+        rootView.post(new Runnable() {
+            @Override
+            public void run() {
+//                ALog.Log(TAG+"_rootView.getHeight(): "+rootView.getHeight());
+                NoviceGridFragment.this.mUserAdapterGrid.setRootViewHeight(rootView.getHeight());
+                NoviceGridFragment.this.mUserAdapterGrid.setUsersCollection(userModelCollection);
+            }
+        });
     }
 
     @Override

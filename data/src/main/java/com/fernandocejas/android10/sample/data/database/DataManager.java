@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.database.DbSchema.DbCursorWrapper;
 import com.fernandocejas.android10.sample.data.database.xmlOps.XmlOperator;
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
@@ -46,7 +45,7 @@ public class DataManager {
      * @return
      */
     public UserEntityNT UserEntityNTXml(GetUserNTList.Params params) {
-        ALog.Log(TAG + "UserEntityXml: "+params.getKey());
+//        ALog.Log(TAG + "UserEntityXml: "+params.getKey());
         return null;
     }
 
@@ -56,7 +55,7 @@ public class DataManager {
      * @return
      */
     public Collection<UserEntityNT> UserEntityNTCollectionXml(GetUserNTList.Params params) {
-        ALog.Log(TAG + "UserEntityCollectionXml: "+params.getFileName());
+//        ALog.Log(TAG + "UserEntityCollectionXml: "+params.getFileName());
         return mXmlOperator.UserEntityNTCollectionXml(params);
     }
 
@@ -67,7 +66,7 @@ public class DataManager {
      * @return
      */
     public Collection<UserEntityNT> query(GetUserNTList.Params params){
-        ALog.Log(TAG+"query: "+params.toString());
+//        ALog.Log(TAG+"query: "+params.toString());
 //        ALog.sleep(2000);//为了测试主界面的ProgressBar的效果添加的
         mData.clear();
         DbCursorWrapper cursor = queryTableData(null, null, params);
@@ -80,7 +79,7 @@ public class DataManager {
         }finally {
             cursor.close();
         }
-        if(params.getTableName().equals("xmlfiles"))ALog.visitCollection("currentIndex_"+TAG, mData);
+//        if(params.getTableName().equals("xmlfiles"))ALog.visitCollection(TAG+"xmlfiles data:", mData);
         return mData;
     }
 
@@ -108,7 +107,7 @@ public class DataManager {
     }
 
     public UserEntityNT query(String key, GetUserNTList.Params mParams){
-        ALog.Log(TAG+"query: "+key+" "+mParams.toString());
+//        ALog.Log(TAG+"query: "+key+" "+mParams.toString());
 //        ALog.sleep(2000);//为了测试主界面的ProgressBar的效果添加的
         DbCursorWrapper cursor = queryTableData(DbSchema.Level1TitleTable.Cols.KEY+" = ?", new String[]{key}, mParams);
         UserEntityNT mUserEntityNT=null;
@@ -131,7 +130,7 @@ public class DataManager {
      * @param mParams
      */
     public void put(Collection<UserEntityNT> mUserEntityCollection, GetUserNTList.Params mParams){
-        ALog.Log(TAG+"put_Collection: "+exists(mParams));
+//        ALog.Log(TAG+"put_Collection: "+exists(mParams));
         if(mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1 &&
                 mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2)return;
         if(null != mUserEntityCollection && mUserEntityCollection.size() > 0){
@@ -143,13 +142,13 @@ public class DataManager {
     }
 
     public void put(UserEntityNT mUserEntity, GetUserNTList.Params mParams){
-        ALog.Log(TAG+"put: "+exists(mParams));
+//        ALog.Log(TAG+"put: "+exists(mParams));
         String dbTableName = mParams.getTableName();
         mSQLiteDatabase.insert(dbTableName, null, DbSchema.getContentValues(mUserEntity, mParams));
     }
 
     public void update(UserEntityNT mUserEntity, GetUserNTList.Params mParams){
-        ALog.Log(TAG+"update: "+mUserEntity.toString());
+//        ALog.Log(TAG+"update: "+mUserEntity.toString());
         String dbTableName = mParams.getTableName();
         if(mParams.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1){
             mSQLiteDatabase.update(dbTableName, DbSchema.getContentValues(mUserEntity, mParams),
