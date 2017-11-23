@@ -78,6 +78,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Start NotificationActivity!"/>
+            <Button
+                android:id="@+id/btn12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start NotificationCompatActivity!"/>
+
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

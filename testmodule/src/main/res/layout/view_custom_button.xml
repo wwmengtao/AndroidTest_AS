@@ -2,25 +2,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@color/black">
 
     <ImageView
         android:id="@+id/custom_song_icon"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/sing_icon" />
+        android:src="@drawable/sing_icon"/>
 
     <LinearLayout
         android:id="@+id/ll_custom_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_height="64dp"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5dip"
+        android:layout_marginStart="5dip"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/btn_custom_prev"
@@ -42,13 +43,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="64dp"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="5dip"
-        android:layout_marginLeft="5dip"
         android:layout_marginTop="5dip"
-        android:layout_toLeftOf="@id/ll_custom_button"
-        android:layout_toRightOf="@id/custom_song_icon"
+        android:layout_marginBottom="5dip"
+        android:layout_marginStart="5dip"
+        android:layout_toStartOf="@id/ll_custom_button"
+        android:layout_toEndOf="@id/custom_song_icon"
         android:orientation="vertical" >
 
         <TextView
@@ -56,7 +57,9 @@
             style="@style/NotificationTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_marginTop="5dip"
+            android:layout_marginBottom="5dip"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:text="title"
             android:textSize="15sp" />
@@ -66,8 +69,10 @@
             style="@style/NotificationContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dip"
+            android:layout_marginBottom="5dip"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:text="content"
             android:textSize="12sp" />
     </RelativeLayout>

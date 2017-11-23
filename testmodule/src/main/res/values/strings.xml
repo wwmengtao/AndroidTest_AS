@@ -1,4 +1,10 @@
-<resources>
-    <string name="app_name">TestModule</string>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Moto</string>
     <string name="action_settings">Settings</string>
+    <string name="unplugged">Unplugged</string>
+    <string name="unplugged_content">Stay away from unwanted notifications and be more present in the moment.</string>
+    <string name="pip_notification_title"><xliff:g id="name" example="Google Maps">%s</xliff:g> is in picture-in-picture</string>
+    <string name="pip_notification_message">BigTextStyle类型的通知可以显示很长的文本，示例如下：\nIf you don\'t want <xliff:g id="name" example="Google Maps">%s</xliff:g> to use this feature, tap to open settings and turn it off.\nMaterial icons use geometric shapes to visually represent core ideas, capabilities, or topics.\nProduct icons
+Product icons are the visual expression of a brand’s products, services, and tools. Simple, bold, and friendly, they communicate the core idea and intent of a product. While each product icon is visually distinct, all product icons for a given brand should be unified through concept and execution.
+Use these guidelines as a starting point to ensure that your product icon colors and key elements reflect your brand identity.</string>
 </resources>

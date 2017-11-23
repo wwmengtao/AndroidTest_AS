@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.testmodule.notification.NotificationActivity;
+import com.example.testmodule.notification.NotificationCompatActivity;
 import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.database.DataManager;
 import com.fernandocejas.android10.sample.data.database.DbSchema;
@@ -125,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btn11)
     public void onClick11(){
         startActivity(NotificationActivity.getCallingIntent(this));
+    }
+
+    @OnClick(R.id.btn12)
+    public void onClick12(){
+        startActivity(NotificationCompatActivity.getCallingIntent(this));
     }
 
     @OnClick(R.id.btn10)

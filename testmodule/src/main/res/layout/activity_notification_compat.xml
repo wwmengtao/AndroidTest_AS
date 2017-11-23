@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.testmodule.notification.NotificationActivity">
+    tools:context="com.example.testmodule.notification.NotificationCompatActivity">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -22,25 +22,7 @@
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RemoteViews"/>
-
-            <Button
-                android:id="@+id/btn3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="BigTextStyle"/>
-
-            <Button
-                android:id="@+id/btn4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="BigPictureStyle"/>
-
-            <Button
-                android:id="@+id/btn5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="InboxStyle "/>
+                android:text="notification2"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
