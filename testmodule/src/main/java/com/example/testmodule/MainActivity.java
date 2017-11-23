@@ -9,10 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.testmodule.notification.NotificationActivity;
 import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.database.DataManager;
-import com.fernandocejas.android10.sample.data.database.DbSchema.DbCursorWrapper;
 import com.fernandocejas.android10.sample.data.database.DbSchema;
+import com.fernandocejas.android10.sample.data.database.DbSchema.DbCursorWrapper;
 import com.fernandocejas.android10.sample.data.database.xmlOps.XmlOperator;
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
 import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
@@ -119,6 +120,11 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btn9)
     public void onClick9(View view){
         startActivity(EventBusActivity.getCallingIntent(this));
+    }
+
+    @OnClick(R.id.btn11)
+    public void onClick11(){
+        startActivity(NotificationActivity.getCallingIntent(this));
     }
 
     @OnClick(R.id.btn10)

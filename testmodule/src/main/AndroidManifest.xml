@@ -25,7 +25,8 @@
         <activity
             android:name=".EventBusActivity"
             android:label="EventBusActivity" />
-        <activity android:name=".XmlParserActivity"></activity>
+        <activity android:name=".XmlParserActivity" />
+        <activity android:name=".notification.NotificationActivity"></activity>
     </application>
 
 </manifest>

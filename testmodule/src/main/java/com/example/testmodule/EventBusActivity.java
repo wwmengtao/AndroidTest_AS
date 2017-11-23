@@ -3,12 +3,11 @@ package com.example.testmodule;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class EventBusActivity extends AppCompatActivity {
+public class EventBusActivity extends BaseAcitivity {
     private Unbinder mUnbinder;
 
     public static Intent getCallingIntent(Context context) {
