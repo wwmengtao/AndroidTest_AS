@@ -1,29 +1,24 @@
 package com.example.testmodule.notification;
 
 import android.app.Notification;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.MainActivity;
 import com.example.testmodule.R;
 
-public class NotificationOreoActivity extends AppCompatActivity {
+public class NotificationOreoActivity extends BaseAcitivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int notification_one = 101;
     private static final int notification_two = 102;
     private MainUi mainUI;
-
     private NotificationHelper notificationHelper;
 
-    public static Intent getCallingIntent(Context context) {
-        return new Intent(context, NotificationOreoActivity.class);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

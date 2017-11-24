@@ -13,11 +13,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RemoteViews;
 
+import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.fernandocejas.android10.sample.data.ALog;
 
@@ -30,7 +30,7 @@ import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-public class NotificationActivity extends AppCompatActivity {
+public class NotificationActivity extends BaseAcitivity {
     private static final String NOTIFICATION_ID="TestModule.Notification";
     private Unbinder mUnbinder;
     private NotificationManager mNotificationManager = null;
@@ -40,10 +40,6 @@ public class NotificationActivity extends AppCompatActivity {
     @BindView(R.id.btn3) Button btn3;
     @BindView(R.id.btn4) Button btn4;
     @BindView(R.id.btn5) Button btn5;
-
-    public static Intent getCallingIntent(Context context) {
-        return new Intent(context, NotificationActivity.class);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

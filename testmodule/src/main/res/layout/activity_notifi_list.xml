@@ -16,30 +16,22 @@
                 android:id="@+id/btn1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SQLiteActivity!"/>
+                android:text="NotificationActivity!"/>
             <Button
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="WebViewActivity!"/>
-
+                android:text="NotificationCompatActivity!"/>
             <Button
                 android:id="@+id/btn3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="EventBusActivity!"/>
-
+                android:text="NotificationCompat2Activity!"/>
             <Button
                 android:id="@+id/btn4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="XmlParserActivity!"/>
-
-            <Button
-                android:id="@+id/btn5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="NotifiListActivity!"/>
+                android:text="NotificationOreoActivity!"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

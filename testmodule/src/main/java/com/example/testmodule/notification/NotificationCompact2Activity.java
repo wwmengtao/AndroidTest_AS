@@ -1,27 +1,22 @@
 package com.example.testmodule.notification;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.RemoteInput;
-import android.support.v7.app.AppCompatActivity;
 
+import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.util.NotificationUtil;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NotificationCompact2Activity extends AppCompatActivity {
+public class NotificationCompact2Activity extends BaseAcitivity {
 
     NotificationUtil mNotificationUtil;
 
     public static final String EXTRA_MESSAGE =
             "com.hitherejoe.notifi.ui.main.MessageActivity.EXTRA_MESSAGE";
-
-    public static Intent getCallingIntent(Context context) {
-        return new Intent(context, NotificationCompact2Activity.class);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

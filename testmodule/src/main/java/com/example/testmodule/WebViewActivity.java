@@ -1,9 +1,6 @@
 package com.example.testmodule;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -14,7 +11,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class WebViewActivity extends AppCompatActivity {
+public class WebViewActivity extends BaseAcitivity {
     private Unbinder mUnbinder;
     @BindView(R.id.rl)
     LinearLayout ll;
@@ -24,10 +21,6 @@ public class WebViewActivity extends AppCompatActivity {
     WebView wv2;
     @BindView(R.id.btn)
     Button btn;
-
-    public static Intent getCallingIntent(Context context) {
-        return new Intent(context, WebViewActivity.class);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

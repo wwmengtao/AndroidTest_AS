@@ -1,10 +1,7 @@
 package com.example.testmodule;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Xml;
 import android.view.View;
 import android.widget.Button;
@@ -24,20 +21,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class XmlParserActivity extends AppCompatActivity {
+public class XmlParserActivity extends BaseAcitivity {
     private static final String TAG = "XmlParserActivity";
     private Unbinder mUnbinder;
     private AssetManager mAssetManager = null;
     private String ioEncoding="UTF-8";
     private InputStream mInputStream=null;
     public static final String NoviceAssetsXmlDir = "novicetutorial"+File.separator+"xmlfiles";//玩家教程存储xml文件的Assets根目录
-
-
     @BindView(R.id.btn) Button btn;
-
-    public static Intent getCallingIntent(Context context) {
-        return new Intent(context, XmlParserActivity.class);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

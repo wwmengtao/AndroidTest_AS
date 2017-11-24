@@ -4,14 +4,13 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.fernandocejas.android10.sample.data.ALog;
 
@@ -20,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class NotificationCompatActivity extends AppCompatActivity {
+public class NotificationCompatActivity extends BaseAcitivity {
     private static final String NOTIFICATION_ID="TestModule.Notification";
     private Unbinder mUnbinder;
     private NotificationManager mNotificationManager = null;
@@ -28,9 +27,6 @@ public class NotificationCompatActivity extends AppCompatActivity {
     private NotificationCompat.Builder mCompatBuilder;
     @BindView(R.id.btn1) Button btn1;
     @BindView(R.id.btn2) Button btn2;
-    public static Intent getCallingIntent(Context context) {
-        return new Intent(context, NotificationCompatActivity.class);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
