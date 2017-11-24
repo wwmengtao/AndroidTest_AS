@@ -25,7 +25,6 @@ public class NotificationActivity extends BaseAcitivity {
     @BindView(R.id.btn1) Button btn1;
     @BindView(R.id.btn2) Button btn2;
     @BindView(R.id.btn3) Button btn3;
-    @BindView(R.id.btn32) Button btn32;
     @BindView(R.id.btn4) Button btn4;
     @BindView(R.id.btn5) Button btn5;
 
@@ -38,7 +37,6 @@ public class NotificationActivity extends BaseAcitivity {
         btn1.setTag(false);
         btn2.setTag(false);
         btn3.setTag(false);
-        btn32.setTag(false);
         btn4.setTag(false);
         btn5.setTag(false);
 
@@ -96,17 +94,6 @@ public class NotificationActivity extends BaseAcitivity {
             btn3.setTag(false);
         }
     }
-//
-//    @OnClick(R.id.btn32)
-//    public void onClick32(View view){
-//        if(!(Boolean) btn3.getTag()){
-//            showBigTextStyleNotification2(this, 32);
-//            btn3.setTag(true);
-//        }else{
-//            cancelNotification(this, 32);
-//            btn3.setTag(false);
-//        }
-//    }
 
     NotificationImpl mNotificationImpl4 = null;
     @OnClick(R.id.btn4)
@@ -126,7 +113,7 @@ public class NotificationActivity extends BaseAcitivity {
     public void onClick5(View view){
         if(null == mNotificationImpl5)mNotificationImpl5 = getNotificationImpl5();
         if(!(Boolean) btn5.getTag()){
-            mNotificationImpl5.sendNotify(4);
+            mNotificationImpl5.sendNotify(5);
             btn5.setTag(true);
         }else{
             mNotificationImpl5.cancelNotify();
@@ -170,9 +157,10 @@ public class NotificationActivity extends BaseAcitivity {
         //
         final String message = getString(R.string.pip_notification_message);
         Notification.BigTextStyle nbts = new Notification.BigTextStyle().bigText(message);
-        nbts.setSummaryText("描述：可以通过点击向下箭头查看此信息以及设置的大图片");
         nbts.setBigContentTitle("BigTextStyle.setBigContentTitle");
+        nbts.setSummaryText("BigTextStyle.setSummaryText");
         mNotificationImpl.setBigTextStyle(nbts);
+
         return mNotificationImpl;
     }
 
@@ -265,6 +253,8 @@ public class NotificationActivity extends BaseAcitivity {
         Notification.BigPictureStyle nbps=new Notification.BigPictureStyle()
                                             .bigLargeIcon(bigLargeIcon)
                                             .bigPicture(bigPicture);
+        nbps.setBigContentTitle("BigPictureStyle.setBigContentTitle");
+        nbps.setSummaryText("BigPictureStyle.setSummaryText");
         mNotificationImpl.setBigPictureStyle(nbps);
         return mNotificationImpl;
     }
@@ -284,47 +274,15 @@ public class NotificationActivity extends BaseAcitivity {
                                 "4.同BigTextStyle 低版本上系统只能显示普通样式.",
                                 "5.Images have four channels, RGBA (red / green / blue / alpha).\n For notification icons, Android ignores the \nR, G, and B channels. ",
                                 "6.How Alpha values generate a greyscale image:"};
-        Notification.InboxStyle mInboxStyle=new Notification.InboxStyle();
+        Notification.InboxStyle ibs=new Notification.InboxStyle();
         for (String conntent : conntents) {
-            mInboxStyle.addLine(conntent);
+            ibs.addLine(conntent);
         }
-        mInboxStyle.setSummaryText(conntents.length+"条消息");
-        mInboxStyle.setBigContentTitle("InboxStyle标题");
-        mNotificationImpl.setInboxStyle(mInboxStyle);
+//        ibs.setSummaryText(conntents.length+"条消息");
+        ibs.setBigContentTitle("InboxStyle.setBigContentTitle");
+        ibs.setSummaryText("InboxStyle.setSummaryText");
+        mNotificationImpl.setInboxStyle(ibs);
         return mNotificationImpl;
     }
-//
-//    private void showInboxStyleNotification(Context mContext, int id) {
-//        //大图
-//        String []conntents = {"1.注意事项:",
-//                                "2.InboxStyle每行内容过长时不会自动换行",
-//                                "3.InboxStyle.addline可以添加多行，但是多余5行的时候每行高度会有截断",
-//                                "4.同BigTextStyle 低版本上系统只能显示普通样式.",
-//                                "5.Images have four channels, RGBA (red / green / blue / alpha).\n For notification icons, Android ignores the \nR, G, and B channels. ",
-//                                "6.How Alpha values generate a greyscale image:"};
-//        //
-//        Notification.Builder mBuilder = new Notification.Builder(mContext);
-//        mBuilder.setSmallIcon(R.drawable.ic_phonelink_ring_primary_24dp);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            mBuilder.setColorized(true);
-//        }
-//        mBuilder.setColor(getResources().getColor(R.color.greenyellow));
-//        Notification.InboxStyle mInboxStyle=new Notification.InboxStyle(mBuilder);
-//        for (String conntent : conntents) {
-//            mInboxStyle.addLine(conntent);
-//        }
-//        mInboxStyle.setSummaryText(conntents.length+"条消息");
-//        mInboxStyle.setBigContentTitle("InboxStyle标题");
-//        mBuilder.setStyle(mInboxStyle);
-//        try {
-//            NotificationImpl.setNotificationChannel(mNotificationManager, mBuilder);
-//            Notification notification = mBuilder.build();
-//            mNotificationManager.notify(NOTIFICATION_ID, id, notification);
-//        } catch (Exception npe) {
-//            ALog.Log("setNotificationChannel");
-//            npe.printStackTrace();
-//        }
-//    }
-
 
 }
