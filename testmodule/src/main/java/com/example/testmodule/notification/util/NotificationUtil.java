@@ -271,14 +271,18 @@ public class NotificationUtil {
     private void showNotification(Context context, Notification.Builder builder, int id) {
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationImpl.setNotificationChannel(mNotificationManager,builder);
-        mNotificationManager.notify(id, builder.build());
+        NotificationImpl mNotificationImpl = new NotificationImpl(context);
+        mNotificationImpl.setNotificationManager(mNotificationManager);
+        mNotificationImpl.setNotificationBuilder(builder);
+        mNotificationImpl.sendNotify(id);
     }
 
     private void showNotification(Context context, NotificationCompat.Builder builder, int id) {
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationImpl.setNotificationChannel(mNotificationManager,builder);
-        mNotificationManager.notify(id, builder.build());
+        NotificationImpl mNotificationImpl = new NotificationImpl(context);
+        mNotificationImpl.setNotificationManager(mNotificationManager);
+        mNotificationImpl.setNotificationCompatBuilder(builder);
+        mNotificationImpl.sendNotify(id);
     }
 }

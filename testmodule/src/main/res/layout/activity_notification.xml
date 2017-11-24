@@ -16,31 +16,37 @@
                 android:id="@+id/btn1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="notification"/>
+                android:text="一般通知"/>
 
             <Button
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RemoteViews"/>
+                android:text="自定义通知"/>
 
             <Button
                 android:id="@+id/btn3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="BigTextStyle"/>
+                android:text="BigTextStyle通知"/>
+
+            <Button
+                android:id="@+id/btn32"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BigTextStyle通知2"/>
 
             <Button
                 android:id="@+id/btn4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="BigPictureStyle"/>
+                android:text="BigPictureStyle通知"/>
 
             <Button
                 android:id="@+id/btn5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="InboxStyle "/>
+                android:text="InboxStyle通知"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

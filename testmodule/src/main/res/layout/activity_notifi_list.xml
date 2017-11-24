@@ -16,22 +16,22 @@
                 android:id="@+id/btn1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="NotificationActivity!"/>
+                android:text="使用Notification.Builder的通知"/>
             <Button
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="NotificationCompatActivity!"/>
+                android:text="使用NotificationCompat.Builder的通知"/>
             <Button
                 android:id="@+id/btn3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="NotificationCompat2Activity!"/>
+                android:text="使用混合Builder的通知"/>
             <Button
                 android:id="@+id/btn4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="NotificationOreoActivity!"/>
+                android:text="针对Android O的通知"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

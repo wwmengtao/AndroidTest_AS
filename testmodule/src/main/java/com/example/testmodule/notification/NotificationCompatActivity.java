@@ -93,7 +93,7 @@ public class NotificationCompatActivity extends BaseAcitivity {
         mCompatBuilder.setLocalOnly(true);
         mCompatBuilder.setPriority(Notification.PRIORITY_DEFAULT);
         mCompatBuilder.setDefaults(Notification.DEFAULT_ALL);
-        NotificationImpl.setNotificationChannel(mNotificationManager, mCompatBuilder);
+//        NotificationImpl.setNotificationChannel(mNotificationManager, mCompatBuilder);
         Notification mNotification = mCompatBuilder.build();
         try {
             mNotificationManager.notify(NOTIFICATION_ID, id, mNotification);
@@ -105,7 +105,7 @@ public class NotificationCompatActivity extends BaseAcitivity {
     private ButtonBCReceiver mReceiver;
     private void showNotification2(Context mContext,int id,PendingIntent intent) {
         mReceiver = ButtonBCReceiver.getSwitchBroadcastReceiver(this);
-        NotificationImpl.showButtonNotify(mContext, mNotificationManager, NOTIFICATION_ID, id);
+//        NotificationImpl.showButtonNotify(mContext, mNotificationManager, NOTIFICATION_ID, id);
     }
 
     public void cancelNotification(Context mContext,int id){
