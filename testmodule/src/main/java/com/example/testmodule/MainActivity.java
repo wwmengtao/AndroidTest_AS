@@ -6,11 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.testmodule.notification.NotificationActivity;
+import com.example.testmodule.notification.NotificationCompact2Activity;
 import com.example.testmodule.notification.NotificationCompatActivity;
+import com.example.testmodule.notification.NotificationOreoActivity;
 import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.database.DataManager;
 import com.fernandocejas.android10.sample.data.database.DbSchema;
@@ -29,12 +30,6 @@ import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    @BindView(R.id.btn1)    Button btn1;
-    @BindView(R.id.btn2)    Button btn2;
-    @BindView(R.id.btn3)    Button btn3;
-    @BindView(R.id.btn4)    Button btn4;
-    @BindView(R.id.btn5)    Button btn5;
-
     @BindView(R.id.tv)    TextView tv;
 
     private Unbinder mUnbinder;
@@ -132,6 +127,16 @@ public class MainActivity extends AppCompatActivity {
     public void onClick12(){
         startActivity(NotificationCompatActivity.getCallingIntent(this));
     }
+    @OnClick(R.id.btn13)
+    public void onClick13(){
+        startActivity(NotificationCompact2Activity.getCallingIntent(this));
+    }
+
+    @OnClick(R.id.btn14)
+    public void onClick14(){
+        startActivity(NotificationOreoActivity.getCallingIntent(this));
+    }
+
 
     @OnClick(R.id.btn10)
     public void onClick10(View view){

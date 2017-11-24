@@ -1,5 +1,6 @@
 package com.example.testmodule.notification;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -86,7 +87,7 @@ public class NotificationActivity extends AppCompatActivity {
     @OnClick(R.id.btn2)
     public void onClick2(View view){
         if(!(Boolean) btn2.getTag()){
-            showNotification2(this, 2 ,null);
+            RemoteViewsNotification(this, 2 ,null);
             btn2.setTag(true);
         }else{
             cancelNotification(this, 2);
@@ -127,11 +128,12 @@ public class NotificationActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("NewApi")
     private void showNotification(Context mContext, int id, PendingIntent intent) {
         CharSequence title = "Moto";
         CharSequence title2 = getResources().getString(R.string.unplugged);
         CharSequence text = getResources().getString(R.string.unplugged_content);
-        int smallIcon = R.drawable.moto2;
+        int smallIcon = R.drawable.moto;
         Notification.Builder mBuilder = new Notification.Builder(mContext);
         mBuilder.setShowWhen(true);
         mBuilder.setWhen(System.currentTimeMillis());
@@ -141,22 +143,30 @@ public class NotificationActivity extends AppCompatActivity {
         mBuilder.setContentText(text);
         mBuilder.setContentIntent(intent);
         mBuilder.setSmallIcon(smallIcon);
-        mBuilder.setColor(getResources().getColor(R.color.white, null));//设置smallIcon的背景色)
+        mBuilder.setColor(getResources().getColor(R.color.royalblue, null));//设置smallIcon的背景色)
         mBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.cat));
         mBuilder.setOnlyAlertOnce(true);
         mBuilder.setLocalOnly(true);
         mBuilder.setPriority(Notification.PRIORITY_DEFAULT);
         mBuilder.setDefaults(Notification.DEFAULT_ALL);
-        NotificationImpl.setNotificationChannel(mNotificationManager, mBuilder);
-        Notification mNotification = mBuilder.build();
+        Intent yesReceive = new Intent();
+        String YES_ACTION = "YES_ACTION";
+        yesReceive.setAction(YES_ACTION);
+        PendingIntent pendingIntentYes = PendingIntent.getBroadcast(this, 12345, yesReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.addAction(R.drawable.alert, "Yes", pendingIntentYes);
+        mBuilder.addAction(R.drawable.warning, "No", pendingIntentYes);
+
         try {
+            NotificationImpl.setNotificationChannel(mNotificationManager, mBuilder);
+            Notification mNotification = mBuilder.build();
             mNotificationManager.notify(NOTIFICATION_ID, id, mNotification);
         } catch (NullPointerException npe) {
             npe.printStackTrace();
         }
     }
 
-    private void showNotification2(Context mContext,int id,PendingIntent intent) {
+    @SuppressLint("NewApi")
+    private void RemoteViewsNotification(Context mContext, int id, PendingIntent intent) {
         int smallIcon = R.drawable.number2_b;
         Notification.Builder mBuilder = new Notification.Builder(mContext);
         mBuilder.setContent(getRemoteViews());
@@ -190,7 +200,8 @@ public class NotificationActivity extends AppCompatActivity {
         mRemoteViews.setTextViewText(R.id.text, text);
         return mRemoteViews;
     }
-
+    
+    @SuppressLint("NewApi")
     private void showBigTextStyleNotification(Context mContext, int id, PendingIntent intent) {
         Notification.Builder mBuilder =
                 new Notification.Builder(mContext)
@@ -243,12 +254,12 @@ public class NotificationActivity extends AppCompatActivity {
         Notification.Builder mBuilder = new Notification.Builder(mContext);
         mBuilder.setSmallIcon(R.drawable.icon);
         mBuilder.setTicker("showBigPictureStyleNotification");
-        mBuilder.setContentTitle("setContentTitle");
-        mBuilder.setContentText("setContentText");
+        mBuilder.setContentTitle("BigPictureStyleTitle");
+        mBuilder.setContentText("BigPictureStyleText");
         Notification.BigPictureStyle nbps=new Notification.BigPictureStyle(mBuilder)
                                             .bigLargeIcon(bigLargeIcon)
                                             .bigPicture(bigPicture);
-        nbps.setSummaryText("Summary text appears on expanding the notification");
+        nbps.setSummaryText("BigPictureStyle类型通知可以通过点击向下箭头查看此信息以及设置的大图片");
         mBuilder.setStyle(nbps);
         try {
             NotificationImpl.setNotificationChannel(mNotificationManager, mBuilder);

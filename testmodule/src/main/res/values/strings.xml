@@ -3,8 +3,31 @@
     <string name="action_settings">Settings</string>
     <string name="unplugged">Unplugged</string>
     <string name="unplugged_content">Stay away from unwanted notifications and be more present in the moment.</string>
-    <string name="pip_notification_title"><xliff:g id="name" example="Google Maps">%s</xliff:g> is in picture-in-picture</string>
-    <string name="pip_notification_message">BigTextStyle类型的通知可以显示很长的文本，示例如下：\nIf you don\'t want <xliff:g id="name" example="Google Maps">%s</xliff:g> to use this feature, tap to open settings and turn it off.\nMaterial icons use geometric shapes to visually represent core ideas, capabilities, or topics.\nProduct icons
+    <string name="pip_notification_title"><xliff:g example="Google Maps" id="name">%s</xliff:g> is in picture-in-picture</string>
+    <string name="pip_notification_message">BigTextStyle类型的通知可以显示很长的文本，示例如下：\nIf you don\'t want <xliff:g example="Google Maps" id="name">%s</xliff:g> to use this feature, tap to open settings and turn it off.\nMaterial icons use geometric shapes to visually represent core ideas, capabilities, or topics.\nProduct icons
 Product icons are the visual expression of a brand’s products, services, and tools. Simple, bold, and friendly, they communicate the core idea and intent of a product. While each product icon is visually distinct, all product icons for a given brand should be unified through concept and execution.
 Use these guidelines as a starting point to ensure that your product icon colors and key elements reflect your brand identity.</string>
+    <string name="NotificationOreoActivity">Notification Channels</string>
+    <string name="channel_one_text">Channel One</string>
+    <string name="channel_two_text">Channel Two</string>
+    <string name="button_label">Post Notification</string>
+    <string name="settings">Settings</string>
+    <string name="channel_one_body">Notification One\nThis isNotification One Body Text</string>
+    <string name="channel_two_body">Notification Two\nThis isNotification Two Body Text</string>
+    <string name="label_message">Message</string>
+
+    <string name="text_label_reply">Reply</string>
+
+    <string name="label_you_clicked">You clicked: %s</string>
+    <string name="label_you_typed">You typed: %s</string>
+
+    <string name="label_standard_notification">标准通知</string>
+    <string name="label_bundled_notification">bundled通知</string>
+    <string name="label_direct_reply_notification">可回复通知</string>
+    <string name="label_custom_content_view_notification">定制通知</string>
+    <string name="label_custom_content_big_view_notification">定制大视图通知</string>
+    <string name="label_custom_content_normal_and_big_view_notification">定制常规及大视图通知</string>
+    <string name="label_custom_media_content_view_notification">media content通知</string>
+    <string name="label_heads_up_notification">heads up通知</string>
+    <string name="label_heads_up_custom_layout_notification">定制布局heads up通知</string>
 </resources>

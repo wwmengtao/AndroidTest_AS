@@ -22,4 +22,9 @@
         <item name="android:layout_height">48dp</item>
         <item name="android:background">?android:listChoiceBackgroundIndicator</item>
     </style>
+
+    <style name="MyNotificationHeaderText">
+        <item name="android:textColor">@color/secondary_text_default_material_light_1</item>
+        <item name="android:textSize">@dimen/notification_subtext_size_1</item>
+    </style>
 </resources>
