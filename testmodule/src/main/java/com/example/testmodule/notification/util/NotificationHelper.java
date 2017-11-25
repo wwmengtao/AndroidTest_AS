@@ -1,4 +1,4 @@
-package com.example.testmodule.notification;
+package com.example.testmodule.notification.util;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -16,7 +16,7 @@ import com.example.testmodule.R;
  * Created by mengtao1 on 2017/11/24.
  */
 
-class NotificationHelper extends ContextWrapper {
+public class NotificationHelper extends ContextWrapper {
     private Context mContext;
     private NotificationManager notifManager;
     public static final String CHANNEL_ONE_ID = "com.jessicathornsby.myapplication.ONE";

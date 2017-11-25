@@ -12,32 +12,74 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:background="@color/greenyellow"
+                android:text="通知是通过Notification.Builder构建"/>
             <Button
-                android:id="@+id/btn1"
+                android:id="@+id/btn0"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="一般通知"/>
 
             <Button
-                android:id="@+id/btn2"
+                android:id="@+id/btn1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="自定义通知"/>
 
             <Button
-                android:id="@+id/btn3"
+                android:id="@+id/btn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="BigTextStyle通知"/>
 
             <Button
-                android:id="@+id/btn4"
+                android:id="@+id/btn3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="BigPictureStyle通知"/>
 
             <Button
-                android:id="@+id/btn5"
+                android:id="@+id/btn4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="InboxStyle通知"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:background="@color/royalblue"
+                android:text="通知是通过NotificationCompat.Builder构建"/>
+            <Button
+                android:id="@+id/btn100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="一般通知"/>
+
+            <Button
+                android:id="@+id/btn101"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="自定义通知"/>
+
+            <Button
+                android:id="@+id/btn102"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BigTextStyle通知"/>
+
+            <Button
+                android:id="@+id/btn103"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BigPictureStyle通知"/>
+
+            <Button
+                android:id="@+id/btn104"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="InboxStyle通知"/>

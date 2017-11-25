@@ -1,4 +1,4 @@
-package com.example.testmodule.notification;
+package com.example.testmodule.notification.notifiutils;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -16,6 +16,9 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.example.testmodule.R;
+import com.example.testmodule.notification.receiver.ButtonBCReceiver;
+import com.example.testmodule.notification.receiver.SwitchBCReceiver;
+import com.example.testmodule.notification.util.BaseTools;
 
 /**
  * Created by mengtao1 on 2017/11/23.
@@ -43,7 +46,7 @@ public class NotificationImpl {
      */
     public void initDefaultNotificationBuilder(){
         if(null != mCompatBuilder)return;//不能同时设置两个Builder
-        this.mBuilder = getNotificationBuilder(mContext);
+        this.mBuilder = getDefaultNotificationBuilder(mContext);
     }
 
     public void setNotificationBuilder(Notification.Builder mBuilder){
@@ -69,7 +72,7 @@ public class NotificationImpl {
 
     public void initDefaultNotificationCompatBuilder(){
         if(null != mBuilder)return;//不能同时设置两个Builder
-        this.mCompatBuilder = getNotificationCompatBuilder(mContext);
+        this.mCompatBuilder = getDefaultNotificationCompatBuilder(mContext);
     }
 
     public void setNotificationCompatBuilder(NotificationCompat.Builder mCompatBuilder){
@@ -210,22 +213,6 @@ public class NotificationImpl {
         return pi;
     }
 
-     /**
-     * getRemoteViews：获取特定颜色背景的通知布局
-     * @return
-     */
-     public RemoteViews getRemoteViews(){
-        CharSequence title = "Moto";
-        CharSequence title2 = mContext.getResources().getString(R.string.unplugged);
-        CharSequence text = mContext.getResources().getString(R.string.unplugged_content);
-        RemoteViews mRemoteViews = new RemoteViews(mContext.getPackageName(), R.layout.notification);
-        mRemoteViews.setImageViewResource(R.id.background, R.drawable.rectangle);
-        mRemoteViews.setTextViewText(R.id.title, title);
-        mRemoteViews.setTextViewText(R.id.title2, title2);
-        mRemoteViews.setTextViewText(R.id.text, text);
-        return mRemoteViews;
-    }
-
     /**
      * setContent：设置自定义布局视图，此操作会覆盖系统界面
      * @param mRemoteViews
@@ -243,7 +230,7 @@ public class NotificationImpl {
      * @return
      */
     @SuppressLint("NewApi")
-    public Notification.Builder getNotificationBuilder(Context context){
+    private Notification.Builder getDefaultNotificationBuilder(Context context){
         Notification.Builder mBuilder = new Notification.Builder(context);
         CharSequence ticker = "tickertickertickertickertickertickertickertickertickerticker";
         CharSequence contentTitle = "contentTitlecontentTitlecontentTitlecontentTitlecontentTitle";
@@ -256,14 +243,16 @@ public class NotificationImpl {
         mBuilder.setTicker(ticker);
         mBuilder.setContentTitle(contentTitle);
         mBuilder.setContentText(ContentText);
-        mBuilder.setContentIntent(getBCPendingIntent(context,SwitchBCReceiver.ACTION_SWITCH_ON_CLICK,SwitchBCReceiver.SWITCH_ID_DEFAULT));
+        mBuilder.setContentIntent(getBCPendingIntent(context, SwitchBCReceiver.ACTION_SWITCH_ON_CLICK,SwitchBCReceiver.SWITCH_ID_DEFAULT));
         mBuilder.setSmallIcon(smallIcon);
         mBuilder.setColor(context.getResources().getColor(R.color.royalblue, null));//设置smallIcon的背景色)
         mBuilder.setLargeIcon(largeIcon);
         mBuilder.setOnlyAlertOnce(true);
         mBuilder.setLocalOnly(true);
-        mBuilder.setPriority(Notification.PRIORITY_DEFAULT);
-        mBuilder.setDefaults(Notification.DEFAULT_ALL);
+//        mBuilder.setPriority(Notification.PRIORITY_DEFAULT);
+//        mBuilder.setDefaults(Notification.DEFAULT_ALL);
+        //以下两种情况会显示浮动通知: setFullScreenIntent或者通知拥有高优先级且使用了铃声和振动
+        mBuilder.setFullScreenIntent(null, false);
         return mBuilder;
     }
 
@@ -274,7 +263,7 @@ public class NotificationImpl {
      * @return
      */
     @SuppressLint("NewApi")
-    public NotificationCompat.Builder getNotificationCompatBuilder(Context context){
+    public NotificationCompat.Builder getDefaultNotificationCompatBuilder(Context context){
         CharSequence ticker = "tickertickertickertickertickertickertickertickertickerticker";
         CharSequence contentTitle = "contentTitlecontentTitlecontentTitlecontentTitlecontentTitle";
         CharSequence ContentText = "ContentTextContentTextContentTextContentTextContentTextContentTextContentText";

@@ -1,4 +1,4 @@
-package com.example.testmodule.notification;
+package com.example.testmodule.notification.util;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

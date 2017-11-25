@@ -16,7 +16,7 @@ import android.widget.RemoteViews;
 
 import com.example.testmodule.MainActivity;
 import com.example.testmodule.R;
-import com.example.testmodule.notification.NotificationImpl;
+import com.example.testmodule.notification.notifiutils.NotificationImpl;
 
 public class NotificationUtil {
 

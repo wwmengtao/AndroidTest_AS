@@ -23,6 +23,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="notification2"/>
+
+            <Button
+                android:id="@+id/btn3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="注销广播"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

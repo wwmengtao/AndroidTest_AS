@@ -12,6 +12,8 @@ import android.widget.Button;
 
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
+import com.example.testmodule.notification.receiver.ButtonBCReceiver;
+import com.example.testmodule.notification.notifiutils.NotificationImpl;
 import com.fernandocejas.android10.sample.data.ALog;
 
 import butterknife.BindView;
@@ -74,6 +76,11 @@ public class NotificationCompatActivity extends BaseAcitivity {
         }
     }
 
+    @OnClick(R.id.btn3)
+    public void unregisterReceiver(){
+        if(null != mReceiver)mReceiver.unregisterReceiver(this);
+    }
+
     private void showNotification(Context mContext, int id, PendingIntent intent) {
         CharSequence title0 = "Moto";
         CharSequence title = mContext.getResources().getString(R.string.unplugged);
@@ -105,7 +112,7 @@ public class NotificationCompatActivity extends BaseAcitivity {
     private ButtonBCReceiver mReceiver;
     private void showNotification2(Context mContext,int id,PendingIntent intent) {
         mReceiver = ButtonBCReceiver.getSwitchBroadcastReceiver(this);
-//        NotificationImpl.showButtonNotify(mContext, mNotificationManager, NOTIFICATION_ID, id);
+        new NotificationImpl(this).showButtonNotify(mContext, mNotificationManager, NOTIFICATION_ID, id);
     }
 
     public void cancelNotification(Context mContext,int id){
@@ -113,7 +120,7 @@ public class NotificationCompatActivity extends BaseAcitivity {
 //            mNotificationManager.cancel(id);//只能清除NotificationManager.notify(id, notify);发送的广播
             mNotificationManager.cancel(NOTIFICATION_ID, id);//只能清除NotificationManager.notify(NOTIFICATION_ID, id, notify);发送的广播
 //            mNotificationManager.cancelAll();//清除所有格式的广播
-            ButtonBCReceiver.unregisterReceiver(this,mReceiver);
+            mReceiver.unregisterReceiver(this);
         } catch (NullPointerException npe) {
             ALog.Log("setNotificationVisible: cancel notificationManager npe=" + npe);
             npe.printStackTrace();

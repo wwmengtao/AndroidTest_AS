@@ -1,4 +1,4 @@
-package com.example.testmodule.notification;
+package com.example.testmodule.notification.receiver;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -24,16 +24,18 @@ public class ButtonBCReceiver extends BroadcastReceiver{
     public static boolean isPlay = false;
 
     private NotificationManager mNotificationManager = null;
-
+    private static ButtonBCReceiver mReceiver = null;
     public static ButtonBCReceiver getSwitchBroadcastReceiver(Context mContext){
-        ButtonBCReceiver mReceiver = new ButtonBCReceiver();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ACTION_BUTTON_ON_CLICK);
-        mContext.registerReceiver(mReceiver, intentFilter);
+        if(null == mReceiver) {
+            mReceiver = new ButtonBCReceiver();
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(ACTION_BUTTON_ON_CLICK);
+            mContext.registerReceiver(mReceiver, intentFilter);
+        }
         return mReceiver;
     }
 
-    public static void unregisterReceiver(Context mContext, BroadcastReceiver mReceiver){
+    public void unregisterReceiver(Context mContext){
         if(null != mReceiver){
             isPlay = false;
             mContext.unregisterReceiver(mReceiver);
