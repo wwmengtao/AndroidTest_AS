@@ -16,6 +16,7 @@ import com.mt.androidtest_as.R;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.UserComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.model.UserModelNT;
 import com.mt.myapplication.novicetutorial.presenter.NoviceViewPagerPresenter;
+import com.mt.myapplication.novicetutorial.view.adapter.VPPageTransformer;
 import com.mt.myapplication.novicetutorial.view.interfaces.NoviceRecyclerView;
 
 import java.util.Collection;
@@ -107,6 +108,8 @@ public class NoviceViewPagerFragment extends BaseFragment implements NoviceRecyc
     @Override
     public void setUserList(final UserModelNT mUserModelNT, final Collection<UserModelNT> userModelCollection) {
         final List<UserModelNT> mData = (List<UserModelNT>)userModelCollection;
+        //
+        mViewPager.setPageTransformer(true, new VPPageTransformer());
         //设置ViewPager内部页面之间的间距
         mViewPager.setPageMargin(getResources().getDimensionPixelSize(R.dimen.lay_4));
         //设置ViewPager内部页面间距的drawable
