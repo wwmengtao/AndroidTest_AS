@@ -1,10 +1,12 @@
 package com.example.testmodule.notification.notifiutils;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
+import android.widget.RemoteViews;
 
 import com.example.testmodule.R;
 import com.example.testmodule.notification.util.RemoteViewUtil;
@@ -35,24 +37,36 @@ public class NotifiImplCompactFactory implements NotifiImplFInterface{
         NotificationImpl mNotificationImpl = new NotificationImpl(mContext);
         mNotificationImpl.setNotificationManager(mNotificationManager);
         mNotificationImpl.initDefaultNotificationCompatBuilder();
+        NotificationCompat.Builder mCompatBuilder = mNotificationImpl.getNotificationCompatBuilder();
         switch (style){
-            case 0://发送一般通知
+            case R.id.btn100://发送一般通知
                 NotificationCompat.Action action1 = new NotificationCompat.Action(R.drawable.alert, "Yes", null);
                 NotificationCompat.Action action2 = new NotificationCompat.Action(R.drawable.warning, "No", null);
                 mNotificationImpl.getNotificationCompatBuilder().addAction(action1);
                 mNotificationImpl.getNotificationCompatBuilder().addAction(action2);
                 break;
-            case 1://发送自定义通知
-                mNotificationImpl.setContent(RemoteViewUtil.getRemoteViews(mContext));//设置自定义布局
+            case R.id.btn101://发送自定义通知
+                mCompatBuilder.setContent(RemoteViewUtil.getRemoteViews(mContext));//设置自定义布局
                 break;
-            case 2://发送BigTextStyle类型通知
+            case R.id.btn1011://发送自定义音乐播放器通知
+                RemoteViews mRemoteViews = RemoteViewUtil.getMusicRemoteView(mContext);
+                RemoteViewUtil.PIntentUtil.setOnClickPendingIntentMusic(mContext, mRemoteViews);
+                mCompatBuilder.setContent(mRemoteViews)//设置自定义布局
+                        .setContentIntent(RemoteViewUtil.PIntentUtil.getDefalutIntent(mContext, Notification.FLAG_ONGOING_EVENT))
+                        .setWhen(System.currentTimeMillis())// 通知产生的时间，会在通知信息里显示
+                        .setTicker("正在播放")
+                        .setPriority(Notification.PRIORITY_DEFAULT)// 设置该通知优先级
+                        .setOngoing(true)//是否常驻通知
+                        .setSmallIcon(R.drawable.sing_icon);
+                break;
+            case R.id.btn102://发送BigTextStyle类型通知
                 final String message = mContext.getString(R.string.pip_notification_message);
                 NotificationCompat.BigTextStyle nbts = new NotificationCompat.BigTextStyle().bigText(message);
                 nbts.setBigContentTitle("BigTextStyle.setBigContentTitle");
                 nbts.setSummaryText("BigTextStyle.setSummaryText");
                 mNotificationImpl.setBigTextStyle(nbts);
                 break;
-            case 3://发送BigPictureStyle类型通知
+            case R.id.btn103://发送BigPictureStyle类型通知
                 Bitmap bigPicture= BitmapFactory.decodeResource(mContext.getResources(), R.drawable.grassland);//大图
                 Bitmap bigLargeIcon=BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_fast_rewind_primary_24dp);//图标
                 NotificationCompat.BigPictureStyle nbps=new NotificationCompat.BigPictureStyle()
@@ -62,7 +76,7 @@ public class NotifiImplCompactFactory implements NotifiImplFInterface{
                 nbps.setSummaryText("BigPictureStyle.setSummaryText");
                 mNotificationImpl.setBigPictureStyle(nbps);
                 break;
-            case 4://发送InboxStyle类型通知
+            case R.id.btn104://发送InboxStyle类型通知
                 String []conntents = {"1.注意事项:",
                         "2.InboxStyle每行内容过长时不会自动换行",
                         "3.InboxStyle.addline可以添加多行，但是多余5行的时候每行高度会有截断",

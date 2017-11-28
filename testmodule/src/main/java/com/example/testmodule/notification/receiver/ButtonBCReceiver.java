@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.Toast;
 
+import com.example.testmodule.notification.util.BaseTools;
+
 /**
  * Created by mengtao1 on 2017/11/23.
  */
@@ -60,6 +62,13 @@ public class ButtonBCReceiver extends BroadcastReceiver{
                         play_status = "开始播放";
                     }else{
                         play_status = "已暂停";
+                    }
+                    if(BaseTools.getSystemVersion() > 9){
+                        if(isPlay){
+//                            RemoteViews.setImageViewResource(R.id.btn_custom_play, R.drawable.btn_pause);
+                        }else{
+//                            mRemoteViews.setImageViewResource(R.id.btn_custom_play, R.drawable.btn_play);
+                        }
                     }
                     Toast.makeText(context, play_status, Toast.LENGTH_SHORT).show();
                     break;

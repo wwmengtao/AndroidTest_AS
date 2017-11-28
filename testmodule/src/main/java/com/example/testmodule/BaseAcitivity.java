@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseArray;
 
 import com.fernandocejas.android10.sample.data.ALog;
 
@@ -15,7 +16,9 @@ public abstract class BaseAcitivity extends AppCompatActivity {
     public static final String ACTIVITY_NAME_TAG = "ACTIVITY_NAME";
     public String TAG = null;
     public String activity_name = null;
-
+    protected SparseArray<Class<?>> mActivitySA = null;
+    int []buttonIDs = null;
+    Class<?>[] classEs = null;
     /**
      * getCallingIntent：获取Activity的开启intent同时获取Activity的名称。
      * @param context
@@ -47,5 +50,13 @@ public abstract class BaseAcitivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setActivityTitle();
+    }
+
+    protected void initActivities(int []buttonIDs, Class<?>[] classEs){
+        if(null == buttonIDs || buttonIDs.length == 0 || null == classEs || classEs.length == 0)return;
+        mActivitySA = new SparseArray<>();
+        for(int i = 0; i<buttonIDs.length; i++){
+            mActivitySA.put(buttonIDs[i], classEs[i]);
+        }
     }
 }

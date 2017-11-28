@@ -13,7 +13,6 @@ import android.widget.Button;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.receiver.ButtonBCReceiver;
-import com.example.testmodule.notification.notifiutils.NotificationImpl;
 import com.fernandocejas.android10.sample.data.ALog;
 
 import butterknife.BindView;
@@ -112,7 +111,31 @@ public class NotificationCompatActivity extends BaseAcitivity {
     private ButtonBCReceiver mReceiver;
     private void showNotification2(Context mContext,int id,PendingIntent intent) {
         mReceiver = ButtonBCReceiver.getSwitchBroadcastReceiver(this);
-        new NotificationImpl(this).showButtonNotify(mContext, mNotificationManager, NOTIFICATION_ID, id);
+//        new NotificationImpl(this).
+        showButtonNotify(mContext, mNotificationManager, NOTIFICATION_ID, id);
+    }
+
+    /**
+     * 带按钮的通知栏
+     */
+
+    public void showButtonNotify(Context mContext, NotificationManager mNotificationManager,
+                                 String NOTIFICATION_ID, int id){
+
+//        RemoteViews mRemoteViews = RemoteViewUtil.getMusicRemoteView(mContext);
+//        RemoteViewUtil.PIntentUtil.setOnClickPendingIntentMusic(mContext, mRemoteViews);
+//        NotificationCompat.Builder mBuilder = get;
+//        mBuilder.setContent(mRemoteViews)
+//                .setContentIntent(getDefalutIntent(mContext, Notification.FLAG_ONGOING_EVENT))
+//                .setWhen(System.currentTimeMillis())// 通知产生的时间，会在通知信息里显示
+//                .setTicker("正在播放")
+//                .setPriority(Notification.PRIORITY_DEFAULT)// 设置该通知优先级
+//                .setOngoing(true)//是否常驻通知
+//                .setSmallIcon(R.drawable.sing_icon);
+//        setNotificationChannel(mNotificationManager, mBuilder);
+//        Notification notify = mBuilder.build();
+//        notify.flags = Notification.FLAG_ONGOING_EVENT;//FLAG_ONGOING_EVENT 表示该通知通知放置在正在运行,不能被手动清除,但能通过 cancel() 方法清除
+//        mNotificationManager.notify(NOTIFICATION_ID, id, notify);//这样发送的通知只能用NotificationManager.cancel(String tag, int id)清除
     }
 
     public void cancelNotification(Context mContext,int id){

@@ -35,6 +35,7 @@ public class NotifiImplFactory implements NotifiImplFInterface{
         NotificationImpl mNotificationImpl = new NotificationImpl(mContext);
         mNotificationImpl.setNotificationManager(mNotificationManager);
         mNotificationImpl.initDefaultNotificationBuilder();
+        Notification.Builder mBuilder = mNotificationImpl.getNotificationBuilder();
         switch (style){
             case 0://发送一般通知
                 Notification.Action action1 = new Notification.Action(R.drawable.alert, "Yes", null);
@@ -43,7 +44,7 @@ public class NotifiImplFactory implements NotifiImplFInterface{
                 mNotificationImpl.getNotificationBuilder().addAction(action2);
                 break;
             case 1://发送自定义通知
-                mNotificationImpl.setContent(RemoteViewUtil.getRemoteViews(mContext));//设置自定义布局
+                mBuilder.setContent(RemoteViewUtil.getRemoteViews(mContext));//设置自定义布局
                 break;
             case 2://发送BigTextStyle类型通知
                 final String message = mContext.getString(R.string.pip_notification_message);

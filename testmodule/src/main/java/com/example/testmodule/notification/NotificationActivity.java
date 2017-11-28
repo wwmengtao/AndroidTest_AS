@@ -3,8 +3,11 @@ package com.example.testmodule.notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.example.testmodule.BaseAcitivity;
@@ -12,6 +15,7 @@ import com.example.testmodule.R;
 import com.example.testmodule.notification.notifiutils.NotifiImplCompactFactory;
 import com.example.testmodule.notification.notifiutils.NotifiImplFactory;
 import com.example.testmodule.notification.notifiutils.NotificationImpl;
+import com.example.testmodule.notification.receiver.ButtonBCReceiver;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -22,6 +26,7 @@ public class NotificationActivity extends BaseAcitivity {
     private NotificationManager mNotificationManager = null;
     private String NOTIFICATION_TAG = "TestModule.Notification";//用于标识发送/取消广播时候的tag
     private SparseArray<NotificationImpl> mNotificationImplArray = null;
+    private ButtonBCReceiver mReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +40,16 @@ public class NotificationActivity extends BaseAcitivity {
     @Override
     public void onResume() {
         super.onResume();
-//        Window window = getWindow();
-//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//        window.setStatusBarColor(ContextCompat.getColor(this, android.R.color.holo_purple));
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, android.R.color.holo_purple));
     }
 
     @Override
     protected void onDestroy(){
         super.onDestroy();
         mUnbinder.unbind();
+        mReceiver.unregisterReceiver(this);
     }
 
     private void doInit(){
@@ -58,17 +64,19 @@ public class NotificationActivity extends BaseAcitivity {
             mNotificationImplArray.put(buttonIDs[i], NotifiImplFactory.build(this).get(i));
         }
         //2、初始化NotifiImplCompactFactory
-        int []buttonCompactIDs={R.id.btn100, R.id.btn101, R.id.btn102, R.id.btn103, R.id.btn104};
+        int []buttonCompactIDs={R.id.btn100, R.id.btn101, R.id.btn1011, R.id.btn102, R.id.btn103, R.id.btn104};
         //将Button Compact ID和NotificationImpl一一对应
         for(int i = 0; i<buttonCompactIDs.length; i++){
             mButton = findViewById(buttonCompactIDs[i]);
             mButton.setTag(false);
-            mNotificationImplArray.put(buttonCompactIDs[i], NotifiImplCompactFactory.build(this).get(i));
+            mNotificationImplArray.put(buttonCompactIDs[i], NotifiImplCompactFactory.build(this).get(buttonCompactIDs[i]));
         }
+        //3、设置监听广播
+        mReceiver = ButtonBCReceiver.getSwitchBroadcastReceiver(this);
     }
 
     @OnClick({R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
-              R.id.btn100, R.id.btn101, R.id.btn102, R.id.btn103, R.id.btn104})
+              R.id.btn100, R.id.btn101, R.id.btn1011, R.id.btn102, R.id.btn103, R.id.btn104})
     public void onClick(View view){
         NotificationImpl mNotificationImpl = mNotificationImplArray.get(view.getId());
         Button mButton = findViewById(view.getId());

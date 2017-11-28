@@ -67,6 +67,12 @@
                 android:text="自定义通知"/>
 
             <Button
+                android:id="@+id/btn1011"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="自定义音乐播放器通知"/>
+
+            <Button
                 android:id="@+id/btn102"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

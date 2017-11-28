@@ -1,23 +1,27 @@
-package com.example.testmodule;
+package com.example.testmodule.viewpager;
 
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.EventBusActivity;
+import com.example.testmodule.R;
+import com.example.testmodule.SQLiteActivity;
+import com.example.testmodule.WebViewActivity;
+import com.example.testmodule.XmlParserActivity;
 import com.example.testmodule.notification.NotifiListActivity;
-import com.example.testmodule.viewpager.ViewPagerActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class MainActivity extends BaseAcitivity {
-    private static final String TAG = "MainActivity";
+public class ViewPagerActivity extends BaseAcitivity {
     private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_view_pager);
         mUnbinder = ButterKnife.bind(this);
         initActivities(buttonIDs, classEs);
     }
