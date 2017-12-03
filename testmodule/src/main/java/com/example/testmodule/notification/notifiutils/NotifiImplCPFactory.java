@@ -1,6 +1,7 @@
 package com.example.testmodule.notification.notifiutils;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,33 +12,36 @@ import com.example.testmodule.R;
 import com.example.testmodule.notification.receiver.MusicNotifyReceiver;
 
 /**
+ * NotifiImplCompactFactory：生产包含NotificationCompat.Builder类型Builder的NotificationImpl的工厂。
  * Created by mengtao1 on 2017/11/25.
  */
 
-public class NotifiImplCompactFactory implements NotifiImplFInterface{
-    private static NotifiImplCompactFactory mNotifiImplCompactFactory = null;
+public class NotifiImplCPFactory implements NotifiImplFInterface{
+    private static NotifiImplCPFactory mNotifiImplCompactFactory = null;
     private Context mContext = null;
 
-    public static NotifiImplCompactFactory build(Context context){
+    public static NotifiImplCPFactory build(Context context){
         if(null == mNotifiImplCompactFactory){
-            mNotifiImplCompactFactory = new NotifiImplCompactFactory(context);
+            mNotifiImplCompactFactory = new NotifiImplCPFactory(context);
         }
         return mNotifiImplCompactFactory;
     }
 
-    private NotifiImplCompactFactory(Context context){
+    private NotifiImplCPFactory(Context context){
         mContext = context;
     }
 
     @Override
-    public NotificationImpl get(int style, String notifyOnClickedString) {
+    public NotificationImpl get(int style, int viewID, String viewString) {
         NotificationImpl mNotificationImpl = new NotificationImpl(mContext);
         mNotificationImpl.initDefaultNotificationCompatBuilder();
         NotificationCompat.Builder mCompatBuilder = mNotificationImpl.getNotificationCompatBuilder();
         //setContentIntent:设置用户点击通知整体后的PendingIntent
-        mCompatBuilder.setContentIntent(
-                MusicNotifyReceiver.getContentIntentNotification(mContext, Notification.FLAG_ONGOING_EVENT,
-                        notifyOnClickedString));
+        mCompatBuilder.setContentIntent(MusicNotifyReceiver.getContentIntentNotification(mContext,
+                PendingIntent.FLAG_UPDATE_CURRENT, viewID, viewString));
+        //setDeleteIntent：只能监听滑动删除事件，无法监听点击删除(setAutoCancel(true))事件
+        mCompatBuilder.setDeleteIntent(MusicNotifyReceiver.getDeleteIntentNotification(mContext,
+                PendingIntent.FLAG_UPDATE_CURRENT, viewID, viewString));
         switch (style){
             case 0://发送一般通知
                 NotificationCompat.Action action1 = new NotificationCompat.Action(R.drawable.alert, "Yes",

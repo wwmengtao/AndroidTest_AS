@@ -12,6 +12,7 @@ import com.example.testmodule.R;
 import com.example.testmodule.notification.receiver.MusicNotifyReceiver;
 
 /**
+ * NotifiImplFactory：生产包含Notification.Builder类型Builder的NotificationImpl的工厂。
  * Created by mengtao1 on 2017/11/25.
  */
 
@@ -33,14 +34,16 @@ public class NotifiImplFactory implements NotifiImplFInterface{
     }
 
     @Override
-    public NotificationImpl get(int style, String notifyOnClickedString) {
+    public NotificationImpl get(int style, int viewID, String viewString) {
         NotificationImpl mNotificationImpl = new NotificationImpl(mContext);
         mNotificationImpl.initDefaultNotificationBuilder();
         Notification.Builder mBuilder = mNotificationImpl.getNotificationBuilder();
         //setContentIntent:设置用户点击通知整体后的PendingIntent
-        mBuilder.setContentIntent(
-                MusicNotifyReceiver.getContentIntentNotification(mContext, Notification.FLAG_ONGOING_EVENT,
-                        notifyOnClickedString));
+        mBuilder.setContentIntent(MusicNotifyReceiver.getContentIntentNotification(mContext,
+                PendingIntent.FLAG_UPDATE_CURRENT, viewID, viewString));
+        //setDeleteIntent：只能监听滑动删除事件，无法监听点击删除(setAutoCancel(true))事件
+        mBuilder.setDeleteIntent(MusicNotifyReceiver.getDeleteIntentNotification(mContext,
+                PendingIntent.FLAG_UPDATE_CURRENT, viewID, viewString));
         switch (style){
             case 0://一般通知，通知栏置顶显示
                 mBuilder.setGroup(NOTIFICATION_GROUP_1);

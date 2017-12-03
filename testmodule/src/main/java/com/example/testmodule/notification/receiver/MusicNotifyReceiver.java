@@ -19,10 +19,14 @@ import com.fernandocejas.android10.sample.data.ALog;
 public class MusicNotifyReceiver extends BroadcastReceiver{
     public static final String ACTION_VIEW_ON_CLICK = "ACTION_VIEW_ON_CLICK";
     public final static String INTENT_VIEW_TAG = "INTENT_VIEW_TAG";
+    public final static String INTENT_NOTIFY_CLICKED_ID = "INTENT_NOTIFY_CLICKED_ID";
     public final static String INTENT_NOTIFY_CLICKED_TEXT = "INTENT_NOTIFY_CLICKED_TEXT";
+    public final static String INTENT_NOTIFY_DELETED_ID = "INTENT_NOTIFY_DELETED_ID";
+    public final static String INTENT_NOTIFY_DELETED_TEXT = "INTENT_NOTIFY_DELETED_TEXT";
 
     /** 通知整体 **/
-    public final static int NOTIFY_CLICKED_ALL = 0x001;
+    public final static int NOTIFY_CLICKED_ALL = 0x000;
+    public final static int NOTIFY_DELETED = 0x001;
     /** 上一首 按钮点击 ID */
     public final static int BUTTON_PREV_ID = 0x002;
     /** 播放/暂停 按钮点击 ID */
@@ -38,6 +42,8 @@ public class MusicNotifyReceiver extends BroadcastReceiver{
 
     private static MusicNotifyReceiver mReceiver = null;
     private OnPlayViewClickedListener mOnPlayViewClickedListener = null;
+    private OnNotifyClickedListener mOnNotifyClickedListener = null;
+    private OnNotifyDeletedListener mOnNotifyDeletedListener = null;
     public static MusicNotifyReceiver getInstance(){
         if(null == mReceiver) {
             mReceiver = new MusicNotifyReceiver();
@@ -66,7 +72,23 @@ public class MusicNotifyReceiver extends BroadcastReceiver{
         this.mOnPlayViewClickedListener = mOnPlayViewClickedListener;
     }
 
-    @Override
+    public interface OnNotifyClickedListener{
+        void onNotifyClicked(int viewID);
+    }
+
+    public void setOnNotifyClickedListener(OnNotifyClickedListener mOnNotifyClickedListener){
+        this.mOnNotifyClickedListener = mOnNotifyClickedListener;
+    }
+
+    public interface OnNotifyDeletedListener{
+        void onNotifyDeleted(int viewID);
+    }
+
+    public void setOnNotifyDeletedListener(OnNotifyDeletedListener mOnNotifyDeletedListener) {
+        this.mOnNotifyDeletedListener = mOnNotifyDeletedListener;
+    }
+
+        @Override
     public void onReceive(Context context, Intent intent) {
         // TODO Auto-generated method stub
         String notifyOnClickedString3 = intent.getStringExtra(INTENT_NOTIFY_CLICKED_TEXT);
@@ -78,9 +100,16 @@ public class MusicNotifyReceiver extends BroadcastReceiver{
             int buttonId = intent.getIntExtra(INTENT_VIEW_TAG, 0);
             switch (buttonId) {
                 case NOTIFY_CLICKED_ALL://通知整体被点击
+                    int viewID = intent.getIntExtra(INTENT_NOTIFY_CLICKED_ID, -1);
                     String notifyOnClickedString = intent.getStringExtra(INTENT_NOTIFY_CLICKED_TEXT);
-                    ALog.Log("notifyOnClickedString2: "+notifyOnClickedString);
-                    Toast.makeText(context, notifyOnClickedString, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "通知点击："+viewID+"\n"+notifyOnClickedString, Toast.LENGTH_SHORT).show();
+                    mOnNotifyClickedListener.onNotifyClicked(viewID);
+                    break;
+                case NOTIFY_DELETED:
+                    int viewID_delete = intent.getIntExtra(INTENT_NOTIFY_DELETED_ID, -1);
+                    String notifydeletedString = intent.getStringExtra(INTENT_NOTIFY_DELETED_TEXT);
+                    Toast.makeText(context, "通知删除："+viewID_delete+"\n"+notifydeletedString, Toast.LENGTH_SHORT).show();
+                    mOnNotifyDeletedListener.onNotifyDeleted(viewID_delete);
                     break;
                 case BUTTON_PREV_ID:
                     Toast.makeText(context, "上一首", Toast.LENGTH_SHORT).show();
@@ -114,17 +143,35 @@ public class MusicNotifyReceiver extends BroadcastReceiver{
     }
 
     //以下定义通知整体点击响应PendingIntent，PendingIntent.getBroadcast注意requestCode的数值要区分开。
-    private static int requestCode1 = 0x1a2b3c;
-    public static PendingIntent getContentIntentNotification(Context mContext, int flags, String notifyOnClickedString){
+    private static int requestCode_content = 0x1a2b3c;
+    public static PendingIntent getContentIntentNotification(Context mContext, int flags,
+                                                             int viewID, String notifyOnClickedString){
         Intent intent = new Intent(ACTION_VIEW_ON_CLICK);
         intent.putExtra(INTENT_VIEW_TAG, NOTIFY_CLICKED_ALL);
+        intent.putExtra(INTENT_NOTIFY_CLICKED_ID, viewID);
         intent.putExtra(INTENT_NOTIFY_CLICKED_TEXT, notifyOnClickedString);//用户点击通知整体后显示的内容
         ALog.Log("notifyOnClickedString: "+notifyOnClickedString);
         /**
          * requestCode：标识当前Broadcast，如果多次使用同一个requestCode的话，那么最终得到的只是第一个pendingIntent，因此如果想
          * 获取不同的PendingIntent，需要区分所有PendingIntent.getBroadcast函数的requestCode参数
          */
-        PendingIntent pendingIntent= PendingIntent.getBroadcast(mContext, requestCode1++, intent, flags);
+        PendingIntent pendingIntent= PendingIntent.getBroadcast(mContext, requestCode_content++, intent, flags);
+        return pendingIntent;
+    }
+
+    //以下定义通知删除响应PendingIntent，PendingIntent.getBroadcast注意requestCode的数值要区分开。
+    private static int requestCode_delete = 0x2b3c4d;
+    public static PendingIntent getDeleteIntentNotification(Context mContext, int flags,
+                                                            int viewID, String notifydeletedString){
+        Intent intent = new Intent(ACTION_VIEW_ON_CLICK);
+        intent.putExtra(INTENT_VIEW_TAG, NOTIFY_DELETED);
+        intent.putExtra(INTENT_NOTIFY_DELETED_ID, viewID);
+        intent.putExtra(INTENT_NOTIFY_DELETED_TEXT, notifydeletedString);//用户点击通知整体后显示的内容
+        /**
+         * requestCode：标识当前Broadcast，如果多次使用同一个requestCode的话，那么最终得到的只是第一个pendingIntent，因此如果想
+         * 获取不同的PendingIntent，需要区分所有PendingIntent.getBroadcast函数的requestCode参数
+         */
+        PendingIntent pendingIntent= PendingIntent.getBroadcast(mContext, requestCode_delete++, intent, flags);
         return pendingIntent;
     }
 

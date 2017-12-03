@@ -9,5 +9,5 @@ Product icons are the visual expression of a brand’s products, services, and t
 Use these guidelines as a starting point to ensure that your product icon colors and key elements reflect your brand identity.</string>
 
     <string name="notification_description">"通过Notification.Builder构建通知\n用户可以点击取消(setAutoCancel(true))\n无法滑动取消(setOngoing(true))通知)\n通知栏中置顶通知请<b><i><u>参照NotifiImplFactory中case 1情形</u></i></b>"</string>
-    <string name="notification_compact_description">"通过NotificationCompat.Builder构建通知\n用户无法点击取消(setAutoCancel(false))\n只能滑动取消(setOngoing(false))通知)\n<b><i><u>Android8.0上</u></i></b>，在NotificationImpl中设置NotificationChannel的mportance为NotificationManager.IMPORTANCE_HIGH，通知默认通知栏置顶显示并弹出提示框"</string>
+    <string name="notification_compact_description">"通过NotificationCompat.Builder构建通知\n用户无法点击取消(setAutoCancel(false))\n只能滑动取消(setOngoing(false))通知)\n<b><i><u>Android8.0上</u></i></b>，在NotificationImpl中设置NotificationChannel的importance为NotificationManager.IMPORTANCE_HIGH，通知默认通知栏置顶显示并弹出提示框"</string>
 </resources>

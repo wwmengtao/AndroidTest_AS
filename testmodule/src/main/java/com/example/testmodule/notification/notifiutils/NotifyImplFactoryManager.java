@@ -9,10 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by mengtao1 on 2017/11/28.
  */
 
-public class NotifyFactoryManager {
-    private static final String NotificationTag = "com.example.testmodule.notification.notifiutils.NotifyManager";
-    private static final int NotificationID = 0x001;
-    private volatile static NotifyFactoryManager mNotifyManager = null;
+public class NotifyImplFactoryManager {
+    private volatile static NotifyImplFactoryManager mNotifyManager = null;
     private Context mContext = null;
     private ConcurrentHashMap<Integer, NotificationImpl> mNotificationImplMap = null;//存储NotificationImpl对象
 
@@ -26,14 +24,14 @@ public class NotifyFactoryManager {
         TYPE_COMPACT
     }
 
-    public static synchronized NotifyFactoryManager getInstance(Context mContext) {
+    public static synchronized NotifyImplFactoryManager getInstance(Context mContext) {
         if (null == mNotifyManager) {
-            mNotifyManager = new NotifyFactoryManager(mContext);
+            mNotifyManager = new NotifyImplFactoryManager(mContext);
         }
         return mNotifyManager;
     }
 
-    private NotifyFactoryManager(Context mContext){
+    private NotifyImplFactoryManager(Context mContext){
         this.mContext = mContext;
 //        this.mNotificationImplArray = new SparseArray<>();
         this.mNotificationImplMap = new ConcurrentHashMap<>();
@@ -49,10 +47,10 @@ public class NotifyFactoryManager {
                     NotificationImpl mNotificationImpl = null;
                     if (FACTORY_TYPE.TYPE_COMMON == factoryType){
                         mNotificationImpl = NotifiImplFactory.build(mContext).get(i,
-                                (mViewTextList.get(i)+"_Notification.Builder"));
+                                viewIDs[i], (mViewTextList.get(i)+"_Notification.Builder"));
                     }else if(FACTORY_TYPE.TYPE_COMPACT == factoryType){
-                        mNotificationImpl = NotifiImplCompactFactory.build(mContext).get(i,
-                                (mViewTextList.get(i)+"_NotificationCompat.Builder"));
+                        mNotificationImpl = NotifiImplCPFactory.build(mContext).get(i,
+                                viewIDs[i], (mViewTextList.get(i)+"_NotificationCompat.Builder"));
                     }
                     mNotificationImplMap.put(viewIDs[i], mNotificationImpl);
                 }

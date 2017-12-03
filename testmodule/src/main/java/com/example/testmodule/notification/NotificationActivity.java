@@ -13,7 +13,7 @@ import android.widget.RemoteViews;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.notifiutils.NotificationImpl;
-import com.example.testmodule.notification.notifiutils.NotifyFactoryManager;
+import com.example.testmodule.notification.notifiutils.NotifyImplFactoryManager;
 import com.example.testmodule.notification.receiver.MusicNotifyReceiver;
 import com.example.testmodule.notification.notifiutils.RemoteViewUtil;
 import com.fernandocejas.android10.sample.data.ALog;
@@ -24,11 +24,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class NotificationActivity extends BaseAcitivity implements MusicNotifyReceiver.OnPlayViewClickedListener{
+public class NotificationActivity extends BaseAcitivity implements MusicNotifyReceiver.OnPlayViewClickedListener,
+        MusicNotifyReceiver.OnNotifyClickedListener, MusicNotifyReceiver.OnNotifyDeletedListener{
     private Unbinder mUnbinder = null;
     private String NOTIFICATION_TAG = "TestModule.Notification";//用于标识发送/取消广播时候的tag
     private NotificationManager mNotificationManager = null;
-    private NotifyFactoryManager mNotifyFactoryManager = null;
+    private NotifyImplFactoryManager mNotifyFactoryManager = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,9 @@ public class NotificationActivity extends BaseAcitivity implements MusicNotifyRe
     protected void onDestroy(){
         mUnbinder.unbind();
         MusicNotifyReceiver.getInstance().unRegisterReceiver(this);
+        MusicNotifyReceiver.getInstance().setOnPlayViewClickedListener(null);
+        MusicNotifyReceiver.getInstance().setOnNotifyClickedListener(null);
+        MusicNotifyReceiver.getInstance().setOnNotifyDeletedListener(null);
         mNotificationManager.cancelAll();
         super.onDestroy();
     }
@@ -58,7 +62,7 @@ public class NotificationActivity extends BaseAcitivity implements MusicNotifyRe
     private void doInit(){
         ArrayList<String> mViewTextList = new ArrayList<String>();
         ArrayList<String> mViewTextList2 = new ArrayList<String>();
-        mNotifyFactoryManager = NotifyFactoryManager.getInstance(this);
+        mNotifyFactoryManager = NotifyImplFactoryManager.getInstance(this);
         Button mButton;
         //1、初始化NotifiImplFactory
         int []buttonIDs={R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5};
@@ -69,7 +73,7 @@ public class NotificationActivity extends BaseAcitivity implements MusicNotifyRe
             mViewTextList.add(mButton.getText().toString());
         }
         visitAL(mViewTextList);
-        mNotifyFactoryManager.addNotificationImpls(NotifyFactoryManager.FACTORY_TYPE.TYPE_COMMON, buttonIDs, mViewTextList);
+        mNotifyFactoryManager.addNotificationImpls(NotifyImplFactoryManager.FACTORY_TYPE.TYPE_COMMON, buttonIDs, mViewTextList);
         //2、初始化NotifiImplCompactFactory
         int []buttonCompactIDs={R.id.btn100, R.id.btn101, R.id.btn1011, R.id.btn102, R.id.btn103, R.id.btn104};
         //将Button Compact ID和NotificationImpl一一对应
@@ -79,10 +83,13 @@ public class NotificationActivity extends BaseAcitivity implements MusicNotifyRe
             mViewTextList2.add(mButton.getText().toString());
         }
         visitAL(mViewTextList2);
-        mNotifyFactoryManager.addNotificationImpls(NotifyFactoryManager.FACTORY_TYPE.TYPE_COMPACT, buttonCompactIDs, mViewTextList2);
+        mNotifyFactoryManager.addNotificationImpls(NotifyImplFactoryManager.FACTORY_TYPE.TYPE_COMPACT, buttonCompactIDs, mViewTextList2);
         //3、设置监听广播
         MusicNotifyReceiver.getInstance().registerReceiver(this);
         MusicNotifyReceiver.getInstance().setOnPlayViewClickedListener(this);
+        MusicNotifyReceiver.getInstance().setOnNotifyClickedListener(this);
+        MusicNotifyReceiver.getInstance().setOnNotifyDeletedListener(this);
+
     }
 
     private void visitAL(ArrayList<String> al){
@@ -119,5 +126,37 @@ public class NotificationActivity extends BaseAcitivity implements MusicNotifyRe
         NotificationImpl mNotificationImpl = mNotifyFactoryManager.getNotificationImpl(R.id.btn1011);
         mNotificationImpl.getNotificationCompatBuilder().setContent(mRemoteViews);
         mNotificationImpl.sendNotify(R.id.btn1011);
+    }
+
+    @Override
+    public void onNotifyClicked(int viewID) {//如下viewID对应的通知是可以通过点击取消的
+        Button mButton = null;
+        switch (viewID){
+            case R.id.btn0:
+            case R.id.btn1:
+            case R.id.btn2:
+            case R.id.btn3:
+            case R.id.btn4:
+            case R.id.btn5:
+                mButton = (Button) findViewById(viewID);
+                mButton.setTag(false);
+                break;
+        }
+    }
+
+    @Override
+    public void onNotifyDeleted(int viewID) {//如下viewID对应的通知是可以通过滑动取消的
+        Button mButton = null;
+        switch (viewID){
+            case R.id.btn100:
+            case R.id.btn101:
+            case R.id.btn1011:
+            case R.id.btn102:
+            case R.id.btn103:
+            case R.id.btn104:
+                mButton = (Button) findViewById(viewID);
+                mButton.setTag(false);
+                break;
+        }
     }
 }

@@ -6,6 +6,6 @@ package com.example.testmodule.notification.notifiutils;
 
 public interface NotifiImplFInterface {
 
-    NotificationImpl get(int style, String notifyOnClickedString);
+    NotificationImpl get(int style, int viewID, String notifyOnClickedString);
 
 }
