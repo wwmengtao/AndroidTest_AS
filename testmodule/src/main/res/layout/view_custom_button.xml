@@ -32,7 +32,7 @@
             android:id="@+id/btn_custom_play"
             style="@style/btn_custom_style"
             android:contentDescription="播放"
-            android:src="@drawable/btn_play" />
+            android:src="@drawable/btn_pause" />
 
         <ImageButton
             android:id="@+id/btn_custom_next"

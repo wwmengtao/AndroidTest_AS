@@ -28,11 +28,6 @@
             android:label="EventBusActivity" />
         <activity android:name=".XmlParserActivity" />
         <activity android:name=".notification.NotificationActivity" />
-        <activity android:name=".notification.NotificationCompatActivity" />
-        <activity
-            android:name=".notification.NotificationOreoActivity"
-            android:label="@string/NotificationOreoActivity" />
-        <activity android:name=".notification.NotificationCompact2Activity" />
         <activity android:name=".SQLiteActivity" />
         <activity android:name=".notification.NotifiListActivity" />
         <activity android:name=".viewpager.ViewPagerActivity"

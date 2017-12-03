@@ -4,36 +4,38 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.util.SparseArray;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RemoteViews;
 
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
-import com.example.testmodule.notification.notifiutils.NotifiImplCompactFactory;
-import com.example.testmodule.notification.notifiutils.NotifiImplFactory;
 import com.example.testmodule.notification.notifiutils.NotificationImpl;
-import com.example.testmodule.notification.receiver.ButtonBCReceiver;
+import com.example.testmodule.notification.notifiutils.NotifyFactoryManager;
+import com.example.testmodule.notification.receiver.MusicNotifyReceiver;
+import com.example.testmodule.notification.notifiutils.RemoteViewUtil;
+import com.fernandocejas.android10.sample.data.ALog;
+
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class NotificationActivity extends BaseAcitivity {
-    private Unbinder mUnbinder;
-    private NotificationManager mNotificationManager = null;
+public class NotificationActivity extends BaseAcitivity implements MusicNotifyReceiver.OnPlayViewClickedListener{
+    private Unbinder mUnbinder = null;
     private String NOTIFICATION_TAG = "TestModule.Notification";//用于标识发送/取消广播时候的tag
-    private SparseArray<NotificationImpl> mNotificationImplArray = null;
-    private ButtonBCReceiver mReceiver;
+    private NotificationManager mNotificationManager = null;
+    private NotifyFactoryManager mNotifyFactoryManager = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-        mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         mUnbinder = ButterKnife.bind(this);
+        mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         doInit();
     }
 
@@ -47,41 +49,63 @@ public class NotificationActivity extends BaseAcitivity {
 
     @Override
     protected void onDestroy(){
-        super.onDestroy();
         mUnbinder.unbind();
-        mReceiver.unregisterReceiver(this);
+        MusicNotifyReceiver.getInstance().unRegisterReceiver(this);
+        mNotificationManager.cancelAll();
+        super.onDestroy();
     }
 
     private void doInit(){
+        ArrayList<String> mViewTextList = new ArrayList<String>();
+        ArrayList<String> mViewTextList2 = new ArrayList<String>();
+        mNotifyFactoryManager = NotifyFactoryManager.getInstance(this);
         Button mButton;
-        mNotificationImplArray = new SparseArray<>();
         //1、初始化NotifiImplFactory
-        int []buttonIDs={R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4};
+        int []buttonIDs={R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5};
         //将Button ID和NotificationImpl一一对应
         for(int i = 0; i<buttonIDs.length; i++){
             mButton = findViewById(buttonIDs[i]);
             mButton.setTag(false);
-            mNotificationImplArray.put(buttonIDs[i], NotifiImplFactory.build(this).get(i));
+            mViewTextList.add(mButton.getText().toString());
         }
+        visitAL(mViewTextList);
+        mNotifyFactoryManager.addNotificationImpls(NotifyFactoryManager.FACTORY_TYPE.TYPE_COMMON, buttonIDs, mViewTextList);
         //2、初始化NotifiImplCompactFactory
         int []buttonCompactIDs={R.id.btn100, R.id.btn101, R.id.btn1011, R.id.btn102, R.id.btn103, R.id.btn104};
         //将Button Compact ID和NotificationImpl一一对应
         for(int i = 0; i<buttonCompactIDs.length; i++){
             mButton = findViewById(buttonCompactIDs[i]);
             mButton.setTag(false);
-            mNotificationImplArray.put(buttonCompactIDs[i], NotifiImplCompactFactory.build(this).get(buttonCompactIDs[i]));
+            mViewTextList2.add(mButton.getText().toString());
         }
+        visitAL(mViewTextList2);
+        mNotifyFactoryManager.addNotificationImpls(NotifyFactoryManager.FACTORY_TYPE.TYPE_COMPACT, buttonCompactIDs, mViewTextList2);
         //3、设置监听广播
-        mReceiver = ButtonBCReceiver.getSwitchBroadcastReceiver(this);
+        MusicNotifyReceiver.getInstance().registerReceiver(this);
+        MusicNotifyReceiver.getInstance().setOnPlayViewClickedListener(this);
     }
 
-    @OnClick({R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
+    private void visitAL(ArrayList<String> al){
+        ALog.Log("visitAL");
+        for(String str:al){
+            ALog.Log(str);
+        }
+    }
+
+    int index = 0;
+    @OnClick({R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,R.id.btn5,
               R.id.btn100, R.id.btn101, R.id.btn1011, R.id.btn102, R.id.btn103, R.id.btn104})
     public void onClick(View view){
-        NotificationImpl mNotificationImpl = mNotificationImplArray.get(view.getId());
+        index++;
+        NotificationImpl mNotificationImpl = mNotifyFactoryManager.getNotificationImpl(view.getId());
+        if (null == mNotificationImpl)return;
         Button mButton = findViewById(view.getId());
         if(!(Boolean) mButton.getTag()){
-            mNotificationImpl.sendNotify(view.getId());
+            if(0 == index%2){//采用两种不同的发送通知的方式
+                mNotificationImpl.sendNotify(NOTIFICATION_TAG, view.getId());
+            }else{
+                mNotificationImpl.sendNotify(view.getId());
+            }
             mButton.setTag(true);
         }else{
             mNotificationImpl.cancelNotify();
@@ -89,4 +113,11 @@ public class NotificationActivity extends BaseAcitivity {
         }
     }
 
+    @Override
+    public void onPlayClicked(boolean isPlay) {//如果自定义播放器的播放按钮被点击
+        RemoteViews mRemoteViews = RemoteViewUtil.getMusicRemoteView(this, isPlay);
+        NotificationImpl mNotificationImpl = mNotifyFactoryManager.getNotificationImpl(R.id.btn1011);
+        mNotificationImpl.getNotificationCompatBuilder().setContent(mRemoteViews);
+        mNotificationImpl.sendNotify(R.id.btn1011);
+    }
 }

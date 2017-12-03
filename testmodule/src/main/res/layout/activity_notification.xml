@@ -14,46 +14,54 @@
             android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="90dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:background="@color/greenyellow"
-                android:text="通知是通过Notification.Builder构建"/>
+                android:text="@string/notification_description"/>
             <Button
                 android:id="@+id/btn0"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="一般通知"/>
+                android:text="一般通知(通知栏置顶显示)"/>
 
             <Button
                 android:id="@+id/btn1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="自定义通知"/>
+                android:text="可回复通知"/>
 
             <Button
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="BigTextStyle通知"/>
+                android:text="自定义通知"/>
 
             <Button
                 android:id="@+id/btn3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="BigPictureStyle通知"/>
+                android:text="BigTextStyle通知"/>
 
             <Button
                 android:id="@+id/btn4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BigPictureStyle通知"/>
+
+            <Button
+                android:id="@+id/btn5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="InboxStyle通知"/>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="140dp"
                 android:gravity="center"
                 android:background="@color/royalblue"
-                android:text="通知是通过NotificationCompat.Builder构建"/>
+                android:text="@string/notification_compact_description"/>
+
             <Button
                 android:id="@+id/btn100"
                 android:layout_width="match_parent"
@@ -70,7 +78,8 @@
                 android:id="@+id/btn1011"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="自定义音乐播放器通知"/>
+                android:text="自定义音乐播放器通知(无法滑动取消setOngoing(true))"
+                android:textColor="@color/purple"/>
 
             <Button
                 android:id="@+id/btn102"

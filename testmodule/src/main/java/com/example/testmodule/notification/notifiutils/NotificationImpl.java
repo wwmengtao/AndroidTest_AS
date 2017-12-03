@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -14,27 +12,26 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import com.example.testmodule.R;
-import com.example.testmodule.notification.receiver.SwitchBCReceiver;
 
 /**
  * Created by mengtao1 on 2017/11/23.
  */
 
 public class NotificationImpl {
-    private static final String NOTIFICATION_CHANNEL_ID = "my_channel_id";
+    private static final String CHANNEL_ONE_ID = "Channel 1 ID";
+    private static final String CHANNEL_ONE_NAME = "Channel 1 Name";
+    private static final String CHANNEL_TWO_ID = "Channel 2 ID";
+    private static final String CHANNEL_TWO_NAME = "Channel 2 Name";
+
     private String mNotificationTag = null;//用于标识发送/取消广播时候的tag
     private int mNotificationID = -1;//用于标识发送/取消广播时候的id
     private NotificationManager mNotificationManager = null;
     private NotificationCompat.Builder mCompatBuilder = null;
     private Notification.Builder mBuilder = null;
     private Context mContext = null;
-
     public NotificationImpl(Context mContext){
         this.mContext = mContext;
-    }
-
-    public void setNotificationManager(NotificationManager mNotificationManager){
-        this.mNotificationManager = mNotificationManager;
+        this.mNotificationManager = (NotificationManager)mContext.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     /**
@@ -97,31 +94,30 @@ public class NotificationImpl {
      * @param mNotificationManager
      * @param mBuilder
      */
-    public void setNotificationChannel(NotificationManager mNotificationManager,
-                                               Notification.Builder mBuilder){
+    public void setNotificationChannel(NotificationManager mNotificationManager, Notification.Builder mBuilder,
+                                       String channelID, CharSequence channelName, int importance){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
-            setNotificationChannel(mNotificationManager);
+            mBuilder.setChannelId(channelID);
+            setNotificationChannel(mNotificationManager, channelID, channelName, importance);
         }
     }
 
-    public void setNotificationChannel(NotificationManager mNotificationManager,
-                                              NotificationCompat.Builder mBuilder){
+    public void setNotificationChannel(NotificationManager mNotificationManager, NotificationCompat.Builder mBuilder,
+                                       String channelID, CharSequence channelName, int importance){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
-            setNotificationChannel(mNotificationManager);
+            mBuilder.setChannelId(channelID);
+            setNotificationChannel(mNotificationManager, channelID, channelName, importance);
         }
 
     }
 
-    public void setNotificationChannel(NotificationManager mNotificationManager){
+    public void setNotificationChannel(NotificationManager mNotificationManager, String channelID, CharSequence channelName,
+                                       int importance){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Channel name";
             // The user-visible description of the channel.
             String description = "Channel description";
-            int importance = NotificationManager.IMPORTANCE_LOW;//not show popup demo
             @SuppressLint("WrongConstant")
-            NotificationChannel mChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, name,importance);
+            NotificationChannel mChannel = new NotificationChannel(channelID, channelName, importance);
             // Configure the notification channel.
             mChannel.setDescription(description);
             mChannel.enableLights(true);
@@ -134,13 +130,6 @@ public class NotificationImpl {
         }
     }
 
-    public PendingIntent getBCPendingIntent(Context context, String action, int requestCode){
-        Intent mIntent = new Intent();
-        mIntent.setAction(action);
-        PendingIntent pi = PendingIntent.getBroadcast(context, requestCode, mIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        return pi;
-    }
-
     /**
      * getNotificationBuilder：获取Notification.Builder类型的Builder
      * @return
@@ -148,27 +137,25 @@ public class NotificationImpl {
     @SuppressLint("NewApi")
     private Notification.Builder getDefaultNotificationBuilder(Context context){
         Notification.Builder mBuilder = new Notification.Builder(context);
-        CharSequence ticker = "tickertickertickertickertickertickertickertickertickerticker";
-        CharSequence contentTitle = "contentTitlecontentTitlecontentTitlecontentTitlecontentTitle";
-        CharSequence ContentText = "ContentTextContentTextContentTextContentTextContentTextContentTextContentText";
+        CharSequence ticker = "Notification.Builder.ticker";
+        CharSequence contentTitle = "Notification.Builder.contentTitle";
+        CharSequence ContentText = "Notification.Builder.ContentText";
         int smallIcon = R.drawable.ic_phonelink_ring_primary_24dp;
         Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.cat);
         mBuilder.setShowWhen(true);
         mBuilder.setWhen(System.currentTimeMillis());
-        mBuilder.setAutoCancel(true);
         mBuilder.setTicker(ticker);
         mBuilder.setContentTitle(contentTitle);
         mBuilder.setContentText(ContentText);
-        mBuilder.setContentIntent(getBCPendingIntent(context, SwitchBCReceiver.ACTION_SWITCH_ON_CLICK,SwitchBCReceiver.SWITCH_ID_DEFAULT));
+        mBuilder.setOngoing(true);//1、用户无法滑动取消通知
+        mBuilder.setAutoCancel(true);//2、用户可以点击取消通知：setAutoCancel设置true必须配合下列setContentIntent才能使得用户点击后通知消失
         mBuilder.setSmallIcon(smallIcon);
         mBuilder.setColor(context.getResources().getColor(R.color.royalblue, null));//设置smallIcon的背景色)
         mBuilder.setLargeIcon(largeIcon);
         mBuilder.setOnlyAlertOnce(true);
         mBuilder.setLocalOnly(true);
-//        mBuilder.setPriority(Notification.PRIORITY_DEFAULT);
-//        mBuilder.setDefaults(Notification.DEFAULT_ALL);
-        //以下两种情况会显示浮动通知: setFullScreenIntent或者通知拥有高优先级且使用了铃声和振动
-        mBuilder.setFullScreenIntent(null, false);
+        mBuilder.setPriority(Notification.PRIORITY_DEFAULT);//优先级越高，在通知栏里面的显示位置越高
+        mBuilder.setDefaults(Notification.DEFAULT_ALL);
         return mBuilder;
     }
 
@@ -180,19 +167,19 @@ public class NotificationImpl {
      */
     @SuppressLint("NewApi")
     private NotificationCompat.Builder getDefaultNotificationCompatBuilder(Context context){
-        CharSequence ticker = "tickertickertickertickertickertickertickertickertickerticker";
-        CharSequence contentTitle = "contentTitlecontentTitlecontentTitlecontentTitlecontentTitle";
-        CharSequence ContentText = "ContentTextContentTextContentTextContentTextContentTextContentTextContentText";
-        int smallIcon = R.drawable.ic_phonelink_ring_primary_24dp;
-        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.cat);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+        CharSequence ticker = "NotificationCompat.Builder.ticker";
+        CharSequence contentTitle = "NotificationCompat.Builder.contentTitle";
+        CharSequence ContentText = "NotificationCompat.Builder.ContentText";
+        int smallIcon = R.drawable.ic_fast_rewind_primary_24dp;
+        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.grassland);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, null);
         mBuilder.setShowWhen(true);
         mBuilder.setWhen(System.currentTimeMillis());
-        mBuilder.setAutoCancel(true);
         mBuilder.setTicker(ticker);
         mBuilder.setContentTitle(contentTitle);
         mBuilder.setContentText(ContentText);
-        mBuilder.setContentIntent(getBCPendingIntent(context,SwitchBCReceiver.ACTION_SWITCH_ON_CLICK,SwitchBCReceiver.SWITCH_ID_DEFAULT));
+        mBuilder.setOngoing(false);//1、用户可以滑动取消通知
+        mBuilder.setAutoCancel(false);//2、用户无法点击取消通知：setAutoCancel(false)
         mBuilder.setSmallIcon(smallIcon);
         mBuilder.setColor(context.getResources().getColor(R.color.royalblue, null));//设置smallIcon的背景色)
         mBuilder.setLargeIcon(largeIcon);
@@ -209,17 +196,21 @@ public class NotificationImpl {
     }
 
     /**
-     * sendNotify：发送通知
+     * sendNotify：发送通知。
+     * Notification.Builder构建的通知一律不弹出提示窗口；
+     * NotificationCompat.Builder构建的通知一律弹出提示窗口。
      */
     public void sendNotify(int id){
         if(null == mNotificationManager)return;
         mNotificationID = id;
         Notification mNotification = null;
         if(null != mBuilder){
-            setNotificationChannel(mNotificationManager, mBuilder);
+            setNotificationChannel(mNotificationManager, mBuilder, CHANNEL_ONE_ID, CHANNEL_ONE_NAME,
+                    NotificationManager.IMPORTANCE_LOW);//NotificationManager.IMPORTANCE_LOW：通知不弹出提示窗口
             mNotification = mBuilder.build();
         }else if(null != mCompatBuilder){
-            setNotificationChannel(mNotificationManager, mCompatBuilder);
+            setNotificationChannel(mNotificationManager, mCompatBuilder, CHANNEL_TWO_ID, CHANNEL_TWO_NAME,
+                    NotificationManager.IMPORTANCE_HIGH);//NotificationManager.IMPORTANCE_HIGH：通知弹出提示窗口
             mNotification = mCompatBuilder.build();
         }else{
             throw new IllegalArgumentException("Please give not null Notification Builder!");
