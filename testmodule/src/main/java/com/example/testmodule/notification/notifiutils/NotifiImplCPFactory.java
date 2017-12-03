@@ -9,7 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import com.example.testmodule.R;
-import com.example.testmodule.notification.receiver.MusicNotifyReceiver;
+import com.example.testmodule.notification.receiver.NotifyReceiver;
 
 /**
  * NotifiImplCompactFactory：生产包含NotificationCompat.Builder类型Builder的NotificationImpl的工厂。
@@ -37,17 +37,17 @@ public class NotifiImplCPFactory implements NotifiImplFInterface{
         mNotificationImpl.initDefaultNotificationCompatBuilder();
         NotificationCompat.Builder mCompatBuilder = mNotificationImpl.getNotificationCompatBuilder();
         //setContentIntent:设置用户点击通知整体后的PendingIntent
-        mCompatBuilder.setContentIntent(MusicNotifyReceiver.getContentIntentNotification(mContext,
+        mCompatBuilder.setContentIntent(NotifyReceiver.getContentIntentNotification(mContext,
                 PendingIntent.FLAG_UPDATE_CURRENT, viewID, viewString));
         //setDeleteIntent：只能监听滑动删除事件，无法监听点击删除(setAutoCancel(true))事件
-        mCompatBuilder.setDeleteIntent(MusicNotifyReceiver.getDeleteIntentNotification(mContext,
+        mCompatBuilder.setDeleteIntent(NotifyReceiver.getDeleteIntentNotification(mContext,
                 PendingIntent.FLAG_UPDATE_CURRENT, viewID, viewString));
         switch (style){
             case 0://发送一般通知
                 NotificationCompat.Action action1 = new NotificationCompat.Action(R.drawable.alert, "Yes",
-                        MusicNotifyReceiver.getActionIntentYes(mContext, Notification.FLAG_ONGOING_EVENT));
+                        NotifyReceiver.getActionIntentYes(mContext, Notification.FLAG_ONGOING_EVENT));
                 NotificationCompat.Action action2 = new NotificationCompat.Action(R.drawable.warning, "No",
-                        MusicNotifyReceiver.getActionIntentNo(mContext, Notification.FLAG_ONGOING_EVENT));
+                        NotifyReceiver.getActionIntentNo(mContext, Notification.FLAG_ONGOING_EVENT));
                 mNotificationImpl.getNotificationCompatBuilder().addAction(action1);
                 mNotificationImpl.getNotificationCompatBuilder().addAction(action2);
                 break;
@@ -56,7 +56,7 @@ public class NotifiImplCPFactory implements NotifiImplFInterface{
                 break;
             case 2://发送自定义音乐播放器通知
                 RemoteViews mRemoteViews = RemoteViewUtil.getMusicRemoteView(mContext, false);
-                MusicNotifyReceiver.setOnClickPendingIntentMusic(mContext, mRemoteViews);
+                NotifyReceiver.setOnClickPendingIntentMusic(mContext, mRemoteViews);
                 mCompatBuilder.setContent(mRemoteViews);//设置自定义布局
                 //
                 mCompatBuilder.setAutoCancel(false);//setAutoCancel：用户点击通知整体(不是某个按钮)后通知是否消失。

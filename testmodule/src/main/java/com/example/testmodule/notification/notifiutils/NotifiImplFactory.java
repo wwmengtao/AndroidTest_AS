@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.testmodule.R;
-import com.example.testmodule.notification.receiver.MusicNotifyReceiver;
+import com.example.testmodule.notification.receiver.NotifyReceiver;
 
 /**
  * NotifiImplFactory：生产包含Notification.Builder类型Builder的NotificationImpl的工厂。
@@ -39,18 +39,18 @@ public class NotifiImplFactory implements NotifiImplFInterface{
         mNotificationImpl.initDefaultNotificationBuilder();
         Notification.Builder mBuilder = mNotificationImpl.getNotificationBuilder();
         //setContentIntent:设置用户点击通知整体后的PendingIntent
-        mBuilder.setContentIntent(MusicNotifyReceiver.getContentIntentNotification(mContext,
+        mBuilder.setContentIntent(NotifyReceiver.getContentIntentNotification(mContext,
                 PendingIntent.FLAG_UPDATE_CURRENT, viewID, viewString));
         //setDeleteIntent：只能监听滑动删除事件，无法监听点击删除(setAutoCancel(true))事件
-        mBuilder.setDeleteIntent(MusicNotifyReceiver.getDeleteIntentNotification(mContext,
+        mBuilder.setDeleteIntent(NotifyReceiver.getDeleteIntentNotification(mContext,
                 PendingIntent.FLAG_UPDATE_CURRENT, viewID, viewString));
         switch (style){
             case 0://一般通知，通知栏置顶显示
                 mBuilder.setGroup(NOTIFICATION_GROUP_1);
                 Notification.Action action1 = new Notification.Action(
-                        R.drawable.alert, "Yes", MusicNotifyReceiver.getActionIntentYes(mContext, Notification.FLAG_ONGOING_EVENT));
+                        R.drawable.alert, "Yes", NotifyReceiver.getActionIntentYes(mContext, Notification.FLAG_ONGOING_EVENT));
                 Notification.Action action2 = new Notification.Action(
-                        R.drawable.warning, "No", MusicNotifyReceiver.getActionIntentNo(mContext, Notification.FLAG_ONGOING_EVENT));
+                        R.drawable.warning, "No", NotifyReceiver.getActionIntentNo(mContext, Notification.FLAG_ONGOING_EVENT));
                 mBuilder.addAction(action1);
                 mBuilder.addAction(action2);
                 //以下设置通知在通知栏置顶显示

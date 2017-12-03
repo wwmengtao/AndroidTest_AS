@@ -16,7 +16,7 @@ import com.fernandocejas.android10.sample.data.ALog;
  * Created by mengtao1 on 2017/11/23.
  */
 
-public class MusicNotifyReceiver extends BroadcastReceiver{
+public class NotifyReceiver extends BroadcastReceiver{
     public static final String ACTION_VIEW_ON_CLICK = "ACTION_VIEW_ON_CLICK";
     public final static String INTENT_VIEW_TAG = "INTENT_VIEW_TAG";
     public final static String INTENT_NOTIFY_CLICKED_ID = "INTENT_NOTIFY_CLICKED_ID";
@@ -40,13 +40,13 @@ public class MusicNotifyReceiver extends BroadcastReceiver{
     /** 是否在播放*/
     public boolean isPlay = false;
 
-    private static MusicNotifyReceiver mReceiver = null;
+    private static NotifyReceiver mReceiver = null;
     private OnPlayViewClickedListener mOnPlayViewClickedListener = null;
     private OnNotifyClickedListener mOnNotifyClickedListener = null;
     private OnNotifyDeletedListener mOnNotifyDeletedListener = null;
-    public static MusicNotifyReceiver getInstance(){
+    public static NotifyReceiver getInstance(){
         if(null == mReceiver) {
-            mReceiver = new MusicNotifyReceiver();
+            mReceiver = new NotifyReceiver();
         }
         return mReceiver;
     }

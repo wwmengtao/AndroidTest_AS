@@ -14,8 +14,8 @@ import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.notifiutils.NotificationImpl;
 import com.example.testmodule.notification.notifiutils.NotifyImplFactoryManager;
-import com.example.testmodule.notification.receiver.MusicNotifyReceiver;
 import com.example.testmodule.notification.notifiutils.RemoteViewUtil;
+import com.example.testmodule.notification.receiver.NotifyReceiver;
 import com.fernandocejas.android10.sample.data.ALog;
 
 import java.util.ArrayList;
@@ -24,8 +24,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class NotificationActivity extends BaseAcitivity implements MusicNotifyReceiver.OnPlayViewClickedListener,
-        MusicNotifyReceiver.OnNotifyClickedListener, MusicNotifyReceiver.OnNotifyDeletedListener{
+public class NotificationActivity extends BaseAcitivity implements NotifyReceiver.OnPlayViewClickedListener,
+        NotifyReceiver.OnNotifyClickedListener, NotifyReceiver.OnNotifyDeletedListener{
     private Unbinder mUnbinder = null;
     private String NOTIFICATION_TAG = "TestModule.Notification";//用于标识发送/取消广播时候的tag
     private NotificationManager mNotificationManager = null;
@@ -51,10 +51,10 @@ public class NotificationActivity extends BaseAcitivity implements MusicNotifyRe
     @Override
     protected void onDestroy(){
         mUnbinder.unbind();
-        MusicNotifyReceiver.getInstance().unRegisterReceiver(this);
-        MusicNotifyReceiver.getInstance().setOnPlayViewClickedListener(null);
-        MusicNotifyReceiver.getInstance().setOnNotifyClickedListener(null);
-        MusicNotifyReceiver.getInstance().setOnNotifyDeletedListener(null);
+        NotifyReceiver.getInstance().unRegisterReceiver(this);
+        NotifyReceiver.getInstance().setOnPlayViewClickedListener(null);
+        NotifyReceiver.getInstance().setOnNotifyClickedListener(null);
+        NotifyReceiver.getInstance().setOnNotifyDeletedListener(null);
         mNotificationManager.cancelAll();
         super.onDestroy();
     }
@@ -85,10 +85,10 @@ public class NotificationActivity extends BaseAcitivity implements MusicNotifyRe
         visitAL(mViewTextList2);
         mNotifyFactoryManager.addNotificationImpls(NotifyImplFactoryManager.FACTORY_TYPE.TYPE_COMPACT, buttonCompactIDs, mViewTextList2);
         //3、设置监听广播
-        MusicNotifyReceiver.getInstance().registerReceiver(this);
-        MusicNotifyReceiver.getInstance().setOnPlayViewClickedListener(this);
-        MusicNotifyReceiver.getInstance().setOnNotifyClickedListener(this);
-        MusicNotifyReceiver.getInstance().setOnNotifyDeletedListener(this);
+        NotifyReceiver.getInstance().registerReceiver(this);
+        NotifyReceiver.getInstance().setOnPlayViewClickedListener(this);
+        NotifyReceiver.getInstance().setOnNotifyClickedListener(this);
+        NotifyReceiver.getInstance().setOnNotifyDeletedListener(this);
 
     }
 
