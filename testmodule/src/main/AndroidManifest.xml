@@ -30,9 +30,10 @@
         <activity android:name=".notification.NotificationActivity" />
         <activity android:name=".SQLiteActivity" />
         <activity android:name=".notification.NotifiListActivity" />
-        <activity android:name=".viewpager.ViewPagerActivity"
-                  android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+        <activity
+            android:name=".viewpager.ViewPagerActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".WindowManagerActivity"></activity>
     </application>
 
 </manifest>

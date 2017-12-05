@@ -28,11 +28,11 @@ public class MainActivity extends BaseAcitivity {
         mUnbinder.unbind();
     }
 
-    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6};
+    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7};
     Class<?>[] classEs ={SQLiteActivity.class, WebViewActivity.class, EventBusActivity.class, XmlParserActivity.class,
-            NotifiListActivity.class, ViewPagerActivity.class};
+            NotifiListActivity.class, ViewPagerActivity.class, WindowManagerActivity.class};
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7})
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         startActivity(getCallingIntent(this, activity));
