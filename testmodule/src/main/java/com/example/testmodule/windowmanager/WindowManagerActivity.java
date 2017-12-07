@@ -1,0 +1,90 @@
+package com.example.testmodule.windowmanager;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.example.testmodule.ALog;
+import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
+public class WindowManagerActivity extends BaseAcitivity implements FloatingMeasureView.ConfigurationChangedListener,
+        FloatingMeasureView.MeasureViewHeightChangedListener{
+
+    private Context mContext = null;
+    private Unbinder mUnbinder = null;
+    private WindowManager mWindowManager = null;
+    private FloatingMeasureView mFloatingMeasureView = null;
+    private FloatingStatusBarView mFloatingStatusBarView= null;
+
+    @BindView(R.id.btn1)Button btn1;
+    @BindView(R.id.btn2)Button btn2;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_window_manager);
+        if(!WindowTools.canDrawOverlays(this)){//没有显示悬浮视图的权限
+            Toast.makeText(this, "Can not show floating view, please check canDrawOverlays!",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        init(this);
+        mUnbinder = ButterKnife.bind(this);
+    }
+
+    private void init(Context context){
+        mContext = context.getApplicationContext();
+        mWindowManager = (WindowManager) mContext.getApplicationContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+        //1、使用FloatingMeasureView监听窗口状态变化
+        mFloatingMeasureView = new FloatingMeasureView(mContext);
+        mFloatingMeasureView.registerMeasureViewHeightChangedListener(this);
+        mFloatingMeasureView.registerConfigurationChangedListener(this);
+        mWindowManager.addView(mFloatingMeasureView, mFloatingMeasureView.getLayoutParams());
+        //2、初始化状态栏背景色悬浮视图
+        this.mFloatingStatusBarView = new FloatingStatusBarView(mContext);
+    }
+
+    @OnClick(R.id.btn1)
+    public void onClick(){
+        mFloatingStatusBarView.updateView(-1);
+    }
+
+    @OnClick(R.id.btn2)
+    public void onClick2(){
+        mFloatingStatusBarView.removeView();
+    }
+
+    @Override
+    public void onDestroy() {
+        mWindowManager.removeView(mFloatingMeasureView);
+        mFloatingStatusBarView.removeView();
+        mUnbinder.unbind();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onMeasureViewHeightChanged(boolean heightChanged, boolean heightBecomeLarger) {
+        ALog.Log1(TAG+"_onMeasureViewHeightChanged heightChanged: "+heightChanged+" heightBecomeLarger: "+heightBecomeLarger);
+        if(heightBecomeLarger){
+            mFloatingStatusBarView.removeView();
+        }else{
+            mFloatingStatusBarView.updateView(-1);//恢复statusBarView
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(boolean isPortrait) {
+        ALog.Log1(TAG+"_onConfigurationChanged isPortrait: "+isPortrait);
+        mFloatingStatusBarView.setFSLayoutParams();//转屏后需要重新设置statusBarView的LayoutParams参数
+        mFloatingStatusBarView.updateView(isPortrait ? android.R.color.holo_purple : android.R.color.holo_green_dark);
+    }
+}

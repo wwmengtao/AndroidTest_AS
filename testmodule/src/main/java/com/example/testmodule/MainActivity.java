@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.example.testmodule.notification.NotifiListActivity;
 import com.example.testmodule.viewpager.ViewPagerActivity;
+import com.example.testmodule.windowmanager.WindowManagerActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;

@@ -33,7 +33,8 @@
         <activity
             android:name=".viewpager.ViewPagerActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".WindowManagerActivity"></activity>
+        <activity android:name=".windowmanager.WindowManagerActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"></activity>
     </application>
 
 </manifest>
