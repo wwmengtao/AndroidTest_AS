@@ -3,6 +3,7 @@ package com.example.testmodule;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.testmodule.location.LocationActivity;
 import com.example.testmodule.notification.NotifiListActivity;
 import com.example.testmodule.viewpager.ViewPagerActivity;
 import com.example.testmodule.windowmanager.WindowManagerActivity;
@@ -29,11 +30,11 @@ public class MainActivity extends BaseAcitivity {
         mUnbinder.unbind();
     }
 
-    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7};
+    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8};
     Class<?>[] classEs ={SQLiteActivity.class, WebViewActivity.class, EventBusActivity.class, XmlParserActivity.class,
-            NotifiListActivity.class, ViewPagerActivity.class, WindowManagerActivity.class};
+            NotifiListActivity.class, ViewPagerActivity.class, WindowManagerActivity.class, LocationActivity.class};
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8})
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         startActivity(getCallingIntent(this, activity));

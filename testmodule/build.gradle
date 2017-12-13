@@ -13,7 +13,11 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [eventBusIndex: 'M_T_Eventbus']
+            }
+        }
     }
 
     buildTypes {
@@ -36,6 +40,9 @@ dependencies {
     //以下使用ButterKnife
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //以下使用EventBus
+    compile 'org.greenrobot:eventbus:3.0.0'
+    annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.0.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile project(path: ':data')
 }

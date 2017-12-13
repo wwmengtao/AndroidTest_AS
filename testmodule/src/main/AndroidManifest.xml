@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.testmodule">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -32,9 +33,11 @@
         <activity android:name=".notification.NotifiListActivity" />
         <activity
             android:name=".viewpager.ViewPagerActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".windowmanager.WindowManagerActivity"
-            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".windowmanager.WindowManagerActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize" />
+        <activity android:name=".location.LocationActivity"></activity>
     </application>
 
 </manifest>
