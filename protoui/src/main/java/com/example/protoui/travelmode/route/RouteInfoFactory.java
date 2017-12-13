@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 
-import com.example.protoui.travelmode.SuggestionRepository;
 import com.google.android.gms.maps.model.LatLng;
 
 
@@ -42,11 +41,7 @@ public abstract class RouteInfoFactory {
 
     protected LatLng getOrigin() {
         LatLng origin = null;
-        if (mSuggestionType == SuggestionRepository.HOME_TO_WORK) {
-            origin = ConfirmedPOISDAOImpl.getInstance(mContext).getConfirmedPOILatLng("HOME");
-        } else {
-            origin = ConfirmedPOISDAOImpl.getInstance(mContext).getConfirmedPOILatLng("WORK");
-        }
+        //此处获取location
         if (origin == null) {
             origin = new LatLng(41.8781136, -87.6297982);
         }
@@ -55,11 +50,7 @@ public abstract class RouteInfoFactory {
 
     protected LatLng getDestination() {
         LatLng destination = null;
-        if (mSuggestionType == SuggestionRepository.HOME_TO_WORK) {
-            destination = ConfirmedPOISDAOImpl.getInstance(mContext).getConfirmedPOILatLng("WORK");
-        } else {
-            destination = ConfirmedPOISDAOImpl.getInstance(mContext).getConfirmedPOILatLng("HOME");
-        }
+        //此处获取location
         if (destination == null) {
             destination = new LatLng(31.9294066, 118.8000518);
         }

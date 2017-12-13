@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import com.example.protoui.ALog;
 import com.example.protoui.R;
 import com.example.protoui.travelmode.route.RouteInfo;
 import com.example.protoui.travelmode.route.RouteInfoFactory;
@@ -47,6 +48,7 @@ public class LyftFactory extends RouteInfoFactory {
             @Override
             public void onResponse(Call<EtaEstimateResponse> call, Response<EtaEstimateResponse> response) {
                 Eta eta = getEtaFromResponse(response.body());
+                ALog.Log("LyftFactory_onResponse: "+eta.toString());
                 if (eta != null && eta.eta_seconds != null) {
                     mSummary = (eta.eta_seconds / 60) + "min";
                     mLabel = eta.display_name;
