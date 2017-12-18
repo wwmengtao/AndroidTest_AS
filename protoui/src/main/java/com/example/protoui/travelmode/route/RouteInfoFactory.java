@@ -21,10 +21,21 @@ public abstract class RouteInfoFactory {
     protected String mLabel = null;
     protected Drawable mIcon = null;
     protected String mSummary = null;
+    protected String mPrice = null;
+
+    protected OnDataLoadListener mOnDataLoadListener = null;
 
     protected RouteInfoFactory(Context context, int type) {
         mContext = context;
         mSuggestionType = type;
+    }
+
+    public void setOnDataLoadListener(OnDataLoadListener mOnDataLoadListener){
+        this.mOnDataLoadListener = mOnDataLoadListener;
+    }
+
+    public void unSetDataLoadListener(){
+        if(null != mOnDataLoadListener)mOnDataLoadListener = null;
     }
 
     public abstract void requestEstimateInfo();
@@ -37,13 +48,25 @@ public abstract class RouteInfoFactory {
         return mIsReady;
     }
 
-    public abstract RouteInfo createRouteInfo();
+    protected abstract RouteInfo createRouteInfo();
+
+    private double oriLat = 41.8781136;
+    private double oriLon = -87.6297982;
 
     protected LatLng getOrigin() {
         LatLng origin = null;
         //此处获取location
         if (origin == null) {
-            origin = new LatLng(41.8781136, -87.6297982);
+            origin = new LatLng(oriLat, oriLon);
+        }
+        return origin;
+    }
+
+    protected LatLng getDest() {
+        LatLng origin = null;
+        //此处获取location
+        if (origin == null) {
+            origin = new LatLng(oriLat+0.00002, oriLon+0.00002);
         }
         return origin;
     }
@@ -66,5 +89,10 @@ public abstract class RouteInfoFactory {
             // ignored.
         }
         return false;
+    }
+
+    public interface OnDataLoadListener{
+        void onDataLoadSuccess(RouteInfo mRouteInfo);
+        void onDataLoadFailed(Throwable t);
     }
 }

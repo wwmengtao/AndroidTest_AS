@@ -3,4 +3,5 @@
     <string name="ce_context_go_to_work">Heading to work?</string>
     <!-- context suggestion notification message: [go home] -->
     <string name="ce_context_go_home">Heading home?</string>
+    <string name="waiting_time">Waiting time: %1s</string>
 </resources>

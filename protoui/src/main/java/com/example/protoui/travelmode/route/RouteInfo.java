@@ -8,16 +8,25 @@ import android.graphics.drawable.Drawable;
  */
 
 public class RouteInfo {
+    private InfoType mInfoType;
     private String mPackageName;
     private Intent mIntent;
     private String mLabel;
+    private String mPrice;
     private Drawable mIcon;
     private String mSummary;
 
-    public RouteInfo(String packageName, Intent intent, String label, Drawable icon, String summary) {
+    public enum InfoType{
+        UBER,
+        LYFT
+    }
+
+    public RouteInfo(InfoType infoType, String packageName, Intent intent, String label, String price, Drawable icon, String summary) {
+        mInfoType = infoType;
         mPackageName = packageName;
         mIntent = intent;
         mLabel = label;
+        mPrice = price;
         mIcon = icon;
         mSummary = summary;
     }
@@ -40,5 +49,13 @@ public class RouteInfo {
 
     public String getSummary() {
         return mSummary;
+    }
+
+    public String getPrice() {
+        return mPrice;
+    }
+
+    public InfoType getInfoType(){
+        return this.mInfoType;
     }
 }

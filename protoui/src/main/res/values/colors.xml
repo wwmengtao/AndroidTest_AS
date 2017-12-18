@@ -309,4 +309,5 @@
     <color name="ques_bt_text_color_light">#24cf5f</color>
     <color name="system_notification_accent_color">#ff607D8B</color>
     <color name="secondary_text_default_material_light_1">#8a000000</color>
+    <color name="transparent">#00000000</color>
 </resources>

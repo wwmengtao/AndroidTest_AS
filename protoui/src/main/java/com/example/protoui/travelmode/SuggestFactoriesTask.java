@@ -69,10 +69,10 @@ public class SuggestFactoriesTask extends AsyncTask<Integer, Integer, List<Route
         }
         ALog.Log("getRouteOptions2");
         // return the results.
-        for (RouteInfoFactory factory : factories) {
-            routeInfos.add(factory.createRouteInfo());
-        }
-        ALog.Log("getRouteOptions3");
+//        for (RouteInfoFactory factory : factories) {
+//            routeInfos.add(factory.createRouteInfo());
+//        }
+//        ALog.Log("getRouteOptions3");
         return routeInfos;
     }
 
