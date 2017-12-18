@@ -67,15 +67,27 @@ public class UserEntityNT {
         this.sum = sum;
     }
 
-    public String toString(){
-        String str =
-        TO_STRING + "\n" +
-        "key: "+key + "\n" +
-        "adj: "+adj + "\n" +
-        "pic: "+pic + "\n" +
-        "num: "+num + "\n" +
-        "sum: "+sum + "\n" +
-        TO_STRING + "\n";
-        return str;
-    }
+//    public String toString(){
+//        String str =
+//        TO_STRING + "\n" +
+//        "key: "+key + "\n" +
+//        "adj: "+adj + "\n" +
+//        "pic: "+pic + "\n" +
+//        "num: "+num + "\n" +
+//        "sum: "+sum + "\n" +
+//        TO_STRING + "\n";
+//        return str;
+//    }
+@Override
+public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class UserEntityNT {\n");
+    sb.append("  key: ").append(key).append("\n");
+    sb.append("  adj: ").append(adj).append("\n");
+    sb.append("  pic: ").append(pic).append("\n");
+    sb.append("  num: ").append(num).append("\n");
+    sb.append("  sum: ").append(sum).append("\n");
+    sb.append("}\n");
+    return sb.toString();
+}
 }

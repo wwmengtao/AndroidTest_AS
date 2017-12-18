@@ -69,16 +69,29 @@ public class UserModelNT implements Parcelable {
     this.sum = sum;
   }
 
-  public String toString(){
-    String str =
-    TO_STRING + "\n" +
-    "key: "+key + "\n" +
-    "adjunction: "+adjunction + "\n" +
-    "pic: "+pic + "\n" +
-    "index: "+index + "\n" +
-    "sum: "+sum + "\n" +
-    TO_STRING + "\n";
-    return str;
+//  public String toString(){
+//    String str =
+//    TO_STRING + "\n" +
+//    "key: "+key + "\n" +
+//    "adjunction: "+adjunction + "\n" +
+//    "pic: "+pic + "\n" +
+//    "index: "+index + "\n" +
+//    "sum: "+sum + "\n" +
+//    TO_STRING + "\n";
+//    return str;
+//  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class UserModelNT {\n");
+    sb.append("  key: ").append(key).append("\n");
+    sb.append("  adjunction: ").append(adjunction).append("\n");
+    sb.append("  pic: ").append(pic).append("\n");
+    sb.append("  index: ").append(index).append("\n");
+    sb.append("  sum: ").append(sum).append("\n");
+    sb.append("}\n");
+    return sb.toString();
   }
 
 // 1.必须实现Parcelable.Creator接口,否则在获取Person数据的时候，会报错，如下：
