@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.DecimalFormat;
+
 
 /**
  * Created by huangzq2 on 2017/8/21.
@@ -22,7 +24,7 @@ public abstract class RouteInfoFactory {
     protected Drawable mIcon = null;
     protected String mSummary = null;
     protected String mPrice = null;
-
+    protected String mDistance = null;
     protected OnDataLoadListener mOnDataLoadListener = null;
 
     protected RouteInfoFactory(Context context, int type) {
@@ -66,7 +68,7 @@ public abstract class RouteInfoFactory {
         LatLng origin = null;
         //此处获取location
         if (origin == null) {
-            origin = new LatLng(oriLat+0.00002, oriLon+0.00002);
+            origin = new LatLng(oriLat+0.1, oriLon+0.04);
         }
         return origin;
     }
@@ -94,5 +96,11 @@ public abstract class RouteInfoFactory {
     public interface OnDataLoadListener{
         void onDataLoadSuccess(RouteInfo mRouteInfo);
         void onDataLoadFailed(Throwable t);
+    }
+
+    protected String getFinalDistance(Number distance){
+        DecimalFormat df = new DecimalFormat("0.00");
+        String finalDistance = df.format((Number)distance);
+        return finalDistance;
     }
 }

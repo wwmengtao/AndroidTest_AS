@@ -48,7 +48,7 @@ public class UberFactory extends RouteInfoFactory {
             @Override
             public void onResponse(Call<EtaEstimateResponse> call, Response<EtaEstimateResponse> response) {
                 Eta eta = getEtaFromResponse(response.body());
-                ALog.Log2(TAG+"time onResponse: "+eta.toString());
+                if(null != eta)ALog.Log2(TAG+"time onResponse: "+eta.toString());
                 if (eta != null && eta.estimate != null) {
                     mSummary = (eta.estimate / 60) + "min";
                     mLabel = eta.display_name;
@@ -74,6 +74,7 @@ public class UberFactory extends RouteInfoFactory {
                 if (eta != null && eta.estimate != null) {
                     ALog.Log2(TAG+"EtaPrice_estimate: "+eta.estimate);
                     mPrice = eta.estimate;
+                    mDistance = getFinalDistance(eta.distance);
                     RouteInfo mRouteInfo = createRouteInfo();
                     if(null != mOnDataLoadListener)mOnDataLoadListener.onDataLoadSuccess(mRouteInfo);
                 }
@@ -137,7 +138,7 @@ public class UberFactory extends RouteInfoFactory {
             mIcon = mContext.getDrawable(R.drawable.ce_ic_uber);
         }
 
-        return new RouteInfo(RouteInfo.InfoType.UBER, PACKAGE_NAME, mIntent, mLabel, mPrice, mIcon, mSummary);
+        return new RouteInfo(RouteInfo.InfoType.UBER, PACKAGE_NAME, mIntent, mLabel, mPrice, mIcon, mSummary, mDistance);
     }
 
 }

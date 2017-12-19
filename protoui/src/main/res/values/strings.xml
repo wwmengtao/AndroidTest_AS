@@ -3,5 +3,12 @@
     <string name="ce_context_go_to_work">Heading to work?</string>
     <!-- context suggestion notification message: [go home] -->
     <string name="ce_context_go_home">Heading home?</string>
+    <string name="title">Loading...</string>
+    <string name="price">Calculating...</string>
+    <string name="time">Calculating...</string>
+    <string name="distance">Calculating...</string>
+
     <string name="waiting_time">Waiting time: %1s</string>
+    <string name="final_distance">%1s miles</string>
+
 </resources>

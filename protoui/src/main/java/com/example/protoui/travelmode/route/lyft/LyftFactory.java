@@ -48,7 +48,7 @@ public class LyftFactory extends RouteInfoFactory {
             @Override
             public void onResponse(Call<EtaEstimateResponse> call, Response<EtaEstimateResponse> response) {
                 Eta eta = getEtaFromResponse(response.body());
-                ALog.Log1("LyftFactory_onResponse_time: "+eta.toString());
+                if(null != eta)ALog.Log1("LyftFactory_onResponse_time: "+eta.toString());
                 if (eta != null && eta.eta_seconds != null) {
                     mSummary = (eta.eta_seconds / 60) + "min";
                     mLabel = eta.display_name;
@@ -73,6 +73,7 @@ public class LyftFactory extends RouteInfoFactory {
                 if (eta != null) {
                     ALog.Log1("LyftFactory_Price: "+eta.toString()+Thread.currentThread().toString());
                     mPrice = getFinalPrice(eta);
+                    mDistance = getFinalDistance(eta.estimated_distance_miles);
                     RouteInfo mRouteInfo = createRouteInfo();
                     if(null != mOnDataLoadListener)mOnDataLoadListener.onDataLoadSuccess(mRouteInfo);
                 }
@@ -156,7 +157,7 @@ public class LyftFactory extends RouteInfoFactory {
             }
             mIcon = mContext.getDrawable(R.drawable.ce_ic_lyft);
         }
-        return new RouteInfo(RouteInfo.InfoType.LYFT, PACKAGE_NAME, mIntent, mLabel, mPrice, mIcon, mSummary);
+        return new RouteInfo(RouteInfo.InfoType.LYFT, PACKAGE_NAME, mIntent, mLabel, mPrice, mIcon, mSummary, mDistance);
     }
 
 }

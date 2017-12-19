@@ -22,10 +22,10 @@ public class SAppInfo {
     private String packageName = null;
     private Drawable drawable = null;
     private String title = null;
-    private String summary = null;
-    private String description = null;
+    private String price = null;
+    private String waitingTime = null;
     private Intent intent = null;
-
+    private String distance = null;
     public SAppInfo(){
 
     }
@@ -61,20 +61,20 @@ public class SAppInfo {
         return this.drawable;
     }
 
-    public void setSummary(String summary){
-        this.summary = summary;
+    public void setPrice(String summary){
+        this.price = summary;
     }
 
-    public String getSummary(){
-        return this.summary;
+    public String getPrice(){
+        return this.price;
     }
 
-    public void setDescription(String description){
-        this.description = description;
+    public void setWaitingTime(String description){
+        this.waitingTime = description;
     }
 
-    public String getDescription(){
-        return this.description;
+    public String getWaitingTime(){
+        return this.waitingTime;
     }
 
     public void setSIntent(Intent intent){
@@ -84,16 +84,24 @@ public class SAppInfo {
         return this.intent;
     }
 
+    public void setDistance(String distance){
+        this.distance = distance;
+    }
+    public String getDistance(){
+        return this.distance;
+    }
+
     public static SAppInfo convert(RouteInfo routeInfo){
-        ALog.Log("routeInfo: "+routeInfo.getLabel()+" ");
+        ALog.Log("routeInfo: "+routeInfo.getDistance());
         SAppInfo si = new SAppInfo();
         si.setInfoType(routeInfo.getInfoType());
         si.setTitle(routeInfo.getLabel());
-        si.setSummary(routeInfo.getSummary());
-        si.setDescription(routeInfo.getPrice());
+        si.setWaitingTime(routeInfo.getSummary());
+        si.setPrice(routeInfo.getPrice());
         si.setDrawable(routeInfo.getIcon());
         si.setPackageName(routeInfo.getPackageName());
         si.setSIntent(routeInfo.getIntent());
+        si.setDistance(routeInfo.getDistance());
         return si;
     }
 

@@ -15,13 +15,15 @@ public class RouteInfo {
     private String mPrice;
     private Drawable mIcon;
     private String mSummary;
+    private String mDistance;
 
     public enum InfoType{
         UBER,
         LYFT
     }
 
-    public RouteInfo(InfoType infoType, String packageName, Intent intent, String label, String price, Drawable icon, String summary) {
+    public RouteInfo(InfoType infoType, String packageName, Intent intent, String label, String price,
+                     Drawable icon, String summary, String distance) {
         mInfoType = infoType;
         mPackageName = packageName;
         mIntent = intent;
@@ -29,6 +31,7 @@ public class RouteInfo {
         mPrice = price;
         mIcon = icon;
         mSummary = summary;
+        mDistance = distance;
     }
 
     public String getPackageName() {
@@ -57,5 +60,9 @@ public class RouteInfo {
 
     public InfoType getInfoType(){
         return this.mInfoType;
+    }
+
+    public String getDistance(){
+        return mDistance;
     }
 }
