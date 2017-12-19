@@ -8,11 +8,13 @@ import com.rx2androidnetworking.Rx2AndroidNetworking;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -177,26 +179,35 @@ public class ObsFetcher {
                 });
     }
 
-    public static long intervalDuration = 500;
-    public static Observable<Integer> getIntegerObs() {
+    public static long TimeDuration = 400;
+    public static Observable<Integer> getFilterObs() {
         return Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
                 // send events with simulated time wait
-                Thread.sleep(0);
-                emitter.onNext(1); // skip
-                emitter.onNext(2); // deliver
-                Thread.sleep(505);
-                emitter.onNext(3); // skip
-                Thread.sleep(99);
-                emitter.onNext(4); // skip
-                Thread.sleep(100);
-                emitter.onNext(5); // skip
-                emitter.onNext(6); // deliver
-                Thread.sleep(305);
-                emitter.onNext(7); // deliver
-                Thread.sleep(510);
+                for (int i = 0; i <= 10; i++) {
+                    emitter.onNext(i);
+                    ALog.sleep(100);
+//                    if (i % 3 == 0) {
+//                        ALog.sleep(3 * 100);
+//                    }
+                }
                 emitter.onComplete();
+            }
+        });
+    }
+
+    private static int deferValue = -1;
+
+    public static void setDeferValue(){
+        deferValue ++;
+    }
+
+    public static Observable<Integer> getDeferObservable() {
+        return Observable.defer(new Callable<ObservableSource<? extends Integer>>() {
+            @Override
+            public ObservableSource<? extends Integer> call() throws Exception {
+                return Observable.just(deferValue);
             }
         });
     }

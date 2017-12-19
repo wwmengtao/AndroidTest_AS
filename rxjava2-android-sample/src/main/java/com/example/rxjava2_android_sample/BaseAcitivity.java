@@ -74,4 +74,8 @@ public abstract class BaseAcitivity extends AppCompatActivity {
         mComDisposable.clear(); // clearing it : do not emit after destroy
         super.onDestroy();
     }
+
+    protected void showLog(String info){
+        ALog.Log("/----------------------------"+TAG+" "+info+"----------------------------/");
+    }
 }

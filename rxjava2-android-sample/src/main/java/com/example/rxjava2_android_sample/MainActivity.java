@@ -5,10 +5,8 @@ import android.view.View;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class MainActivity extends BaseAcitivity {
-    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +19,6 @@ public class MainActivity extends BaseAcitivity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        mUnbinder.unbind();
     }
 
     int []buttonIDs={R.id.btn1, R.id.btn2};

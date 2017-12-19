@@ -12,59 +12,132 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <Button
-                android:id="@+id/btn1"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="IntervalMap"/>
-            <Button
-                android:id="@+id/btn2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="IntervalFlatMap"/>
-            <Button
-                android:id="@+id/btn3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Window"/>
-
-            <Button
-                android:id="@+id/btn4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Timer"/>
-
-            <Button
-                android:id="@+id/btn5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="ThrottleLast"/>
-
-            <Button
-                android:id="@+id/btn6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Skip"/>
-            <Button
-                android:id="@+id/btn7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Scan"/>
-            <Button
-                android:id="@+id/btn8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Reduce"/>
-            <Button
-                android:id="@+id/btn9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Merge"/>
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:background="@color/mediumseagreen"
+                android:text="1、创建操作"/>
             <Button
                 android:id="@+id/btn10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Timer"/>
+            <Button
+                android:id="@+id/btn11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Defer"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:background="@color/mediumseagreen"
+                android:text="2、变换操作"/>
+            <Button
+                android:id="@+id/btn20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="IntervalMap"/>
+            <Button
+                android:id="@+id/btn21"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="IntervalFlatMap"/>
+            <Button
+                android:id="@+id/btn22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Window"/>
+            <Button
+                android:id="@+id/btn23"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Scan"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:background="@color/mediumseagreen"
+                android:text="3、过滤操作"/>
+            <Button
+                android:id="@+id/btn30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ThrottleLast"/>
+            <Button
+                android:id="@+id/btn31"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="throttleFirst"/>
+            <Button
+                android:id="@+id/btn32"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sample"/>
+            <Button
+                android:id="@+id/btn33"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="debounce"/>
+            <Button
+                android:id="@+id/btn34"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="filter"/>
+            <Button
+                android:id="@+id/btn35"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="distinct"/>
+            <Button
+                android:id="@+id/btn36"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Skip"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:background="@color/mediumseagreen"
+                android:text="4、辅助操作"/>
+            <Button
+                android:id="@+id/btn40"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delay"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:background="@color/mediumseagreen"
+                android:text="5、算术及聚合操作"/>
+            <Button
+                android:id="@+id/btn50"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Concat"/>
+            <Button
+                android:id="@+id/btn51"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reduce"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:background="@color/mediumseagreen"
+                android:text="6、结合操作"/>
+            <Button
+                android:id="@+id/btn60"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Merge"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
