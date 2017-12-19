@@ -8,6 +8,7 @@ import com.example.rxjava2_android_sample.model.UserDetail;
 
 import java.util.List;
 
+import io.reactivex.MaybeObserver;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -102,4 +103,31 @@ public class ObserverInfo {
             ALog.Log2(TAG+ "onNext " + userDetail.toString());
         }
     }
+
+    public static MaybeObserver<Integer> getMaybeObserver() {
+        final String TAG = "MaybeObserver";
+        return new MaybeObserver<Integer>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                ALog.Log(TAG+ " onSubscribe : " + d.isDisposed());
+            }
+
+            @Override
+            public void onSuccess(Integer value) {
+
+                ALog.Log(TAG+ " onSuccess : value : " + value);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ALog.Log(TAG+ " onError : " + e.getMessage());
+            }
+
+            @Override
+            public void onComplete() {
+                ALog.Log(TAG+ " onComplete");
+            }
+        };
+    }
+
 }
