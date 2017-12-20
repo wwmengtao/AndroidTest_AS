@@ -3,11 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
 
-
-
     defaultConfig {
         applicationId "com.example.rxjava2_android_sample"
-        minSdkVersion 26
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
