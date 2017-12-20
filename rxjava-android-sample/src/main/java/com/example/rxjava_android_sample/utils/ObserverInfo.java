@@ -10,17 +10,23 @@ import rx.Observer;
  */
 
 public class ObserverInfo {
-    private static final String TAG_TOP = "ObserverInfo ";
+    private static String TAG_TOP = "ObserverInfo ";
 
-    private static abstract class BaseObserver<T> implements Observer<T> {
+    public static void setTagTop(String tag_top){
+        TAG_TOP = tag_top;
+    }
+
+    public static abstract class BaseObserver<T> implements Observer<T> {
         protected String TAG = null;
         protected long preTime, nowTime;
+
         public BaseObserver(){
             String tag = this.toString();
             tag = tag.substring(tag.indexOf('$')+1, tag.lastIndexOf('@'));
             TAG = TAG_TOP + tag + " ";
             preTime = System.currentTimeMillis();
         }
+
         @Override
         public void onNext(T t) {
         }
@@ -48,4 +54,14 @@ public class ObserverInfo {
         }
     }
 
+    public static class ObString extends BaseObserver<String>{
+        public static ObString get(){
+            return new ObString();
+        }
+
+        @Override
+        public void onNext(String str) {
+            ALog.Log2(TAG+ "onNext " + str);
+        }
+    }
 }

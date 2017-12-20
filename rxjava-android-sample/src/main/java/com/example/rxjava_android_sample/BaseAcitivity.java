@@ -7,7 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.SparseArray;
 import android.view.View;
 
+import java.util.ArrayList;
+
 import butterknife.Unbinder;
+import rx.Subscription;
 
 
 /**
@@ -18,6 +21,7 @@ public abstract class BaseAcitivity extends AppCompatActivity {
     protected String TAG = null;
     private static final String ACTIVITY_NAME_TAG = "ACTIVITY_NAME";
     private SparseArray<Class<?>> mActivitySA = null;
+    protected ArrayList<Subscription> mSubscriptions = null;
     //
     protected Unbinder mUnbinder;
 
@@ -48,6 +52,7 @@ public abstract class BaseAcitivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setActivityTitle();
+        mSubscriptions = new ArrayList<>();
     }
 
     protected void initActivities(int []viewIDs, Class<?>[] classEs){
@@ -69,7 +74,16 @@ public abstract class BaseAcitivity extends AppCompatActivity {
     @Override
     protected void onDestroy(){
         mUnbinder.unbind();
+        unsubscribe();
         super.onDestroy();
+    }
+
+    private void unsubscribe(){//取消RxJava中观察者订阅
+        for(Subscription ss : mSubscriptions){
+            if(null != ss && !ss.isUnsubscribed()){
+                ss.unsubscribe();
+            }
+        }
     }
 
     protected void showLog(String info){

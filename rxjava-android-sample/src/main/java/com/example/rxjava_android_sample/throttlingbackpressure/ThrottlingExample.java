@@ -106,10 +106,10 @@ public class ThrottlingExample {
   }
 
     //window
-    public void showtWindow() {
+    public void showWindow() {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            list.add("hello i:" + i);
+            list.add("hello i: " + i);
         }
         Observable.from(list).window(4).subscribe(new Subscriber<Observable<String>>() {
             @Override
@@ -121,8 +121,8 @@ public class ThrottlingExample {
             }
 
             @Override
-            public void onNext(Observable<String> stringObservable) {
-                stringObservable.subscribe(new Subscriber<String>() {
+            public void onNext(Observable<String> observable) {
+                observable.subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {
                     }
