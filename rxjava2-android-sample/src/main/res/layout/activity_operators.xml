@@ -14,7 +14,15 @@
             android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@color/violet"
+                android:text="@string/operator_page"/>
+
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:background="@color/mediumseagreen"
                 android:text="1、创建操作"/>
@@ -157,6 +165,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Merge"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:background="@color/mediumseagreen"
+                android:text="7、连接操作"/>
+            <Button
+                android:id="@+id/btn70"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Connect"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

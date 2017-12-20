@@ -17,8 +17,10 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
+import io.reactivex.observables.ConnectableObservable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.schedulers.Timed;
@@ -331,4 +333,28 @@ public class OperatorsActivity extends BaseAcitivity {
         mComDisposable.add(observer);
     }
 
+    /*---------------------------------7、连接操作---------------------------------*/
+    @OnClick({R.id.btn70})
+    public void connect() {//应用场景：两个观察者同时开始观察同一个数据源，做同一类事情，比如测试两个线程同时处理某项任务的耗时
+        showLog("connect");
+        Integer [] integers={1,2,3,4,5,6};
+        ConnectableObservable<Integer> observable= Observable.fromArray(integers)
+                .publish();//将一个Observable转换为一个可连接的Observable
+
+        Consumer c1=new Consumer<Integer>(){
+            @Override
+            public void accept(Integer i) {
+                ALog.Log("观察者1收到:  "+i);
+            }
+        };
+        Consumer c2=new Consumer<Integer>(){
+            @Override
+            public void accept(Integer i) {
+                ALog.Log("观察者2收到:  "+i);
+            }
+        };
+        observable.subscribe(c1);
+        observable.subscribe(c2);
+        observable.connect();//只有执行connect操作后，上述两个观察者才同时开始观察数据
+    }
 }
