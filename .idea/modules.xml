@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/protoui/protoui.iml" filepath="$PROJECT_DIR$/protoui/protoui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rxjava-android-sample/rxjava-android-sample.iml" filepath="$PROJECT_DIR$/rxjava-android-sample/rxjava-android-sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/rxjava2-android-sample/rxjava2-android-sample.iml" filepath="$PROJECT_DIR$/rxjava2-android-sample/rxjava2-android-sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/testmodule/testmodule.iml" filepath="$PROJECT_DIR$/testmodule/testmodule.iml" />
     </modules>

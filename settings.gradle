@@ -1,1 +1,1 @@
-include ':app', ':data', ':domain', ':testmodule', ':protoui', ':rxjava2-android-sample'
+include ':app', ':data', ':domain', ':testmodule', ':protoui', ':rxjava2-android-sample', ':rxjava-android-sample'
