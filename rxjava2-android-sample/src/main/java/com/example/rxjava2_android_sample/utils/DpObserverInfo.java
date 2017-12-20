@@ -3,13 +3,19 @@ package com.example.rxjava2_android_sample.utils;
 import com.example.rxjava2_android_sample.ALog;
 import com.example.rxjava2_android_sample.model.User;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.schedulers.Timed;
+
+import static com.example.rxjava2_android_sample.model.SchoolInfo.Student;
 
 /**
  * Created by mengtao1 on 2017/12/15.
@@ -76,6 +82,31 @@ public class DpObserverInfo {
         }
     }
 
+    public static class ObListLong extends BaseObserver<List<Long>> {
+        public static ObListLong get(){
+            return new ObListLong();
+        }
+
+        @Override
+        public void onNext(List<Long> observable) {
+            ALog.Log2(TAG+ "onNext "+observable.size());
+            for(Long l : observable){
+                ALog.Log2(TAG+ "value: "+l);
+            }
+        }
+    }
+
+    public static class ObStudent extends BaseObserver<Student> {
+        public static ObStudent get(){
+            return new ObStudent();
+        }
+
+        @Override
+        public void onNext(Student l) {
+            ALog.Log2(TAG+ "onNext " + l.toString());
+        }
+    }
+
     public static class ObListUser extends BaseObserver<List<User>> {
         public static ObListUser get(){
             return new ObListUser();
@@ -95,6 +126,23 @@ public class DpObserverInfo {
         @Override
         public void onNext(Integer l) {
             ALog.Log2(TAG+ "onNext " + l);
+        }
+    }
+
+    public static class ObTimedInteger extends BaseObserver<Timed<Integer>> {
+        SimpleDateFormat sdf = null;
+        public static ObTimedInteger get(){
+            return new ObTimedInteger();
+        }
+
+        private ObTimedInteger(){
+            sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss", Locale.CHINA);
+        }
+
+        @Override
+        public void onNext(Timed<Integer> l) {
+            String timeValue = sdf.format(new Date(l.time()));//例如2017-12-19-07:50:47
+            ALog.Log2(TAG+ "onNext value: " + l.value()+" time: "+timeValue);
         }
     }
 

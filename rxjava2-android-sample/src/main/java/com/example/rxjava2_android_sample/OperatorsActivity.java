@@ -3,6 +3,7 @@ package com.example.rxjava2_android_sample;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.rxjava2_android_sample.model.SchoolInfo;
 import com.example.rxjava2_android_sample.model.User;
 import com.example.rxjava2_android_sample.utils.DpObserverInfo;
 import com.example.rxjava2_android_sample.utils.ObsFetcher;
@@ -16,9 +17,14 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.schedulers.Timed;
+
+import static com.example.rxjava2_android_sample.model.SchoolInfo.SchoolClass;
+import static com.example.rxjava2_android_sample.model.SchoolInfo.Student;
 
 /**
  * 操作符解释见网页：https://mcxiaoke.gitbooks.io/rxdocs/content/Operators.html
@@ -30,7 +36,8 @@ public class OperatorsActivity extends BaseAcitivity {
         setContentView(R.layout.activity_operators);
         mUnbinder = ButterKnife.bind(this);
     }
-    //1、创建操作
+
+    /*---------------------------------1、创建操作---------------------------------*/
     @OnClick({R.id.btn10})
     public void timer(){//应用场景：延时做某种操作
         showLog("timer");
@@ -54,12 +61,12 @@ public class OperatorsActivity extends BaseAcitivity {
         mComDisposable.add(observer);
     }
 
-    //2、变换操作
+    /*---------------------------------2、变换操作---------------------------------*/
     @OnClick({R.id.btn20})
     public void IntervalMap(View view){//应用场景：定时从网络上获取数据
         showLog("IntervalMap");
         Observable<Long> observable =
-                ObsFetcher.getIntervalMapObs()
+                ObsFetcher.getIntervalMapObs()//注意与getIntervalMapFlatMapObs的区别
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
         DisposableObserver<Long> observer = observable.subscribeWith(DpObserverInfo.ObLong.get());
@@ -77,9 +84,25 @@ public class OperatorsActivity extends BaseAcitivity {
         mComDisposable.add(observer);
     }
 
+    @OnClick({R.id.btn211})
+    public void flatMap(){//应用场景：定时从网络上获取数据
+        showLog("flatMap");
+        Observable<Student> observable=
+            Observable.fromArray(SchoolInfo.getData())
+                .flatMap(new Function<SchoolClass, Observable<Student>>() {
+                    @Override
+                    public Observable<Student> apply(SchoolClass schoolClass) {
+                        //将Student列表使用from方法一个一个发出去
+                        return Observable.fromArray(schoolClass.getStudents());
+                    }
+                });
+        DisposableObserver<Student> observer = observable.subscribeWith(DpObserverInfo.ObStudent.get());
+        mComDisposable.add(observer);
+    }
+
     @OnClick({R.id.btn22})
-    public void Window(){//应用场景：获取一定量的数据，截断这些数据分多次送给观察者，而不是一个一个。
-        showLog("Window");
+    public void window(){//应用场景：获取一定量的数据，截断这些数据分多次送给观察者，而不是一个一个。
+        showLog("window");
         Observable<Observable<Long>> observable =
                 Observable.interval(1, TimeUnit.SECONDS)
                         .take(12)//只要前12个数据
@@ -88,6 +111,21 @@ public class OperatorsActivity extends BaseAcitivity {
                         .observeOn(AndroidSchedulers.mainThread());
         DisposableObserver<Observable<Long>> observer =
                 observable.subscribeWith(DpObserverInfo.ObObLong.get());
+        mComDisposable.add(observer);
+    }
+
+    @OnClick({R.id.btn221})
+    public void buffer(){//应用场景：滑动窗口模式获取一定量的数据，这些数据集合的构成受buffer函数中的skip数值影响，也可以一次性收集齐所有数据
+        showLog("buffer");
+        Observable<List<Long>> observable =
+                Observable.interval(1, TimeUnit.SECONDS)
+                        .take(5)//只要前12个数据
+//                        .buffer(5)//以列表(List)的形式发射非重叠的缓存，每一个缓存至多包含来自原始Observable的count项数据（最后发射的列表数据可能少于count项）
+                        .buffer(3, 1)//skip数值等于count的话，那么就等效于分段截取数值了
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+        DisposableObserver<List<Long>> observer =
+                observable.subscribeWith(DpObserverInfo.ObListLong.get());
         mComDisposable.add(observer);
     }
 
@@ -109,7 +147,7 @@ public class OperatorsActivity extends BaseAcitivity {
         mComDisposable.add(observer);
     }
 
-    //3、过滤操作
+    /*---------------------------------3、过滤操作---------------------------------*/
     @OnClick({R.id.btn30})
     //应用场景：数据采样，以下列例子为例，采样每个ObsFetcher.TimeDuration时间间隔内的最后一个数据。
     public void throttleLast() {
@@ -203,21 +241,47 @@ public class OperatorsActivity extends BaseAcitivity {
         mComDisposable.add(observer);
     }
 
-    //4、辅助操作
+    /*---------------------------------4、辅助操作---------------------------------*/
     @OnClick({R.id.btn40})
     public void delay(){//应用场景：延时做某种操作，每个数据项都延迟发射，效果是数据项整体延迟
         showLog("delay");
         Observable<Integer> observable =
-                Observable.just(1, 2, 3).
-                        delay(2, TimeUnit.SECONDS)//延迟2秒后发送
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
+            Observable.just(1, 2, 3).
+                delay(2, TimeUnit.SECONDS)//延迟2秒后发送
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
         DisposableObserver<Integer> observer =
                 observable.subscribeWith(DpObserverInfo.ObInteger.get());
         mComDisposable.add(observer);
     }
 
-    //5、算术及聚合操作
+    @OnClick({R.id.btn41})
+    public void timestamp(){
+        showLog("timestamp");
+        Observable<Timed<Integer>> observable =
+            Observable.just(1, 2, 3)
+                      .timestamp();//为数据增加时间戳，例如 2017-12-19-07:50:47
+        DisposableObserver<Timed<Integer>> observer =
+                observable.subscribeWith(DpObserverInfo.ObTimedInteger.get());
+        mComDisposable.add(observer);
+    }
+
+    @OnClick({R.id.btn42})
+    public void timeout(){
+        showLog("timeout");
+        //如果1：period>timeout，说明发射数据的时间间隔大于超时间隔，此时将调用观察者的onError；
+        //如果2：period<=timeout，此时数据可以正常发射
+        int period = 2;//定时器发射数据的时间间隔
+        int timeout = 1;//超时时间
+        Observable<Long> observable =
+                Observable.interval(0, period, TimeUnit.SECONDS)
+                        .timeout(timeout, TimeUnit.SECONDS);//
+        DisposableObserver<Long> observer =
+                observable.subscribeWith(DpObserverInfo.ObLong.get());
+        mComDisposable.add(observer);
+    }
+
+    /*---------------------------------5、算术及聚合操作---------------------------------*/
     @OnClick({R.id.btn50})
     public void concat(){
         showLog("concat");
@@ -247,10 +311,10 @@ public class OperatorsActivity extends BaseAcitivity {
             })
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(ObserverInfo.getMaybeObserver());
+            .subscribeWith(ObserverInfo.MbObInteger.get());
     }
 
-    //6、结合操作
+    /*---------------------------------6、结合操作---------------------------------*/
     @OnClick({R.id.btn60})
     public void merge(){
         showLog("merge");
@@ -266,8 +330,5 @@ public class OperatorsActivity extends BaseAcitivity {
                 observable.subscribeWith(DpObserverInfo.ObString.get());
         mComDisposable.add(observer);
     }
-
-
-
 
 }

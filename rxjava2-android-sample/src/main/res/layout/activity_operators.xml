@@ -46,10 +46,20 @@
                 android:layout_height="wrap_content"
                 android:text="IntervalFlatMap"/>
             <Button
+                android:id="@+id/btn211"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FlatMap"/>
+            <Button
                 android:id="@+id/btn22"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Window"/>
+            <Button
+                android:id="@+id/btn221"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Buffer"/>
             <Button
                 android:id="@+id/btn23"
                 android:layout_width="match_parent"
@@ -71,7 +81,7 @@
                 android:id="@+id/btn31"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="throttleFirst"/>
+                android:text="ThrottleFirst"/>
             <Button
                 android:id="@+id/btn32"
                 android:layout_width="match_parent"
@@ -81,17 +91,17 @@
                 android:id="@+id/btn33"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="debounce"/>
+                android:text="Debounce"/>
             <Button
                 android:id="@+id/btn34"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="filter"/>
+                android:text="Filter"/>
             <Button
                 android:id="@+id/btn35"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="distinct"/>
+                android:text="Distinct"/>
             <Button
                 android:id="@+id/btn36"
                 android:layout_width="match_parent"
@@ -109,7 +119,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Delay"/>
-
+            <Button
+                android:id="@+id/btn41"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Timestamp"/>
+            <Button
+                android:id="@+id/btn42"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Timeout"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"

@@ -35,7 +35,6 @@ public class ObserverInfo {
 
         @Override
         public void onNext(T t) {
-
         }
 
         @Override
@@ -50,11 +49,10 @@ public class ObserverInfo {
         }
     }
 
-    public static ObUser getObUser(){
-        return new ObUser();
-    }
-
     private static class ObUser extends BaseObserver<User>{
+        public static ObUser get(){
+            return new ObUser();
+        }
 
         @Override
         public void onNext(User user) {
@@ -62,11 +60,12 @@ public class ObserverInfo {
         }
     }
 
-    public static ObUserDetail getObUserDetail(){
-        return new ObUserDetail();
-    }
 
     private static class ObUserDetail extends BaseObserver<UserDetail>{
+        public static ObUserDetail get(){
+            return new ObUserDetail();
+        }
+
         @Override
         public void onNext(UserDetail userDetail) {
             // do anything with userDetail
@@ -74,11 +73,12 @@ public class ObserverInfo {
         }
     }
 
-    public static ObListUser getObListUser(){
-        return new ObListUser();
-    }
 
-    private static class ObListUser extends BaseObserver<List<User>> {
+    public static class ObListUser extends BaseObserver<List<User>> {
+        public static ObListUser get(){
+            return new ObListUser();
+        }
+
         @Override
         public void onNext(List<User> users) {
             // do anything with user who loves both
@@ -89,11 +89,13 @@ public class ObserverInfo {
         }
     }
 
-    public static ObPair getObPair(){
-        return new ObPair();
-    }
 
-    private static class ObPair extends BaseObserver<Pair<UserDetail, User>> {
+
+    public static class ObPair extends BaseObserver<Pair<UserDetail, User>> {
+        public static ObPair get(){
+            return new ObPair();
+        }
+
         @Override
         public void onNext(Pair<UserDetail, User> pair) {
             // here we are getting the userDetail for the corresponding user one by one
@@ -104,30 +106,62 @@ public class ObserverInfo {
         }
     }
 
-    public static MaybeObserver<Integer> getMaybeObserver() {
-        final String TAG = "MaybeObserver";
-        return new MaybeObserver<Integer>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                ALog.Log(TAG+ " onSubscribe : " + d.isDisposed());
-            }
+    private static abstract class BaseMaybeObserver<T> implements MaybeObserver<T> {
+        protected String TAG = null;
+        protected long preTime, nowTime;
 
-            @Override
-            public void onSuccess(Integer value) {
+        public BaseMaybeObserver() {
+            String tag = this.toString();
+            tag = tag.substring(tag.indexOf('$') + 1, tag.lastIndexOf('@'));
+            TAG = TAG_TOP + tag + " ";
+        }
 
-                ALog.Log(TAG+ " onSuccess : value : " + value);
-            }
 
-            @Override
-            public void onError(Throwable e) {
-                ALog.Log(TAG+ " onError : " + e.getMessage());
-            }
+        @Override
+        public void onSubscribe(Disposable d) {
+            preTime = System.currentTimeMillis();
+        }
 
-            @Override
-            public void onComplete() {
-                ALog.Log(TAG+ " onComplete");
+        @Override
+        public void onSuccess(T value) {
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            ALog.Log(TAG+ "onError");
+        }
+
+        @Override
+        public void onComplete() {
+            nowTime = System.currentTimeMillis();
+            ALog.Log2(TAG+ "onComplete, cost time:"+(nowTime - preTime));
+        }
+    }
+
+    public static class ObListInteger extends BaseObserver<List<Integer>> {
+        public static ObListInteger get(){
+            return new ObListInteger();
+        }
+
+        @Override
+        public void onNext(List<Integer> value) {
+            ALog.Log2(TAG+ "onNext "+value.size());
+            for(Integer l : value){
+                ALog.Log2(TAG+ "value: "+l);
             }
-        };
+        }
+    }
+
+    public static class MbObInteger extends BaseMaybeObserver<Integer> {
+        public static MbObInteger get(){
+            return new MbObInteger();
+        }
+
+        @Override
+        public void onSuccess(Integer value) {
+            ALog.Log(TAG+ " onSuccess : value : " + value);
+        }
+
     }
 
 }
