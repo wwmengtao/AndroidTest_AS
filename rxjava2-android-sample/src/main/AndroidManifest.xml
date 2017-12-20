@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rxjava2_android_sample">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -18,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".OperatorsActivity" />
-        <activity android:name=".NetworkingActivity"></activity>
+        <activity android:name=".NetworkingActivity" />
+        <activity android:name=".RxBindingActivity"></activity>
     </application>
 
 </manifest>

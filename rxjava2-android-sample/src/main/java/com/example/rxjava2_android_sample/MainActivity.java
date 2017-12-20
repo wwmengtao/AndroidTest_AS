@@ -21,9 +21,9 @@ public class MainActivity extends BaseAcitivity {
         super.onDestroy();
     }
 
-    int []buttonIDs={R.id.btn1, R.id.btn2};
-    Class<?>[] classEs ={OperatorsActivity.class, NetworkingActivity.class};
-    @OnClick({R.id.btn1, R.id.btn2})
+    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3};
+    Class<?>[] classEs ={OperatorsActivity.class, RxBindingActivity.class, NetworkingActivity.class};
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3})
     public void onClickActivity(View view){
         startActivity(view);
     }
