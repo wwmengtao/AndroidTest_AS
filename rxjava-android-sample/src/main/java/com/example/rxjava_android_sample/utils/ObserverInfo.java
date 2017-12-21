@@ -33,7 +33,7 @@ public class ObserverInfo {
 
         @Override
         public void onError(Throwable e) {
-            ALog.Log(TAG+ "onError");
+            ALog.Log(TAG+ "onError"+e.fillInStackTrace());
         }
 
         @Override
@@ -51,6 +51,17 @@ public class ObserverInfo {
         @Override
         public void onNext(Integer i) {
             ALog.Log2(TAG+ "onNext " + i);
+        }
+    }
+
+    public static class ObLong extends BaseObserver<Long>{
+        public static ObLong get(){
+            return new ObLong();
+        }
+
+        @Override
+        public void onNext(Long l) {
+            ALog.Log2(TAG+ "onNext " + l);
         }
     }
 

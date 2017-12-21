@@ -16,21 +16,18 @@ import rx.Subscription;
 import rx.schedulers.Schedulers;
 
 public class ThrottlingActivity extends BaseAcitivity {
-    private ThrottlingExample throttlingExample;//关于节流
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_throttling);
         mUnbinder = ButterKnife.bind(this);
-        throttlingExample = new ThrottlingExample();
         ThrObserverInfo.setTagTop();
     }
 
     @OnClick(R.id.button21)
     void showSample() {
         showLog("showSample");
-        //        throttlingExample.showSample();
         Observable<Long> observable =
                 ThrObsFetcher.getSampleObs()
                 .observeOn(Schedulers.newThread());
@@ -43,7 +40,6 @@ public class ThrottlingActivity extends BaseAcitivity {
     @OnClick(R.id.button22)
     void showtTrottleFirst() {
         showLog("showtTrottleFirst");
-//        throttlingExample.showtTrottleFirst();
         Observable<Long> observable =
                 ThrObsFetcher.getThrFirstObs()
                         .observeOn(Schedulers.newThread());
@@ -55,7 +51,6 @@ public class ThrottlingActivity extends BaseAcitivity {
     @OnClick(R.id.button23)
     void showDebounce() {
         showLog("showDebounce");
-//        throttlingExample.showDebounce();
         Observable<Long> observable =
                 ThrObsFetcher.getDebounceObs()
                         .observeOn(Schedulers.newThread());
@@ -67,7 +62,6 @@ public class ThrottlingActivity extends BaseAcitivity {
     @OnClick(R.id.button24)
     void showtBuffer() {
         showLog("showtBuffer");
-//        throttlingExample.showtBuffer();
         Observable<List<Long>> observable =
                 ThrObsFetcher.getBufferObs()
                         .observeOn(Schedulers.newThread());
@@ -78,7 +72,6 @@ public class ThrottlingActivity extends BaseAcitivity {
 
     @OnClick(R.id.button25)
     void showtshowtWindow() {
-//        throttlingExample.showWindow();
         Observable<Observable<String>> observable =
                 ThrObsFetcher.getWindowObs()
                         .observeOn(Schedulers.newThread());
