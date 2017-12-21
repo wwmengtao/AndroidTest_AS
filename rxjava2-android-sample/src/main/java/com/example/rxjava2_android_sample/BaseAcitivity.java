@@ -7,6 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.SparseArray;
 import android.view.View;
 
+import org.reactivestreams.Subscription;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Unbinder;
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -22,7 +27,7 @@ public abstract class BaseAcitivity extends AppCompatActivity {
     //
     protected Unbinder mUnbinder;
     protected final CompositeDisposable mComDisposable = new CompositeDisposable();
-
+    protected final List<Subscription> mSubscriptions = new ArrayList<>();
     /**
      * getCallingIntent：获取Activity的开启intent同时获取Activity的名称。
      * @param context
@@ -71,8 +76,16 @@ public abstract class BaseAcitivity extends AppCompatActivity {
     @Override
     protected void onDestroy(){
         mUnbinder.unbind();
+        cancelSubscription();
         mComDisposable.clear(); // clearing it : do not emit after destroy
         super.onDestroy();
+    }
+
+    private void cancelSubscription(){
+        for(Subscription ss : mSubscriptions){
+            ss.cancel();
+            ALog.Log("cancelSubscription");
+        }
     }
 
     protected void showLog(String info){

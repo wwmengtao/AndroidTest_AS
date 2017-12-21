@@ -22,9 +22,13 @@ import static com.example.rxjava2_android_sample.model.SchoolInfo.Student;
  */
 
 public class DpObserverInfo {
-    private static final String TAG_TOP = "DpObserverInfo ";
+    private static String TAG_TOP = "DpObserverInfo ";
 
-    private static abstract class BaseObserver<T> extends DisposableObserver<T> {
+    public static void setTagTop(String tag_top){
+        TAG_TOP = tag_top;
+    }
+
+    public static abstract class BaseObserver<T> extends DisposableObserver<T> {
         protected String TAG = null;
         protected long preTime, nowTime;
         public BaseObserver(){
