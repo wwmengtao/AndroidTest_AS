@@ -52,7 +52,7 @@ public class RouteInfoFetcher {
     public void start(){
         if(null == mObserver)return;
         disposables.add(getIntervalRouteInfo()
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(mObserver)
         );
@@ -64,7 +64,7 @@ public class RouteInfoFetcher {
     }
 
     private Observable<List<RouteInfo>> getIntervalRouteInfo(){
-        return Observable.interval(0, 10, TimeUnit.SECONDS)
+        return Observable.interval(0, 3, TimeUnit.SECONDS)//interval会定时3秒查询一次数据，而不管上一次是否返回
                 .flatMap(new Function<Long, Observable<List<RouteInfo>>>(){
                     @Override
                     public Observable<List<RouteInfo>> apply(Long obs) throws Exception {
@@ -73,17 +73,23 @@ public class RouteInfoFetcher {
                 });
     }
 
+    private long preTime = -1,nowTime = -1;
     private Observable<List<RouteInfo>> getZipRouteInfo() {
-        ALog.Log3("/**********************************************************/\n");
+        nowTime = System.currentTimeMillis();
+        if(preTime > 0)ALog.Log3("getZipRouteInfo: "+(nowTime - preTime)/1000);
+        preTime = nowTime;
         return Observable.zip(getLyftRouteInfo(),
-                       getUberRouteInfo().observeOn(Schedulers.newThread()),
+                              getUberRouteInfo(),
                 new BiFunction<RouteInfo, RouteInfo, List<RouteInfo>>() {
                     @Override
                     public List<RouteInfo> apply(RouteInfo info1, RouteInfo info2) throws Exception {
+                        //此处代码的线程调度受getLyftRouteInfo()和getUberRouteInfo()影响，因为相对于和getxxxRouteInfo()函数
+                        //而言，此处的apply函数也相当于一个观察者，因此getxxxRouteInfo()内部的observeOn(某线程)可以影响到此处
+                        //代码的执行线程
                         List<RouteInfo> data = new ArrayList<>();
                         data.add(info1);
                         data.add(info2);
-                        ALog.Log3("getZipRouteInfo: "+Thread.currentThread().toString());
+                        ALog.Log3("getZipRouteInfo_apply");
                         return data;
                     }
                 });
@@ -94,11 +100,12 @@ public class RouteInfoFetcher {
             @Override
             public void subscribe(final ObservableEmitter<RouteInfo> emitter) throws Exception {
                 final RouteInfoFactory mFactory = new LyftFactory(mContext, factoryType);
+                ALog.Log3("getLyftRouteInfo_subscribe");//subscribeOn影响的是这类代码的执行线程，无法影响回调中的emitter.onNext
                 mFactory.setOnDataLoadListener(new RouteInfoFactory.OnDataLoadListener() {
                     @Override
                     public void onDataLoadSuccess(RouteInfo mRouteInfo) {
-                        emitter.onNext(mRouteInfo);
-                        ALog.Log3("getLyftRouteInfo_onDataLoadSuccess: "+Thread.currentThread().toString());
+                        emitter.onNext(mRouteInfo);//运行于主线程，可见是Retrofit默认回调线程是主线程，只能通过observeOn改变发往下游的线程
+                        ALog.Log3("getLyftRouteInfo_onDataLoadSuccess");
                     }
 
                     @Override
@@ -110,7 +117,7 @@ public class RouteInfoFetcher {
                 });
                 mFactory.requestEstimateInfo();
             }
-        });
+        }).observeOn(Schedulers.io());//subscribeOn仅仅能影响到上游的数据产生发起的线程，无法改变回调产生的数据所发往的线程
     }
 
     private Observable<RouteInfo> getUberRouteInfo() {
@@ -118,11 +125,12 @@ public class RouteInfoFetcher {
             @Override
             public void subscribe(final ObservableEmitter<RouteInfo> emitter) throws Exception {
                 final RouteInfoFactory mFactory = new UberFactory(mContext, factoryType);
+                ALog.Log3("getUberRouteInfo_subscribe");
                 mFactory.setOnDataLoadListener(new RouteInfoFactory.OnDataLoadListener() {
                     @Override
                     public void onDataLoadSuccess(RouteInfo mRouteInfo) {
                         emitter.onNext(mRouteInfo);
-                        ALog.Log3("getUberRouteInfo_onDataLoadSuccess: "+Thread.currentThread().toString());
+                        ALog.Log3("getUberRouteInfo_onDataLoadSuccess");
                     }
 
                     @Override
@@ -134,7 +142,7 @@ public class RouteInfoFetcher {
                 });
                 mFactory.requestEstimateInfo();
             }
-        });
+        }).observeOn(Schedulers.io());
     }
 
 }

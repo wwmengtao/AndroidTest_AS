@@ -17,11 +17,11 @@ public class ALog {
 	}
 
 	public static void Log2(String info){
-		Log.e(TAG_M2, info+" ThreadID:"+Thread.currentThread().getId());
+		Log.e(TAG_M2, info+" "+Thread.currentThread().toString());
 	}
 
 	public static void Log3(String info){
-		Log.e(TAG_M3, info+" ThreadID:"+Thread.currentThread().getId());
+		Log.e(TAG_M3, info+" "+Thread.currentThread().toString());
 	}
 
 	public static void fillInStackTrace(String info){
