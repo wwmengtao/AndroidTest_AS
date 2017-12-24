@@ -10,18 +10,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.testmodule.ALog;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
+import com.example.testmodule.utils.DpObserverInfo;
 import com.example.testmodule.viewpager.adapter.RecyclingPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
 
 public class ViewPagerActivity extends BaseAcitivity {
 
     //    private ClipViewPager mViewPager;
     private ViewPager mViewPager;
     private TubatuAdapter mPagerAdapter;
+    DisposableObserver<Long> mDpObserver = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +66,48 @@ public class ViewPagerActivity extends BaseAcitivity {
         //设置OffscreenPageLimit
         mViewPager.setOffscreenPageLimit(Math.min(list.size(), 5));
         mPagerAdapter.addAll(list);
+        setInfiniteViewPager();
+    }
+
+    /**
+     * 实现ViewPager无限循环，但是瑕疵是：当前页跳转到0的时候，会出现一个快速遍历的过程
+     */
+    private void setInfiniteViewPager(){
+        InfiniteObserver mIfObserver = new InfiniteObserver();
+        Observable<Long> observable
+                = Observable.interval(2, 2, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread());
+        mDpObserver = observable.subscribeWith(mIfObserver);
+    }
+
+    private class InfiniteObserver<Long> extends DpObserverInfo.BaseObserver<Long> {
+
+        @Override
+        public void onNext(Long aLong) {
+            ALog.Log(TAG+"onNext");
+            int currentIndex = mViewPager.getCurrentItem();
+            if (++currentIndex == mPagerAdapter.getCount()) {
+                mViewPager.setCurrentItem(0, true);
+            } else {
+                mViewPager.setCurrentItem(currentIndex, true);
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
+    }
+
+    @Override
+    public void onDestroy(){
+        mDpObserver.dispose();
+        super.onDestroy();
     }
 
     public static class TubatuAdapter extends RecyclingPagerAdapter {
