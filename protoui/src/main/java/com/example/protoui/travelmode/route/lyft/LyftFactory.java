@@ -29,10 +29,18 @@ import retrofit2.Response;
 
 public class LyftFactory extends RouteInfoFactory {
     private static final String TAG = "LyftFactory";
+    private static LyftFactory mLyftFactory = null;
     public static final String PACKAGE_NAME = "me.lyft.android";
     private LyftApi mLyftApi = null;
 
-    public LyftFactory(Context context, int type) {
+    public static LyftFactory getInstance(Context context, int type){
+        if(null == mLyftFactory){
+            mLyftFactory = new LyftFactory(context, type);
+        }
+        return mLyftFactory;
+    }
+
+    private LyftFactory(Context context, int type) {
         super(context, type);
         ApiConfig apiConfig = new ApiConfig.Builder()
                 .setClientId("8IYAIPNJTIhd")
@@ -47,6 +55,7 @@ public class LyftFactory extends RouteInfoFactory {
         etaCall.enqueue(new Callback<EtaEstimateResponse>() {
             @Override
             public void onResponse(Call<EtaEstimateResponse> call, Response<EtaEstimateResponse> response) {
+                if(null == response)return;
                 Eta eta = getEtaFromResponse(response.body());
                 if(null != eta)ALog.Log1("LyftFactory_onResponse_time: "+eta.toString());
                 if (eta != null && eta.eta_seconds != null) {

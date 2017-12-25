@@ -50,8 +50,8 @@ public class SuggestFactoriesTask extends AsyncTask<Integer, Integer, List<Route
         List<RouteInfo> routeInfos = new ArrayList<>();
         List<RouteInfoFactory> factories = new ArrayList<>();
 
-        factories.add(new LyftFactory(mContext, type));
-        factories.add(new UberFactory(mContext, type));
+        factories.add(LyftFactory.getInstance(mContext, type));
+        factories.add(UberFactory.getInstance(mContext, type));
 
         // request estimate info asynchronously.
         for (RouteInfoFactory factory : factories) {

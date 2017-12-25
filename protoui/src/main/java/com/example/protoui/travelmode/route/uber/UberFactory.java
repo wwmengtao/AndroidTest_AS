@@ -27,11 +27,18 @@ import retrofit2.Response;
 
 public class UberFactory extends RouteInfoFactory {
     private static final String TAG = "UberFactory ";
-
+    private static UberFactory mUberFactory = null;
     public static final String PACKAGE_NAME = "com.ubercab";
     private UberApi mUberApi = null;
 
-    public UberFactory(Context context, int type) {
+    public static UberFactory getInstance(Context context, int type){
+        if(null == mUberFactory){
+            mUberFactory = new UberFactory(context, type);
+        }
+        return mUberFactory;
+    }
+
+    private UberFactory(Context context, int type) {
         super(context, type);
         ApiConfig apiConfig = new ApiConfig.Builder()
                 .setClientId("TJ30l588UrhA6wBaCYt_PM0rnRjCyQjE")
@@ -69,6 +76,7 @@ public class UberFactory extends RouteInfoFactory {
         priceEstimateCall.enqueue(new Callback<EtaPriceEstimateResponse>() {
             @Override
             public void onResponse(Call<EtaPriceEstimateResponse> call, Response<EtaPriceEstimateResponse> response) {
+                if(null == response)return;
                 ALog.Log2(TAG+"price response: "+response.body().toString());
                 EtaPrice eta = getEtaFromResponse(response.body(), product_id);
                 if (eta != null && eta.estimate != null) {

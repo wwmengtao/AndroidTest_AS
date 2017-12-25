@@ -3,7 +3,6 @@ package com.example.protoui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +20,7 @@ import java.util.List;
 
 import io.reactivex.observers.DisposableObserver;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, SuggestFactoriesTask.OnGetListRouteInfoListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, SuggestFactoriesTask.OnGetListRouteInfoListener {
     private static final String TAG = "MainActivity ";
     private Context mContext = null;
     private LocationUtils mLocationUtils = null;
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        mTask.setOnGetListRouteInfoListener(this);
 //        mTask.execute(1);
         mRouteInfoFetcher.setObserver(getObserver());
-        mRouteInfoFetcher.start();
+        mRouteInfoFetcher.init();
     }
 
     @Override
@@ -70,9 +69,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onStop(){
-        mRouteInfoFetcher.stop();
-        super.onStop();
+    public void onResume(){
+        mRouteInfoFetcher.resume();
+        super.onResume();
+    }
+
+    @Override
+    public void onPause(){
+        mRouteInfoFetcher.pause();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy(){
+        mRouteInfoFetcher.destroy();
+        super.onDestroy();
     }
 
     @Override
@@ -83,13 +94,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private long preTime = -1, nowTime = -1;
     private DisposableObserver<List<RouteInfo>> getObserver() {
         return new DisposableObserver<List<RouteInfo>>() {
 
             @Override
             public void onNext(List<RouteInfo> value) {
-                ALog.Log3(TAG + "onNext: "+value.size()+" "+Thread.currentThread().toString());
-                onGetListRouteInfo(value);
+                nowTime = System.currentTimeMillis();
+                if(preTime < 0)preTime = nowTime;
+                ALog.Log4(TAG + "onNext: "+value.size()+" Time: "+(nowTime - preTime)/1000);
+                if(null != value)onGetListRouteInfo(value);
+                mRouteInfoFetcher.resume();
+                preTime = nowTime;
             }
 
             @Override

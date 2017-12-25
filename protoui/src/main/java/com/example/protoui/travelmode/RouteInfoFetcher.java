@@ -10,13 +10,12 @@ import com.example.protoui.travelmode.route.uber.UberFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
@@ -31,8 +30,11 @@ public class RouteInfoFetcher {
     private static volatile RouteInfoFetcher mRouteInfoFetcher=null;
     private Context mContext;
     private static final int factoryType = 1;
-    private final CompositeDisposable disposables = new CompositeDisposable();
+    private AtomicBoolean shouldBreak = new AtomicBoolean(false);
     private DisposableObserver<List<RouteInfo>> mObserver = null;
+    //
+    private final Object mPausedLock = new Object();
+    private final AtomicBoolean mPaused = new AtomicBoolean(false);
 
     public static RouteInfoFetcher get(Context context){
         if(null == mRouteInfoFetcher){
@@ -49,22 +51,69 @@ public class RouteInfoFetcher {
         this.mObserver = mObserver;
     }
 
-    public void start(){
-        if(null == mObserver)return;
-        disposables.add(getIntervalRouteInfo()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(mObserver)
-        );
+    public synchronized void setShouldBreak(boolean bl){
+        shouldBreak.set(bl);
     }
 
-    public void stop(){
-        disposables.clear();
-        mObserver = null;
+    public synchronized boolean getShouldBreak(){
+        return shouldBreak.get();
+    }
+
+    public void init(){
+        if(null == mObserver)throw new IllegalArgumentException("RouteInfoFetcher.mObserver is null!");
+        getIntervalRouteInfo()
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(mObserver);
+    }
+
+    public void resume(){
+        mPaused.set(false);
+        synchronized (mPausedLock) {
+            mPausedLock.notifyAll();
+        }
+    }
+
+    public void pause(){
+        mPaused.set(true);
+    }
+
+    private void waitIfPaused() {
+        if (mPaused.get()) {
+            synchronized (mPausedLock) {
+                if (mPaused.get()) {
+                    try {
+                        mPausedLock.wait();
+                    } catch (InterruptedException e) {
+                        ALog.Log4("waitIfPaused InterruptedException");
+                    }
+                }
+            }
+        }
+    }
+
+    public void destroy(){
+        setShouldBreak(true);
+        mRouteInfoFetcher = null;
     }
 
     private Observable<List<RouteInfo>> getIntervalRouteInfo(){
-        return Observable.interval(0, 3, TimeUnit.SECONDS)//interval会定时3秒查询一次数据，而不管上一次是否返回
+        //下列interval函数运行于线程Schedulers.computation()之上
+//        return Observable.interval(0, 2, TimeUnit.SECONDS)//interval会定时2秒查询一次数据，而不管上一次是否返回
+        return Observable.create(new ObservableOnSubscribe<Long>() {
+                    @Override
+                    public void subscribe(ObservableEmitter<Long> emitter) throws Exception {
+                        // send events with simulated time wait
+                        for (long i = 0; ; i++) {
+                            ALog.Log4("RouteInfoFetcher_subscribe");
+                            if(getShouldBreak())break;
+                            waitIfPaused();
+                            emitter.onNext(i);
+                            pause();
+                        }
+                    }
+                })
+                .observeOn(Schedulers.io())
                 .flatMap(new Function<Long, Observable<List<RouteInfo>>>(){
                     @Override
                     public Observable<List<RouteInfo>> apply(Long obs) throws Exception {
@@ -75,8 +124,9 @@ public class RouteInfoFetcher {
 
     private long preTime = -1,nowTime = -1;
     private Observable<List<RouteInfo>> getZipRouteInfo() {
+        if(preTime < 0)preTime = System.currentTimeMillis();
         nowTime = System.currentTimeMillis();
-        if(preTime > 0)ALog.Log3("getZipRouteInfo: "+(nowTime - preTime)/1000);
+        ALog.Log4("getZipRouteInfo: "+(nowTime - preTime)/1000);
         preTime = nowTime;
         return Observable.zip(getLyftRouteInfo(),
                               getUberRouteInfo(),
@@ -89,7 +139,7 @@ public class RouteInfoFetcher {
                         List<RouteInfo> data = new ArrayList<>();
                         data.add(info1);
                         data.add(info2);
-                        ALog.Log3("getZipRouteInfo_apply");
+                        ALog.Log4("getZipRouteInfo_apply");
                         return data;
                     }
                 });
@@ -99,7 +149,7 @@ public class RouteInfoFetcher {
         return Observable.create(new ObservableOnSubscribe<RouteInfo>() {
             @Override
             public void subscribe(final ObservableEmitter<RouteInfo> emitter) throws Exception {
-                final RouteInfoFactory mFactory = new LyftFactory(mContext, factoryType);
+                final RouteInfoFactory mFactory = LyftFactory.getInstance(mContext, factoryType);
                 ALog.Log3("getLyftRouteInfo_subscribe");//subscribeOn影响的是这类代码的执行线程，无法影响回调中的emitter.onNext
                 mFactory.setOnDataLoadListener(new RouteInfoFactory.OnDataLoadListener() {
                     @Override
@@ -124,7 +174,7 @@ public class RouteInfoFetcher {
         return Observable.create(new ObservableOnSubscribe<RouteInfo>() {
             @Override
             public void subscribe(final ObservableEmitter<RouteInfo> emitter) throws Exception {
-                final RouteInfoFactory mFactory = new UberFactory(mContext, factoryType);
+                final RouteInfoFactory mFactory = UberFactory.getInstance(mContext, factoryType);
                 ALog.Log3("getUberRouteInfo_subscribe");
                 mFactory.setOnDataLoadListener(new RouteInfoFactory.OnDataLoadListener() {
                     @Override
