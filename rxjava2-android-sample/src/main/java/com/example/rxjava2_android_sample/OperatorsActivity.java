@@ -203,19 +203,21 @@ public class OperatorsActivity extends BaseAcitivity {
         mComDisposable.add(observer);
     }
 
+    private int filterIndex = -1;
     @OnClick({R.id.btn34})
     public void filter(){
         showLog("filter");
-        Observable<Integer> observable =
-                Observable.just(1, 2, 3, 4, 5, 6)
-                        .filter(new Predicate<Integer>() {//filter:过滤操作
-                            @Override
-                            public boolean test(Integer integer) throws Exception {
-                                return integer % 2 == 0;
-                            }
-                        });
-        DisposableObserver<Integer> observer =
-                observable.subscribeWith(DpObserverInfo.ObInteger.get());
+        Observable<Long> observable =
+                Observable.interval(0, 2, TimeUnit.SECONDS)
+                .observeOn(Schedulers.io())
+                .filter(new Predicate<Long>() {//filter:过滤操作
+                    @Override
+                    public boolean test(Long integer) throws Exception {
+                        return ++filterIndex % 2 == 0;
+                    }
+                });
+        DisposableObserver<Long> observer =
+                observable.subscribeWith(DpObserverInfo.ObLong.get());
         mComDisposable.add(observer);
     }
 
