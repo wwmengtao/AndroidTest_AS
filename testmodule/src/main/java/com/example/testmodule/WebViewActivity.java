@@ -9,10 +9,8 @@ import android.widget.LinearLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class WebViewActivity extends BaseAcitivity {
-    private Unbinder mUnbinder;
     @BindView(R.id.rl)
     LinearLayout ll;
     @BindView(R.id.wv)
@@ -72,11 +70,5 @@ public class WebViewActivity extends BaseAcitivity {
                 "<h2>This is header two.</h2>\n" +
                 "<h3>This is header three.</h3>";
         wv2.loadData(htmlString, "text/html", null);
-    }
-
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        mUnbinder.unbind();
     }
 }

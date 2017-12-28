@@ -8,12 +8,16 @@ import android.util.SparseArray;
 
 import com.fernandocejas.android10.sample.data.ALog;
 
+import butterknife.Unbinder;
+
 /**
  * Created by mengtao1 on 2017/11/11.
  */
 
 public abstract class BaseAcitivity extends AppCompatActivity {
     protected String TAG = null;
+    protected Context mContext = null;
+    protected Unbinder mUnbinder = null;
     public static final String ACTIVITY_NAME_TAG = "ACTIVITY_NAME";
     public String activity_name = null;
     protected SparseArray<Class<?>> mActivitySA = null;
@@ -46,6 +50,7 @@ public abstract class BaseAcitivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = getApplicationContext();
         setActivityTitle();
     }
 
@@ -55,5 +60,11 @@ public abstract class BaseAcitivity extends AppCompatActivity {
         for(int i = 0; i<buttonIDs.length; i++){
             mActivitySA.put(buttonIDs[i], classEs[i]);
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if(null != mUnbinder)mUnbinder.unbind();
     }
 }

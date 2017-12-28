@@ -19,11 +19,9 @@ import java.io.InputStream;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class XmlParserActivity extends BaseAcitivity {
     private static final String TAG = "XmlParserActivity";
-    private Unbinder mUnbinder;
     private AssetManager mAssetManager = null;
     private String ioEncoding="UTF-8";
     private InputStream mInputStream=null;
@@ -98,11 +96,5 @@ public class XmlParserActivity extends BaseAcitivity {
         if (!parser.getName().equals(rootElementName)) {
             throw new XmlPullParserException("Unexpected start tag: "+parser.getName()+", expected: " + rootElementName);
         }
-    }
-
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        mUnbinder.unbind();
     }
 }

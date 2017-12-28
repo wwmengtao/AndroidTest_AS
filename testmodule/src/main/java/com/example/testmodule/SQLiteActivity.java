@@ -21,12 +21,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class SQLiteActivity extends BaseAcitivity {
     private static final String TAG = "SQLiteActivity";
     @BindView(R.id.tv)    TextView tv;
-    private Unbinder mUnbinder;
     private DataManager mDataManager;
     private DataBaseHelper mDataBaseHelper;
     private SQLiteDatabase mSQLiteDatabase;
@@ -54,12 +52,6 @@ public class SQLiteActivity extends BaseAcitivity {
         super.onResume();
         mUserEntityNTCollection = mXmlOperator.UserEntityNTCollectionXml(params);
 //        mXmlOperator.visitCollection(mUserEntityNTCollection);
-    }
-
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        mUnbinder.unbind();
     }
 
     @OnClick(R.id.btn1)

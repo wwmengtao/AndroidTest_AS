@@ -5,16 +5,14 @@ import android.view.View;
 
 import com.example.testmodule.location.LocationActivity;
 import com.example.testmodule.notification.NotifiListActivity;
-import com.example.testmodule.viewpager.ViewPagerActivity;
+import com.example.testmodule.viewpager.ViewPagerGatherActivity;
 import com.example.testmodule.windowmanager.WindowManagerActivity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class MainActivity extends BaseAcitivity {
     private static final String TAG = "MainActivity";
-    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +22,9 @@ public class MainActivity extends BaseAcitivity {
         initActivities(buttonIDs, classEs);
     }
 
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        mUnbinder.unbind();
-    }
-
     int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8};
     Class<?>[] classEs ={SQLiteActivity.class, WebViewActivity.class, EventBusActivity.class, XmlParserActivity.class,
-            NotifiListActivity.class, ViewPagerActivity.class, WindowManagerActivity.class, LocationActivity.class};
+            NotifiListActivity.class, ViewPagerGatherActivity.class, WindowManagerActivity.class, LocationActivity.class};
 
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8})
     public void onClickActivity(View view){
