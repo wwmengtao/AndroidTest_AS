@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.testmodule.ALog;
 import com.example.testmodule.BaseAcitivity;
@@ -13,13 +12,11 @@ import com.example.testmodule.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class WindowManagerActivity extends BaseAcitivity implements FloatingMeasureView.ConfigurationChangedListener,
         FloatingMeasureView.MeasureViewHeightChangedListener{
 
     private Context mContext = null;
-    private Unbinder mUnbinder = null;
     private WindowManager mWindowManager = null;
     private FloatingMeasureView mFloatingMeasureView = null;
     private FloatingStatusBarView mFloatingStatusBarView= null;
@@ -31,11 +28,6 @@ public class WindowManagerActivity extends BaseAcitivity implements FloatingMeas
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_window_manager);
-        if(!WindowTools.canDrawOverlays(this)){//没有显示悬浮视图的权限
-            Toast.makeText(this, "Can not show floating view, please check canDrawOverlays!",
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
         init(this);
         mUnbinder = ButterKnife.bind(this);
     }
@@ -67,7 +59,6 @@ public class WindowManagerActivity extends BaseAcitivity implements FloatingMeas
     public void onDestroy() {
         mWindowManager.removeView(mFloatingMeasureView);
         mFloatingStatusBarView.removeView();
-        mUnbinder.unbind();
         super.onDestroy();
     }
 
