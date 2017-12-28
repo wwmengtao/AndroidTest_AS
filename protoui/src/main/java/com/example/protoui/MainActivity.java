@@ -2,18 +2,24 @@ package com.example.protoui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.protoui.travelmode.LocationUtils;
 import com.example.protoui.travelmode.RouteInfoFetcher;
 import com.example.protoui.travelmode.SuggestFactoriesTask;
 import com.example.protoui.travelmode.recyclerviewinfo.SAppAdapter;
 import com.example.protoui.travelmode.recyclerviewinfo.SAppInfo;
 import com.example.protoui.travelmode.route.RouteInfo;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +33,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private RecyclerView mRecyclerView = null;
     private SAppAdapter mSAppAdapter = null;
     private RouteInfoFetcher mRouteInfoFetcher = null;
+    //
+    private ImageView mImageView = null;
+    private TextView mTextView = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +48,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void initRecyclerView(){
+        mTextView = (TextView)findViewById(R.id.user_info_name);
+        mImageView = (ImageView)findViewById(R.id.user_info_iv);
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ALog.Log("onClick");
+                mContext.startActivity(SignInActivity.getLaunchIntent(mContext));
+            }
+        });
+        //
         mRecyclerView = findViewById(R.id.suggestedappsrv);
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -72,6 +92,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onResume(){
         mRouteInfoFetcher.resume();
         super.onResume();
+        updateGoogleUI();
     }
 
     @Override
@@ -118,5 +139,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 ALog.Log(TAG + "onComplete");
             }
         };
+    }
+
+    private void updateGoogleUI() {
+        String googleAccountName = null;
+        Uri googleAccountPicUri = null;
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(mContext);
+        if (account != null) {
+            googleAccountName = account.getDisplayName();
+            googleAccountPicUri = account.getPhotoUrl();
+
+        } else {
+            googleAccountName = mContext.getString(R.string.no_google_account_login);
+        }
+        Glide.with(mContext)
+                .load((null != googleAccountPicUri) ? googleAccountPicUri : R.drawable.googleg_color)
+                .into(mImageView);
+        mTextView.setText(googleAccountName);
     }
 }

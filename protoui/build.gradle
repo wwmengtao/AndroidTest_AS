@@ -1,20 +1,31 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        KeyStore {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('keystore/debug.keystore')
+            storePassword 'android'
+        }
+    }
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
     defaultConfig {
-        applicationId "com.motorola.mya.cyclemenu"
+        applicationId "com.example.protoui"
         minSdkVersion 22
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.KeyStore
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.KeyStore
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.KeyStore
         }
     }
     sourceSets {
@@ -22,6 +33,8 @@ android {
             java.srcDirs = ['src/main/java', 'src/main/java/com.motorola.mya.cyclemenu/interface']
             res.srcDirs = ['src/main/res', 'src/main/res/drawable-xxhdpi']
         }
+    }
+    productFlavors {
     }
 }
 
@@ -35,28 +48,27 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.+'
     testCompile 'junit:junit:4.12'
     compile files('libs/fastjson-1.1.43.android.jar')
-    'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    //RxJava2
+    compile 'io.reactivex.rxjava2:rxjava:2.1.1'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    //
     compile 'com.google.android.gms:play-services-auth:11.6.2'
     compile 'com.google.android.gms:play-services-maps:11.6.2'
     compile 'pub.devrel:easypermissions:0.3.0'
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'org.jetbrains:annotations-java5:15.0'
+    compile 'com.google.apis:google-api-services-people:v1-rev139-1.22.0'
     compile 'com.google.api-client:google-api-client:1.23.0'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.1'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile('com.google.api-client:google-api-client-android:1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
     compile('com.google.apis:google-api-services-gmail:v1-rev73-1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-
-
 }
 
 configurations.all {
     resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
 }
+apply plugin: 'com.google.gms.google-services'

@@ -11,4 +11,13 @@
     <string name="waiting_time">Waiting time: %1s</string>
     <string name="final_distance">%1s miles</string>
 
+    <!-- google signin -->
+    <string name="desc_google_icon">Google Logo</string>
+    <string name="google_sign_in">Google Sign-In</string>
+    <string name="signed_out">Signed out</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="signed_in_fmt">Signed in as: %s</string>
+    <string name="no_google_account_login">No Google Account login</string>
+
 </resources>

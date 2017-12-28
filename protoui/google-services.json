@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "478048366444",
+    "project_id": "firebase-protoui"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:478048366444:android:39d22501c4307817",
+        "android_client_info": {
+          "package_name": "com.example.protoui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "478048366444-4vo6mr168i69uqnk30ke75bjfpqkr3hs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.protoui",
+            "certificate_hash": "0c41882fae9ed2cea8beefdb19876facd60bf8c5"
+          }
+        },
+        {
+          "client_id": "478048366444-chr5phj86t2thhg9uip6ciemg8vd03nh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABVaVdSxpCR363R3StDYMf5mqR0kpo9ik"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
