@@ -31,18 +31,24 @@ public class ViewPager2Activity extends BaseAcitivity implements ViewPager.OnPag
         setContentView(R.layout.activity_view_pager2);
         mUnbinder = ButterKnife.bind(this);
         mMockDataEngine = MockDataEngine.getInstance(mContext);
+        mTrendingData = mMockDataEngine.getTrendingData();
         init();
     }
 
     private void init(){
-        //1.init viewpager
-        mTrendingData = mMockDataEngine.getTrendingData();
+        //1.init dot view
+        initDotView();
+        //2.init viewpager
         mViewPager.setPageMargin(10);
         mVPTAdapter = new VPTAdapter(mContext);
         mVPTAdapter.setData(mTrendingData);
         mViewPager.setAdapter(mVPTAdapter);
         mViewPager.addOnPageChangeListener(this);
-        //2.init dot view
+        mViewPager.setCurrentItem(mVPTAdapter.getInitialIndex());
+    }
+
+    private void initDotView(){
+        //init dot view
         View dotView = null;
         for(int i = 0; i < mTrendingData.size(); i++){
             dotView = new View(mContext);
@@ -59,18 +65,18 @@ public class ViewPager2Activity extends BaseAcitivity implements ViewPager.OnPag
         }
     }
 
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
 
     @Override
-    public void onPageSelected(int position) {
-        ll_dot_group.getChildAt(position).setEnabled(true);
+    public void onPageSelected(int pos) {
+        int position = pos % mTrendingData.size();
         ll_dot_group.getChildAt(previousPosition).setEnabled(false);
+        ll_dot_group.getChildAt(position).setEnabled(true);
         previousPosition = position;
-        ALog.Log("onPageSelected: "+ position);
+        ALog.Log("onPageSelected: "+ position+" "+previousPosition);
     }
 
     @Override

@@ -17,14 +17,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * VPTAdapter：用于缓存删除的视图重复使用
+ * VPTAdapter：用于缓存删除的视图重复使用，此时的视图为无限循环视图
  * Created by mengtao1 on 2017/11/29.
  */
 
 public class VPTAdapter extends PagerAdapter {
+    private static final int DATA_COUNT = Integer.MAX_VALUE>>0xF;
     private Context mContext = null;
-    private List<TrendingData> data = null;
+    private List<TrendingData> mData = null;
     private LinkedList<View> mViewCache = null;//用于ViewPager销毁视图的回收利用
+    private int initialItem = -1;
 
     public VPTAdapter(Context mContext){
         this.mContext = mContext;
@@ -32,12 +34,20 @@ public class VPTAdapter extends PagerAdapter {
     }
 
     public void setData(List<TrendingData> list) {
-        data = list;
+        mData = list;
+    }
+
+    public int getInitialIndex(){//用于标识循环ViewPager的起始item
+        if(initialItem < 0){
+            initialItem = DATA_COUNT/2 - (DATA_COUNT/2 % mData.size());
+        }
+        return initialItem;
     }
 
     @Override
     public int getCount() {
-        return data.size();
+//        return data.size();
+        return DATA_COUNT;
     }
 
     @Override
@@ -47,9 +57,10 @@ public class VPTAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, final int position) {
+    public Object instantiateItem(ViewGroup container, final int pos) {
+        int position = pos % mData.size();
         ALog.Log1("instantiateItem: "+position);
-        TrendingData mTrendingData = data.get(position);
+        TrendingData mTrendingData = mData.get(position);
         View mView = null;
         if(mViewCache.size() == 0){//说明此前没有执行destroyItem操作，因此所需视图无法通过回收获取，只能新建
             mView = LayoutInflater.from(mContext).inflate(R.layout.trending_item ,
@@ -80,7 +91,8 @@ public class VPTAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(ViewGroup container, int pos, Object object) {
+        int position = pos % mData.size();
         container.removeView((View) object);
         ALog.Log1("destroyItem: "+position);
         mViewCache.add((View) object);//此时将回收的视图缓存起来
