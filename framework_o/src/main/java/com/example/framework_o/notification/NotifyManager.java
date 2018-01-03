@@ -52,4 +52,28 @@ public class NotifyManager {
             return false;
         }
     }
+
+    public boolean areNotificationsEnabledForPackage(String pkg, int uid){
+        boolean enabled = false;
+        INotificationManager sINM = INotificationManager.Stub.asInterface(
+                ServiceManager.getService(Context.NOTIFICATION_SERVICE));
+        try {
+            enabled = sINM.areNotificationsEnabledForPackage(pkg, uid);
+        }catch (Exception e) {
+            ALog.Log("Exception setNotificationsEnabledForPackage: "+e.getMessage());
+        }
+        return enabled;
+    }
+
+    public boolean areNotificationsEnabled(String pkg){
+        boolean enabled = false;
+        INotificationManager sINM = INotificationManager.Stub.asInterface(
+                ServiceManager.getService(Context.NOTIFICATION_SERVICE));
+        try {
+            enabled = sINM.areNotificationsEnabled(pkg);
+        }catch (Exception e) {
+            ALog.Log("Exception setNotificationsEnabledForPackage: "+e.getMessage());
+        }
+        return enabled;
+    }
 }
