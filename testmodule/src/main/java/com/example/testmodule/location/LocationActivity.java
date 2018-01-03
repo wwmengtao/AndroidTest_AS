@@ -60,7 +60,12 @@ public class LocationActivity extends BaseAcitivity {
                         mLocationUtils.getAddresslocation();
                     }
                 })
-                .setNegativeButton("No", null);
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        LocationActivity.this.finish();
+                    }
+                });
         mAlertDialog.show();
     }
 

@@ -8,11 +8,8 @@ import com.example.testmodule.R;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class NotifiListActivity extends BaseAcitivity {
-    private static final String TAG = "NotifiListActivity";
-    private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +19,10 @@ public class NotifiListActivity extends BaseAcitivity {
         initActivities(buttonIDs, classEs);
     }
 
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        mUnbinder.unbind();
-    }
-    int []buttonIDs={R.id.btn1};
-    Class<?>[] classEs ={NotificationActivity.class};
+    int []buttonIDs={R.id.btn1, R.id.btn2};
+    Class<?>[] classEs ={NotificationActivity.class, CusNotificationActivity.class};
 
-    @OnClick({R.id.btn1})
+    @OnClick({R.id.btn1, R.id.btn2})
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         startActivity(getCallingIntent(this, activity));

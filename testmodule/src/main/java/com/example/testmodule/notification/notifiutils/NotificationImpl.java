@@ -14,6 +14,7 @@ import android.support.v4.app.NotificationCompat;
 import com.example.testmodule.R;
 
 /**
+ * 通知的高度：普通视图布局限制为 64 dp，扩展视图(setxxxStyle类型的通知视图，例如BigPictureStyle，BigTextStyle)布局限制为 256 dp。
  * Created by mengtao1 on 2017/11/23.
  */
 
@@ -171,7 +172,7 @@ public class NotificationImpl {
         CharSequence contentTitle = "NotificationCompat.Builder.contentTitle";
         CharSequence ContentText = "NotificationCompat.Builder.ContentText";
         int smallIcon = R.drawable.ic_fast_rewind_primary_24dp;
-        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.grassland);
+        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.moto);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, null);
         mBuilder.setShowWhen(true);
         mBuilder.setWhen(System.currentTimeMillis());

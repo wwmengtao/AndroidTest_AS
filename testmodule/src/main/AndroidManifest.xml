@@ -39,7 +39,8 @@
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize" />
         <activity android:name=".location.LocationActivity" />
         <activity android:name=".viewpager.ViewPagerGatherActivity" />
-        <activity android:name=".viewpager.ViewPager2Activity"></activity>
+        <activity android:name=".viewpager.ViewPager2Activity" />
+        <activity android:name=".notification.CusNotificationActivity"></activity>
     </application>
 
 </manifest>

@@ -21,8 +21,7 @@ public abstract class BaseAcitivity extends AppCompatActivity {
     public static final String ACTIVITY_NAME_TAG = "ACTIVITY_NAME";
     public String activity_name = null;
     protected SparseArray<Class<?>> mActivitySA = null;
-    int []buttonIDs = null;
-    Class<?>[] classEs = null;
+
     /**
      * getCallingIntent：获取Activity的开启intent同时获取Activity的名称。
      * @param context

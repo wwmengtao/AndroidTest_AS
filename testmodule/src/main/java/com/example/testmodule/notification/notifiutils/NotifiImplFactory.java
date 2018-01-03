@@ -12,6 +12,7 @@ import com.example.testmodule.R;
 import com.example.testmodule.notification.receiver.NotifyReceiver;
 
 /**
+ * 通知的高度：普通视图布局限制为 64 dp，扩展视图(setxxxStyle类型的通知视图，例如BigPictureStyle，BigTextStyle)布局限制为 256 dp。
  * NotifiImplFactory：生产包含Notification.Builder类型Builder的NotificationImpl的工厂。
  * Created by mengtao1 on 2017/11/25.
  */
@@ -80,6 +81,7 @@ public class NotifiImplFactory implements NotifiImplFInterface{
                 mBuilder.addAction(replyAction);
                 break;
             case 2://自定义通知
+                //自定义通知的官方说明：https://developer.android.com/guide/topics/ui/custom-components.html
                 mBuilder.setGroup(NOTIFICATION_GROUP_1);
                 mBuilder.setContent(RemoteViewUtil.getRemoteViews(mContext));//设置自定义布局
                 break;
@@ -93,7 +95,7 @@ public class NotifiImplFactory implements NotifiImplFInterface{
                 break;
             case 4://BigPictureStyle类型通知
                 mBuilder.setGroup(NOTIFICATION_GROUP_2);
-                Bitmap bigPicture= BitmapFactory.decodeResource(mContext.getResources(), R.drawable.cat);//大图
+                Bitmap bigPicture= BitmapFactory.decodeResource(mContext.getResources(), R.drawable.tallpic);//大图
                 Bitmap bigLargeIcon=BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_fast_rewind_primary_24dp);//图标
                 Notification.BigPictureStyle nbps=new Notification.BigPictureStyle()
                         .bigLargeIcon(bigLargeIcon)

@@ -16,13 +16,7 @@
                 android:id="@+id/btn1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="使用Notification.Builder的通知"/>
-
-            <Button
-                android:id="@+id/btn2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="自定义通知"/>
+                android:text="应用通知管理"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

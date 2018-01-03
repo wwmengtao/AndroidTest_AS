@@ -12,6 +12,7 @@ import com.example.testmodule.R;
 import com.example.testmodule.notification.receiver.NotifyReceiver;
 
 /**
+ * 通知的高度：普通视图布局限制为 64 dp，扩展视图(setxxxStyle类型的通知视图，例如BigPictureStyle，BigTextStyle)布局限制为 256 dp。
  * NotifiImplCompactFactory：生产包含NotificationCompat.Builder类型Builder的NotificationImpl的工厂。
  * Created by mengtao1 on 2017/11/25.
  */
@@ -52,6 +53,7 @@ public class NotifiImplCPFactory implements NotifiImplFInterface{
                 mNotificationImpl.getNotificationCompatBuilder().addAction(action2);
                 break;
             case 1://发送自定义通知
+                //自定义通知的官方说明：https://developer.android.com/guide/topics/ui/custom-components.html
                 mCompatBuilder.setContent(RemoteViewUtil.getRemoteViews(mContext));//设置自定义布局
                 break;
             case 2://发送自定义音乐播放器通知
@@ -71,7 +73,7 @@ public class NotifiImplCPFactory implements NotifiImplFInterface{
                 mNotificationImpl.setBigTextStyle(nbts);
                 break;
             case 4://发送BigPictureStyle类型通知
-                Bitmap bigPicture= BitmapFactory.decodeResource(mContext.getResources(), R.drawable.grassland);//大图
+                Bitmap bigPicture= BitmapFactory.decodeResource(mContext.getResources(), R.drawable.tallpic);//大图
                 Bitmap bigLargeIcon=BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_fast_rewind_primary_24dp);//图标
                 NotificationCompat.BigPictureStyle nbps=new NotificationCompat.BigPictureStyle()
                         .bigLargeIcon(bigLargeIcon)
@@ -96,7 +98,10 @@ public class NotifiImplCPFactory implements NotifiImplFInterface{
                 ibs.setSummaryText("InboxStyle.setSummaryText");
                 mNotificationImpl.setInboxStyle(ibs);
                 break;
-
+            case 20://自定义通知，用于管理是否阻塞特定应用的通知弹出
+                //自定义通知的官方说明：https://developer.android.com/guide/topics/ui/custom-components.html
+                mCompatBuilder.setContent(RemoteViewUtil.getManagerNotifyRemoteViews(mContext));//设置自定义布局
+                break;
         }
         return mNotificationImpl;
     }
