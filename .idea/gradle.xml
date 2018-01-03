@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/framework_o" />
             <option value="$PROJECT_DIR$/protoui" />
             <option value="$PROJECT_DIR$/rxjava-android-sample" />
             <option value="$PROJECT_DIR$/rxjava2-android-sample" />

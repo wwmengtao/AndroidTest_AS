@@ -1,0 +1,55 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 26
+
+
+
+    defaultConfig {
+        minSdkVersion 26
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    provided files('libs/classes.jar')
+}
+
+/**
+ * 如下task使得xxx.iml中<orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK"/>内容置于
+ * 最后一行，从而使得自定义的jar包可以优先于系统Android SDK起作用
+ */
+task pushDownJdkDependency {
+    def imlFile = file("framework_o.iml")
+    println 'Change framework_o.iml order'
+    try {
+        def parsedXml = (new XmlParser()).parse(imlFile)
+
+        def jdkNode = parsedXml.component[1].orderEntry.find { it.'@type' == 'jdk' }
+        parsedXml.component[1].remove(jdkNode)
+        def sdkString = "Android API " + android.compileSdkVersion.substring("android-".length()) + " Platform"
+        new Node(parsedXml.component[1], 'orderEntry', ['type': 'jdk', 'jdkName': sdkString, 'jdkType': 'Android SDK'])
+        groovy.xml.XmlUtil.serialize(parsedXml, new FileOutputStream(imlFile))
+    } catch (FileNotFoundException e) {
+        // nop, iml not found
+        println 'can not find framework_o.iml'
+    }
+}
