@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.testmodule.MainActivity">
+    tools:context="com.example.testmodule.notification.NotiBlockActivity">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,19 +16,12 @@
                 android:id="@+id/btn1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="使用Notification.Builder的通知"/>
-
+                android:text="当前通知是否开启"/>
             <Button
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="自定义通知"/>
-
-            <Button
-                android:id="@+id/btn3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="通知阻塞管理"/>
+                android:text="阻塞/开启通知"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

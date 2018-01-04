@@ -40,7 +40,8 @@
         <activity android:name=".location.LocationActivity" />
         <activity android:name=".viewpager.ViewPagerGatherActivity" />
         <activity android:name=".viewpager.ViewPager2Activity" />
-        <activity android:name=".notification.CusNotificationActivity"></activity>
+        <activity android:name=".notification.CusNotificationActivity" />
+        <activity android:name=".notification.NotiBlockActivity"></activity>
     </application>
 
 </manifest>

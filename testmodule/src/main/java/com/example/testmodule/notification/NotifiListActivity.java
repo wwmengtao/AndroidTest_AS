@@ -19,10 +19,10 @@ public class NotifiListActivity extends BaseAcitivity {
         initActivities(buttonIDs, classEs);
     }
 
-    int []buttonIDs={R.id.btn1, R.id.btn2};
-    Class<?>[] classEs ={NotificationActivity.class, CusNotificationActivity.class};
+    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3};
+    Class<?>[] classEs ={NotificationActivity.class, CusNotificationActivity.class, NotiBlockActivity.class};
 
-    @OnClick({R.id.btn1, R.id.btn2})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3})
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         startActivity(getCallingIntent(this, activity));
