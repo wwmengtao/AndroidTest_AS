@@ -4,10 +4,13 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import com.example.framework_o.notification.NotifyBlockManager;
 import com.example.testmodule.ALog;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
+import com.example.testmodule.notification.appinfos.AppInfo;
+import com.example.testmodule.notification.notifiutils.NotifyBlockManager;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -48,5 +51,20 @@ public class NotiBlockActivity extends BaseAcitivity {
             e.printStackTrace();
         }
 
+    }
+
+    @OnClick(R.id.btn3)
+    public void onClick3(){
+        List<AppInfo> apps = NotifyBlockManager.get(this).getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_ALL);
+        visitList(apps);
+        ALog.Log("/--------------------------------------------------------------/");
+        apps = NotifyBlockManager.get(this).getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_NO_SYSTEM);
+        visitList(apps);
+    }
+
+    private void visitList(List<AppInfo> apps){
+        for(AppInfo app : apps){
+            ALog.Log("appName: "+app.appName);
+        }
     }
 }

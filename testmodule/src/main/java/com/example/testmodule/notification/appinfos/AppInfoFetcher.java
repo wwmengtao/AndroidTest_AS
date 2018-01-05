@@ -5,12 +5,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import java.util.ArrayList;
@@ -73,11 +67,10 @@ public class AppInfoFetcher {
         ActivityInfo ai = info.activityInfo;
         String appName = ai.applicationInfo.loadLabel(pm).toString();
         String packageName = ai.packageName;
+        int uid = ai.applicationInfo.uid;
         String className = ai.name;
         Drawable drawable = ai.loadIcon(pm);
-        Bitmap icon =  getBitmapFromDrawable(drawable);
-        AppInfo appInfo = new AppInfo(appName, packageName, className, getStyledIcon(mContext,icon));
-        appInfo.setIntent(getLaunchIntent(packageName, className));
+        AppInfo appInfo = new AppInfo(appName, packageName, uid, drawable, getLaunchIntent(packageName, className));
         return appInfo;
     }
 
@@ -88,52 +81,6 @@ public class AppInfoFetcher {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//FLAG_ACTIVITY_NEW_TASK一般配合FLAG_ACTIVITY_CLEAR_TOP使用
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return intent;
-    }
-
-    private Bitmap getBitmapFromDrawable(Drawable drawable) {
-        if (drawable != null) {
-            if (drawable instanceof BitmapDrawable) {
-                return ((BitmapDrawable)drawable).getBitmap();
-            } else {
-                Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-                final Canvas canvas = new Canvas(bitmap);
-                drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-                drawable.draw(canvas);
-                return bitmap;
-            }
-        }
-        return null;
-    }
-
-    private static Bitmap getStyledIcon(Context context, Bitmap icon) {
-        Bitmap backImage = ((BitmapDrawable)context.getResources().getDrawable(android.R.drawable.ic_menu_add, context.getTheme())).getBitmap();
-        int w = backImage.getWidth();
-        int h = backImage.getHeight();
-
-        // create a bitmap for the result
-        Bitmap result = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        Canvas mCanvas = new Canvas(result);
-
-        // draw the background first
-        mCanvas.drawBitmap(backImage, 0, 0, null);
-
-        // create a mutable mask bitmap with the same mask
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(icon, (int) (w * 1.1), (int) (h * 1.1), true);
-        Bitmap mutableMask = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        Canvas maskCanvas = new Canvas(mutableMask);
-        maskCanvas.drawBitmap(backImage, 0, 0, new Paint());
-
-        // paint the bitmap with mask into the result
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-        mCanvas.drawBitmap(scaledBitmap, (w - scaledBitmap.getWidth()) / 2, (h - scaledBitmap.getHeight()) / 2, null);
-        scaledBitmap.recycle();
-        mCanvas.drawBitmap(mutableMask, 0, 0, paint);
-        mutableMask.recycle();
-        paint.setXfermode(null);
-
-        // return it
-        return result;
     }
 
 }

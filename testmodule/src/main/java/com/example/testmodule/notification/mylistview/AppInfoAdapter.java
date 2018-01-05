@@ -42,7 +42,7 @@ public class AppInfoAdapter extends BaseAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		AppInfoHolder mMyViewHolder = AppInfoHolder.get(mContext, convertView, parent, R.layout.list_item, position);
 		ImageView mImageView = mMyViewHolder.getView(R.id.iv);
-		mImageView.setImageBitmap(mData.get(position).icon);
+		mImageView.setImageDrawable(mData.get(position).icon);
 		View mConvertView = mMyViewHolder.getConvertView();
 		return mConvertView;
 	}
