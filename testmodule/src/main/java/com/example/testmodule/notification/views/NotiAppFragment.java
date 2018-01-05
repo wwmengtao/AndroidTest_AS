@@ -124,7 +124,6 @@ public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemVi
         DividerItemDecoration decoration = new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL);
         decoration.setDrawable(mContext.getResources().getDrawable(R.drawable.appinfodivider));
         mRecyclerViewEvent.addItemDecoration(decoration);
-
     }
 
     @Override
@@ -152,7 +151,7 @@ public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemVi
                     + " must implement OnFragmentInteractionListener");
         }
         this.mContext = context.getApplicationContext();
-        mNotifyBlockManager = NotifyBlockManager.get(mContext);
+        this.mNotifyBlockManager = NotifyBlockManager.get(mContext);
     }
 
     @Override
@@ -166,7 +165,7 @@ public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemVi
 
     @OnClick(R.id.decline)
     public void decline(){//should
-
+        getActivity().finish();
     }
 
     @Override public void onDestroyView() {
