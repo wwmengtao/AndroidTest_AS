@@ -1,45 +1,36 @@
 package com.example.testmodule.notification.mylistview;
 
 import android.content.Context;
-import android.util.SparseArray;
-import android.view.LayoutInflater;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.example.testmodule.R;
+import com.example.testmodule.notification.model.AppInfo;
 
 
-public class AppInfoHolder {
-	private final SparseArray<View> mViews;
-	protected View mConvertView;
+/**
+ * Created by Mengtao1 on 2016/12/22.
+ */
+
+public class AppInfoHolder extends RecyclerView.ViewHolder {
 	private Context mContext = null;
-	protected AppInfoHolder(Context context, ViewGroup parent, int layoutId, int position){
-		mContext = context.getApplicationContext();
-		this.mViews = new SparseArray<View>();
-		mConvertView = LayoutInflater.from(mContext).inflate(layoutId, parent, false);
-		// setTag
-		mConvertView.setTag(this);
+	private View rootView = null;
+	private ImageView picIV = null;
+
+
+	public AppInfoHolder(View itemView) {
+		super(itemView);
+		mContext = itemView.getContext().getApplicationContext();
+		rootView = itemView;
+		picIV = (ImageView)itemView.findViewById(R.id.pic);
 	}
 
-	public static AppInfoHolder get(Context context, View convertView, ViewGroup parent, int layoutId, int position){
-		AppInfoHolder holder = null;
-		if (convertView == null){
-			holder = new AppInfoHolder(context, parent, layoutId, position);
-		} else{
-			holder = (AppInfoHolder) convertView.getTag();
-		}
-		return holder;
+	public void bindData(AppInfo data){
+		picIV.setImageDrawable(data.icon);
 	}
 
-	public View getConvertView(){
-		return mConvertView;
-	}
-
-	@SuppressWarnings("unchecked")
-	public <T extends View> T getView(int viewId){
-		View view = mViews.get(viewId);
-		if (view == null){
-			view = mConvertView.findViewById(viewId);
-			if(null!=view)mViews.put(viewId, view);
-		}
-		return (T) view;
+	public View getRootView(){
+		return this.rootView;
 	}
 }

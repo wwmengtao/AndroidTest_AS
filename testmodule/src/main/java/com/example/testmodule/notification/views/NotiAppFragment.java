@@ -1,10 +1,12 @@
 package com.example.testmodule.notification.views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -15,10 +17,12 @@ import android.widget.TextView;
 
 import com.example.testmodule.ALog;
 import com.example.testmodule.R;
+import com.example.testmodule.notification.mylistview.AppInfoAdapter;
 import com.example.testmodule.notification.notifiutils.NotifyBlockManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -29,7 +33,7 @@ import butterknife.Unbinder;
  * Use the {@link NotiAppFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotiAppFragment extends Fragment {
+public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemViewClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,6 +41,7 @@ public class NotiAppFragment extends Fragment {
     private Context mContext = null;
     private Unbinder mUnbinder = null;
     private NotifyBlockManager mNotifyBlockManager = null;
+    private AppInfoAdapter mAppInfoAdapter = null;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -51,6 +56,7 @@ public class NotiAppFragment extends Fragment {
     @BindView(R.id.tv_subtext1) TextView mTVSubTv1Event;
     @BindView(R.id.tv_subtext2) TextView mTVSubTv2Event;
     @BindView(R.id.rv_apps) RecyclerView mRecyclerViewEvent;
+    @BindView(R.id.decline) TextView mTVDecline;
 
     private OnFragmentInteractionListener mListener;
 
@@ -101,12 +107,31 @@ public class NotiAppFragment extends Fragment {
         mIVCalendar.setImageDrawable(mPair.second);
         mTVCalendar.setText(mPair.first);
         mTVTitleCalendar.setText(mContext.getString(R.string.calendar_title));
+        mTVTitleCalendar.getPaint().setFakeBoldText(true);//set text bold
         mTVTimeCalendar.setText(mContext.getString(R.string.calendar_when));
         //2.init block notification view
         mTVTitleEvent.setText(mContext.getString(R.string.notifi_office_title));
         mTVSubTv1Event.setText(mContext.getString(R.string.notifi_office_des));
+        mTVSubTv1Event.getPaint().setFakeBoldText(true);//set text bold
         mTVSubTv2Event.setText(mContext.getString(R.string.app_nofity_whitelist));
-        RecyclerView mRecyclerViewEvent;
+        initRecyclerView();
+    }
+
+    private void initRecyclerView(){
+        mAppInfoAdapter = new AppInfoAdapter(mContext);
+        mAppInfoAdapter.setOnItemViewClickListener(this);
+        mRecyclerViewEvent.setAdapter(mAppInfoAdapter);
+        DividerItemDecoration decoration = new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL);
+        decoration.setDrawable(mContext.getResources().getDrawable(R.drawable.appinfodivider));
+        mRecyclerViewEvent.addItemDecoration(decoration);
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        mAppInfoAdapter.setData(mNotifyBlockManager.getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_NO_SYSTEM));
+        mAppInfoAdapter.notifyDataSetChanged();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -130,6 +155,20 @@ public class NotiAppFragment extends Fragment {
         mNotifyBlockManager = NotifyBlockManager.get(mContext);
     }
 
+    @Override
+    public void onItemViewClick(int position, Intent intent) {
+        if(null != intent){
+            mContext.startActivity(intent);
+        }else if(position == mAppInfoAdapter.getItemCount() - 1){
+            ALog.Log("heiehi");
+        }
+    }
+
+    @OnClick(R.id.decline)
+    public void decline(){//should
+
+    }
+
     @Override public void onDestroyView() {
         mUnbinder.unbind();
         super.onDestroyView();
@@ -139,6 +178,7 @@ public class NotiAppFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mNotifyBlockManager.clear();
     }
 
     /**

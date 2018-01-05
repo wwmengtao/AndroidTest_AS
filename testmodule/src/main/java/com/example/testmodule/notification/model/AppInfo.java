@@ -16,6 +16,9 @@ public class AppInfo {
     //
     public boolean notiBlocked;
 
+    public AppInfo(){
+
+    }
 
     public AppInfo(String appName, String packageName, int uid, Drawable icon, Intent launchIntent) {
         this.appName = appName;
@@ -23,6 +26,10 @@ public class AppInfo {
         this.uid = uid;
         this.icon = icon;
         this.launchIntent = launchIntent;
+    }
+
+    public void setIcon(Drawable icon){
+        this.icon = icon;
     }
 
     public void setNotiBlocked(boolean notiBlocked){

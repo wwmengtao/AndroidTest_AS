@@ -24,8 +24,8 @@ public class NotifyBlockManager {
     private Context mContext = null;
     private volatile static NotifyBlockManager mNotifyBlockManager = null;
     private PackageManager mPackageManager = null;
-    private List<AppInfo> mAppInfoList = null;
     private List<PackageInfo> allPackageInfos = null;
+    private List<AppInfo> mAppInfoList = null;
 
     public static NotifyBlockManager get(Context context){
         if(null == mNotifyBlockManager){
@@ -120,5 +120,11 @@ public class NotifyBlockManager {
     //simulate INotificationManager.areNotificationsEnabledForPackage
     public static boolean areNotificationsEnabledForPackage(String pkg, int uid){
         return false;
+    }
+
+    public void clear(){
+        if(null != allPackageInfos)allPackageInfos.clear();
+        if(null != mAppInfoList)mAppInfoList.clear();
+        mNotifyBlockManager = null;
     }
 }
