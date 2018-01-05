@@ -8,13 +8,13 @@ import android.graphics.drawable.Drawable;
  */
 
 public class AppInfo {
-    public String appName;
-    public String packageName;
-    public int uid;
-    public Drawable icon;
+    public String appName = null;
+    public String packageName = null;
+    public int uid = -1;
+    public Drawable icon = null;
     public Intent launchIntent = null;
     //
-    public boolean notiBlocked;
+    public boolean notiBlocked = true;
 
     public AppInfo(){
 

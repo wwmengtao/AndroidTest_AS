@@ -89,6 +89,7 @@ public class NotifyBlockManager {
                 launchIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             }
             mAppInfo = new AppInfo(appName, packageName, uid, appIcon, launchIntent);
+            mAppInfo.setNotiBlocked(true);//We default to
             mAppInfoList.add(mAppInfo);
         }
         //3.sort the list

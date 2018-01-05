@@ -3,7 +3,7 @@ package com.example.testmodule;
 import android.util.Log;
 
 public class ALog {
-	private static String TAG_M = "M_T_AT_AS_testmodule";
+	private static String TAG_M = "M_T_AT_AS_testmodule.alog";
 	private  static String TAG_M1 = TAG_M+"_1";
 	private  static String TAG_M2 = TAG_M+"_2";
 	private  static String TAG_M_T = TAG_M+"_TIME";

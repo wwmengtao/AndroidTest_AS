@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
@@ -38,6 +39,7 @@ public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemVi
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static final String PARENT_FRAGMENT = "NotiAppFragment";
     private Context mContext = null;
     private Unbinder mUnbinder = null;
     private NotifyBlockManager mNotifyBlockManager = null;
@@ -56,7 +58,6 @@ public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemVi
     @BindView(R.id.tv_subtext1) TextView mTVSubTv1Event;
     @BindView(R.id.tv_subtext2) TextView mTVSubTv2Event;
     @BindView(R.id.rv_apps) RecyclerView mRecyclerViewEvent;
-    @BindView(R.id.decline) TextView mTVDecline;
 
     private OnFragmentInteractionListener mListener;
 
@@ -120,6 +121,7 @@ public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemVi
     private void initRecyclerView(){
         mAppInfoAdapter = new AppInfoAdapter(mContext);
         mAppInfoAdapter.setOnItemViewClickListener(this);
+        mAppInfoAdapter.setLayoutType(AppInfoAdapter.LayoutType.LinearLayoutManager);
         mRecyclerViewEvent.setAdapter(mAppInfoAdapter);
         DividerItemDecoration decoration = new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL);
         decoration.setDrawable(mContext.getResources().getDrawable(R.drawable.appinfodivider));
@@ -160,6 +162,13 @@ public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemVi
             mContext.startActivity(intent);
         }else if(position == mAppInfoAdapter.getItemCount() - 1){
             ALog.Log("heiehi");
+            final ShowAppsFragment selector = new ShowAppsFragment();
+            getFragmentManager()
+                    .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(getId(), selector)
+                    .addToBackStack(PARENT_FRAGMENT)
+                    .commit();
         }
     }
 
