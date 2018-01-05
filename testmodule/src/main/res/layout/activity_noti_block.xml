@@ -27,6 +27,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="获取应用列表"/>
+            <Button
+                android:id="@+id/btn4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="展示通知阻塞情况"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

@@ -1,13 +1,14 @@
-package com.example.testmodule.notification;
+package com.example.testmodule.notification.views;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.testmodule.ALog;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
-import com.example.testmodule.notification.appinfos.AppInfo;
+import com.example.testmodule.notification.model.AppInfo;
 import com.example.testmodule.notification.notifiutils.NotifyBlockManager;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class NotiBlockActivity extends BaseAcitivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noti_block);
         mUnbinder = ButterKnife.bind(this);
+        initActivities(buttonIDs, classEs);
     }
 
     @OnClick(R.id.btn1)
@@ -55,9 +57,13 @@ public class NotiBlockActivity extends BaseAcitivity {
 
     @OnClick(R.id.btn3)
     public void onClick3(){
+        ALog.Log("/------------------------NotifyBlockManager.APP_TYPE.FLAG_ALL----------------------/");
         List<AppInfo> apps = NotifyBlockManager.get(this).getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_ALL);
         visitList(apps);
-        ALog.Log("/--------------------------------------------------------------/");
+        ALog.Log("/------------------------NotifyBlockManager.APP_TYPE.FLAG_NO_PACKAGE_NAME----------------------/");
+        apps = NotifyBlockManager.get(this).getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_NO_PACKAGE_NAME);
+        visitList(apps);
+        ALog.Log("/------------------------NotifyBlockManager.APP_TYPE.FLAG_NO_SYSTEM----------------------/");
         apps = NotifyBlockManager.get(this).getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_NO_SYSTEM);
         visitList(apps);
     }
@@ -65,6 +71,16 @@ public class NotiBlockActivity extends BaseAcitivity {
     private void visitList(List<AppInfo> apps){
         for(AppInfo app : apps){
             ALog.Log("appName: "+app.appName);
+            ALog.Log("packageName: "+app.packageName);
         }
+    }
+
+    int []buttonIDs={R.id.btn4};
+    Class<?>[] classEs ={NotiAppActivity.class};
+
+    @OnClick({R.id.btn4})
+    public void onClickActivity(View view){
+        Class<?> activity = mActivitySA.get(view.getId());
+        startActivity(getCallingIntent(this, activity));
     }
 }

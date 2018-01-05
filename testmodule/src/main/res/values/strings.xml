@@ -16,5 +16,11 @@ Use these guidelines as a starting point to ensure that your product icon colors
     <string name="notifi_office_title">Arriving at the office</string>
     <string name="notifi_office_des">Find ways to keep the good work flowing</string>
     <string name="app_nofity_whitelist">App notifications are blocked, but allow access to</string>
+    <string name="decline">DECLINE</string>
+    <string name="calendar_title">"UX Design Review - Americas"</string>
+    <string name="calendar_when">"11:00AM - 11:30AM"</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

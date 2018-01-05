@@ -1,4 +1,4 @@
-package com.example.testmodule.notification.appinfos;
+package com.example.testmodule.notification.model;
 
 import android.content.Context;
 import android.content.Intent;

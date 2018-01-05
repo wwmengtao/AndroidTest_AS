@@ -28,9 +28,7 @@
             android:name=".EventBusActivity"
             android:label="EventBusActivity" />
         <activity android:name=".XmlParserActivity" />
-        <activity android:name=".notification.NotificationActivity" />
         <activity android:name=".SQLiteActivity" />
-        <activity android:name=".notification.NotifiListActivity" />
         <activity
             android:name=".viewpager.ViewPagerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -40,8 +38,12 @@
         <activity android:name=".location.LocationActivity" />
         <activity android:name=".viewpager.ViewPagerGatherActivity" />
         <activity android:name=".viewpager.ViewPager2Activity" />
-        <activity android:name=".notification.CusNotificationActivity" />
-        <activity android:name=".notification.NotiBlockActivity"></activity>
+        <activity android:name=".notification.views.NotificationActivity" />
+        <activity android:name=".notification.views.NotifiListActivity" />
+        <activity android:name=".notification.views.CusNotificationActivity" />
+        <activity android:name=".notification.views.NotiBlockActivity" />
+        <activity android:name=".notification.views.NotiAppActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -9,7 +9,7 @@ import android.provider.Settings;
 import android.view.View;
 
 import com.example.testmodule.location.LocationActivity;
-import com.example.testmodule.notification.NotifiListActivity;
+import com.example.testmodule.notification.views.NotifiListActivity;
 import com.example.testmodule.viewpager.ViewPagerGatherActivity;
 import com.example.testmodule.windowmanager.WindowManagerActivity;
 import com.example.testmodule.windowmanager.WindowTools;

@@ -1,0 +1,20 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.testmodule.notification.views.NotiAppFragment">
+
+    <include
+        layout="@layout/calendar_title"
+        android:id="@+id/calendar_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <include
+        layout="@layout/notification_custom_manage_notifi2"
+        android:id="@+id/notilayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"/>
+</LinearLayout>

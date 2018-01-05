@@ -6,9 +6,10 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.util.Pair;
 
-import com.example.testmodule.notification.appinfos.AppInfo;
-import com.example.testmodule.notification.appinfos.AppInfoCom;
+import com.example.testmodule.notification.model.AppInfo;
+import com.example.testmodule.notification.model.AppInfoCom;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +25,7 @@ public class NotifyBlockManager {
     private volatile static NotifyBlockManager mNotifyBlockManager = null;
     private PackageManager mPackageManager = null;
     private List<AppInfo> mAppInfoList = null;
+    private List<PackageInfo> allPackageInfos = null;
 
     public static NotifyBlockManager get(Context context){
         if(null == mNotifyBlockManager){
@@ -35,13 +37,14 @@ public class NotifyBlockManager {
     private NotifyBlockManager(Context context){
         this.mContext = context.getApplicationContext();
         this.mPackageManager = mContext.getPackageManager();
+        this.allPackageInfos = mPackageManager.getInstalledPackages(0);
         this.mAppInfoList = new ArrayList<>();
     }
 
     public enum APP_TYPE{
         FLAG_ALL,
-        FLAG_SYSTEM,
-        FLAG_NO_SYSTEM
+        FLAG_NO_PACKAGE_NAME,//filter apps that appname equals packagename
+        FLAG_NO_SYSTEM//filter system app
     }
 
     /**
@@ -50,6 +53,9 @@ public class NotifyBlockManager {
      * @return
      */
     public List<AppInfo> getAppsInfo(APP_TYPE type) {
+        if(APP_TYPE.FLAG_ALL == type){
+            this.allPackageInfos = mPackageManager.getInstalledPackages(0);
+        }
         mAppInfoList.clear();
         //1.define values field
         AppInfo mAppInfo = null;
@@ -58,10 +64,8 @@ public class NotifyBlockManager {
         int uid = -1;
         Drawable appIcon = null;
         Intent launchIntent = null;
-        List<PackageInfo> packs = mPackageManager.getInstalledPackages(0);
-        int count = packs.size() - 1;
-        for (int i = 0; i <= count; i++) {
-            PackageInfo p = packs.get(i);
+
+        for (PackageInfo p : allPackageInfos) {
             ApplicationInfo itemInfo = p.applicationInfo;
             if ((itemInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
                 if(APP_TYPE.FLAG_NO_SYSTEM == type) {//filter system apps
@@ -71,11 +75,19 @@ public class NotifyBlockManager {
             //2.generate AppInfo
             appName = p.applicationInfo.loadLabel(mPackageManager).toString().trim();
             packageName = p.packageName;
+            //filter
+            if(null !=appName && null != packageName && appName.equals(packageName)){
+                if(APP_TYPE.FLAG_NO_PACKAGE_NAME == type) {//filter system apps
+                    continue;
+                }
+            }
             uid = p.applicationInfo.uid;
             appIcon = p.applicationInfo.loadIcon(mPackageManager);
             launchIntent = mPackageManager.getLaunchIntentForPackage(packageName);
-            launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//FLAG_ACTIVITY_NEW_TASK一般配合FLAG_ACTIVITY_CLEAR_TOP使用
-            launchIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            if(null != launchIntent) {
+                launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//FLAG_ACTIVITY_NEW_TASK一般配合FLAG_ACTIVITY_CLEAR_TOP使用
+                launchIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            }
             mAppInfo = new AppInfo(appName, packageName, uid, appIcon, launchIntent);
             mAppInfoList.add(mAppInfo);
         }
@@ -84,6 +96,21 @@ public class NotifyBlockManager {
         Collections.sort(mAppInfoList, comparator);
         return mAppInfoList;
     }
+
+    private static final String CalendarPackageName = "com.google.android.calendar";
+    public Pair<String, Drawable> getCalendarInfo(){
+        Pair<String, Drawable> mPair = null;
+        for (PackageInfo p : allPackageInfos) {
+            if(p.packageName.equals(CalendarPackageName)){
+                String appName = p.applicationInfo.loadLabel(mPackageManager).toString().trim();
+                Drawable icon = p.applicationInfo.loadIcon(mPackageManager);
+                mPair = new Pair(appName, icon);
+                break;
+            }
+        }
+        return mPair;
+    }
+
 
     //simulate INotificationManager.setNotificationsEnabledForPackage
     public static boolean setNotificationsEnabledForPackage(String pkg, int uid, boolean enabled) {

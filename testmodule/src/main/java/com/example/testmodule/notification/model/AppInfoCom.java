@@ -1,4 +1,4 @@
-package com.example.testmodule.notification.appinfos;
+package com.example.testmodule.notification.model;
 
 import java.util.Comparator;
 

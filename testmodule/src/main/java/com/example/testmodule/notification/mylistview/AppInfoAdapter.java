@@ -7,7 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.example.testmodule.R;
-import com.example.testmodule.notification.appinfos.AppInfo;
+import com.example.testmodule.notification.model.AppInfo;
 
 import java.util.List;
 
