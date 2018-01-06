@@ -10,6 +10,7 @@ import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.model.AppInfo;
 import com.example.testmodule.notification.notifiutils.NotifyBlockManager;
+import com.example.testmodule.notification.notifiutils.NotifyBlockManager.APP_TYPE;
 
 import java.util.List;
 
@@ -24,6 +25,16 @@ public class NotiBlockActivity extends BaseAcitivity {
         setContentView(R.layout.activity_noti_block);
         mUnbinder = ButterKnife.bind(this);
         initActivities(buttonIDs, classEs);
+        initData();
+    }
+
+    private void initData(){
+        mAppExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                NotifyBlockManager.get(mContext);//this will cost much time
+            }
+        });
     }
 
     @OnClick(R.id.btn1)
@@ -57,15 +68,20 @@ public class NotiBlockActivity extends BaseAcitivity {
 
     @OnClick(R.id.btn3)
     public void onClick3(){
-        ALog.Log("/------------------------NotifyBlockManager.APP_TYPE.FLAG_ALL----------------------/");
-        List<AppInfo> apps = NotifyBlockManager.get(this).getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_ALL);
-        visitList(apps);
-        ALog.Log("/------------------------NotifyBlockManager.APP_TYPE.FLAG_NO_PACKAGE_NAME----------------------/");
-        apps = NotifyBlockManager.get(this).getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_NO_PACKAGE_NAME);
-        visitList(apps);
-        ALog.Log("/------------------------NotifyBlockManager.APP_TYPE.FLAG_NO_SYSTEM----------------------/");
-        apps = NotifyBlockManager.get(this).getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_NO_SYSTEM);
-        visitList(apps);
+        mAppExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                ALog.Log("/------------------------NotifyBlockManager.APP_TYPE.FLAG_ALL----------------------/");
+                List<AppInfo> apps = NotifyBlockManager.get(mContext).getAppsInfo(APP_TYPE.FLAG_ALL);
+                visitList(apps);
+                ALog.Log("/------------------------NotifyBlockManager.APP_TYPE.FLAG_NO_SYSTEM----------------------/");
+                apps = NotifyBlockManager.get(mContext).getAppsInfo(APP_TYPE.FLAG_NO_SYSTEM);
+                visitList(apps);
+                ALog.Log("/------------------------NotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST----------------------/");
+                apps = NotifyBlockManager.get(mContext).getAppsInfo(APP_TYPE.FLAG_WHITE_LIST);
+                visitList(apps);
+            }
+        });
     }
 
     private void visitList(List<AppInfo> apps){
@@ -82,5 +98,11 @@ public class NotiBlockActivity extends BaseAcitivity {
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         startActivity(getCallingIntent(this, activity));
+    }
+
+    @Override
+    public void onDestroy(){
+        NotifyBlockManager.get(getApplicationContext()).clear();
+        super.onDestroy();
     }
 }

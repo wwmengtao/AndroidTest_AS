@@ -14,6 +14,7 @@ import com.example.testmodule.notification.model.AppInfoCom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 由于权限问题，只能模拟framework_o模块中的需要系统权限才能执行的NotifyBlockManager
@@ -25,11 +26,15 @@ public class NotifyBlockManager {
     private volatile static NotifyBlockManager mNotifyBlockManager = null;
     private PackageManager mPackageManager = null;
     private List<PackageInfo> allPackageInfos = null;
-    private List<AppInfo> mAppInfoList = null;
+    private ConcurrentHashMap<APP_TYPE, List<AppInfo>> mAppInfoListCol = null;
 
     public static NotifyBlockManager get(Context context){
         if(null == mNotifyBlockManager){
-            mNotifyBlockManager = new NotifyBlockManager(context);
+            synchronized (NotifyBlockManager.class){
+                if(null == mNotifyBlockManager) {
+                    mNotifyBlockManager = new NotifyBlockManager(context);
+                }
+            }
         }
         return mNotifyBlockManager;
     }
@@ -38,13 +43,45 @@ public class NotifyBlockManager {
         this.mContext = context.getApplicationContext();
         this.mPackageManager = mContext.getPackageManager();
         this.allPackageInfos = mPackageManager.getInstalledPackages(0);
-        this.mAppInfoList = new ArrayList<>();
+        this.mAppInfoListCol = new ConcurrentHashMap<>();
+        initAppInfoListCol();
     }
+
+    private void initAppInfoListCol(){
+        getAppsInfo(APP_TYPE.FLAG_ALL);
+        getAppsInfo(APP_TYPE.FLAG_NO_SYSTEM);
+        getAppsInfo(APP_TYPE.FLAG_WHITE_LIST);
+    }
+
+    private static final String[] AppsWhiteList = {
+            "com.google.android.music",
+            "com.google.android.talk",
+            "com.google.android.apps.maps",
+            "com.google.android.feedback",
+            "com.google.android.apps.messaging",
+            "com.google.android.apps.photos",
+    };
+
 
     public enum APP_TYPE{
         FLAG_ALL,
-        FLAG_NO_PACKAGE_NAME,//filter apps that appname equals packagename
-        FLAG_NO_SYSTEM//filter system app
+        FLAG_NO_SYSTEM,//filter system app
+        FLAG_WHITE_LIST,
+        FLAG_WHITE_LIST_NOTI_BLOCKED,
+        FLAG_WHITE_LIST_NOTI_UNBLOCKED
+    }
+
+    private List<AppInfo> getWhiteListBlockAppsInfo(APP_TYPE type){
+        List<AppInfo> mAppInfoList = mAppInfoListCol.get(APP_TYPE.FLAG_WHITE_LIST);
+        boolean blocked = (APP_TYPE.FLAG_WHITE_LIST_NOTI_BLOCKED == type) ? true : false;
+        List<AppInfo> mBlockedAppInfoList = null;
+        for(AppInfo ai : mAppInfoList){
+            if(ai.notiBlocked == blocked){
+                if(null == mBlockedAppInfoList)mBlockedAppInfoList = new ArrayList<>();
+                mBlockedAppInfoList.add(ai);
+            }
+        }
+        return mBlockedAppInfoList;
     }
 
     /**
@@ -52,11 +89,15 @@ public class NotifyBlockManager {
      * @param type：用于区分当前应用的种类，例如FLAG_NO_SYSTEM可以排除系统应用
      * @return
      */
-    public List<AppInfo> getAppsInfo(APP_TYPE type) {
-        if(APP_TYPE.FLAG_ALL == type){
-            this.allPackageInfos = mPackageManager.getInstalledPackages(0);
+    public synchronized List<AppInfo> getAppsInfo(APP_TYPE type) {
+        if(APP_TYPE.FLAG_WHITE_LIST_NOTI_BLOCKED == type || APP_TYPE.FLAG_WHITE_LIST_NOTI_UNBLOCKED == type){
+            return getWhiteListBlockAppsInfo(type);
         }
-        mAppInfoList.clear();
+        List<AppInfo> mAppInfoList = mAppInfoListCol.get(type);
+        if(null != mAppInfoList){
+            return mAppInfoList;
+        }
+        mAppInfoList = new ArrayList<>();
         //1.define values field
         AppInfo mAppInfo = null;
         String appName = null;
@@ -67,19 +108,18 @@ public class NotifyBlockManager {
 
         for (PackageInfo p : allPackageInfos) {
             ApplicationInfo itemInfo = p.applicationInfo;
-            if ((itemInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
-                if(APP_TYPE.FLAG_NO_SYSTEM == type) {//filter system apps
-                    continue;
-                }
+            if (APP_TYPE.FLAG_NO_SYSTEM == type &&
+                                (itemInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {//filter system apps
+                continue;
+            }else if(APP_TYPE.FLAG_WHITE_LIST == type && !isWhiteListApp(p.packageName)){
+                continue;
             }
             //2.generate AppInfo
             appName = p.applicationInfo.loadLabel(mPackageManager).toString().trim();
             packageName = p.packageName;
-            //filter
+            //filter apps that appname equals packagename
             if(null !=appName && null != packageName && appName.equals(packageName)){
-                if(APP_TYPE.FLAG_NO_PACKAGE_NAME == type) {//filter system apps
-                    continue;
-                }
+                continue;
             }
             uid = p.applicationInfo.uid;
             appIcon = p.applicationInfo.loadIcon(mPackageManager);
@@ -95,7 +135,19 @@ public class NotifyBlockManager {
         //3.sort the list
         AppInfoCom comparator = new AppInfoCom();
         Collections.sort(mAppInfoList, comparator);
+        //4.restore mAppInfoList
+        mAppInfoListCol.put(type, mAppInfoList);
         return mAppInfoList;
+    }
+
+    private boolean isWhiteListApp(String packageName){
+        if(null == packageName)return false;
+        for(String str : AppsWhiteList){
+            if(str.equals(packageName)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private static final String CalendarPackageName = "com.google.android.calendar";
@@ -125,7 +177,7 @@ public class NotifyBlockManager {
 
     public void clear(){
         if(null != allPackageInfos)allPackageInfos.clear();
-        if(null != mAppInfoList)mAppInfoList.clear();
+        if(null != mAppInfoListCol)mAppInfoListCol.clear();
         mNotifyBlockManager = null;
     }
 }

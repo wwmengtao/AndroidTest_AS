@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.WindowManager;
@@ -11,13 +12,15 @@ import android.view.WindowManager;
 import com.example.testmodule.ALog;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
+import com.example.testmodule.notification.notifiutils.NotifyBlockManager;
 
-public class NotiAppActivity extends BaseAcitivity implements NotiAppFragment.OnFragmentInteractionListener {
+public class NotiAppActivity extends BaseAcitivity implements NotiAppUnblockedFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noti_app);
+        initAppInfoData();
         initFragment();
     }
 
@@ -47,11 +50,20 @@ public class NotiAppActivity extends BaseAcitivity implements NotiAppFragment.On
         return super.dispatchTouchEvent(event);
     }
 
+    private void initAppInfoData(){
+        mAppExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                NotifyBlockManager.get(NotiAppActivity.this.getApplicationContext());
+            }
+        });
+    }
+
     private void initFragment(){
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
-        if(fragment ==null){
+        if(fragment == null){
             fragment = getFragment();
             fm.beginTransaction()
                     .add(R.id.fragment_container, fragment)
@@ -60,11 +72,21 @@ public class NotiAppActivity extends BaseAcitivity implements NotiAppFragment.On
     }
 
     private Fragment getFragment(){
-        return NotiAppFragment.newInstance("param1", "param2");
+        return NotiAppUnblockedFragment.newInstance("param1", "param2");
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public void showNotiAppBlockedFragment(){
+        final NotiAppBlockedFragment fragment = NotiAppBlockedFragment.newInstance("param11", "param12");
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(NotiAppUnblockedFragment.PARENT_FRAGMENT)
+                .commit();
     }
 }

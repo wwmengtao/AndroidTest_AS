@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.SparseArray;
 
+import com.example.testmodule.application.AppExecutors;
+import com.example.testmodule.application.BasicApp;
 import com.fernandocejas.android10.sample.data.ALog;
 
 import butterknife.Unbinder;
@@ -17,6 +19,7 @@ import butterknife.Unbinder;
 public abstract class BaseAcitivity extends AppCompatActivity {
     protected String TAG = null;
     protected Context mContext = null;
+    protected AppExecutors mAppExecutors;
     protected Unbinder mUnbinder = null;
     public static final String ACTIVITY_NAME_TAG = "ACTIVITY_NAME";
     public String activity_name = null;
@@ -50,6 +53,7 @@ public abstract class BaseAcitivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
+        mAppExecutors = ((BasicApp)getApplication()).getAppExecutors();
         setActivityTitle();
     }
 

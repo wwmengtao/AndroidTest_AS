@@ -9,39 +9,51 @@ import android.view.ViewGroup;
 
 import com.example.testmodule.R;
 import com.example.testmodule.notification.model.AppInfo;
+import com.example.testmodule.notification.notifiutils.NotifyBlockManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoHolder>{
 	private Context mContext = null;
 	private List<AppInfo> mData = null;
+	private int whiteListAppInfoCount = -1;
 	private OnItemViewClickListener mOnItemClickListener = null;
+	private OnItemViewLongClickListener mOnItemViewLongClickListener = null;
 	private LayoutType mLayoutType = LayoutType.LinearLayoutManager;
+	private AppInfo mAppInfoAdd = null;//the last one "add" item
 
 	public AppInfoAdapter(Context mContext){
 		this.mContext = mContext;
+		this.whiteListAppInfoCount = NotifyBlockManager.get(mContext).getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST).size();
+		this.mData = new ArrayList<>();
+		this.mAppInfoAdd = new AppInfo();
+		this.mAppInfoAdd.setIcon(mContext.getResources().getDrawable(R.drawable.addapp, null));
 	}
 
-	public void setData(List<AppInfo> mData){
-		this.mData = mData;
-		//
-		if(mLayoutType != LayoutType.LinearLayoutManager){
-			return;
+	public void setData(List<AppInfo> data){
+		if(null != data){
+			mData = data;
+		}else {
+			mData = new ArrayList<>();
 		}
-		AppInfo info = new AppInfo();
-		info.setIcon(mContext.getResources().getDrawable(R.drawable.addapp, null));
-		this.mData.add(info);
 	}
 
 	public void setBlocked(int index){
 		AppInfo ai = mData.get(index);
 		mData.get(index).setNotiBlocked(!ai.notiBlocked);
-		notifyItemChanged(index);
+		if(LayoutType.GridLayoutManager == mLayoutType){
+			notifyItemChanged(index);//just show selected state
+		}
 	}
 
-	public void setOnItemViewClickListener(OnItemViewClickListener mOnItemClickListener){
-		this.mOnItemClickListener = mOnItemClickListener;
+	public void setOnItemViewClickListener(OnItemViewClickListener listener){
+		this.mOnItemClickListener = listener;
+	}
+
+	public void setOnItemViewLongClickListener(OnItemViewLongClickListener listener){
+		this.mOnItemViewLongClickListener = listener;
 	}
 
 	public void setLayoutType(LayoutType mLayoutType){
@@ -67,7 +79,12 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoHolder>{
 
 	@Override
 	public void onBindViewHolder(AppInfoHolder holder, final int position) {
-		final AppInfo data = mData.get(position);
+		final AppInfo data;
+		if(position == mData.size() && mData.size() != whiteListAppInfoCount){
+			data = mAppInfoAdd;
+		}else{
+			data = mData.get(position);
+		}
 		holder.bindData(data);
 		View rootView = holder.getRootView();
 		if(null == mOnItemClickListener){
@@ -79,6 +96,18 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoHolder>{
 				mOnItemClickListener.onItemViewClick(position, data.launchIntent);
 			}
 		});
+		if(LayoutType.LinearLayoutManager == mLayoutType){
+			if(null == mOnItemViewLongClickListener){
+				throw new RuntimeException("must provide not null OnItemViewLongClickListener!");
+			}
+			rootView.setOnLongClickListener(new View.OnLongClickListener() {
+				@Override
+				public boolean onLongClick(View v) {
+					mOnItemViewLongClickListener.onItemViewLongClick(position);
+					return false;
+				}
+			});
+		}
 	}
 
 	@Override
@@ -88,10 +117,17 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoHolder>{
 
 	@Override
 	public int getItemCount() {
-		return mData.size();
+		if(mLayoutType == LayoutType.GridLayoutManager || mData.size() == whiteListAppInfoCount){
+			return mData.size();
+		}
+		return mData.size() + 1;
 	}
 
 	public interface OnItemViewClickListener{
 		void onItemViewClick(int position, Intent intent);
+	}
+
+	public interface OnItemViewLongClickListener{
+		void onItemViewLongClick(int position);
 	}
 }

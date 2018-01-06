@@ -25,7 +25,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-public class ShowAppsFragment extends Fragment implements AppInfoAdapter.OnItemViewClickListener{
+public class NotiAppBlockedFragment extends Fragment implements AppInfoAdapter.OnItemViewClickListener{
+    public static final String TAG = "NotiAppBlockedFragment";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -42,7 +43,7 @@ public class ShowAppsFragment extends Fragment implements AppInfoAdapter.OnItemV
     private String mParam1;
     private String mParam2;
 
-    public ShowAppsFragment() {
+    public NotiAppBlockedFragment() {
         // Required empty public constructor
     }
 
@@ -55,8 +56,8 @@ public class ShowAppsFragment extends Fragment implements AppInfoAdapter.OnItemV
      * @return A new instance of fragment ShowAppsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ShowAppsFragment newInstance(String param1, String param2) {
-        ShowAppsFragment fragment = new ShowAppsFragment();
+    public static NotiAppBlockedFragment newInstance(String param1, String param2) {
+        NotiAppBlockedFragment fragment = new NotiAppBlockedFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -108,21 +109,20 @@ public class ShowAppsFragment extends Fragment implements AppInfoAdapter.OnItemV
     @Override
     public void onResume(){
         super.onResume();
-        mAppInfoAdapter.setData(mNotifyBlockManager.getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_NO_SYSTEM));
+        mAppInfoAdapter.setData(mNotifyBlockManager.getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST_NOTI_BLOCKED));
         mAppInfoAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onItemViewClick(int position, Intent intent) {
         ALog.Log("onItemViewClick");
-
         mAppInfoAdapter.setBlocked(position);
     }
 
     @OnClick(R.id.returntoparent)
     public void returnToParent(){
         getFragmentManager().
-            popBackStack(NotiAppFragment.PARENT_FRAGMENT,
+            popBackStack(NotiAppUnblockedFragment.PARENT_FRAGMENT,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
@@ -144,5 +144,4 @@ public class ShowAppsFragment extends Fragment implements AppInfoAdapter.OnItemV
         super.onDetach();
         ALog.Log("onDetach");
     }
-
 }

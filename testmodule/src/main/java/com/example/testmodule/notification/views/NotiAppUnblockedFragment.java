@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
@@ -29,17 +28,18 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NotiAppFragment.OnFragmentInteractionListener} interface
+ * {@link NotiAppUnblockedFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link NotiAppFragment#newInstance} factory method to
+ * Use the {@link NotiAppUnblockedFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemViewClickListener {
+public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter.OnItemViewClickListener,
+                        AppInfoAdapter.OnItemViewLongClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    public static final String PARENT_FRAGMENT = "NotiAppFragment";
+    public static final String PARENT_FRAGMENT = "NotiAppUnblockedFragment";
     private Context mContext = null;
     private Unbinder mUnbinder = null;
     private NotifyBlockManager mNotifyBlockManager = null;
@@ -61,7 +61,7 @@ public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemVi
 
     private OnFragmentInteractionListener mListener;
 
-    public NotiAppFragment() {
+    public NotiAppUnblockedFragment() {
         // Required empty public constructor
     }
 
@@ -74,8 +74,8 @@ public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemVi
      * @return A new instance of fragment NotiAppFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NotiAppFragment newInstance(String param1, String param2) {
-        NotiAppFragment fragment = new NotiAppFragment();
+    public static NotiAppUnblockedFragment newInstance(String param1, String param2) {
+        NotiAppUnblockedFragment fragment = new NotiAppUnblockedFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -121,6 +121,7 @@ public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemVi
     private void initRecyclerView(){
         mAppInfoAdapter = new AppInfoAdapter(mContext);
         mAppInfoAdapter.setOnItemViewClickListener(this);
+        mAppInfoAdapter.setOnItemViewLongClickListener(this);
         mAppInfoAdapter.setLayoutType(AppInfoAdapter.LayoutType.LinearLayoutManager);
         mRecyclerViewEvent.setAdapter(mAppInfoAdapter);
         DividerItemDecoration decoration = new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL);
@@ -131,7 +132,11 @@ public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemVi
     @Override
     public void onResume(){
         super.onResume();
-        mAppInfoAdapter.setData(mNotifyBlockManager.getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_NO_SYSTEM));
+        updateRecyclerView();
+    }
+
+    private void updateRecyclerView(){
+        mAppInfoAdapter.setData(mNotifyBlockManager.getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST_NOTI_UNBLOCKED));
         mAppInfoAdapter.notifyDataSetChanged();
     }
 
@@ -161,15 +166,15 @@ public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemVi
         if(null != intent){
             mContext.startActivity(intent);
         }else if(position == mAppInfoAdapter.getItemCount() - 1){
-            ALog.Log("heiehi");
-            final ShowAppsFragment selector = new ShowAppsFragment();
-            getFragmentManager()
-                    .beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .replace(getId(), selector)
-                    .addToBackStack(PARENT_FRAGMENT)
-                    .commit();
+            ((NotiAppActivity) getActivity()).showNotiAppBlockedFragment();
         }
+    }
+
+    @Override
+    public void onItemViewLongClick(int position) {
+        ALog.Log("onItemViewLongClick");
+        mAppInfoAdapter.setBlocked(position);
+        updateRecyclerView();
     }
 
     @OnClick(R.id.decline)
@@ -186,7 +191,6 @@ public class NotiAppFragment extends Fragment implements AppInfoAdapter.OnItemVi
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        mNotifyBlockManager.clear();
     }
 
     /**
