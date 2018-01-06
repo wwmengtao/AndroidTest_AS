@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.testmodule.notification.NotiBlockActivity">
+    tools:context="com.example.testmodule.notification.views.NotiBlockActivity">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_green_dark">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

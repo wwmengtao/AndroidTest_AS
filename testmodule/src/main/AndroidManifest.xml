@@ -26,8 +26,9 @@
         </activity>
         <activity android:name=".WebViewActivity" />
         <activity
-            android:name=".EventBusActivity"
-            android:label="EventBusActivity" />
+            android:name=".TransparentActivity"
+            android:label="TransparentActivity"
+            android:theme="@style/AllTransparent"/>
         <activity android:name=".XmlParserActivity" />
         <activity android:name=".SQLiteActivity" />
         <activity
@@ -44,7 +45,7 @@
         <activity android:name=".notification.views.CusNotificationActivity" />
         <activity android:name=".notification.views.NotiBlockActivity" />
         <activity android:name=".notification.views.NotiAppActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:theme="@style/AllTransparent"
             android:excludeFromRecents="true"/>
     </application>
 

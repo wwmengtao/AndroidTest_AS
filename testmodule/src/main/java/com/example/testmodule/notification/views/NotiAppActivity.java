@@ -27,7 +27,11 @@ public class NotiAppActivity extends BaseAcitivity implements NotiAppUnblockedFr
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        WindowManager.LayoutParams mLayoutParams = this.getWindow().getAttributes();
+        mLayoutParams.dimAmount = 0.8f;//设置灰度,0.0f完全不暗，1.0f全暗
+//        mLayoutParams.alpha = 0.5f;//1.0完全不透明，0.0f完全透明
+        this.getWindow().setAttributes(mLayoutParams);
+//        this.getWindow().getDecorView().setBackgroundColor(getResources().getColor(android.R.color.transparent));
 //        this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);//提示AndroidRuntime: java.lang.IllegalArgumentException: Window type can not be changed after the window is added.
     }
 
