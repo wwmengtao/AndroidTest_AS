@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.example.testmodule.ALog;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.mylistview.AppInfoAdapter;
-import com.example.testmodule.notification.notifiutils.NotifyBlockManager;
+import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +33,7 @@ public class NotiAppBlockedFragment extends Fragment implements AppInfoAdapter.O
     private static final String ARG_PARAM2 = "param2";
     private Context mContext = null;
     private Unbinder mUnbinder = null;
-    private NotifyBlockManager mNotifyBlockManager = null;
+    private MockNotifyBlockManager mNotifyBlockManager = null;
     private AppInfoAdapter mAppInfoAdapter = null;
 
     @BindView(R.id.tv_app_block_title) TextView mTVTitle;
@@ -109,7 +109,7 @@ public class NotiAppBlockedFragment extends Fragment implements AppInfoAdapter.O
     @Override
     public void onResume(){
         super.onResume();
-        mAppInfoAdapter.setData(mNotifyBlockManager.getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST_NOTI_BLOCKED));
+        mAppInfoAdapter.setData(mNotifyBlockManager.getAppsInfo(MockNotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST_NOTI_BLOCKED));
         mAppInfoAdapter.notifyDataSetChanged();
     }
 
@@ -130,7 +130,7 @@ public class NotiAppBlockedFragment extends Fragment implements AppInfoAdapter.O
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mContext = context.getApplicationContext();
-        this.mNotifyBlockManager = NotifyBlockManager.get(mContext);
+        this.mNotifyBlockManager = MockNotifyBlockManager.get(mContext);
     }
 
     @Override public void onDestroyView() {

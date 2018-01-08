@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.example.testmodule.ALog;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.mylistview.AppInfoAdapter;
-import com.example.testmodule.notification.notifiutils.NotifyBlockManager;
+import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +42,7 @@ public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter
     public static final String PARENT_FRAGMENT = "NotiAppUnblockedFragment";
     private Context mContext = null;
     private Unbinder mUnbinder = null;
-    private NotifyBlockManager mNotifyBlockManager = null;
+    private MockNotifyBlockManager mNotifyBlockManager = null;
     private AppInfoAdapter mAppInfoAdapter = null;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -136,7 +136,7 @@ public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter
     }
 
     private void updateRecyclerView(){
-        mAppInfoAdapter.setData(mNotifyBlockManager.getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST_NOTI_UNBLOCKED));
+        mAppInfoAdapter.setData(mNotifyBlockManager.getAppsInfo(MockNotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST_NOTI_UNBLOCKED));
         mAppInfoAdapter.notifyDataSetChanged();
     }
 
@@ -158,7 +158,7 @@ public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter
                     + " must implement OnFragmentInteractionListener");
         }
         this.mContext = context.getApplicationContext();
-        this.mNotifyBlockManager = NotifyBlockManager.get(mContext);
+        this.mNotifyBlockManager = MockNotifyBlockManager.get(mContext);
     }
 
     @Override

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.example.testmodule.R;
 import com.example.testmodule.notification.model.AppInfo;
-import com.example.testmodule.notification.notifiutils.NotifyBlockManager;
+import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoHolder>{
 
 	public AppInfoAdapter(Context mContext){
 		this.mContext = mContext;
-		this.whiteListAppInfoCount = NotifyBlockManager.get(mContext).getAppsInfo(NotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST).size();
+		this.whiteListAppInfoCount = MockNotifyBlockManager.get(mContext).getAppsInfo(MockNotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST).size();
 		this.mData = new ArrayList<>();
 		this.mAppInfoAdd = new AppInfo();
 		this.mAppInfoAdd.setIcon(mContext.getResources().getDrawable(R.drawable.addapp, null));

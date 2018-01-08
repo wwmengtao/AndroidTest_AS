@@ -21,25 +21,25 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by mengtao1 on 2018/1/4.
  */
 
-public class NotifyBlockManager {
+public class MockNotifyBlockManager {
     private Context mContext = null;
-    private volatile static NotifyBlockManager mNotifyBlockManager = null;
+    private volatile static MockNotifyBlockManager mMockNotifyBlockManager = null;
     private PackageManager mPackageManager = null;
     private List<PackageInfo> allPackageInfos = null;
     private ConcurrentHashMap<APP_TYPE, List<AppInfo>> mAppInfoListCol = null;
 
-    public static NotifyBlockManager get(Context context){
-        if(null == mNotifyBlockManager){
-            synchronized (NotifyBlockManager.class){
-                if(null == mNotifyBlockManager) {
-                    mNotifyBlockManager = new NotifyBlockManager(context);
+    public static MockNotifyBlockManager get(Context context){
+        if(null == mMockNotifyBlockManager){
+            synchronized (MockNotifyBlockManager.class){
+                if(null == mMockNotifyBlockManager) {
+                    mMockNotifyBlockManager = new MockNotifyBlockManager(context);
                 }
             }
         }
-        return mNotifyBlockManager;
+        return mMockNotifyBlockManager;
     }
 
-    private NotifyBlockManager(Context context){
+    private MockNotifyBlockManager(Context context){
         this.mContext = context.getApplicationContext();
         this.mPackageManager = mContext.getPackageManager();
         this.allPackageInfos = mPackageManager.getInstalledPackages(0);
@@ -176,8 +176,9 @@ public class NotifyBlockManager {
     }
 
     public void clear(){
+        if(null == mMockNotifyBlockManager)return;
         if(null != allPackageInfos)allPackageInfos.clear();
         if(null != mAppInfoListCol)mAppInfoListCol.clear();
-        mNotifyBlockManager = null;
+        mMockNotifyBlockManager = null;
     }
 }

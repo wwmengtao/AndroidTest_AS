@@ -12,7 +12,7 @@ import android.view.WindowManager;
 import com.example.testmodule.ALog;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
-import com.example.testmodule.notification.notifiutils.NotifyBlockManager;
+import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
 
 public class NotiAppActivity extends BaseAcitivity implements NotiAppUnblockedFragment.OnFragmentInteractionListener {
 
@@ -58,7 +58,7 @@ public class NotiAppActivity extends BaseAcitivity implements NotiAppUnblockedFr
         mAppExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                NotifyBlockManager.get(NotiAppActivity.this.getApplicationContext());
+                MockNotifyBlockManager.get(NotiAppActivity.this.getApplicationContext());
             }
         });
     }

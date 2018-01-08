@@ -5,12 +5,12 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.framework_o.notification.NotifyBlockManager;
 import com.example.testmodule.ALog;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.model.AppInfo;
-import com.example.testmodule.notification.notifiutils.NotifyBlockManager;
-import com.example.testmodule.notification.notifiutils.NotifyBlockManager.APP_TYPE;
+import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class NotiBlockActivity extends BaseAcitivity {
         mAppExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                NotifyBlockManager.get(mContext);//this will cost much time
+                MockNotifyBlockManager.get(mContext);//this will cost much time
             }
         });
     }
@@ -44,7 +44,7 @@ public class NotiBlockActivity extends BaseAcitivity {
             ApplicationInfo appInfo = mContext.getPackageManager().getApplicationInfo(mContext.getPackageName(),
                     PackageManager.GET_META_DATA);
             uid = appInfo.uid;
-            ALog.Log("enabled: "+ NotifyBlockManager.areNotificationsEnabledForPackage(getPackageName(), uid));
+            ALog.Log("enabled: "+ MockNotifyBlockManager.areNotificationsEnabledForPackage(getPackageName(), uid));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class NotiBlockActivity extends BaseAcitivity {
             ApplicationInfo appInfo = mContext.getPackageManager().getApplicationInfo(mContext.getPackageName(),
                     PackageManager.GET_META_DATA);
             uid = appInfo.uid;
-            boolean blocked = NotifyBlockManager.areNotificationsEnabledForPackage(getPackageName(), uid);
+            boolean blocked = MockNotifyBlockManager.areNotificationsEnabledForPackage(getPackageName(), uid);
             ALog.Log("enabled: "+ NotifyBlockManager.setNotificationsEnabledForPackage(getPackageName(),
                     uid, !blocked));
         } catch (PackageManager.NameNotFoundException e) {
@@ -71,14 +71,14 @@ public class NotiBlockActivity extends BaseAcitivity {
         mAppExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                ALog.Log("/------------------------NotifyBlockManager.APP_TYPE.FLAG_ALL----------------------/");
-                List<AppInfo> apps = NotifyBlockManager.get(mContext).getAppsInfo(APP_TYPE.FLAG_ALL);
+                ALog.Log("/------------------------MockNotifyBlockManager.APP_TYPE.FLAG_ALL----------------------/");
+                List<AppInfo> apps = MockNotifyBlockManager.get(mContext).getAppsInfo(MockNotifyBlockManager.APP_TYPE.FLAG_ALL);
                 visitList(apps);
-                ALog.Log("/------------------------NotifyBlockManager.APP_TYPE.FLAG_NO_SYSTEM----------------------/");
-                apps = NotifyBlockManager.get(mContext).getAppsInfo(APP_TYPE.FLAG_NO_SYSTEM);
+                ALog.Log("/------------------------MockNotifyBlockManager.APP_TYPE.FLAG_NO_SYSTEM----------------------/");
+                apps = MockNotifyBlockManager.get(mContext).getAppsInfo(MockNotifyBlockManager.APP_TYPE.FLAG_NO_SYSTEM);
                 visitList(apps);
-                ALog.Log("/------------------------NotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST----------------------/");
-                apps = NotifyBlockManager.get(mContext).getAppsInfo(APP_TYPE.FLAG_WHITE_LIST);
+                ALog.Log("/------------------------MockNotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST----------------------/");
+                apps = MockNotifyBlockManager.get(mContext).getAppsInfo(MockNotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST);
                 visitList(apps);
             }
         });
@@ -102,7 +102,7 @@ public class NotiBlockActivity extends BaseAcitivity {
 
     @Override
     public void onDestroy(){
-        NotifyBlockManager.get(getApplicationContext()).clear();
+        MockNotifyBlockManager.get(getApplicationContext()).clear();
         super.onDestroy();
     }
 }
