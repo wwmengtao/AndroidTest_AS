@@ -101,7 +101,7 @@ public class UserModelNT implements Parcelable {
 // 3.实现Parcelable.Creator接口对象名必须为CREATOR，不如同样会报错上面所提到的错；
 // 4.在读取Parcel容器里的数据事，必须按成员变量声明的顺序读取数据，不然会出现获取数据出错
 // 5.反序列化对象
-  public static final Parcelable.Creator<UserModelNT> CREATOR = new Creator(){
+  public static final Creator CREATOR = new Creator(){
 
     @Override
     public UserModelNT createFromParcel(Parcel source) {
