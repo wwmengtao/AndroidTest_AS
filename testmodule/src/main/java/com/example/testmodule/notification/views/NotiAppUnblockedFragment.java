@@ -96,7 +96,7 @@ public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_noti_app, container, false);
+        View view = inflater.inflate(R.layout.fragment_noti_app_unblocked, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         initViews();
         return view;

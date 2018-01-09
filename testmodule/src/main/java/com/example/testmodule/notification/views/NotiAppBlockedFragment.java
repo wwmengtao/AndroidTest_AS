@@ -78,7 +78,7 @@ public class NotiAppBlockedFragment extends Fragment implements AppInfoAdapter.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_show_apps, container, false);
+        View view = inflater.inflate(R.layout.fragment_noti_app_blocked, container, false);
         mUnbinder = ButterKnife.bind(this, view);
         initViews();
         return view;
@@ -96,11 +96,7 @@ public class NotiAppBlockedFragment extends Fragment implements AppInfoAdapter.O
         mRecyclerView.setAdapter(mAppInfoAdapter);
         //set divider
         Drawable divider = getContext().getResources().getDrawable(R.drawable.appinfodivider);
-        DividerItemDecoration mDividerItemDecoration;
-        mDividerItemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL);
-        mDividerItemDecoration.setDrawable(divider);
-        mRecyclerView.addItemDecoration(mDividerItemDecoration);
-        mDividerItemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
         mDividerItemDecoration.setDrawable(divider);
         mRecyclerView.addItemDecoration(mDividerItemDecoration);
         //
