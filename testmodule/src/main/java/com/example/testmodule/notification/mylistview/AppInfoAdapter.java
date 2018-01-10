@@ -41,6 +41,7 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppInfoHolder>{
 	}
 
 	public void setBlocked(int index){
+		if(null == mData || 0 == mData.size())return;
 		AppInfo ai = mData.get(index);
 		mData.get(index).setNotiBlocked(!ai.notiBlocked);
 		if(LayoutType.GridLayoutManager == mLayoutType){

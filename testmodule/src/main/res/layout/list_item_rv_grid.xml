@@ -16,5 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/pic"
+        android:button="@drawable/checkbox_background"
         android:visibility="visible"/>
 </com.example.testmodule.notification.views.RelativeSelectView>

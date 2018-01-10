@@ -57,9 +57,15 @@ public class MockNotifyBlockManager {
             "com.google.android.music",
             "com.google.android.talk",
             "com.google.android.apps.maps",
-            "com.google.android.feedback",
             "com.google.android.apps.messaging",
             "com.google.android.apps.photos",
+            "com.google.android.videos",
+            "com.google.android.music",
+            "com.facebook.lite",
+            "com.google.android.youtube",
+            "com.ubercab",
+            "me.lyft.android",
+            "com.example.rxjava2_android_sample"
     };
 
 
@@ -98,39 +104,19 @@ public class MockNotifyBlockManager {
             return mAppInfoList;
         }
         mAppInfoList = new ArrayList<>();
-        //1.define values field
-        AppInfo mAppInfo = null;
-        String appName = null;
-        String packageName = null;
-        int uid = -1;
-        Drawable appIcon = null;
-        Intent launchIntent = null;
-
         for (PackageInfo p : allPackageInfos) {
             ApplicationInfo itemInfo = p.applicationInfo;
             if (APP_TYPE.FLAG_NO_SYSTEM == type &&
-                                (itemInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {//filter system apps
+                    (itemInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {//filter system apps
                 continue;
             }else if(APP_TYPE.FLAG_WHITE_LIST == type && !isWhiteListApp(p.packageName)){
                 continue;
             }
-            //2.generate AppInfo
-            appName = p.applicationInfo.loadLabel(mPackageManager).toString().trim();
-            packageName = p.packageName;
-            //filter apps that appname equals packagename
-            if(null !=appName && null != packageName && appName.equals(packageName)){
+            AppInfo ai = getAppInfo(p);
+            if(null == ai){
                 continue;
             }
-            uid = p.applicationInfo.uid;
-            appIcon = p.applicationInfo.loadIcon(mPackageManager);
-            launchIntent = mPackageManager.getLaunchIntentForPackage(packageName);
-            if(null != launchIntent) {
-                launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//FLAG_ACTIVITY_NEW_TASK一般配合FLAG_ACTIVITY_CLEAR_TOP使用
-                launchIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            }
-            mAppInfo = new AppInfo(appName, packageName, uid, appIcon, launchIntent);
-            mAppInfo.setNotiBlocked(true);//We default to
-            mAppInfoList.add(mAppInfo);
+            mAppInfoList.add(ai);
         }
         //3.sort the list
         AppInfoCom comparator = new AppInfoCom();
@@ -138,6 +124,26 @@ public class MockNotifyBlockManager {
         //4.restore mAppInfoList
         mAppInfoListCol.put(type, mAppInfoList);
         return mAppInfoList;
+    }
+
+    private AppInfo getAppInfo(PackageInfo p){
+        AppInfo mAppInfo = null;
+        String appName = p.applicationInfo.loadLabel(mPackageManager).toString().trim();
+        String packageName = p.packageName;
+        //filter apps that appname equals packagename
+        if(null !=appName && null != packageName && appName.equals(packageName)){
+            return null;
+        }
+        int uid = p.applicationInfo.uid;
+        Drawable appIcon = p.applicationInfo.loadIcon(mPackageManager);
+        Intent launchIntent = mPackageManager.getLaunchIntentForPackage(packageName);
+        if(null != launchIntent) {
+            launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//FLAG_ACTIVITY_NEW_TASK一般配合FLAG_ACTIVITY_CLEAR_TOP使用
+            launchIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        mAppInfo = new AppInfo(appName, packageName, uid, appIcon, launchIntent);
+        mAppInfo.setNotiBlocked(true);//We default to
+        return mAppInfo;
     }
 
     private boolean isWhiteListApp(String packageName){
@@ -164,6 +170,38 @@ public class MockNotifyBlockManager {
         return mPair;
     }
 
+    public void onPackageInstalled(String packageName){
+        if(null == packageName)return;
+        List<AppInfo> appInfosAll = getAppsInfo(APP_TYPE.FLAG_ALL);
+        PackageInfo pi = null;
+        try {
+            pi = mPackageManager.getPackageInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if(null == pi)return;
+        AppInfo ai = getAppInfo(pi);
+        if(null == ai)return;
+        appInfosAll.add(ai);
+        AppInfoCom comparator = new AppInfoCom();
+        Collections.sort(appInfosAll, comparator);
+        //
+        if(isWhiteListApp(packageName)){
+            List<AppInfo> appInfosWL = getAppsInfo(APP_TYPE.FLAG_WHITE_LIST);
+            appInfosWL.add(ai);
+            Collections.sort(appInfosWL, comparator);
+        }
+    }
+
+    public void onPackageUnInstalled(String packageName){
+        if(null == packageName)return;
+        List<AppInfo> appInfosAll = getAppsInfo(APP_TYPE.FLAG_ALL);
+        appInfosAll.remove()
+    }
+
+    private void removeItem(){
+
+    }
 
     //simulate INotificationManager.setNotificationsEnabledForPackage
     public static boolean setNotificationsEnabledForPackage(String pkg, int uid, boolean enabled) {

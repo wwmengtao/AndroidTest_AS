@@ -11,6 +11,7 @@ import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.model.AppInfo;
 import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
+import com.example.testmodule.notification.receiver.PackageInstallReceiver;
 
 import java.util.List;
 
@@ -26,6 +27,19 @@ public class NotiBlockActivity extends BaseAcitivity {
         mUnbinder = ButterKnife.bind(this);
         initActivities(buttonIDs, classEs);
         initData();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        PackageInstallReceiver.getInstance().registerReceiver(this);
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        ALog.Log("NotiBlockActivity_onStop");
+        PackageInstallReceiver.getInstance().unRegisterReceiver(this);
     }
 
     private void initData(){
