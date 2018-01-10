@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.util.Pair;
 
+import com.example.testmodule.ALog;
 import com.example.testmodule.notification.model.AppInfo;
 import com.example.testmodule.notification.model.AppInfoCom;
 
@@ -61,13 +62,12 @@ public class MockNotifyBlockManager {
             "com.google.android.apps.photos",
             "com.google.android.videos",
             "com.google.android.music",
-            "com.facebook.lite",
+            "com.facebook.katana",
             "com.google.android.youtube",
             "com.ubercab",
             "me.lyft.android",
             "com.example.rxjava2_android_sample"
     };
-
 
     public enum APP_TYPE{
         FLAG_ALL,
@@ -170,13 +170,14 @@ public class MockNotifyBlockManager {
         return mPair;
     }
 
-    public void onPackageInstalled(String packageName){
+    public synchronized void onPackageInstalled(String packageName){
         if(null == packageName)return;
         List<AppInfo> appInfosAll = getAppsInfo(APP_TYPE.FLAG_ALL);
         PackageInfo pi = null;
         try {
-            pi = mPackageManager.getPackageInfo(packageName, 0);
+            pi = mContext.getPackageManager().getPackageInfo(packageName, 0);
         } catch (PackageManager.NameNotFoundException e) {
+            ALog.Log("NameNotFoundException");
             e.printStackTrace();
         }
         if(null == pi)return;
@@ -191,16 +192,29 @@ public class MockNotifyBlockManager {
             appInfosWL.add(ai);
             Collections.sort(appInfosWL, comparator);
         }
+        ALog.Log("onPackageInstalled: "+packageName);
     }
 
-    public void onPackageUnInstalled(String packageName){
+    public synchronized void onPackageUnInstalled(String packageName){
         if(null == packageName)return;
         List<AppInfo> appInfosAll = getAppsInfo(APP_TYPE.FLAG_ALL);
-        appInfosAll.remove()
-    }
-
-    private void removeItem(){
-
+        for(int i = 0; i < appInfosAll.size(); i++){
+            AppInfo ai = appInfosAll.get(i);
+            if(ai.packageName.equals(packageName)){
+                appInfosAll.remove(i);
+                break;
+            }
+        }
+        //
+        List<AppInfo> appInfosWL = getAppsInfo(APP_TYPE.FLAG_WHITE_LIST);
+        for(int i = 0; i < appInfosWL.size(); i++){
+            AppInfo ai = appInfosWL.get(i);
+            if(ai.packageName.equals(packageName)){
+                appInfosWL.remove(i);
+                break;
+            }
+        }
+        ALog.Log("onPackageUnInstalled: "+packageName);
     }
 
     //simulate INotificationManager.setNotificationsEnabledForPackage

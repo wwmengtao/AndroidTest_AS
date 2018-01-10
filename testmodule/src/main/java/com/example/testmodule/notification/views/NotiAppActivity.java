@@ -47,7 +47,7 @@ public class NotiAppActivity extends BaseAcitivity implements NotiAppUnblockedFr
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {//在Android8.0以上只能识别触摸屏时间，无法识别返回、home、菜单键
-        ALog.Log("dispatchTouchEvent");
+        ALog.Log(TAG+"_dispatchTouchEvent");
         //下列event.getKeyCode() == KeyEvent.KEYCODE_HOME在高版本上不识别
 //        if (event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_HOME) {
 //        }

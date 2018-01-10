@@ -53,8 +53,11 @@ public class PackageInstallReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ALog.Log(TAG+"_onReceive");
+        ALog.Log(TAG+"_onReceive: "+intent.getAction());
         packageName = intent.getDataString();
+        if(null == packageName)return;
+        //以下必须删除原始packageName开头的"package:"，如"package:com.example.rxjava2_android_sample"
+        packageName = packageName.replace("package:", "");
         mIntent = WorkerService.newIntent(context);
         mIntent.putExtra(PACKAGENAME, packageName);
         if (intent.getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {     // install

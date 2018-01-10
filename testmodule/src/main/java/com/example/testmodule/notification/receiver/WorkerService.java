@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
+import com.example.testmodule.ALog;
 import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
 
 import static com.example.testmodule.notification.receiver.PackageInstallReceiver.PACKAGENAME;
@@ -24,6 +25,11 @@ public class WorkerService extends IntentService {
         super(INTENT_SERVICE_TAG);
     }
 
+    @Override
+    public void onCreate(){
+        super.onCreate();
+        ALog.Log("WorkerService_onCreate");
+    }
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -41,6 +47,7 @@ public class WorkerService extends IntentService {
         String workType = intent.getStringExtra(WORKTYPE);
         String packageName = intent.getStringExtra(PACKAGENAME);
         MockNotifyBlockManager mMNBM = MockNotifyBlockManager.get(getApplicationContext());
+        ALog.Log("workType: "+workType+" packageName: "+packageName);
         switch (workType){
             case WORKTYPE_PACK_ADDED:
                 mMNBM.onPackageInstalled(packageName);
