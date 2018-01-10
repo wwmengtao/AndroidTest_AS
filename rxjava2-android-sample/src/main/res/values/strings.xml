@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">RxJava2-android-sample</string>
+    <string name="app_name">RxJava2-android-sample2</string>
     <string name="operator_page">"操作符详细使用说明见网页：\nhttps://mcxiaoke.gitbooks.io/rxdocs/content/Operators.html"</string>
 </resources>
