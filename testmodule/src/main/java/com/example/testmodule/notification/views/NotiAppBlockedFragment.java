@@ -1,6 +1,5 @@
 package com.example.testmodule.notification.views;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,19 +20,14 @@ import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 
-public class NotiAppBlockedFragment extends BaseFragment implements AppInfoAdapter.OnItemViewClickListener,
-        MockNotifyBlockManager.OnWhiteListAppChangedListener {
+public class NotiAppBlockedFragment extends BaseFragment implements AppInfoAdapter.OnItemViewClickListener{
     public static final String TAG = "NotiAppBlockedFragment";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private Context mContext = null;
-    private Unbinder mUnbinder = null;
-    private MockNotifyBlockManager mNotifyBlockManager = null;
     private AppInfoAdapter mAppInfoAdapter = null;
 
     @BindView(R.id.tv_app_block_title) TextView mTVTitle;
@@ -80,7 +74,6 @@ public class NotiAppBlockedFragment extends BaseFragment implements AppInfoAdapt
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_noti_app_blocked, container, false);
         mUnbinder = ButterKnife.bind(this, view);
-        MockNotifyBlockManager.get(mContext).addOnWhiteListAppChangedListener(this);
         initViews();
         return view;
     }
@@ -130,25 +123,16 @@ public class NotiAppBlockedFragment extends BaseFragment implements AppInfoAdapt
         mAppInfoAdapter.setBlocked(position);
     }
 
+    @Override
+    public void onItemViewLongClick(int position) {
+        ALog.Log("onItemViewLongClick");
+    }
+
     @OnClick(R.id.returntoparent)
     public void returnToParent(){
         getFragmentManager().
             popBackStack(NotiAppUnblockedFragment.PARENT_FRAGMENT,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.mContext = context.getApplicationContext();
-        this.mNotifyBlockManager = MockNotifyBlockManager.get(mContext);
-    }
-
-    @Override public void onDestroyView() {
-        mUnbinder.unbind();
-        MockNotifyBlockManager.get(mContext).removeOnWhiteListAppChangedListener(this);
-        super.onDestroyView();
-        ALog.Log("onDestroyView");
     }
 
     @Override

@@ -17,15 +17,12 @@ import android.widget.TextView;
 
 import com.example.testmodule.ALog;
 import com.example.testmodule.R;
-import com.example.testmodule.application.AppExecutors;
-import com.example.testmodule.application.BasicApp;
 import com.example.testmodule.notification.mylistview.AppInfoAdapter;
 import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,21 +32,16 @@ import butterknife.Unbinder;
  * Use the {@link NotiAppUnblockedFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter.OnItemViewClickListener,
-                        AppInfoAdapter.OnItemViewLongClickListener, MockNotifyBlockManager.OnWhiteListAppChangedListener {
+public class NotiAppUnblockedFragment extends BaseFragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     public static final String PARENT_FRAGMENT = "NotiAppUnblockedFragment";
-    private Context mContext = null;
-    private Unbinder mUnbinder = null;
-    private MockNotifyBlockManager mNotifyBlockManager = null;
     private AppInfoAdapter mAppInfoAdapter = null;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private AppExecutors mAppExecutors = null;
 
     @BindView(R.id.iv_calendar) ImageView mIVCalendar;
     @BindView(R.id.tv_calendar) TextView mTVCalendar;
@@ -87,13 +79,23 @@ public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        mAppExecutors = ((BasicApp)getActivity().getApplication()).getAppExecutors();
     }
 
     @Override
@@ -164,19 +166,6 @@ public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-        this.mContext = context.getApplicationContext();
-        this.mNotifyBlockManager = MockNotifyBlockManager.get(mContext);
-    }
-
-    @Override
     public void onItemViewClick(int position, Intent intent) {
         if(null != intent){
             mContext.startActivity(intent);
@@ -195,12 +184,6 @@ public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter
     @OnClick(R.id.decline)
     public void decline(){//should
         getActivity().finish();
-    }
-
-    @Override public void onDestroyView() {
-        mUnbinder.unbind();
-        MockNotifyBlockManager.get(mContext).removeOnWhiteListAppChangedListener(this);
-        super.onDestroyView();
     }
 
     @Override
