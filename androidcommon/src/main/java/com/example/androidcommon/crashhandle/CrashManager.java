@@ -1,6 +1,7 @@
-package com.mt.androidtest_as.alog;
+package com.example.androidcommon.crashhandle;
 
 import android.app.AlarmManager;
+import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +16,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.widget.Toast;
 
-import com.mt.androidtest_as.MainActivity;
+import com.example.androidcommon.alog.ALog;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -43,15 +44,17 @@ public class CrashManager implements Thread.UncaughtExceptionHandler {
     private static final String STOP_APP_AND_DO_CLEAN = "MSG_STOP_APP_AND_DO_CLEAN";
 
     private Thread.UncaughtExceptionHandler mDefaultHandler;
-    private Map<String, String> infos;
-    private AndroidTest_AS_Application application;
+    private Map<String, String> infos = null;
+    private Application application = null;
+    private Class<?> activityClass = null;
     private HandlerThread mHandlerThread = null;
     private HandlerCostTime mHandlerCostTime=null;
 
-    public CrashManager(AndroidTest_AS_Application application){
+    public CrashManager(Application application, Class<?> activityClass){
         //获取系统默认的UncaughtExceptionHandler
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         this.application = application;
+        this.activityClass = activityClass;
     }
 
     @Override
@@ -121,7 +124,7 @@ public class CrashManager implements Thread.UncaughtExceptionHandler {
                     Toast.makeText(application.getApplicationContext(), "CrashFile saved path:\n"+CrashFileName, Toast.LENGTH_LONG).show();
                     break;
                 case STOP_APP_AND_DO_CLEAN:
-                    Intent intent = new Intent(application.getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(application.getApplicationContext(), activityClass);
                     PendingIntent restartIntent = PendingIntent.getActivity(
                             application.getApplicationContext(), 0, intent,0);
                     //退出程序
