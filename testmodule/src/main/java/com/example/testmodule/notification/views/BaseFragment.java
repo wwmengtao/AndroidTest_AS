@@ -18,7 +18,9 @@ import butterknife.Unbinder;
 
 public abstract class BaseFragment extends Fragment implements AppInfoAdapter.OnItemViewClickListener,
         AppInfoAdapter.OnItemViewLongClickListener, MockNotifyBlockManager.OnWhiteListAppChangedListener{
+    protected String TAG = null;
     protected Context mContext = null;
+    protected BasicApp mApplication = null;
     protected Unbinder mUnbinder = null;
     protected AppExecutors mAppExecutors = null;
     protected MockNotifyBlockManager mNotifyBlockManager = null;
@@ -26,6 +28,7 @@ public abstract class BaseFragment extends Fragment implements AppInfoAdapter.On
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.TAG = getClass().getSimpleName();
         this.mContext = context.getApplicationContext();
         this.mNotifyBlockManager = MockNotifyBlockManager.get(mContext);
     }
@@ -33,7 +36,8 @@ public abstract class BaseFragment extends Fragment implements AppInfoAdapter.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAppExecutors = ((BasicApp)getActivity().getApplication()).getAppExecutors();
+        mApplication = (BasicApp)getActivity().getApplication();
+        mAppExecutors = mApplication.getAppExecutors();
         MockNotifyBlockManager.get(mContext).addOnWhiteListAppChangedListener(this);
     }
 

@@ -144,12 +144,16 @@ public class NotiAppUnblockedFragment extends BaseFragment{
 
     @Override
     public void onWhiteListAppChanged() {
-        mAppExecutors.mainThread().execute(new Runnable() {
-            @Override
-            public void run() {
-                updateRecyclerView();
-            }
-        });
+        //如果当前应用不在后台运行，那么更新RecyclerView
+        if(!mApplication.isBackground()) {
+            ALog.Log(TAG + "_onWhiteListAppChanged");
+            mAppExecutors.mainThread().execute(new Runnable() {
+                @Override
+                public void run() {
+                    updateRecyclerView();
+                }
+            });
+        }
     }
 
     private void updateRecyclerView(){
