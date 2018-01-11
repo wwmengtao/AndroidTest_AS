@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 /**
+ * ALogActivity：用于展示Activity的生命周期
  * Created by Mengtao1 on 2016/12/8.
  */
 
@@ -18,7 +19,7 @@ public abstract class ALogActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRestart(){
+    protected void onRestart(){
         super.onRestart();
         if(isLogRun) ALog.Log("onRestart",this);
     }
@@ -30,25 +31,25 @@ public abstract class ALogActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if(isLogRun)ALog.Log("onRestoreInstanceState",this);
     }
 
     @Override
-    public void onResume(){
+    protected void onResume(){
         super.onResume();
         if(isLogRun)ALog.Log("onResume",this);
     }
 
     @Override
-    public void onPostResume(){
+    protected void onPostResume(){
         super.onPostResume();
         if(isLogRun)ALog.Log("onPostResume",this);
     }
 
     @Override
-    public void onResumeFragments(){
+    protected void onResumeFragments(){
         super.onResumeFragments();
         if(isLogRun)ALog.Log("onResumeFragments",this);
     }
@@ -60,13 +61,13 @@ public abstract class ALogActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onPause(){
+    protected void onPause(){
         super.onPause();
         if(isLogRun)ALog.Log("onPause",this);
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         if(isLogRun)ALog.Log("onSaveInstanceState",this);
     }
@@ -84,13 +85,13 @@ public abstract class ALogActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
         if(isLogRun)ALog.Log("onDestroy",this);
     }
 
     @Override
-    public void onNewIntent(Intent intent){
+    protected void onNewIntent(Intent intent){
         super.onNewIntent(intent);
         if(isLogRun)ALog.Log("onNewIntent",this);
     }
@@ -126,7 +127,7 @@ public abstract class ALogActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if(isLogRun)ALog.Log("onActivityResult",this);
     }

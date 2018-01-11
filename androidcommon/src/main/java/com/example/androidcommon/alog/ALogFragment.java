@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * ALogFragment：用于展示Fragment的生命周期
  onAttach方法：Fragment和Activity建立关联的时候调用，在这个方法中可以获得所在的activity。
  onCreateView方法：为Fragment加载布局时调用，fragment在其中创建自己的layout(界面)。
  onActivityCreated方法：当Activity中的onCreate方法执行完后调用。

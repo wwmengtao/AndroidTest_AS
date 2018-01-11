@@ -24,7 +24,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
+import com.example.androidcommon.crashhandle.CrashManager;
 import com.example.testmodule.ALog;
+import com.example.testmodule.MainActivity;
 import com.example.testmodule.services.AppService;
 
 /**
@@ -45,6 +47,9 @@ public class BasicApp extends Application {
         startService(startServiceIntent);
         listenForForeground();//监听应用是否已到前台
         listenForScreenTurningState();//监听屏幕亮灭状态
+        //
+        CrashManager crashHandler = new CrashManager(this, MainActivity.class);
+        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
     }
 
     public void onLowMemory() {

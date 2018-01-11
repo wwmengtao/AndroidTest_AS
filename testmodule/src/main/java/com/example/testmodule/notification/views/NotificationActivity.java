@@ -49,7 +49,7 @@ public class NotificationActivity extends BaseAcitivity implements NotifyReceive
     }
 
     @Override
-    protected void onDestroy(){
+    public void onDestroy(){
         mUnbinder.unbind();
         NotifyReceiver.getInstance().unRegisterReceiver(this);
         NotifyReceiver.getInstance().setOnPlayViewClickedListener(null);

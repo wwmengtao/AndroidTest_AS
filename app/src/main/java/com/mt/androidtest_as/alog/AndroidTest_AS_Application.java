@@ -38,7 +38,7 @@ public class AndroidTest_AS_Application extends Application {
         this.initializeLeakDetection();
         //以下为应用注册未捕获异常处理接口
         CrashManager crashHandler = new CrashManager(this, MainActivity.class);
-//        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
     }
 
     private void initializeInjector() {
