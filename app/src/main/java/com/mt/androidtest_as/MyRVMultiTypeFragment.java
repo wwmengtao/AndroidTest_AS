@@ -17,8 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mt.androidtest_as.alog.ALog;
-import com.mt.androidtest_as.alog.ALogFragment;
+import com.example.androidcommon.alog.ALogFragment;
 
 import java.util.ArrayList;
 import java.util.List;

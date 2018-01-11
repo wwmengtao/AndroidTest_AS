@@ -1,14 +1,13 @@
 package com.mt.androidtest_as.alog;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,11 +45,11 @@ public abstract class ALogFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity mActivity) {
-		super.onAttach(mActivity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		if(isLogRun)ALog.Log("onAttach",this);
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

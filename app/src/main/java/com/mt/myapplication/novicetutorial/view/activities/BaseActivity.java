@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.mt.androidtest_as.R;
-import com.mt.androidtest_as.alog.ALogActivity;
+import com.example.androidcommon.alog.ALogActivity;
 import com.mt.androidtest_as.alog.AndroidTest_AS_Application;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.HasComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.ApplicationComponent;

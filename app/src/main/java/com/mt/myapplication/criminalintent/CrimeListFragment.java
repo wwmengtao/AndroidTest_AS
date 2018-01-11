@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.mt.androidtest_as.R;
 import com.mt.androidtest_as.alog.ALog;
-import com.mt.androidtest_as.alog.ALogFragment;
+import com.example.androidcommon.alog.ALogFragment;
 import com.mt.myapplication.criminalintent.crimebasedata.Crime;
 import com.mt.myapplication.criminalintent.crimebasedata.CrimeLab;
 import com.mt.myapplication.criminalintent.mydefinedaboutrecyclerview.MyAdapter;

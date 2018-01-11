@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.mt.androidtest_as.R;
-import com.mt.androidtest_as.alog.ALogFragment;
+import com.example.androidcommon.alog.ALogFragment;
 
 import java.util.Random;
 

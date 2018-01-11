@@ -68,6 +68,7 @@ dependencies {
 
     //Development
     compile developmentDependencies.leakCanary
+    compile project(path: ':androidcommon')
 }
 
 

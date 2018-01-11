@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import com.mt.androidtest_as.alog.ALog;
-import com.mt.androidtest_as.alog.ALogFragment;
+import com.example.androidcommon.alog.ALogFragment;
 
 /**
  * VisibleFragment:描述用户看到的界面，这个界面带有setResultCode功能

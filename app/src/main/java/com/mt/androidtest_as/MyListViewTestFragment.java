@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mt.androidtest_as.alog.ALog;
-import com.mt.androidtest_as.alog.ALogFragment;
+import com.example.androidcommon.alog.ALogFragment;
 import com.mt.androidtest_as.mylistview.MyLvViewHolder;
 
 import java.util.ArrayList;

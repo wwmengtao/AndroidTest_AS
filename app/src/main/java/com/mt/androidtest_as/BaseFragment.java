@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.mt.androidtest_as.alog.ALog;
-import com.mt.androidtest_as.alog.ALogFragment;
+import com.example.androidcommon.alog.ALogFragment;
 
 import java.util.List;
 

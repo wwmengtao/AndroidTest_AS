@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mt.androidtest_as.alog.ALog;
-import com.mt.androidtest_as.alog.ALogFragment;
+import com.example.androidcommon.alog.ALogFragment;
 import com.mt.androidtest_as.myrecyclerview.RvStaggeredAnimatorAdapter;
 
 import java.util.ArrayList;

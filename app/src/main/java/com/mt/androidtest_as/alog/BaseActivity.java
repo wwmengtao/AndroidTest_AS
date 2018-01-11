@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.androidcommon.alog.ALogActivity;
 import com.mt.androidtest_as.R;
 
 /**

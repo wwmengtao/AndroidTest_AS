@@ -17,6 +17,8 @@ package com.mt.androidtest_as.alog;
 
 import android.app.Application;
 
+import com.example.androidcommon.crashhandle.CrashManager;
+import com.mt.androidtest_as.MainActivity;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.BuildConfig;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.ApplicationComponent;
 import com.mt.myapplication.novicetutorial.com.fernandocejas.android10.sample.presentation.di.components.DaggerApplicationComponent;
@@ -35,7 +37,7 @@ public class AndroidTest_AS_Application extends Application {
         this.initializeInjector();
         this.initializeLeakDetection();
         //以下为应用注册未捕获异常处理接口
-        CrashManager crashHandler = new CrashManager(this);
+        CrashManager crashHandler = new CrashManager(this, MainActivity.class);
 //        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
     }
 

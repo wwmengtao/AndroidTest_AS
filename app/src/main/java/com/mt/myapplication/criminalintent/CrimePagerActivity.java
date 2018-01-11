@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 
 import com.mt.androidtest_as.R;
-import com.mt.androidtest_as.alog.ALog;
-import com.mt.androidtest_as.alog.ALogActivity;
+import com.example.androidcommon.alog.ALogActivity;
 import com.mt.myapplication.criminalintent.crimebasedata.Crime;
 import com.mt.myapplication.criminalintent.crimebasedata.CrimeLab;
 
