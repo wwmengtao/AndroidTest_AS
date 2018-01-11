@@ -11,7 +11,6 @@ import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.model.AppInfo;
 import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
-import com.example.testmodule.notification.receiver.PackageInstallReceiver;
 
 import java.util.List;
 
@@ -26,30 +25,9 @@ public class NotiBlockActivity extends BaseAcitivity {
         setContentView(R.layout.activity_noti_block);
         mUnbinder = ButterKnife.bind(this);
         initActivities(buttonIDs, classEs);
-        initData();
     }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-        PackageInstallReceiver.getInstance().registerReceiver(this);
-    }
 
-    @Override
-    protected void onStop(){
-        super.onStop();
-        ALog.Log("NotiBlockActivity_onStop");
-        PackageInstallReceiver.getInstance().unRegisterReceiver(this);
-    }
-
-    private void initData(){
-        mAppExecutors.diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                MockNotifyBlockManager.get(mContext);//this will cost much time
-            }
-        });
-    }
 
     @OnClick(R.id.btn1)
     public void onClick1(){
@@ -112,11 +90,5 @@ public class NotiBlockActivity extends BaseAcitivity {
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         startActivity(getCallingIntent(this, activity));
-    }
-
-    @Override
-    public void onDestroy(){
-        MockNotifyBlockManager.get(getApplicationContext()).clear();
-        super.onDestroy();
     }
 }

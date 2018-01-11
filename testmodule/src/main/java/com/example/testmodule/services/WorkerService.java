@@ -1,4 +1,4 @@
-package com.example.testmodule.notification.receiver;
+package com.example.testmodule.services;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -11,10 +11,14 @@ import static com.example.testmodule.notification.receiver.PackageInstallReceive
 import static com.example.testmodule.notification.receiver.PackageInstallReceiver.WORKTYPE_PACK_ADDED;
 import static com.example.testmodule.notification.receiver.PackageInstallReceiver.WORKTYPE_PACK_REMOVED;
 
+/**
+ * WorkerService：工作类型的IntentService，用于处理各类后台耗时事件
+ * Created by mengtao1 on 2018/1/9.
+ */
 public class WorkerService extends IntentService {
     public static final String INTENT_SERVICE_TAG = "WorkerService";
     public static final String WORKTYPE = "WorkerService_Work_Type";
-
+    private Context mContext = null;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, WorkerService.class);
@@ -29,6 +33,7 @@ public class WorkerService extends IntentService {
     public void onCreate(){
         super.onCreate();
         ALog.Log("WorkerService_onCreate");
+        mContext = getApplicationContext();
     }
 
     @Override
@@ -43,19 +48,18 @@ public class WorkerService extends IntentService {
         }
     }
 
+    //更新存储的应用信息
     private void refreshPakcageInfo(Intent intent){
         String workType = intent.getStringExtra(WORKTYPE);
         String packageName = intent.getStringExtra(PACKAGENAME);
-        MockNotifyBlockManager mMNBM = MockNotifyBlockManager.get(getApplicationContext());
         ALog.Log("workType: "+workType+" packageName: "+packageName);
         switch (workType){
             case WORKTYPE_PACK_ADDED:
-                mMNBM.onPackageInstalled(packageName);
+                MockNotifyBlockManager.get(mContext).onPackageInstalled(packageName);
                 break;
             case WORKTYPE_PACK_REMOVED:
-                mMNBM.onPackageUnInstalled(packageName);
+                MockNotifyBlockManager.get(mContext).onPackageUnInstalled(packageName);
                 break;
         }
-//        mMNBM.
     }
 }

@@ -28,7 +28,7 @@
         <activity
             android:name=".TransparentActivity"
             android:label="TransparentActivity"
-            android:theme="@style/AllTransparent"/>
+            android:theme="@style/AllTransparent" />
         <activity android:name=".XmlParserActivity" />
         <activity android:name=".SQLiteActivity" />
         <activity
@@ -44,10 +44,16 @@
         <activity android:name=".notification.views.NotifiListActivity" />
         <activity android:name=".notification.views.CusNotificationActivity" />
         <activity android:name=".notification.views.NotiBlockActivity" />
-        <activity android:name=".notification.views.NotiAppActivity"
-            android:theme="@style/AllTransparent"
-            android:excludeFromRecents="true"/>
-        <service android:name=".notification.receiver.WorkerService"/>
+        <activity
+            android:name=".notification.views.NotiAppActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/AllTransparent" />
+
+        <service android:name=".services.WorkerService" />
+        <service
+            android:name=".services.AppService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

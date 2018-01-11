@@ -12,15 +12,12 @@ import android.view.WindowManager;
 import com.example.testmodule.ALog;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
-import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
 
 public class NotiAppActivity extends BaseAcitivity implements NotiAppUnblockedFragment.OnFragmentInteractionListener {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noti_app);
-        initAppInfoData();
         initFragment();
     }
 
@@ -52,15 +49,6 @@ public class NotiAppActivity extends BaseAcitivity implements NotiAppUnblockedFr
 //        if (event != null && event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_HOME) {
 //        }
         return super.dispatchTouchEvent(event);
-    }
-
-    private void initAppInfoData(){
-        mAppExecutors.diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                MockNotifyBlockManager.get(NotiAppActivity.this.getApplicationContext());
-            }
-        });
     }
 
     private void initFragment(){

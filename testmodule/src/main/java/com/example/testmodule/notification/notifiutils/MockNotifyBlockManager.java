@@ -28,6 +28,7 @@ public class MockNotifyBlockManager {
     private PackageManager mPackageManager = null;
     private List<PackageInfo> allPackageInfos = null;
     private ConcurrentHashMap<APP_TYPE, List<AppInfo>> mAppInfoListCol = null;
+    private List<OnWhiteListAppChangedListener> mWhiteListListeners = null;
 
     public static MockNotifyBlockManager get(Context context){
         if(null == mMockNotifyBlockManager){
@@ -43,6 +44,7 @@ public class MockNotifyBlockManager {
     private MockNotifyBlockManager(Context context){
         this.mContext = context.getApplicationContext();
         this.mPackageManager = mContext.getPackageManager();
+        this.mWhiteListListeners = new ArrayList<>();
         this.allPackageInfos = mPackageManager.getInstalledPackages(0);
         this.mAppInfoListCol = new ConcurrentHashMap<>();
         initAppInfoListCol();
@@ -68,6 +70,21 @@ public class MockNotifyBlockManager {
             "me.lyft.android",
             "com.example.rxjava2_android_sample"
     };
+
+    //监听白名单中应用的安装、卸载后导致的数据变化
+    public interface OnWhiteListAppChangedListener{
+        void onWhiteListAppChanged();
+    }
+
+    public synchronized void addOnWhiteListAppChangedListener(OnWhiteListAppChangedListener listener){
+        if(null != mWhiteListListeners)mWhiteListListeners.add(listener);
+    }
+
+    public synchronized void removeOnWhiteListAppChangedListener(OnWhiteListAppChangedListener listener){
+        if(null != mWhiteListListeners && mWhiteListListeners.size() > 0){
+            mWhiteListListeners.remove(listener);
+        }
+    }
 
     public enum APP_TYPE{
         FLAG_ALL,
@@ -191,6 +208,12 @@ public class MockNotifyBlockManager {
             List<AppInfo> appInfosWL = getAppsInfo(APP_TYPE.FLAG_WHITE_LIST);
             appInfosWL.add(ai);
             Collections.sort(appInfosWL, comparator);
+            //回调监听，反应白名单应用的安装、卸载情况
+            if(null != mWhiteListListeners && mWhiteListListeners.size() > 0) {
+                for (OnWhiteListAppChangedListener listener : mWhiteListListeners) {
+                    listener.onWhiteListAppChanged();
+                }
+            }
         }
         ALog.Log("onPackageInstalled: "+packageName);
     }
@@ -206,12 +229,20 @@ public class MockNotifyBlockManager {
             }
         }
         //
-        List<AppInfo> appInfosWL = getAppsInfo(APP_TYPE.FLAG_WHITE_LIST);
-        for(int i = 0; i < appInfosWL.size(); i++){
-            AppInfo ai = appInfosWL.get(i);
-            if(ai.packageName.equals(packageName)){
-                appInfosWL.remove(i);
-                break;
+        if(isWhiteListApp(packageName)) {
+            List<AppInfo> appInfosWL = getAppsInfo(APP_TYPE.FLAG_WHITE_LIST);
+            for (int i = 0; i < appInfosWL.size(); i++) {
+                AppInfo ai = appInfosWL.get(i);
+                if (ai.packageName.equals(packageName)) {
+                    appInfosWL.remove(i);
+                    break;
+                }
+            }
+            //回调监听，反应白名单应用的安装、卸载情况
+            if(null != mWhiteListListeners && mWhiteListListeners.size() > 0) {
+                for (OnWhiteListAppChangedListener listener : mWhiteListListeners) {
+                    listener.onWhiteListAppChanged();
+                }
             }
         }
         ALog.Log("onPackageUnInstalled: "+packageName);
@@ -231,6 +262,8 @@ public class MockNotifyBlockManager {
         if(null == mMockNotifyBlockManager)return;
         if(null != allPackageInfos)allPackageInfos.clear();
         if(null != mAppInfoListCol)mAppInfoListCol.clear();
+        if(null != mWhiteListListeners)mWhiteListListeners.clear();
         mMockNotifyBlockManager = null;
     }
+
 }

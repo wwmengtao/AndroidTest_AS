@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.example.testmodule.ALog;
 import com.example.testmodule.R;
+import com.example.testmodule.application.AppExecutors;
+import com.example.testmodule.application.BasicApp;
 import com.example.testmodule.notification.mylistview.AppInfoAdapter;
 import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
 
@@ -34,7 +36,7 @@ import butterknife.Unbinder;
  * create an instance of this fragment.
  */
 public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter.OnItemViewClickListener,
-                        AppInfoAdapter.OnItemViewLongClickListener{
+                        AppInfoAdapter.OnItemViewLongClickListener, MockNotifyBlockManager.OnWhiteListAppChangedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -47,6 +49,7 @@ public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private AppExecutors mAppExecutors = null;
 
     @BindView(R.id.iv_calendar) ImageView mIVCalendar;
     @BindView(R.id.tv_calendar) TextView mTVCalendar;
@@ -90,6 +93,7 @@ public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mAppExecutors = ((BasicApp)getActivity().getApplication()).getAppExecutors();
     }
 
     @Override
@@ -98,6 +102,7 @@ public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_noti_app_unblocked, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        MockNotifyBlockManager.get(mContext).addOnWhiteListAppChangedListener(this);
         initViews();
         return view;
     }
@@ -133,6 +138,16 @@ public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter
     public void onResume(){
         super.onResume();
         updateRecyclerView();
+    }
+
+    @Override
+    public void onWhiteListAppChanged() {
+        mAppExecutors.mainThread().execute(new Runnable() {
+            @Override
+            public void run() {
+                updateRecyclerView();
+            }
+        });
     }
 
     private void updateRecyclerView(){
@@ -184,6 +199,7 @@ public class NotiAppUnblockedFragment extends Fragment implements AppInfoAdapter
 
     @Override public void onDestroyView() {
         mUnbinder.unbind();
+        MockNotifyBlockManager.get(mContext).removeOnWhiteListAppChangedListener(this);
         super.onDestroyView();
     }
 

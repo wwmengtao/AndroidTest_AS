@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import com.example.testmodule.ALog;
+import com.example.testmodule.services.WorkerService;
 
-import static com.example.testmodule.notification.receiver.WorkerService.WORKTYPE;
+import static com.example.testmodule.services.WorkerService.WORKTYPE;
 
 /**
+ * PackageInstallReceiver：用于监听Apk安装、卸载事件
  * Created by mengtao1 on 2018/1/9.
  */
 

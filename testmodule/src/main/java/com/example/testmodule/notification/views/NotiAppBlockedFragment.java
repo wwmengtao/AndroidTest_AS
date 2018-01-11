@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,7 +24,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-public class NotiAppBlockedFragment extends Fragment implements AppInfoAdapter.OnItemViewClickListener{
+public class NotiAppBlockedFragment extends BaseFragment implements AppInfoAdapter.OnItemViewClickListener,
+        MockNotifyBlockManager.OnWhiteListAppChangedListener {
     public static final String TAG = "NotiAppBlockedFragment";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -80,6 +80,7 @@ public class NotiAppBlockedFragment extends Fragment implements AppInfoAdapter.O
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_noti_app_blocked, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        MockNotifyBlockManager.get(mContext).addOnWhiteListAppChangedListener(this);
         initViews();
         return view;
     }
@@ -105,6 +106,20 @@ public class NotiAppBlockedFragment extends Fragment implements AppInfoAdapter.O
     @Override
     public void onResume(){
         super.onResume();
+        updateRecyclerView();
+    }
+
+    @Override
+    public void onWhiteListAppChanged() {
+        mAppExecutors.mainThread().execute(new Runnable() {
+            @Override
+            public void run() {
+                updateRecyclerView();
+            }
+        });
+    }
+
+    private void updateRecyclerView(){
         mAppInfoAdapter.setData(mNotifyBlockManager.getAppsInfo(MockNotifyBlockManager.APP_TYPE.FLAG_WHITE_LIST_NOTI_BLOCKED));
         mAppInfoAdapter.notifyDataSetChanged();
     }
@@ -131,6 +146,7 @@ public class NotiAppBlockedFragment extends Fragment implements AppInfoAdapter.O
 
     @Override public void onDestroyView() {
         mUnbinder.unbind();
+        MockNotifyBlockManager.get(mContext).removeOnWhiteListAppChangedListener(this);
         super.onDestroyView();
         ALog.Log("onDestroyView");
     }
