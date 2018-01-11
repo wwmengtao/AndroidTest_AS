@@ -1,4 +1,4 @@
-package com.mt.androidtest_as.alog;
+package com.example.androidcommon.alog;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
