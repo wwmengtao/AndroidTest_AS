@@ -50,6 +50,11 @@ public class CrashManager implements Thread.UncaughtExceptionHandler {
     private HandlerThread mHandlerThread = null;
     private HandlerCostTime mHandlerCostTime=null;
 
+    /**
+     *
+     * @param application：崩溃的应用
+     * @param activityClass：崩溃后应用重启时打开的Activity
+     */
     public CrashManager(Application application, Class<?> activityClass){
         //获取系统默认的UncaughtExceptionHandler
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();

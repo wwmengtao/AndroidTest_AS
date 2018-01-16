@@ -40,7 +40,7 @@ public class ALog {
 	}
 
 	private static String formatStr="%-24s";
-	private static String regPrefix = "([a-zA-Z0-9]+\\.)+";//匹配开头：小括号在正则表达式的作用是标记一个子表达式的开始和结束位置
+	private static String regPrefix = "([a-zA-Z0-9_]+\\.)+";//匹配开头：小括号在正则表达式的作用是标记一个子表达式的开始和结束位置
 	private static String regSuffix = "@[a-zA-Z0-9]+";//匹配结尾
 	/**
 	 * Activity的toString内容可能类似于"com.mt.androidtest.showview.1s.sdf2.s4rt.ShowViewActivity@7d129f7"，

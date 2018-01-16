@@ -104,7 +104,6 @@ public class NotiAppUnblockedFragment extends BaseFragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_noti_app_unblocked, container, false);
         mUnbinder = ButterKnife.bind(this, view);
-        MockNotifyBlockManager.get(mContext).addOnWhiteListAppChangedListener(this);
         initViews();
         return view;
     }

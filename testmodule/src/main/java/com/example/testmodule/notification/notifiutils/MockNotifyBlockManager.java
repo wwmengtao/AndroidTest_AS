@@ -96,6 +96,9 @@ public class MockNotifyBlockManager {
 
     private List<AppInfo> getWhiteListBlockAppsInfo(APP_TYPE type){
         List<AppInfo> mAppInfoList = mAppInfoListCol.get(APP_TYPE.FLAG_WHITE_LIST);
+        if(null == mAppInfoList || 0 == mAppInfoList.size()){
+            initAppInfoListCol();
+        }
         boolean blocked = (APP_TYPE.FLAG_WHITE_LIST_NOTI_BLOCKED == type) ? true : false;
         List<AppInfo> mBlockedAppInfoList = null;
         for(AppInfo ai : mAppInfoList){
@@ -121,6 +124,9 @@ public class MockNotifyBlockManager {
             return mAppInfoList;
         }
         mAppInfoList = new ArrayList<>();
+        if(null == allPackageInfos || 0 == allPackageInfos.size()){
+            allPackageInfos = mPackageManager.getInstalledPackages(0);
+        }
         for (PackageInfo p : allPackageInfos) {
             ApplicationInfo itemInfo = p.applicationInfo;
             if (APP_TYPE.FLAG_NO_SYSTEM == type &&

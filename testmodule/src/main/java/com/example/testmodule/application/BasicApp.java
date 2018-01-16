@@ -43,11 +43,11 @@ public class BasicApp extends Application {
         super.onCreate();
         ALog.Log(TAG+"onCreate");
         mAppExecutors = new AppExecutors();
-        startServiceIntent = AppService.newIntent(this);
+        startServiceIntent = AppService.getLaunchIntent(this);
         startService(startServiceIntent);
         listenForForeground();//监听应用是否已到前台
         listenForScreenTurningState();//监听屏幕亮灭状态
-        //
+        //用于捕获应用异常崩溃
         CrashManager crashHandler = new CrashManager(this, MainActivity.class);
         Thread.setDefaultUncaughtExceptionHandler(crashHandler);
     }
@@ -140,6 +140,8 @@ public class BasicApp extends Application {
     private void notifyForeground() {
         // This is where you can notify listeners, handle session tracking, etc
         ALog.Log(TAG+"notifyForeground");
+        //AppService.isInstanceCreated()可以保证每次应用show到前台的时候，AppService能存在且正在运行
+        if(!AppService.isInstanceCreated())startService(startServiceIntent);
     }
 
     private void notifyBackground() {

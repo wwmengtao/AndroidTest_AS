@@ -19,11 +19,22 @@ public class AppService extends Service {
     private static final String TAG = "AppService";
     private Context mContext = null;
     private AppExecutors mAppExecutors = null;
+    private static Intent mLaunchIntent = null;
 
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, AppService.class);
-        return intent;
+    public static Intent getLaunchIntent(Context context) {
+        if(null == mLaunchIntent) {
+            mLaunchIntent = new Intent(context, AppService.class);
+        }
+        return mLaunchIntent;
     }
+
+    /**
+     * isInstanceCreated：判断Service是否被创建(是否在运行)，因为一旦Service被系统回收销毁，整个应用也被销毁
+     * @return
+     */
+    public static boolean isInstanceCreated() {
+        return mLaunchIntent != null;
+    }//met
 
     public AppService() {
     }
@@ -34,12 +45,12 @@ public class AppService extends Service {
         ALog.Log(TAG+"_onCreate");
         this.mContext = getApplicationContext();
         PackageInstallReceiver.getInstance().registerReceiver(this);
+        initData();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         ALog.Log(TAG+"_onStartCommand");
-        initData();
         return super.onStartCommand(intent, flags, startId);
     }
 
