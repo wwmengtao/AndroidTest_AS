@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Debug;
 import android.provider.Settings;
 import android.view.View;
 
@@ -14,11 +15,16 @@ import com.example.testmodule.viewpager.ViewPagerGatherActivity;
 import com.example.testmodule.windowmanager.WindowManagerActivity;
 import com.example.testmodule.windowmanager.WindowTools;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseAcitivity {
     private static final String TAG = "MainActivity";
+    private static final boolean PROFILE = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,15 @@ public class MainActivity extends BaseAcitivity {
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
         initActivities(buttonIDs, classEs);
+        if(PROFILE) {//以下存储traceview log信息
+            File path =  getExternalFilesDir(null);
+            ALog.Log("path: "+path);//path即为最终的xx.trace文件的存储位置
+            SimpleDateFormat date =
+                    new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
+            String logDate = date.format(new Date());
+            // Applies the date and time to the name of the trace log.
+            Debug.startMethodTracing("testmodule-" + logDate);
+        }
     }
 
     int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8};
@@ -64,4 +79,10 @@ public class MainActivity extends BaseAcitivity {
         }
     };
 
+    public void onDestroy(){
+        super.onDestroy();
+        if(PROFILE) {
+            Debug.stopMethodTracing();
+        }
+    }
 }
