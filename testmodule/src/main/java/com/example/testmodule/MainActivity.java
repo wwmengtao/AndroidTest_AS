@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
+import android.os.Trace;
 import android.provider.Settings;
 import android.view.View;
 
@@ -24,7 +25,8 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseAcitivity {
     private static final String TAG = "MainActivity";
-    private static final boolean PROFILE = true;
+    private static final boolean SYSTRACE = true;
+    private static final boolean TRACEVIEW = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class MainActivity extends BaseAcitivity {
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
         initActivities(buttonIDs, classEs);
-        if(PROFILE) {//以下存储traceview log信息
+        if(TRACEVIEW) {//以下存储traceview log信息
             File path =  getExternalFilesDir(null);
             ALog.Log("path: "+path);//path即为最终的xx.trace文件的存储位置
             SimpleDateFormat date =
@@ -40,6 +42,23 @@ public class MainActivity extends BaseAcitivity {
             String logDate = date.format(new Date());
             // Applies the date and time to the name of the trace log.
             Debug.startMethodTracing("testmodule-" + logDate);
+        }
+        if(SYSTRACE){
+            //应用层搜集Systrace信息，以DDMS为例，搜集此应用的systrace下列"MainActivity.onCreate"和
+            //"MainActivity.onCreate.sleep"方法时，需要选择“Enable Application Traces from:”为
+            //“com.example.testmodule”，否则此应用的systrace中将不出现下列两个方法
+            Trace.beginSection("MainActivity.onCreate");
+            try {
+                try {
+                    Trace.beginSection("MainActivity.onCreate.sleep");
+                    ALog.sleep(2000);
+                } finally {
+                    Trace.endSection();
+                }
+                ALog.Log("MainActivity.onDestroy.sleep end");
+            } finally {
+                Trace.endSection();
+            }
         }
     }
 
@@ -81,7 +100,7 @@ public class MainActivity extends BaseAcitivity {
 
     public void onDestroy(){
         super.onDestroy();
-        if(PROFILE) {
+        if(TRACEVIEW) {//终止traceview log信息的收集
             Debug.stopMethodTracing();
         }
     }

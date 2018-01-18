@@ -25,5 +25,12 @@ public class ALog {
 		RTE.fillInStackTrace();
 		Log.e(TAG_M,"Called:", RTE);
 	}
-	
+
+	public static void sleep(long sleepTime){
+		try {
+			Thread.sleep(sleepTime);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }
