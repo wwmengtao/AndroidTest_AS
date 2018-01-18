@@ -18,8 +18,6 @@ import butterknife.Unbinder;
 
 public abstract class BaseAcitivity extends CrashBaseActivity {
     protected String TAG = null;
-    protected static final boolean SYSTRACE = false;
-    protected static final boolean TRACEVIEW = false;
     protected Context mContext = null;
     protected AppExecutors mAppExecutors;
     protected Unbinder mUnbinder = null;

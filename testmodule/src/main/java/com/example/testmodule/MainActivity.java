@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Debug;
-import android.os.Trace;
 import android.provider.Settings;
 import android.view.View;
 
@@ -16,15 +14,10 @@ import com.example.testmodule.viewpager.ViewPagerGatherActivity;
 import com.example.testmodule.windowmanager.WindowManagerActivity;
 import com.example.testmodule.windowmanager.WindowTools;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseAcitivity {
-    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,39 +25,14 @@ public class MainActivity extends BaseAcitivity {
         setContentView(R.layout.activity_main);
         mUnbinder = ButterKnife.bind(this);
         initActivities(buttonIDs, classEs);
-        if(TRACEVIEW) {//以下存储traceview log信息
-            File path =  getExternalFilesDir(null);
-            ALog.Log("path: "+path);//path即为最终的xx.trace文件的存储位置
-            SimpleDateFormat date =
-                    new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
-            String logDate = date.format(new Date());
-            // Applies the date and time to the name of the trace log.
-            Debug.startMethodTracing("testmodule-" + logDate);
-        }
-        if(SYSTRACE){
-            //应用层搜集Systrace信息，以DDMS为例，搜集此应用的systrace下列"MainActivity.onCreate"和
-            //"MainActivity.onCreate.sleep"方法时，需要选择“Enable Application Traces from:”为
-            //“com.example.testmodule”，否则此应用的systrace中将不出现下列两个方法
-            Trace.beginSection("MainActivity.onCreate");
-            try {
-                try {
-                    Trace.beginSection("MainActivity.onCreate.sleep");
-                    ALog.sleep(2000);
-                } finally {
-                    Trace.endSection();
-                }
-                ALog.Log("MainActivity.onDestroy.sleep end");
-            } finally {
-                Trace.endSection();
-            }
-        }//end if(SYSTRACE)
     }//end onCreate
 
-    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8};
+    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9};
     Class<?>[] classEs ={SQLiteActivity.class, WebViewActivity.class, TransparentActivity.class, XmlParserActivity.class,
-            NotifiListActivity.class, ViewPagerGatherActivity.class, WindowManagerActivity.class, LocationActivity.class};
+            NotifiListActivity.class, ViewPagerGatherActivity.class, WindowManagerActivity.class, LocationActivity.class,
+            SysTraceViewActivity.class};
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9})
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         if(activity.getSimpleName().equals("WindowManagerActivity") && !WindowTools.canDrawOverlays(this)){
@@ -95,11 +63,4 @@ public class MainActivity extends BaseAcitivity {
             }
         }
     };
-
-    public void onDestroy(){
-        if(TRACEVIEW) {//终止traceview log信息的收集
-            Debug.stopMethodTracing();
-        }
-        super.onDestroy();
-    }
 }
