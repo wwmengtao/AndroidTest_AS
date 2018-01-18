@@ -25,8 +25,6 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseAcitivity {
     private static final String TAG = "MainActivity";
-    private static final boolean SYSTRACE = true;
-    private static final boolean TRACEVIEW = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +57,8 @@ public class MainActivity extends BaseAcitivity {
             } finally {
                 Trace.endSection();
             }
-        }
-    }
+        }//end if(SYSTRACE)
+    }//end onCreate
 
     int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8};
     Class<?>[] classEs ={SQLiteActivity.class, WebViewActivity.class, TransparentActivity.class, XmlParserActivity.class,
@@ -99,9 +97,9 @@ public class MainActivity extends BaseAcitivity {
     };
 
     public void onDestroy(){
-        super.onDestroy();
         if(TRACEVIEW) {//终止traceview log信息的收集
             Debug.stopMethodTracing();
         }
+        super.onDestroy();
     }
 }
