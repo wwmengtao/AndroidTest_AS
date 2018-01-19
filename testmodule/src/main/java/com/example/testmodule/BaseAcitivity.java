@@ -8,7 +8,6 @@ import android.util.SparseArray;
 import com.example.androidcommon.alog.CrashBaseActivity;
 import com.example.testmodule.application.AppExecutors;
 import com.example.testmodule.application.BasicApp;
-import com.fernandocejas.android10.sample.data.ALog;
 
 import butterknife.Unbinder;
 
