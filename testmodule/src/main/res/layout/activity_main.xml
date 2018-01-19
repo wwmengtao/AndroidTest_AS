@@ -65,6 +65,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Systrace | TraceView"/>
+
+            <Button
+                android:id="@+id/btn10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PendingIntent.send()"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

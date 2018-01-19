@@ -55,7 +55,13 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".SysTraceViewActivity"></activity>
+        <activity android:name=".SysTraceViewActivity" />
+        <activity android:name=".PendingActivity" />
+
+        <service
+            android:name=".services.PendingService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

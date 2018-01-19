@@ -27,12 +27,13 @@ public class MainActivity extends BaseAcitivity {
         initActivities(buttonIDs, classEs);
     }//end onCreate
 
-    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9};
+    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9,
+                     R.id.btn10};
     Class<?>[] classEs ={SQLiteActivity.class, WebViewActivity.class, TransparentActivity.class, XmlParserActivity.class,
             NotifiListActivity.class, ViewPagerGatherActivity.class, WindowManagerActivity.class, LocationActivity.class,
-            SysTraceViewActivity.class};
+            SysTraceViewActivity.class, PendingActivity.class};
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9, R.id.btn10})
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         if(activity.getSimpleName().equals("WindowManagerActivity") && !WindowTools.canDrawOverlays(this)){

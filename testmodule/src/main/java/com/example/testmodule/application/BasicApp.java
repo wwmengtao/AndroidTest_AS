@@ -44,7 +44,7 @@ public class BasicApp extends Application {
         ALog.Log(TAG+"onCreate");
         mAppExecutors = new AppExecutors();
         startServiceIntent = AppService.getLaunchIntent(this);
-        startService(startServiceIntent);
+        if(!AppService.isInstanceCreated())startService(startServiceIntent);
         listenForForeground();//监听应用是否已到前台
         listenForScreenTurningState();//监听屏幕亮灭状态
         //用于捕获应用异常崩溃
