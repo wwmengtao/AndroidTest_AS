@@ -71,6 +71,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="PendingIntent.send()"/>
+
+            <Button
+                android:id="@+id/btn11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Language for android N"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

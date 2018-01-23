@@ -61,7 +61,9 @@
         <service
             android:name=".services.PendingService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".language.LanguageForNActivity"></activity>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 
+import com.example.testmodule.language.LanguageForNActivity;
 import com.example.testmodule.location.LocationActivity;
 import com.example.testmodule.notification.views.NotifiListActivity;
 import com.example.testmodule.viewpager.ViewPagerGatherActivity;
@@ -28,12 +29,13 @@ public class MainActivity extends BaseAcitivity {
     }//end onCreate
 
     int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9,
-                     R.id.btn10};
+                     R.id.btn10, R.id.btn11};
     Class<?>[] classEs ={SQLiteActivity.class, WebViewActivity.class, TransparentActivity.class, XmlParserActivity.class,
             NotifiListActivity.class, ViewPagerGatherActivity.class, WindowManagerActivity.class, LocationActivity.class,
-            SysTraceViewActivity.class, PendingActivity.class};
+            SysTraceViewActivity.class, PendingActivity.class, LanguageForNActivity.class};
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9, R.id.btn10})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9, R.id.btn10,
+            R.id.btn11})
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         if(activity.getSimpleName().equals("WindowManagerActivity") && !WindowTools.canDrawOverlays(this)){
