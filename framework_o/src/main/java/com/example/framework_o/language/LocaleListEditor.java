@@ -17,11 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.internal.app.LocalePicker;
-import com.android.internal.app.LocalePickerWithRegion;
-import com.android.internal.app.LocaleStore;
 import com.example.framework_o.ALog;
 import com.example.framework_o.BaseFragment;
 import com.example.framework_o.R;
+import com.example.framework_o.language.internal.app.LocalePickerWithRegion;
+import com.example.framework_o.language.internal.app.LocaleStore;
+import com.example.framework_o.language.internal.app.LocaleStore.LocaleInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class LocaleListEditor extends BaseFragment
         mAdapter = new LocaleDragAndDropAdapter(this.getContext(), feedsList);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstState) {
         final View myLayout = inflater.inflate(R.layout.locale_order_list, (ViewGroup) container, false);
@@ -214,7 +215,7 @@ public class LocaleListEditor extends BaseFragment
         return result;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void configureDragAndDrop(View view) {
         final RecyclerView list = (RecyclerView) view.findViewById(R.id.dragList);
         final LocaleLinearLayoutManager llm = new LocaleLinearLayoutManager(getContext(), mAdapter);
@@ -241,9 +242,11 @@ public class LocaleListEditor extends BaseFragment
         });
     }
 
+
+
     @Override
-    public void onLocaleSelected(LocaleStore.LocaleInfo locale) {
-    	ALog.Log("LocaleListEditor.onLocaleSelected: "+locale.getId());
+    public void onLocaleSelected(LocaleInfo locale) {
+        ALog.Log("LocaleListEditor.onLocaleSelected: "+locale.getId());
         mAdapter.addLocale(locale);
         updateVisibilityOfRemoveMenu();
     }

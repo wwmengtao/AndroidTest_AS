@@ -16,6 +16,7 @@
 
 package com.example.framework_o.language;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -32,9 +33,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
-import com.android.internal.app.LocalePicker;
-import com.android.internal.app.LocaleStore;
+import com.example.framework_o.language.internal.app.LocalePicker;
 import com.example.framework_o.R;
+import com.example.framework_o.language.internal.app.LocaleStore;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -184,6 +185,7 @@ class LocaleDragAndDropAdapter
         return itemCount;
     }
 
+    @SuppressLint("LongLogTag")
     void onItemMove(int fromPosition, int toPosition) {
         if (fromPosition >= 0 && toPosition >= 0) {
             final LocaleStore.LocaleInfo saved = mFeedItemList.get(fromPosition);

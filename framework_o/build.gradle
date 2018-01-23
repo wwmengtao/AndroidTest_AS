@@ -27,6 +27,7 @@ android {
 dependencies {
     provided fileTree(include: ['*.jar'], dir: 'libs')
     provided files('libs/classes.jar')
+    provided files('libs/icu4j-59rc.jar')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
     testImplementation 'junit:junit:4.12'
