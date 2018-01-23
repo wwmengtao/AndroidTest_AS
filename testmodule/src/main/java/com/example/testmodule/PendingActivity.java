@@ -2,9 +2,12 @@ package com.example.testmodule;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.testmodule.services.PendingService;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -16,12 +19,17 @@ import static com.example.testmodule.services.PendingService.EXTRA_PENDING_INTEN
  */
 public class PendingActivity extends BaseAcitivity {
     private Intent mIntent = null;
+    @BindView(R.id.serviceState) TextView mTVServiceState;
+    @BindView(R.id.startService) Button mBtnStartService;
+    @BindView(R.id.stopService) Button mBtnStopService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pending);
         mUnbinder = ButterKnife.bind(this);
+        mBtnStartService.setEnabled(true);
+        mBtnStopService.setEnabled(false);
     }
 
     @OnClick(R.id.startService)
@@ -35,12 +43,18 @@ public class PendingActivity extends BaseAcitivity {
             mIntent.putExtra(EXTRA_PENDING_INTENT,PendingService.getSendToPendingIntent(this));
         }
         startService(mIntent);
+        mTVServiceState.setText("Service is now running...");
+        mBtnStartService.setEnabled(false);
+        mBtnStopService.setEnabled(true);
     }//end sendTo
 
     @OnClick(R.id.stopService)
     public void stopService(){
         if(null != mIntent){
             stopService(mIntent);
+            mTVServiceState.setText("Service is now stopped!");
+            mBtnStartService.setEnabled(true);
+            mBtnStopService.setEnabled(false);
         }
     }//end stopService
 }

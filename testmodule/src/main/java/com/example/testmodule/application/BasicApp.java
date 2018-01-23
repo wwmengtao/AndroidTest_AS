@@ -22,12 +22,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.example.androidcommon.crashhandle.CrashManager;
 import com.example.testmodule.ALog;
 import com.example.testmodule.MainActivity;
 import com.example.testmodule.services.AppService;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Android Application class. Used for accessing singletons.
@@ -36,18 +39,19 @@ public class BasicApp extends Application {
     private static final String TAG = "BasicApp_";
     private Intent startServiceIntent = null;
     private AppExecutors mAppExecutors;
-    private boolean isBackground = false;
+    private AtomicBoolean isBackground = new AtomicBoolean(true);
 
     @Override
     public void onCreate() {
         super.onCreate();
         ALog.Log(TAG+"onCreate");
-        mAppExecutors = new AppExecutors();
-        startServiceIntent = AppService.getLaunchIntent(this);
-        if(!AppService.isInstanceCreated())startService(startServiceIntent);
+        this.mAppExecutors = new AppExecutors();
+        this.startServiceIntent = AppService.getLaunchIntent(this);
+
+        //2、监听应用的前台/后台变化
         listenForForeground();//监听应用是否已到前台
         listenForScreenTurningState();//监听屏幕亮灭状态
-        //用于捕获应用异常崩溃
+        //3、捕获应用异常崩溃
         CrashManager crashHandler = new CrashManager(this, MainActivity.class);
         Thread.setDefaultUncaughtExceptionHandler(crashHandler);
     }
@@ -73,8 +77,8 @@ public class BasicApp extends Application {
             @Override
             public void onActivityResumed(Activity activity) {
                 ALog.Log(TAG+"onActivityResumed: "+activity.getClass().getSimpleName());
-                if (isBackground) {
-                    isBackground = false;
+                if (isBackground()) {
+                    isBackground.set(false);
                     notifyForeground();//判断应用是否已经到了前台，任意Activity执行到onResume就会触发
                 }
             }
@@ -113,12 +117,10 @@ public class BasicApp extends Application {
                 String action = intent.getAction();
                 switch (action){
                     case Intent.ACTION_SCREEN_ON:
-                        isBackground = false;
-                        notifyForeground();
+                        notifyScreenOn();
                         break;
                     case Intent.ACTION_SCREEN_OFF:
-                        isBackground = true;
-                        notifyBackground();
+                        notifyScreenOff();
                         break;
                 }
 
@@ -131,7 +133,7 @@ public class BasicApp extends Application {
         super.onTrimMemory(level);
         if (level == TRIM_MEMORY_UI_HIDDEN) {//判断应用是否切换至后台运行
             ALog.Log(TAG+"onTrimMemory_TRIM_MEMORY_UI_HIDDEN");
-            isBackground = true;
+            isBackground.set(true);
             notifyBackground();
         }
 
@@ -141,7 +143,7 @@ public class BasicApp extends Application {
         // This is where you can notify listeners, handle session tracking, etc
         ALog.Log(TAG+"notifyForeground");
         //AppService.isInstanceCreated()可以保证每次应用show到前台的时候，AppService能存在且正在运行
-        if(!AppService.isInstanceCreated())startService(startServiceIntent);
+        tryToStartService();
     }
 
     private void notifyBackground() {
@@ -150,11 +152,37 @@ public class BasicApp extends Application {
     }
 
     public boolean isBackground() {
-        return isBackground;
+        return isBackground.get();
+    }
+
+    private void notifyScreenOn() {
+        // This is where you can notify listeners, handle session tracking, etc
+        ALog.Log(TAG + "notifyScreenOn");
+        if (!isBackground()) {//只有前台应用监测屏幕点亮才有意义
+            tryToStartService();
+        }
+    }
+
+    private void notifyScreenOff() {
+        // This is where you can notify listeners, handle session tracking, etc
+        ALog.Log(TAG+"notifyScreenOff");
     }
 
     public AppExecutors getAppExecutors(){
         return this.mAppExecutors;
     }
 
+    private void tryToStartService(){
+        if(!AppService.isInstanceRunning()){
+            try {
+                startService(startServiceIntent);
+            }catch (IllegalStateException ie){
+                //详见为知笔记“Android 8.0后台执行限制”一文
+                //Android8.0错误描述：java.lang.RuntimeException: Unable to create application com.example.testmodule.application.BasicApp: java.lang.IllegalStateException: Not allowed to start service Intent { cmp=com.example.testmodule/.services.AppService }: app is in background uid UidRecord{4c36b u0a133 CEM  idle procs:1 seq(0,0,0)}
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(startServiceIntent);
+                }
+            }
+        }
+    }
 }

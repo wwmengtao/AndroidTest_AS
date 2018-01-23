@@ -10,20 +10,26 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/serviceState"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="18sp"
+            android:text="Service is now stopped."
+            android:gravity="center"
+            android:background="@color/main_green"/>
+        <Button
             android:id="@+id/startService"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:text="startPendingService"
-            android:gravity="center"
-            android:background="@color/royalblue"/>
-        <TextView
+            android:gravity="center"/>
+        <Button
             android:id="@+id/stopService"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:textSize="18sp"
-            android:text="stopPendingService"
-            android:gravity="center"
-            android:background="@color/pink"/>
+            android:textSize="16sp"
+            android:text="stopPendingService(服务终止后发送短信)"
+            android:gravity="center"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

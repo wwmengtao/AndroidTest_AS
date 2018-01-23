@@ -18,19 +18,18 @@ import com.example.testmodule.R;
 
 public class NotiAppActivity extends BaseAcitivity implements NotiAppUnblockedFragment.OnFragmentInteractionListener {
 
-    public static Intent getCallingIntent(Context mContext){
+    public static void startActivity(Context mContext){
         Intent mIntent = new Intent(mContext, NotiAppActivity.class);
         //如果需要在Service或者BroadCastReceiver中开启NotiAppActivity，当用户按下home按键后，系统会延迟5秒开启Activity，
         //为了保证不致用户的正常交互被毫无征兆的中断，但是如果必须这样做并且没有延时，可以使用下列代码用PendingIntent包装一下
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(mContext, 0, mIntent, 0);
         try {
-            pendingIntent.send();
+            pendingIntent.send();//此时pendingIntent.send()起到启动Activity的作用
         } catch (PendingIntent.CanceledException e) {
             e.printStackTrace();
         }
-        ALog.Log("NotiAppActivity_getCallingIntent");
-        return mIntent;
+        ALog.Log("NotiAppActivity_startActivity");
     }
 
     @Override
