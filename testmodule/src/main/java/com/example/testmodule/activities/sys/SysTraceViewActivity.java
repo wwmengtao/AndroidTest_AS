@@ -1,9 +1,13 @@
-package com.example.testmodule;
+package com.example.testmodule.activities.sys;
 
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Trace;
 import android.widget.TextView;
+
+import com.example.testmodule.ALog;
+import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.R;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.example.testmodule;
+package com.example.testmodule.dataops;
 
 import android.content.Context;
 import android.database.Cursor;

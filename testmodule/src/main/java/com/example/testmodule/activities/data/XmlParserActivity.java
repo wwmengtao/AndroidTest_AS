@@ -1,4 +1,4 @@
-package com.example.testmodule;
+package com.example.testmodule.activities.data;
 
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.util.Xml;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.R;
 import com.fernandocejas.android10.sample.data.ALog;
 
 import org.xmlpull.v1.XmlPullParser;

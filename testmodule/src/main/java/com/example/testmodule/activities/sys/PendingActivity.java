@@ -1,10 +1,12 @@
-package com.example.testmodule;
+package com.example.testmodule.activities.sys;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.R;
 import com.example.testmodule.services.PendingService;
 
 import butterknife.BindView;

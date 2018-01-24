@@ -1,4 +1,4 @@
-package com.example.testmodule.viewpager;
+package com.example.testmodule.activities.ui.viewpager;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;

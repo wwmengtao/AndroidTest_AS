@@ -1,4 +1,4 @@
-package com.example.testmodule.notification.views;
+package com.example.testmodule.activities.notify;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -15,6 +15,8 @@ import android.view.WindowManager;
 import com.example.testmodule.ALog;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
+import com.example.testmodule.notification.views.NotiAppBlockedFragment;
+import com.example.testmodule.notification.views.NotiAppUnblockedFragment;
 
 public class NotiAppActivity extends BaseAcitivity implements NotiAppUnblockedFragment.OnFragmentInteractionListener {
 

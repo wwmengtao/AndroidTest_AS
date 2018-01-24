@@ -1,7 +1,10 @@
-package com.example.testmodule;
+package com.example.testmodule.activities.ui;
 
 import android.os.Bundle;
 import android.view.WindowManager;
+
+import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.R;
 
 import butterknife.ButterKnife;
 

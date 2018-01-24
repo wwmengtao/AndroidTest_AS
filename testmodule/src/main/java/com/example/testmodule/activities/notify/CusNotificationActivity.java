@@ -1,4 +1,4 @@
-package com.example.testmodule.notification.views;
+package com.example.testmodule.activities.notify;
 
 import android.os.Bundle;
 import android.widget.Button;

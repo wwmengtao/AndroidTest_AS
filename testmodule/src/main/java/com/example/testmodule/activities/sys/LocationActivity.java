@@ -1,4 +1,4 @@
-package com.example.testmodule.location;
+package com.example.testmodule.activities.sys;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.example.testmodule.ALog;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
+import com.example.testmodule.location.LocationUtils;
+import com.example.testmodule.location.MessageEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

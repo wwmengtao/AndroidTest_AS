@@ -16,12 +16,12 @@
                 android:id="@+id/btn1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ViewPager"/>
+                android:text="ViewPager(定时更新)"/>
             <Button
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ViewPager2"/>
+                android:text="ViewPager2(无限循环)"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

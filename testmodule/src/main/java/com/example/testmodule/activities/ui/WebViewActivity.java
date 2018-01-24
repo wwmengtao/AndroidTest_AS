@@ -1,10 +1,13 @@
-package com.example.testmodule;
+package com.example.testmodule.activities.ui;
 
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
+import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

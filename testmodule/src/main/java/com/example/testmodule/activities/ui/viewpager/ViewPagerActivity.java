@@ -1,4 +1,4 @@
-package com.example.testmodule.viewpager;
+package com.example.testmodule.activities.ui.viewpager;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.example.testmodule.ALog;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.example.testmodule.utils.DpObserverInfo;
+import com.example.testmodule.viewpager.ScalePageTransformer;
 import com.example.testmodule.viewpager.adapter.RecyclingPagerAdapter;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.example.testmodule.windowmanager;
+package com.example.testmodule.activities.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import com.example.testmodule.ALog;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
+import com.example.testmodule.windowmanager.FloatingMeasureView;
+import com.example.testmodule.windowmanager.FloatingStatusBarView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

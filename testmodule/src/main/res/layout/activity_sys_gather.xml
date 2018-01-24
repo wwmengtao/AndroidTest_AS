@@ -13,28 +13,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <Button
                 android:id="@+id/btn1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="数据操作"/>
+                android:text="Language for android N"/>
+
             <Button
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="通知"/>
+                android:text="Location"/>
 
             <Button
                 android:id="@+id/btn3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="系统"/>
+                android:text="PendingIntent.send()"/>
 
             <Button
                 android:id="@+id/btn4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="UI"/>
+                android:text="Systrace | TraceView"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

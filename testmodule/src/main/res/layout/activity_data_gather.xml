@@ -17,24 +17,13 @@
                 android:id="@+id/btn1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="数据操作"/>
+                android:text="SQLite数据库操作"/>
+
             <Button
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="通知"/>
-
-            <Button
-                android:id="@+id/btn3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="系统"/>
-
-            <Button
-                android:id="@+id/btn4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="UI"/>
+                android:text="Xml文件解析"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

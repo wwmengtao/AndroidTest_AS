@@ -1,4 +1,4 @@
-package com.example.testmodule.notification.views;
+package com.example.testmodule.activities.notify;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;

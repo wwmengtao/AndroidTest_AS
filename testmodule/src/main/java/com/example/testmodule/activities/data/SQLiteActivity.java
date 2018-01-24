@@ -1,4 +1,4 @@
-package com.example.testmodule;
+package com.example.testmodule.activities.data;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.R;
+import com.example.testmodule.dataops.DataBaseHelper;
 import com.fernandocejas.android10.sample.data.ALog;
 import com.fernandocejas.android10.sample.data.database.DataManager;
 import com.fernandocejas.android10.sample.data.database.DbSchema;

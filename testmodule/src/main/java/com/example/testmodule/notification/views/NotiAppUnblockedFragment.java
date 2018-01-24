@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.testmodule.ALog;
 import com.example.testmodule.R;
+import com.example.testmodule.activities.notify.NotiAppActivity;
 import com.example.testmodule.notification.mylistview.AppInfoAdapter;
 import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
 
