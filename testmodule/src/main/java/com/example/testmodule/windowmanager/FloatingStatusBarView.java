@@ -3,8 +3,8 @@ package com.example.testmodule.windowmanager;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
-import android.graphics.Point;
 import android.os.Build;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -45,16 +45,14 @@ public class FloatingStatusBarView extends View{
      * setFSLayoutParams：设置自身的悬浮布局参数，因为转屏时，状态栏的宽高可能都会发生变化
      */
     public void setFSLayoutParams() {
-        int statusBarHeight = 30, statusBarWidth = -1;
-        //获取status_bar_height资源的ID
-        int heightId = mContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (heightId > 0) {
-            statusBarHeight = mContext.getResources().getDimensionPixelSize(heightId);
-        }
+        Pair<Integer, Integer> mPair = WindowTools.getScreenRealWidthHeight(mContext);
+        int statusBarWidth = mPair.first;
+        if(statusBarWidth < 0)statusBarWidth = 30;//设置默认数值
+        int statusBarHeight = WindowTools.getStatusBarHeight(mContext);//状态栏高度数值
         ALog.Log1("statusBarHeight: "+statusBarHeight);
-        Point size = new Point();
-        mWindowManager.getDefaultDisplay().getSize(size);
-        statusBarWidth = size.x;
+        int navigationBarHeight = WindowTools.getNavigationBarHeight(mContext);//底部导航栏高度数值
+        ALog.Log1("navigationBarHeight: "+navigationBarHeight);
+        //
         int windowType;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             windowType = LayoutParams.TYPE_APPLICATION_OVERLAY;
@@ -62,13 +60,13 @@ public class FloatingStatusBarView extends View{
             windowType = LayoutParams.TYPE_PHONE;
         }
         LayoutParams mLayoutParams = new LayoutParams(
-                statusBarWidth,
-                statusBarHeight,
-                windowType,
-                LayoutParams.FLAG_LAYOUT_IN_SCREEN
-                        | LayoutParams.FLAG_FULLSCREEN
-                        | LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        | LayoutParams.FLAG_NOT_FOCUSABLE,
+            statusBarWidth,
+            statusBarHeight,
+            windowType,
+        LayoutParams.FLAG_LAYOUT_IN_SCREEN
+                | LayoutParams.FLAG_FULLSCREEN
+                | LayoutParams.FLAG_NOT_TOUCH_MODAL
+                | LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
         mLayoutParams.gravity = Gravity.TOP | Gravity.START;
         //

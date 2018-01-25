@@ -16,15 +16,18 @@ import butterknife.Unbinder;
 public abstract class BaseFragment2 extends ALogFragment {
     protected String TAG = null;
     protected Context mContext = null;
-    protected AppExecutors mAppExecutors;
+    protected BasicApp mApplication = null;
+    protected AppExecutors mAppExecutors = null;
     protected Unbinder mUnbinder = null;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         ALog.Log("onAttach",this);
+        this.TAG = getClass().getSimpleName();
         this.mContext = context.getApplicationContext();
-        this.mAppExecutors = ((BasicApp)getActivity().getApplication()).getAppExecutors();
+        this.mApplication = (BasicApp)getActivity().getApplication();
+        this.mAppExecutors = mApplication.getAppExecutors();
     }
 
     @Override

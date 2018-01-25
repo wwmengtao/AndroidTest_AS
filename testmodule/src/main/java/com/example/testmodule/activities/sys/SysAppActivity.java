@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 
 import com.example.testmodule.BaseActivity2;
+import com.example.testmodule.sysapps.views.SysAppFragment;
 
 public class SysAppActivity extends BaseActivity2 implements SysAppFragment.OnFragmentInteractionListener{
 
