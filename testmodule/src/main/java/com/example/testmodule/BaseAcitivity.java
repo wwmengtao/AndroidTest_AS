@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.util.SparseArray;
 
 import com.example.androidcommon.alog.CrashBaseActivity;
-import com.example.testmodule.application.AppExecutors;
-import com.example.testmodule.application.BasicApp;
+import com.example.androidcommon.application.AppExecutors;
+import com.example.androidcommon.application.CommonApp;
 
 import butterknife.Unbinder;
 
@@ -52,7 +52,7 @@ public abstract class BaseAcitivity extends CrashBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
-        mAppExecutors = ((BasicApp)getApplication()).getAppExecutors();
+        mAppExecutors = ((CommonApp)getApplication()).getAppExecutors();
         setActivityTitle();
     }
 

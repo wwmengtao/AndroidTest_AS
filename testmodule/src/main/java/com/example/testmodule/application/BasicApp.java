@@ -16,160 +16,44 @@
 
 package com.example.testmodule.application;
 
-import android.app.Activity;
-import android.app.Application;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Build;
-import android.os.Bundle;
 
-import com.example.androidcommon.crashhandle.CrashManager;
+import com.example.androidcommon.application.CommonApp;
 import com.example.testmodule.ALog;
 import com.example.testmodule.MainActivity;
 import com.example.testmodule.services.AppService;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 /**
  * Android Application class. Used for accessing singletons.
  */
-public class BasicApp extends Application {
+public class BasicApp extends CommonApp {
     private static final String TAG = "BasicApp_";
     private Intent startServiceIntent = null;
-    private AppExecutors mAppExecutors;
-    private AtomicBoolean isBackground = new AtomicBoolean(true);
 
     @Override
     public void onCreate() {
         super.onCreate();
         ALog.Log(TAG+"onCreate");
-        this.mAppExecutors = new AppExecutors();
         this.startServiceIntent = AppService.getLaunchIntent(this);
-
-        //2、监听应用的前台/后台变化
-        listenForForeground();//监听应用是否已到前台
-        listenForScreenTurningState();//监听屏幕亮灭状态
-        //3、捕获应用异常崩溃
-        CrashManager crashHandler = new CrashManager(this, MainActivity.class);
-        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+        //初始化应用异常捕获处理器
+        initCrashManager(MainActivity.class);
     }
 
-    public void onLowMemory() {
-        super.onLowMemory();
-        ALog.Log(TAG+"onLowMemory");
-    }
-
-    private void listenForForeground() {
-        //可以通过activity.getClass().getSimpleName()来监听特定的Activity生命周期
-        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
-            @Override
-            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                ALog.Log(TAG+"onActivityCreated: "+activity.getClass().getSimpleName());
-            }
-
-            @Override
-            public void onActivityStarted(Activity activity) {
-                ALog.Log(TAG+"onActivityStarted: "+activity.getClass().getSimpleName());
-            }
-
-            @Override
-            public void onActivityResumed(Activity activity) {
-                ALog.Log(TAG+"onActivityResumed: "+activity.getClass().getSimpleName());
-                if (isBackground()) {
-                    isBackground.set(false);
-                    notifyForeground();//判断应用是否已经到了前台，任意Activity执行到onResume就会触发
-                }
-            }
-
-            @Override
-            public void onActivityPaused(Activity activity) {
-                ALog.Log(TAG+"onActivityPaused: "+activity.getClass().getSimpleName());
-            }
-
-            @Override
-            public void onActivityStopped(Activity activity) {
-                ALog.Log(TAG+"onActivityStopped: "+activity.getClass().getSimpleName());
-            }
-
-            @Override
-            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-                ALog.Log(TAG+"onActivitySaveInstanceState: "+activity.getClass().getSimpleName());
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-                ALog.Log(TAG+"onActivityDestroyed: "+activity.getClass().getSimpleName());
-            }
-
-        });
-    }
-
-    private void listenForScreenTurningState() {
-        IntentFilter screenStateFilter = new IntentFilter();
-        screenStateFilter.addAction(Intent.ACTION_SCREEN_ON);
-        screenStateFilter.addAction(Intent.ACTION_SCREEN_OFF);
-
-        registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction();
-                switch (action){
-                    case Intent.ACTION_SCREEN_ON:
-                        notifyScreenOn();
-                        break;
-                    case Intent.ACTION_SCREEN_OFF:
-                        notifyScreenOff();
-                        break;
-                }
-
-            }
-        }, screenStateFilter);
-    }
 
     @Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-        if (level == TRIM_MEMORY_UI_HIDDEN) {//判断应用是否切换至后台运行
-            ALog.Log(TAG+"onTrimMemory_TRIM_MEMORY_UI_HIDDEN");
-            isBackground.set(true);
-            notifyBackground();
-        }
-
-    }
-
-    private void notifyForeground() {
-        // This is where you can notify listeners, handle session tracking, etc
-        ALog.Log(TAG+"notifyForeground");
+    protected void notifyForeground() {
+        super.notifyForeground();
         //AppService.isInstanceCreated()可以保证每次应用show到前台的时候，AppService能存在且正在运行
         tryToStartService();
     }
 
-    private void notifyBackground() {
-        // This is where you can notify listeners, handle session tracking, etc
-        ALog.Log(TAG+"notifyBackground");
-    }
-
-    public boolean isBackground() {
-        return isBackground.get();
-    }
-
-    private void notifyScreenOn() {
-        // This is where you can notify listeners, handle session tracking, etc
-        ALog.Log(TAG + "notifyScreenOn");
+    @Override
+    protected void notifyScreenOn() {
+        super.notifyScreenOn();
         if (!isBackground()) {//只有前台应用监测屏幕点亮才有意义
             tryToStartService();
         }
-    }
-
-    private void notifyScreenOff() {
-        // This is where you can notify listeners, handle session tracking, etc
-        ALog.Log(TAG+"notifyScreenOff");
-    }
-
-    public AppExecutors getAppExecutors(){
-        return this.mAppExecutors;
     }
 
     private void tryToStartService(){
@@ -182,7 +66,7 @@ public class BasicApp extends Application {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     startForegroundService(startServiceIntent);
                 }
-            }
-        }
-    }
+            }//end try-catch
+        }//end if
+    }//end tryToStartService
 }

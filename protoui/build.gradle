@@ -66,6 +66,7 @@ dependencies {
     compile('com.google.apis:google-api-services-gmail:v1-rev73-1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
+    compile project(path: ':androidcommon')
 }
 
 configurations.all {

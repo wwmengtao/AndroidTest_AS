@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.androidcommon.alog.CrashBaseActivity;
 import com.example.protoui.travelmode.LocationUtils;
 import com.example.protoui.travelmode.RouteInfoFetcher;
 import com.example.protoui.travelmode.SuggestFactoriesTask;
@@ -26,7 +27,7 @@ import java.util.List;
 
 import io.reactivex.observers.DisposableObserver;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, SuggestFactoriesTask.OnGetListRouteInfoListener {
+public class MainActivity extends CrashBaseActivity implements View.OnClickListener, SuggestFactoriesTask.OnGetListRouteInfoListener {
     private static final String TAG = "MainActivity ";
     private Context mContext = null;
     private LocationUtils mLocationUtils = null;

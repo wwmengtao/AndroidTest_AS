@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.example.androidcommon.application.AppExecutors;
 import com.example.testmodule.ALog;
-import com.example.testmodule.application.AppExecutors;
 import com.example.testmodule.application.BasicApp;
 import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
 import com.example.testmodule.receivers.PackageInstallReceiver;

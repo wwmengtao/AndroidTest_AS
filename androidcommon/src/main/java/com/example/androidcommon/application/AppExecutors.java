@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.testmodule.application;
+package com.example.androidcommon.application;
 
 import android.os.Handler;
 import android.os.Looper;

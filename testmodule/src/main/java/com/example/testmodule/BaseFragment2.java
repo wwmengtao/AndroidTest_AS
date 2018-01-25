@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.example.androidcommon.alog.ALog;
 import com.example.androidcommon.alog.ALogFragment;
-import com.example.testmodule.application.AppExecutors;
+import com.example.androidcommon.application.AppExecutors;
 import com.example.testmodule.application.BasicApp;
 
 import butterknife.Unbinder;
