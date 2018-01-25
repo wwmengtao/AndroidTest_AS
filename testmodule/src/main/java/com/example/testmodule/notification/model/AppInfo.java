@@ -10,6 +10,8 @@ import android.graphics.drawable.Drawable;
 public class AppInfo {
     public String appName = null;
     public String packageName = null;
+    public String className = null;
+    public String sourceDir = null;
     public int uid = -1;
     public Drawable icon = null;
     public Intent launchIntent = null;
@@ -36,4 +38,11 @@ public class AppInfo {
         this.notiBlocked = notiBlocked;
     }
 
+    public void setClassName(String name){
+        this.className = name;
+    }
+
+    public void setSourceDir(String dir){
+        this.sourceDir = dir;
+    }
 }

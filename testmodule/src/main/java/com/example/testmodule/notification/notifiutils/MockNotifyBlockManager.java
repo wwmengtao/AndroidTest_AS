@@ -11,6 +11,7 @@ import android.util.Pair;
 import com.example.testmodule.ALog;
 import com.example.testmodule.notification.model.AppInfo;
 import com.example.testmodule.notification.model.AppInfoCom;
+import com.example.testmodule.receivers.PackageInstallReceiver;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by mengtao1 on 2018/1/4.
  */
 
-public class MockNotifyBlockManager {
+public class MockNotifyBlockManager implements PackageInstallReceiver.OnPackageAddRemoveListener{
     private Context mContext = null;
     private volatile static MockNotifyBlockManager mMockNotifyBlockManager = null;
     private PackageManager mPackageManager = null;
@@ -193,6 +194,7 @@ public class MockNotifyBlockManager {
         return mPair;
     }
 
+    @Override
     public synchronized void onPackageInstalled(String packageName){
         if(null == packageName)return;
         List<AppInfo> appInfosAll = getAppsInfo(APP_TYPE.FLAG_ALL);
@@ -224,6 +226,7 @@ public class MockNotifyBlockManager {
         ALog.Log("onPackageInstalled: "+packageName);
     }
 
+    @Override
     public synchronized void onPackageUnInstalled(String packageName){
         if(null == packageName)return;
         List<AppInfo> appInfosAll = getAppsInfo(APP_TYPE.FLAG_ALL);

@@ -17,25 +17,24 @@
         android:roundIcon="@drawable/testmodule"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <service android:name=".services.WorkerService" />
-
         <service
             android:name=".services.AppService"
             android:enabled="true"
             android:exported="true" />
-        <!--Main activity-->
+        <!-- Main activity -->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--Data relevant activities-->
+        <!-- Data relevant activities -->
         <activity android:name=".activities.data.DataGatherActivity" />
         <activity android:name=".activities.data.SQLiteActivity" />
         <activity android:name=".activities.data.XmlParserActivity" />
-        <!--Notification relevant activities-->
+        <!-- Notification relevant activities -->
         <activity android:name=".activities.notify.NotifiListActivity" />
         <activity android:name=".activities.notify.NotificationActivity" />
         <activity android:name=".activities.notify.CusNotificationActivity" />
@@ -44,24 +43,26 @@
             android:name=".activities.notify.NotiAppActivity"
             android:excludeFromRecents="true"
             android:theme="@style/AllTransparent" />
-        <!--Syetem functions relevant activities-->
+        <!-- Syetem functions relevant activities -->
         <activity android:name=".activities.sys.SysGatherActivity" />
         <activity android:name=".activities.sys.LanguageForNActivity" />
         <activity android:name=".activities.sys.LocationActivity" />
         <activity android:name=".activities.sys.PendingActivity" />
+
         <service
             android:name=".services.PendingService"
             android:enabled="true"
             android:exported="true" />
+
         <activity android:name=".activities.sys.SysTraceViewActivity" />
-        <!--UI relevant activities-->
-        <activity android:name=".activities.ui.UIGatherActivity"></activity>
-        <!--UI relevant activities: Viewpager-->
+        <!-- UI relevant activities -->
+        <activity android:name=".activities.ui.UIGatherActivity" />
+        <!-- UI relevant activities: Viewpager -->
         <activity android:name=".activities.ui.viewpager.ViewPagerGatherActivity" />
         <activity
             android:name=".activities.ui.viewpager.ViewPagerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!--UI relevant activities: Others-->
+        <!-- UI relevant activities: Others -->
         <activity android:name=".activities.ui.viewpager.ViewPager2Activity" />
         <activity
             android:name=".activities.ui.TransparentActivity"
@@ -71,7 +72,9 @@
         <activity
             android:name=".activities.ui.WindowManagerActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize" />
-
+        <activity android:name=".activities.ui.viewpager.fragment.ViewPagerFragmentActivity" />
+        <activity android:name=".activities.ui.viewpager.fragment.ViewPagerStateFragmentActivity" />
+        <activity android:name=".activities.sys.SysAppActivity"></activity>
     </application>
 
 </manifest>

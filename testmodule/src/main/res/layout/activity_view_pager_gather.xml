@@ -17,11 +17,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="ViewPager(定时更新)"/>
+
             <Button
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="ViewPager2(无限循环)"/>
+
+            <Button
+                android:id="@+id/btn3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ViewPagerFragmentActivity"/>
+
+            <Button
+                android:id="@+id/btn4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ViewPagerStateFragmentActivity"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

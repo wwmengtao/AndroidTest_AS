@@ -9,7 +9,8 @@ import com.example.testmodule.ALog;
 import com.example.testmodule.application.AppExecutors;
 import com.example.testmodule.application.BasicApp;
 import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
-import com.example.testmodule.notification.receiver.PackageInstallReceiver;
+import com.example.testmodule.receivers.PackageInstallReceiver;
+import com.example.testmodule.sysapps.utils.SysAppsManager;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -64,18 +65,26 @@ public class AppService extends Service {
     public void onDestroy(){//onDestroy并不一定会被调用，当系统资源紧张且当前应用重要性不高的话，整个应用可能会被突然回收
         PackageInstallReceiver.getInstance().unRegisterReceiver(this);
         MockNotifyBlockManager.get(getApplicationContext()).clear();
+        SysAppsManager.get(getApplicationContext()).clear();
         super.onDestroy();
-        isServiceRunning.set(true);
+        isServiceRunning.set(false);
         ALog.Log(TAG+"_onDestroy");
     }
 
     private void initData(){
-        //1.初始化通知阻塞应用信息
         mAppExecutors = ((BasicApp)getApplication()).getAppExecutors();
+        //1.初始化通知阻塞应用信息
         mAppExecutors.diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 MockNotifyBlockManager.get(mContext);//this will cost much time
+            }
+        });
+        //2.初始化当前系统所有应用信息
+        mAppExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                SysAppsManager.get(mContext);//this will cost much time
             }
         });
     }

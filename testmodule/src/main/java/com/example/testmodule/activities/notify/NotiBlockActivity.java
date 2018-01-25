@@ -27,8 +27,6 @@ public class NotiBlockActivity extends BaseAcitivity {
         initActivities(buttonIDs, classEs);
     }
 
-
-
     @OnClick(R.id.btn1)
     public void onClick1(){
         int uid = -1;

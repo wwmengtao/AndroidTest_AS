@@ -6,10 +6,11 @@ import android.content.Intent;
 
 import com.example.testmodule.ALog;
 import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
+import com.example.testmodule.sysapps.utils.SysAppsManager;
 
-import static com.example.testmodule.notification.receiver.PackageInstallReceiver.PACKAGENAME;
-import static com.example.testmodule.notification.receiver.PackageInstallReceiver.WORKTYPE_PACK_ADDED;
-import static com.example.testmodule.notification.receiver.PackageInstallReceiver.WORKTYPE_PACK_REMOVED;
+import static com.example.testmodule.receivers.PackageInstallReceiver.PACKAGENAME;
+import static com.example.testmodule.receivers.PackageInstallReceiver.WORKTYPE_PACK_ADDED;
+import static com.example.testmodule.receivers.PackageInstallReceiver.WORKTYPE_PACK_REMOVED;
 
 /**
  * WorkerService：工作类型的IntentService，用于处理各类后台耗时事件
@@ -56,9 +57,11 @@ public class WorkerService extends IntentService {
         switch (workType){
             case WORKTYPE_PACK_ADDED:
                 MockNotifyBlockManager.get(mContext).onPackageInstalled(packageName);
+                SysAppsManager.get(mContext).onPackageInstalled(packageName);
                 break;
             case WORKTYPE_PACK_REMOVED:
                 MockNotifyBlockManager.get(mContext).onPackageUnInstalled(packageName);
+                SysAppsManager.get(mContext).onPackageUnInstalled(packageName);
                 break;
         }
     }

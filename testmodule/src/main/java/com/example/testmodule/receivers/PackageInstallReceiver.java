@@ -1,4 +1,4 @@
-package com.example.testmodule.notification.receiver;
+package com.example.testmodule.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -68,5 +68,13 @@ public class PackageInstallReceiver extends BroadcastReceiver {
             mIntent.putExtra(WORKTYPE, WORKTYPE_PACK_REMOVED);
         }
         context.startService(mIntent);
+    }
+
+    /**
+     * 定义应用安装、卸载回调接口
+     */
+    public interface OnPackageAddRemoveListener{
+        void onPackageInstalled(String packageName);
+        void onPackageUnInstalled(String packageName);
     }
 }

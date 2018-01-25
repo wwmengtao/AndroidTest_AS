@@ -19,10 +19,11 @@ public class SysGatherActivity extends BaseAcitivity {
         initActivities(buttonIDs, classEs);
     }
 
-    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4};
-    Class<?>[] classEs ={LanguageForNActivity.class, LocationActivity.class, PendingActivity.class, SysTraceViewActivity.class};
+    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5};
+    Class<?>[] classEs ={LanguageForNActivity.class, LocationActivity.class, PendingActivity.class, SysTraceViewActivity.class,
+            SysAppActivity.class};
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5})
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         startActivity(getCallingIntent(this, activity));
