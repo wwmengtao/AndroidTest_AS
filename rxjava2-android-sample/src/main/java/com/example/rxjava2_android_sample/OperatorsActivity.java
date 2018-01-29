@@ -335,6 +335,11 @@ public class OperatorsActivity extends BaseAcitivity {
         mComDisposable.add(observer);
     }
 
+    @OnClick({R.id.btn61})
+    public void CombineLatest(){//应用场合
+        startActivity(PracticalActivity.newIntent(this, "CombineLatest"));
+    }
+
     /*---------------------------------7、连接操作---------------------------------*/
     @OnClick({R.id.btn70})
     public void connect() {//应用场景：两个观察者同时开始观察同一个数据源，做同一类事情，比如测试两个线程同时处理某项任务的耗时

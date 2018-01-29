@@ -3,9 +3,10 @@ package com.example.rxjava2_android_sample;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.SparseArray;
 import android.view.View;
+
+import com.example.androidcommon.alog.CrashBaseActivity;
 
 import org.reactivestreams.Subscription;
 
@@ -20,7 +21,7 @@ import io.reactivex.disposables.CompositeDisposable;
  * Created by mengtao1 on 2017/11/11.
  */
 
-public abstract class BaseAcitivity extends AppCompatActivity {
+public abstract class BaseAcitivity extends CrashBaseActivity {
     protected String TAG = null;
     private static final String ACTIVITY_NAME_TAG = "ACTIVITY_NAME";
     private SparseArray<Class<?>> mActivitySA = null;

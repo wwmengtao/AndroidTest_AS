@@ -16,11 +16,6 @@ public class MainActivity extends BaseAcitivity {
         initActivities(buttonIDs, classEs);
     }
 
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-    }
-
     int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4};
     Class<?>[] classEs ={OperatorsActivity.class, RxBindingActivity.class, NetworkingActivity.class, ThrottlingBackpressureActivity.class};
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4})

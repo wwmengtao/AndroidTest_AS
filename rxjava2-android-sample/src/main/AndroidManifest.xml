@@ -3,11 +3,14 @@
     package="com.example.rxjava2_android_sample">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".application.BasicApp"
         android:allowBackup="true"
-        android:label="@string/app_name"
         android:icon="@mipmap/rxjava"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/rxjava"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -23,7 +26,8 @@
         <activity android:name=".RxBindingActivity" />
         <activity android:name=".ThrottlingBackpressureActivity" />
         <activity android:name=".throttlingbackpressure.ThrottlingActivity" />
-        <activity android:name=".throttlingbackpressure.BackpressureActivity"></activity>
+        <activity android:name=".throttlingbackpressure.BackpressureActivity" />
+        <activity android:name=".PracticalActivity"></activity>
     </application>
 
 </manifest>

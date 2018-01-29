@@ -5,7 +5,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.rxjava2_android_sample"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -41,4 +41,5 @@ dependencies {
     //以下使用ButterKnife
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile project(path: ':androidcommon')
 }
