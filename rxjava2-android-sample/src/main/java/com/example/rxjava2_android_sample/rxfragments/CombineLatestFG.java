@@ -1,6 +1,5 @@
-package com.example.rxjava2_android_sample.fragments;
+package com.example.rxjava2_android_sample.rxfragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -31,13 +30,6 @@ public class CombineLatestFG extends BaseFragment2 {
     @BindView(R.id.age) EditText mETAge;
     @BindView(R.id.job) EditText mETJob;
     @BindView(R.id.list) Button mBtn;
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.mContext = context.getApplicationContext();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,10 +89,5 @@ public class CombineLatestFG extends BaseFragment2 {
                 mBtn.setEnabled(s);
             }
         });
-    }
-
-    @Override public void onDestroyView() {
-        mUnbinder.unbind();
-        super.onDestroyView();
     }
 }

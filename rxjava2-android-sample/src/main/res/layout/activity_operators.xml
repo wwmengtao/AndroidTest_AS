@@ -147,7 +147,7 @@
                 android:id="@+id/btn50"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Concat"/>
+                android:text="Concat(单击和长按有不同内容)"/>
             <Button
                 android:id="@+id/btn51"
                 android:layout_width="match_parent"

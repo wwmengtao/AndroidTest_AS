@@ -14,7 +14,10 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
@@ -291,10 +294,26 @@ public class OperatorsActivity extends BaseAcitivity {
         showLog("concat");
         final String[] aStrings = {"A1", "A2", "A3", "A4"};
         final String[] bStrings = {"B1", "B2", "B3"};
+        final String diskCache = null;
         final Observable<String> aObservable = Observable.fromArray(aStrings);
         final Observable<String> bObservable = Observable.fromArray(bStrings);
+        final Observable<String> diskObs = Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+
+                // 先判断磁盘缓存有无数据
+                if (diskCache != null) {
+                    // 若有该数据，则发送
+                    emitter.onNext(diskCache);
+                } else {
+                    emitter.onNext("\"diskCache is null!\"");
+                    // 若无该数据，则直接发送结束事件
+                    emitter.onComplete();
+                }
+            }
+        });
         Observable<String> observable =
-                Observable.concat(aObservable, bObservable)//concat：合并多个Observables的发射物，不会让合并的Observables发射的数据交错
+                Observable.concat(aObservable, diskObs, bObservable)//concat：合并多个Observables的发射物，不会让合并的Observables发射的数据交错
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
         DisposableObserver<String> observer =
@@ -302,6 +321,12 @@ public class OperatorsActivity extends BaseAcitivity {
         mComDisposable.add(observer);
     }
 
+    @OnLongClick({R.id.btn50})
+    public boolean concatFG() {
+        showLog("concatFG");
+        startActivity(PracticalActivity.newIntent(this, "Concat"));
+        return true;
+    }
     //Reduce：按顺序对Observable发射的每项数据应用一个函数并发射最终的值，与Scan的不同在于Scan将每个步骤的数值都输出
     @OnClick({R.id.btn51})
     public void reduce() {
