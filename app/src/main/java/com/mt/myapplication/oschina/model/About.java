@@ -137,19 +137,20 @@ public class About implements Serializable {
 
     @Override
     public String toString() {
-        return "About{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", type=" + type +
-                ", href='" + href + '\'' +
-                ", viewCount=" + viewCount +
-                ", commentCount=" + commentCount +
-                ", transmitCount=" + transmitCount +
-                ", images=" + Arrays.toString(images) +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("class About {\n");
+        sb.append("  id: ").append(id).append("\n");
+        sb.append("  title: ").append(title).append("\n");
+        sb.append("  content: ").append(content).append("\n");
+        sb.append("  type: ").append(type).append("\n");
+        sb.append("  href: ").append(href).append("\n");
+        sb.append("  viewCount: ").append(viewCount).append("\n");
+        sb.append("  commentCount: ").append(commentCount).append("\n");
+        sb.append("  transmitCount: ").append(transmitCount).append("\n");
+        sb.append("  images: ").append(Arrays.toString(images)).append("\n");
+        sb.append("}\n");
+        return sb.toString();
     }
-
     /**
      * 检查一个About节点是否有效
      *
@@ -196,14 +197,16 @@ public class About implements Serializable {
 
         @Override
         public String toString() {
-            return "Share{" +
-                    "id=" + id +
-                    ", type=" + type +
-                    ", commitTweetId=" + commitTweetId +
-                    ", title='" + title + '\'' +
-                    ", content='" + content + '\'' +
-                    ", fromTweetId=" + fromTweetId +
-                    '}';
+            StringBuilder sb = new StringBuilder();
+            sb.append("class Share {\n");
+            sb.append("  id: ").append(id).append("\n");
+            sb.append("  type: ").append(type).append("\n");
+            sb.append("  commitTweetId: ").append(commitTweetId).append("\n");
+            sb.append("  title: ").append(title).append("\n");
+            sb.append("  content: ").append(content).append("\n");
+            sb.append("  fromTweetId: ").append(fromTweetId).append("\n");
+            sb.append("}\n");
+            return sb.toString();
         }
     }
 

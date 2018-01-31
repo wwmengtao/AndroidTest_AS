@@ -1,7 +1,5 @@
 package com.mt.myapplication.oschina.view;
 
-import android.text.TextUtils;
-
 import java.io.Serializable;
 
 /**
@@ -52,10 +50,12 @@ public class SubTab implements Serializable {
 
         @Override
         public String toString() {
-            return "Banner{" +
-                    "catalog=" + catalog +
-                    ", href='" + href + '\'' +
-                    '}';
+            StringBuilder sb = new StringBuilder();
+            sb.append("class Banner {\n");
+            sb.append("  catalog: ").append(catalog).append("\n");
+            sb.append("  href: ").append(href).append("\n");
+            sb.append("}\n");
+            return sb.toString();
         }
     }
 
@@ -168,17 +168,19 @@ public class SubTab implements Serializable {
 
     @Override
     public String toString() {
-        return "SubTab{" +
-                "token='" + token + '\'' +
-                ", name='" + name + '\'' +
-                ", fixed=" + fixed +
-                ", needLogin=" + needLogin +
-                ", tag='" + tag + '\'' +
-                ", type=" + type +
-                ", subtype=" + subtype +
-                ", order=" + order +
-                ", href='" + href + '\'' +
-                ", banner=" + banner +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("class SubTab {\n");
+        sb.append("  token: ").append(token).append("\n");
+        sb.append("  name: ").append(name).append("\n");
+        sb.append("  fixed: ").append(fixed).append("\n");
+        sb.append("  needLogin: ").append(needLogin).append("\n");
+        sb.append("  tag: ").append(tag).append("\n");
+        sb.append("  type: ").append(type).append("\n");
+        sb.append("  subtype: ").append(subtype).append("\n");
+        sb.append("  order: ").append(order).append("\n");
+        sb.append("  href: ").append(href).append("\n");
+        sb.append("  banner: ").append(banner).append("\n");
+        sb.append("}\n");
+        return sb.toString();
     }
 }

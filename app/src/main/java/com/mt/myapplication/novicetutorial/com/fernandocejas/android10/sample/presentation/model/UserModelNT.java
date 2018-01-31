@@ -69,18 +69,6 @@ public class UserModelNT implements Parcelable {
     this.sum = sum;
   }
 
-//  public String toString(){
-//    String str =
-//    TO_STRING + "\n" +
-//    "key: "+key + "\n" +
-//    "adjunction: "+adjunction + "\n" +
-//    "pic: "+pic + "\n" +
-//    "index: "+index + "\n" +
-//    "sum: "+sum + "\n" +
-//    TO_STRING + "\n";
-//    return str;
-//  }
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

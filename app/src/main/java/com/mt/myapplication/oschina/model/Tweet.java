@@ -298,19 +298,21 @@ public class Tweet implements Serializable {
 
     @Override
     public String toString() {
-        return "Tweet{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", appClient=" + appClient +
-                ", commentCount=" + commentCount +
-                ", likeCount=" + likeCount +
-                ", liked=" + liked +
-                ", pubDate='" + pubDate + '\'' +
-                ", author=" + author +
-                ", code=" + code +
-                ", audio=" + Arrays.toString(audio) +
-                ", images=" + Arrays.toString(images) +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("class Tweet {\n");
+        sb.append("  id: ").append(id).append("\n");
+        sb.append("  content: ").append(content).append("\n");
+        sb.append("  appClient: ").append(appClient).append("\n");
+        sb.append("  commentCount: ").append(commentCount).append("\n");
+        sb.append("  likeCount: ").append(likeCount).append("\n");
+        sb.append("  liked: ").append(liked).append("\n");
+        sb.append("  pubDate: ").append(pubDate).append("\n");
+        sb.append("  author: ").append(author).append("\n");
+        sb.append("  code: ").append(code).append("\n");
+        sb.append("  audio: ").append(Arrays.toString(audio)).append("\n");
+        sb.append("  images: ").append(Arrays.toString(images)).append("\n");
+        sb.append("}\n");
+        return sb.toString();
     }
 
     @Override

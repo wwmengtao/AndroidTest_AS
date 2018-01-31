@@ -10,10 +10,12 @@ public class ApiUser {
 
     @Override
     public String toString() {
-        return "ApiUser{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("class ApiUser {\n");
+        sb.append("  id: ").append(id).append("\n");
+        sb.append("  firstname: ").append(firstname).append("\n");
+        sb.append("  lastname: ").append(lastname).append("\n");
+        sb.append("}\n");
+        return sb.toString();
     }
 }

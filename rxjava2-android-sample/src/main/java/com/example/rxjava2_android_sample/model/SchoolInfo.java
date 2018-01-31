@@ -47,8 +47,14 @@ public class SchoolInfo {
         }
 
         @Override
-        public String toString(){
-            return "\"Student: "+schoolName+" "+name+" "+age+"\"";
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append("class Student {\n");
+            sb.append("  schoolName: ").append(schoolName).append("\n");
+            sb.append("  name: ").append(name).append("\n");
+            sb.append("  age: ").append(age).append("\n");
+            sb.append("}\n");
+            return sb.toString();
         }
     }
 

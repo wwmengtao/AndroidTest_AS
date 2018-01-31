@@ -68,14 +68,16 @@ public class Author implements Serializable {
 
     @Override
     public String toString() {
-        return "Author{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", portrait='" + portrait + '\'' +
-                ", relation=" + relation +
-                ", gender=" + gender +
-                ", identity=" + identity +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("class Author {\n");
+        sb.append("  id: ").append(id).append("\n");
+        sb.append("  name: ").append(name).append("\n");
+        sb.append("  portrait: ").append(portrait).append("\n");
+        sb.append("  relation: ").append(relation).append("\n");
+        sb.append("  gender: ").append(gender).append("\n");
+        sb.append("  identity: ").append(identity).append("\n");
+        sb.append("}\n");
+        return sb.toString();
     }
 
     public static class Identity implements Serializable {

@@ -22,7 +22,6 @@ public class User {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class User {\n");
-
         sb.append("  id: ").append(id).append("\n");
         sb.append("  firstname: ").append(firstname).append("\n");
         sb.append("  lastname: ").append(lastname).append("\n");

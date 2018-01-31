@@ -101,15 +101,17 @@ public class GetUserNTList extends UseCase<List<UserNT>, GetUserNTList.Params> {
       return key;
     }
 
-    public String toString(){
-      String str =
-        "/----------------GetUserNTList.Params.toString----------------/" + "\n" +
-        "mDataType: "+mDataType + "\n" +
-        "fileName: "+fileName + "\n" +
-        "tableName: "+tableName + "\n" +
-        "key: "+key + "\n" +
-        "/----------------GetUserNTList.Params.toString----------------/";
-      return str;
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append("class GetUserNTList {\n");
+      sb.append("  mDataType: ").append(mDataType).append("\n");
+      sb.append("  fileName: ").append(fileName).append("\n");
+      sb.append("  tableName: ").append(tableName).append("\n");
+      sb.append("  key: ").append(key).append("\n");
+      sb.append("}\n");
+      return sb.toString();
     }
+
   }
 }

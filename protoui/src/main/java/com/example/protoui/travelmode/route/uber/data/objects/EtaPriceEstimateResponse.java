@@ -17,7 +17,6 @@ public class EtaPriceEstimateResponse {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class EtaPriceEstimateResponse {\n");
-
         sb.append("  prices: ").append(prices).append("\n");
         sb.append("}\n");
         return sb.toString();

@@ -17,6 +17,7 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Consumer;
 
 /**
+ * ConcatFG：使用concat结合firstElement实现“检查内存缓存、磁盘缓存 & 发送网络请求”的功能。
  * Created by mengtao1 on 2018/1/29.
  */
 
