@@ -26,10 +26,11 @@ public class UIGatherActivity extends BaseAcitivity {
         initActivities(buttonIDs, classEs);
     }
 
-    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4};
-    Class<?>[] classEs ={ViewPagerGatherActivity.class, TransparentActivity.class, WebViewActivity.class, WindowManagerActivity.class};
+    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5};
+    Class<?>[] classEs ={ViewPagerGatherActivity.class, TransparentActivity.class, WebViewActivity.class, WindowManagerActivity.class,
+            DrawerActivity.class};
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5})
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         if(activity.getSimpleName().equals("WindowManagerActivity") && !WindowTools.canDrawOverlays(this)){

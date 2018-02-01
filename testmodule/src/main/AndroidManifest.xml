@@ -74,7 +74,8 @@
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize" />
         <activity android:name=".activities.ui.viewpager.fragment.ViewPagerFragmentActivity" />
         <activity android:name=".activities.ui.viewpager.fragment.ViewPagerStateFragmentActivity" />
-        <activity android:name=".activities.sys.SysAppActivity"></activity>
+        <activity android:name=".activities.sys.SysAppActivity" />
+        <activity android:name=".activities.ui.DrawerActivity"></activity>
     </application>
 
 </manifest>
