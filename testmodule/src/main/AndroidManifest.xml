@@ -75,7 +75,14 @@
         <activity android:name=".activities.ui.viewpager.fragment.ViewPagerFragmentActivity" />
         <activity android:name=".activities.ui.viewpager.fragment.ViewPagerStateFragmentActivity" />
         <activity android:name=".activities.sys.SysAppActivity" />
-        <activity android:name=".activities.ui.DrawerActivity"></activity>
+        <activity android:name=".activities.ui.drawer.DrawerActivity"
+            android:theme="@style/Theme.DrawerLayout"/>
+        <activity android:name=".activities.ui.drawer.CheeseDetailActivity"
+            android:parentActivityName=".activities.ui.drawer.DrawerActivity"
+            android:theme="@style/Theme.DrawerLayout">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.ui.drawer.DrawerActivity" />
+        </activity>
     </application>
 
 </manifest>

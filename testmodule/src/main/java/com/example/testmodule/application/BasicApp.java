@@ -21,7 +21,6 @@ import android.os.Build;
 
 import com.example.androidcommon.application.CommonApp;
 import com.example.testmodule.ALog;
-import com.example.testmodule.MainActivity;
 import com.example.testmodule.services.AppService;
 
 /**
@@ -37,7 +36,7 @@ public class BasicApp extends CommonApp {
         ALog.Log(TAG+"onCreate");
         this.startServiceIntent = AppService.getLaunchIntent(this);
         //初始化应用异常捕获处理器
-        initCrashManager(MainActivity.class);
+//        initCrashManager(MainActivity.class);
     }
 
 

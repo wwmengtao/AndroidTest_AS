@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
+import com.example.testmodule.activities.ui.drawer.DrawerActivity;
 import com.example.testmodule.activities.ui.viewpager.ViewPagerGatherActivity;
 import com.example.testmodule.windowmanager.WindowTools;
 
