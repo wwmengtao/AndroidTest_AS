@@ -17,7 +17,6 @@
 package com.example.protoui.application;
 
 import com.example.androidcommon.application.CommonApp;
-import com.example.protoui.MainActivity;
 
 /**
  * Android Application class. Used for accessing singletons.
@@ -29,6 +28,6 @@ public class BasicApp extends CommonApp {
     public void onCreate() {
         super.onCreate();
         //初始化应用异常捕获处理器
-        initCrashManager(MainActivity.class);
+//        initCrashManager(MainActivity.class);
     }
 }
