@@ -29,13 +29,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.example.testmodule.ui.drawer.CheeseListFragment;
 
@@ -45,7 +45,7 @@ import java.util.List;
 /**
  * TODO
  */
-public class DrawerActivity extends AppCompatActivity {
+public class DrawerActivity extends BaseAcitivity {
 
     private DrawerLayout mDrawerLayout;
 
