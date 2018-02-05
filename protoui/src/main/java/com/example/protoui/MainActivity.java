@@ -13,11 +13,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.androidcommon.alog.CrashBaseActivity;
+import com.example.androidcommon.windowmanager.WindowTools;
 import com.example.protoui.travelmode.LocationUtils;
 import com.example.protoui.travelmode.RouteInfoFetcher;
 import com.example.protoui.travelmode.SuggestFactoriesTask;
@@ -44,6 +46,8 @@ public class MainActivity extends CrashBaseActivity implements View.OnClickListe
     private ImageView mIVToolbarHome = null;
     private ImageView mImageView = null;
     private TextView mTextView = null;
+    //
+    private Toolbar mToolbar = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +60,8 @@ public class MainActivity extends CrashBaseActivity implements View.OnClickListe
     }
 
     private void initViews(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         mIVToolbarHome = (ImageView) findViewById(R.id.toolbar_home);
         mIVToolbarHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,13 +73,26 @@ public class MainActivity extends CrashBaseActivity implements View.OnClickListe
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
-            setupDrawerContent(navigationView);
+            setupNavigationView(navigationView);
         }
         //
         initRecyclerView();
     }
 
-    private void setupDrawerContent(NavigationView navigationView) {
+    private void setupNavigationView(final NavigationView navigationView) {
+        final View naviewHeader = navigationView.getHeaderView(0);//获取左侧导航视图的头视图
+        naviewHeader.post(new Runnable() {
+            @Override
+            public void run() {
+                ALog.Log("naviewHeader.getHeigh: "+naviewHeader.getHeight());
+                ALog.Log("mToolbar.getHeigh: "+mToolbar.getHeight());
+                ALog.Log("statusBarHeight: "+ WindowTools.getStatusBarHeight(MainActivity.this));
+                ViewGroup.LayoutParams params = naviewHeader.getLayoutParams();
+                params.height = mToolbar.getHeight()+WindowTools.getStatusBarHeight(MainActivity.this);
+                naviewHeader.setLayoutParams(params);
+            }
+        });
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override

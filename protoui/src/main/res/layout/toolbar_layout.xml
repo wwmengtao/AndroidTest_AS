@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="30dp"
     android:id="@+id/user_info"
     android:orientation="horizontal"
     android:gravity="center_vertical">
@@ -17,15 +18,17 @@
         android:layout_alignParentStart="true"
         android:layout_centerInParent="true"/>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/user_info_iv"
-        android:layout_height="40dp"
-        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:layout_width="50dp"
         android:layout_marginEnd="10dp"
-        android:scaleType="fitXY"
         android:src="@drawable/moto"
         android:layout_toEndOf="@+id/toolbar_home"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"/>
 
     <LinearLayout
         android:id="@+id/user_info_name_loc"
@@ -41,7 +44,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:text="Willkommen zu"/>
         <TextView
             android:id="@+id/user_info_loc"
@@ -50,7 +53,7 @@
             android:layout_weight="2"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="30sp"
+            android:textSize="24sp"
             android:text="Berlin"/>
     </LinearLayout>
 

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 
+import com.example.androidcommon.windowmanager.WindowTools;
 import com.example.testmodule.ALog;
 
 import java.util.concurrent.atomic.AtomicBoolean;

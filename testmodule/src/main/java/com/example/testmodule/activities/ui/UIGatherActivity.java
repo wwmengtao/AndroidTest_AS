@@ -12,7 +12,7 @@ import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.example.testmodule.activities.ui.drawer.DrawerActivity;
 import com.example.testmodule.activities.ui.viewpager.ViewPagerGatherActivity;
-import com.example.testmodule.windowmanager.WindowTools;
+import com.example.androidcommon.windowmanager.WindowTools;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;

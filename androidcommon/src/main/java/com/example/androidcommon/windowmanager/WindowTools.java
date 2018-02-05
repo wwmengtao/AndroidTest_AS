@@ -1,4 +1,4 @@
-package com.example.testmodule.windowmanager;
+package com.example.androidcommon.windowmanager;
 
 import android.content.Context;
 import android.graphics.Point;
