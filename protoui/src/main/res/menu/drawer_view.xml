@@ -42,18 +42,20 @@
 
     <item android:title="Moto Beta">
         <menu>
-            <item
-                android:id="@+id/beta_call_into_meeting"
-                android:icon="@drawable/ic_place"
-                android:title="Call into meeting" />
-            <item
-                android:id="@+id/beta_battery_perf"
-                android:icon="@drawable/ic_place"
-                android:title="Battery performance" />
-            <item
-                android:id="@+id/beta_maximize_storage"
-                android:icon="@drawable/ic_place"
-                android:title="Maximize storage" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/beta_call_into_meeting"
+                    android:icon="@drawable/ic_place"
+                    android:title="Call into meeting" />
+                <item
+                    android:id="@+id/beta_battery_perf"
+                    android:icon="@drawable/ic_place"
+                    android:title="Battery performance" />
+                <item
+                    android:id="@+id/beta_maximize_storage"
+                    android:icon="@drawable/ic_place"
+                    android:title="Maximize storage" />
+            </group>
         </menu>
     </item>
 

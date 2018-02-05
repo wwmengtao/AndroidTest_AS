@@ -13,7 +13,13 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="Theme.DrawerLayout" parent="Base.Theme.DrawerLayout">
+    <style name="Theme.DrawerLayout" parent="FullScreenTheme">
+    </style>
+
+    <!--Full Screen-->
+    <style name="FullScreenTheme" parent="Base.Theme.DrawerLayout">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="Base.Theme.DrawerLayout" parent="Theme.AppCompat.DayNight.NoActionBar">

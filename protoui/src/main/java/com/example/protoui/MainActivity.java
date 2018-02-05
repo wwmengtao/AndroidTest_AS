@@ -46,8 +46,13 @@ public class MainActivity extends CrashBaseActivity implements View.OnClickListe
     private ImageView mIVToolbarHome = null;
     private ImageView mImageView = null;
     private TextView mTextView = null;
+    private ImageView mImageView2 = null;
+    private TextView mTextView2 = null;
     //
     private Toolbar mToolbar = null;
+    //
+    String googleAccountName = null;
+    Uri googleAccountPicUri = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +65,9 @@ public class MainActivity extends CrashBaseActivity implements View.OnClickListe
     }
 
     private void initViews(){
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mIVToolbarHome = (ImageView) findViewById(R.id.toolbar_home);
+        mIVToolbarHome = findViewById(R.id.toolbar_home);
         mIVToolbarHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,8 +75,8 @@ public class MainActivity extends CrashBaseActivity implements View.OnClickListe
             }
         });
         //
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupNavigationView(navigationView);
         }
@@ -88,20 +93,33 @@ public class MainActivity extends CrashBaseActivity implements View.OnClickListe
                 ALog.Log("mToolbar.getHeigh: "+mToolbar.getHeight());
                 ALog.Log("statusBarHeight: "+ WindowTools.getStatusBarHeight(MainActivity.this));
                 ViewGroup.LayoutParams params = naviewHeader.getLayoutParams();
-                params.height = mToolbar.getHeight()+WindowTools.getStatusBarHeight(MainActivity.this);
+                params.height = mToolbar.getHeight();
                 naviewHeader.setLayoutParams(params);
+                initNaviewHeader(naviewHeader);
             }
         });
-
+        //
         navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
+            new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    mDrawerLayout.closeDrawers();
+                    return true;
+                }
+            });
+    }
+
+    private void initNaviewHeader(View naviewHeader){
+        mTextView2 = naviewHeader.findViewById(R.id.user_info_name);
+        mImageView2 = naviewHeader.findViewById(R.id.user_info_iv);
+        mImageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ALog.Log("onClick");
+                mContext.startActivity(SignInActivity.getLaunchIntent(mContext));
+            }
+        });
+        updateGoogleUI2();
     }
 
     private void initRecyclerView(){
@@ -149,7 +167,9 @@ public class MainActivity extends CrashBaseActivity implements View.OnClickListe
     public void onResume(){
         mRouteInfoFetcher.resume();
         super.onResume();
+        getGoogleAccountInfo();
         updateGoogleUI();
+        updateGoogleUI2();
     }
 
     @Override
@@ -198,20 +218,35 @@ public class MainActivity extends CrashBaseActivity implements View.OnClickListe
         };
     }
 
-    private void updateGoogleUI() {
-        String googleAccountName = null;
-        Uri googleAccountPicUri = null;
+    private void getGoogleAccountInfo(){
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(mContext);
         if (account != null) {
             googleAccountName = account.getDisplayName();
             googleAccountPicUri = account.getPhotoUrl();
-
         } else {
             googleAccountName = mContext.getString(R.string.no_google_account_login);
         }
+    }
+
+    private void updateGoogleUI() {
+        if(null == mImageView || null == mTextView)return;
+        ALog.Log("updateGoogleUI");
+        //
         Glide.with(mContext)
                 .load((null != googleAccountPicUri) ? googleAccountPicUri : R.drawable.googleg_color)
                 .into(mImageView);
         mTextView.setText(googleAccountName);
+        //
+    }
+
+    private void updateGoogleUI2() {
+        if(null == mImageView2 || null == mTextView2)return;
+        ALog.Log("updateGoogleUI2");
+        //
+        Glide.with(mContext)
+                .load((null != googleAccountPicUri) ? googleAccountPicUri : R.drawable.googleg_color)
+                .into(mImageView2);
+        mTextView2.setText(googleAccountName);
+        //
     }
 }

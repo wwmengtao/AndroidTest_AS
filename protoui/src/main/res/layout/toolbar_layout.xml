@@ -38,32 +38,49 @@
         android:layout_marginEnd="10dp"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/user_info_name"
+            android:id="@+id/user_info_loc"
             android:layout_height="0dp"
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="12sp"
-            android:text="Willkommen zu"/>
+            android:text="For"/>
         <TextView
-            android:id="@+id/user_info_loc"
+            android:id="@+id/user_info_name"
             android:layout_height="0dp"
             android:layout_width="wrap_content"
             android:layout_weight="2"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="24sp"
-            android:text="Berlin"/>
+            android:text="Name"/>
     </LinearLayout>
 
-
-    <ImageView
-        android:id="@+id/voiceassist"
-        android:layout_height="40dp"
-        android:layout_width="40dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerInParent="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/voiceassist"/>
+    <LinearLayout
+        android:id="@+id/user_info_from"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@+id/user_info_name_loc"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/user_info_from_from"
+            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:text="From"/>
+        <TextView
+            android:id="@+id/user_info_from_place"
+            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:text="Moto"/>
+    </LinearLayout>
 </RelativeLayout>
