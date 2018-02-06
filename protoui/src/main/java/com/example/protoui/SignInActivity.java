@@ -35,9 +35,20 @@ public class SignInActivity extends AppCompatActivity implements
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
     private ImageView mImageView;
+    //
+    public static final String EXTRA_BUNDLE_OF_ACTIVITY = "EXTRA_BUNDLE_OF_ACTIVITY";
+    private static final String NEED_SHOW_WINDOW = "Need show window";
+    private boolean needShowWindow = false;
 
     public static Intent getLaunchIntent(Context mContext){
+        return getLaunchIntent2(mContext, true);
+    }
+
+    public static Intent getLaunchIntent2(Context mContext, boolean needShowWindow){
         Intent mIntent = new Intent(mContext,SignInActivity.class);
+        Bundle mBundle = new Bundle();
+        mBundle.putBoolean(NEED_SHOW_WINDOW, needShowWindow);
+        mIntent.putExtra(EXTRA_BUNDLE_OF_ACTIVITY, mBundle);
         return mIntent;
     }
 
@@ -45,6 +56,10 @@ public class SignInActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        Bundle bundle = getIntent().getBundleExtra(EXTRA_BUNDLE_OF_ACTIVITY);
+        if(bundle != null){
+            needShowWindow = bundle.getBoolean(NEED_SHOW_WINDOW);
+        }
 
         // Views
         mStatusTextView = findViewById(R.id.status);
@@ -187,4 +202,9 @@ public class SignInActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public void finish() {
+        if(needShowWindow){};
+        super.finish();
+    }
 }
