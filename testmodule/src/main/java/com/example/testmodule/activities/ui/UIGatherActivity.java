@@ -11,6 +11,7 @@ import android.view.View;
 import com.example.testmodule.BaseAcitivity;
 import com.example.testmodule.R;
 import com.example.testmodule.activities.ui.drawer.DrawerActivity;
+import com.example.testmodule.activities.ui.swipemenu.SwipeMenuActivity;
 import com.example.testmodule.activities.ui.viewpager.ViewPagerGatherActivity;
 import com.example.androidcommon.windowmanager.WindowTools;
 
@@ -27,11 +28,11 @@ public class UIGatherActivity extends BaseAcitivity {
         initActivities(buttonIDs, classEs);
     }
 
-    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5};
+    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6};
     Class<?>[] classEs ={ViewPagerGatherActivity.class, TransparentActivity.class, WebViewActivity.class, WindowManagerActivity.class,
-            DrawerActivity.class};
+            DrawerActivity.class, SwipeMenuActivity.class};
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6})
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         if(activity.getSimpleName().equals("WindowManagerActivity") && !WindowTools.canDrawOverlays(this)){
