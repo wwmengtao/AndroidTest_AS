@@ -9,13 +9,13 @@
 
     <ImageButton
         android:id="@+id/main_btn_menu"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="10dp"
         android:background="#00000000"
-        android:scaleType="centerInside"
+        android:scaleType="fitXY"
         android:layout_alignParentStart="true"
         android:layout_centerInParent="true"
         android:src="@drawable/ic_menu"/>
@@ -24,7 +24,7 @@
         android:id="@+id/user_info_iv"
         android:layout_height="50dp"
         android:layout_width="50dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="20dp"
         android:src="@drawable/moto"
         android:layout_toEndOf="@+id/main_btn_menu"
         android:layout_centerInParent="true"/>
@@ -33,27 +33,28 @@
         android:id="@+id/user_info_name_loc"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginEnd="20dp"
         android:layout_toEndOf="@+id/user_info_iv"
-        android:layout_marginEnd="10dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/user_info_loc"
             android:layout_height="0dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="start|center_vertical"
             android:textColor="@android:color/white"
             android:textSize="12sp"
             android:text="For"/>
         <TextView
             android:id="@+id/user_info_name"
             android:layout_height="0dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_weight="2"
-            android:gravity="center"
+            android:gravity="start|center_vertical"
             android:textColor="@android:color/white"
             android:textSize="24sp"
-            android:text="Who"/>
+            android:singleLine="true"
+            android:text="@string/google_account_who"/>
     </LinearLayout>
 
     <LinearLayout
@@ -61,25 +62,24 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toEndOf="@+id/user_info_name_loc"
-        android:layout_marginEnd="20dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/user_info_from_from"
             android:layout_height="0dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="start|center_vertical"
             android:textColor="@android:color/white"
             android:textSize="12sp"
             android:text="From"/>
         <TextView
             android:id="@+id/user_info_from_place"
             android:layout_height="0dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_weight="2"
-            android:gravity="center"
+            android:gravity="start|center_vertical"
             android:textColor="@android:color/white"
             android:textSize="24sp"
-            android:text="Where"/>
+            android:text="@string/google_account_where"/>
     </LinearLayout>
 </RelativeLayout>

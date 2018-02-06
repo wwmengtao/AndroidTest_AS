@@ -59,4 +59,14 @@
         </menu>
     </item>
 
+    <item android:title="Activities">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/beta_activity_swipemenu"
+                    android:icon="@drawable/ic_place"
+                    android:title="SwipeMenuActivity" />
+            </group>
+        </menu>
+    </item>
 </menu>

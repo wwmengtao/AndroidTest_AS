@@ -19,5 +19,7 @@
     <string name="disconnect">Disconnect</string>
     <string name="signed_in_fmt">Signed in as: %s</string>
     <string name="no_google_account_login">No Google Account login</string>
-
+    <string name="google_account_who">An Account</string>
+    <string name="google_account_where">Where</string>
+    <string name="google_account_from_moto">MOTO</string>
 </resources>

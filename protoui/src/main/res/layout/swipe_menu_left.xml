@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="5dp"
-    android:gravity="center"
     android:background="@color/royalblue"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/swipe_menu_left_header"
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
         android:layout_marginStart="10dp"
         android:layout_alignParentBottom="true">
         <de.hdodenhof.circleimageview.CircleImageView
@@ -24,7 +25,7 @@
 
         <LinearLayout
             android:id="@+id/user_info_name_loc"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toEndOf="@+id/user_info_iv2"
             android:layout_marginEnd="10dp"
@@ -35,27 +36,30 @@
                 android:layout_height="0dp"
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="start|center_vertical"
                 android:textColor="@android:color/black"
                 android:textSize="12sp"
                 android:text="Hello"/>
             <TextView
                 android:id="@+id/user_info_name2"
                 android:layout_height="0dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_weight="2"
-                android:gravity="center"
+                android:gravity="start|center_vertical"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
-                android:text="Who"/>
+                android:singleLine="true"
+                android:text="@string/google_account_who"/>
         </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/swipe_menu_left_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/green"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
     </LinearLayout>
 </LinearLayout>

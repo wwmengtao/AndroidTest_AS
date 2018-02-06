@@ -59,6 +59,10 @@ dependencies {
     //
     compile 'de.hdodenhof:circleimageview:2.2.0'
     //
+    //以下使用ButterKnife
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //
     compile 'com.google.android.gms:play-services-auth:11.6.2'
     compile 'com.google.android.gms:play-services-maps:11.6.2'
     compile 'pub.devrel:easypermissions:0.3.0'

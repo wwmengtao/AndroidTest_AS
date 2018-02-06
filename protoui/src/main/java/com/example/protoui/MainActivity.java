@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.androidcommon.alog.CrashBaseActivity;
 import com.example.androidcommon.windowmanager.WindowTools;
+import com.example.protoui.swipemenu.SwipeMenuActivity;
 import com.example.protoui.travelmode.LocationUtils;
 import com.example.protoui.travelmode.RouteInfoFetcher;
 import com.example.protoui.travelmode.SuggestFactoriesTask;
@@ -104,9 +105,18 @@ public class MainActivity extends CrashBaseActivity implements View.OnClickListe
                 @Override
                 public boolean onNavigationItemSelected(MenuItem menuItem) {
                     mDrawerLayout.closeDrawers();
+                    dealWithMenuItem(menuItem);
                     return true;
                 }
             });
+    }
+
+    private void dealWithMenuItem(MenuItem menuItem){
+        switch (menuItem.getItemId()){
+            case R.id.beta_activity_swipemenu:
+                startActivity(SwipeMenuActivity.getLaunchIntent(MainActivity.this));
+                break;
+        }
     }
 
     private void initNaviewHeader(View naviewHeader){
