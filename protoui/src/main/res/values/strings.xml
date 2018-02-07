@@ -22,4 +22,7 @@
     <string name="google_account_who">An Account</string>
     <string name="google_account_where">Where</string>
     <string name="google_account_from_moto">MOTO</string>
+    <string name="sleep_mode_swipe_menu"><b>Sleep Mode</b></string>
+    <string name="sleep_mode_des_swipe_menu">Mute notifications for a night of uninterrupted sleep</string>
+
 </resources>

@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="5dp"
-    android:background="@color/royalblue"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -57,9 +56,12 @@
         android:id="@+id/swipe_menu_left_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/green"
         android:layout_weight="1"
         android:orientation="vertical">
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_swipe_menu_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"/>
     </LinearLayout>
 </LinearLayout>

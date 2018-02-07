@@ -2,11 +2,15 @@ package com.example.protoui.swipemenu;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -16,18 +20,25 @@ import com.bumptech.glide.Glide;
 import com.example.protoui.ALog;
 import com.example.protoui.R;
 import com.example.protoui.SignInActivity;
+import com.example.protoui.swipemenu.data.RVData;
+import com.example.protoui.swipemenu.recyclerview.SwipeMenuLeftAdapter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class SwipeMenuActivity extends AppCompatActivity{
+/**
+ * Created by Mengtao1 on 2018/02/07.
+ */
+public class SwipeMenuActivity extends AppCompatActivity implements SwipeMenuLeftAdapter.OnItemViewClickListener{
     private Unbinder mUnbinder = null;
     private Context mContext = null;
-
+    private OnActivityViewClickListener mOnItemViewClickListener = null;
     //
     String googleAccountName = null;
     String googleAccountWhere = null;
@@ -41,6 +52,10 @@ public class SwipeMenuActivity extends AppCompatActivity{
     @BindView(R.id.user_info_from_place) TextView mTextViewPlace;
     @BindView(R.id.user_info_iv2) ImageView mImageView2;
     @BindView(R.id.user_info_name2) TextView mTextView2;
+    //
+    @BindView(R.id.rv_swipe_menu_left) RecyclerView RVSwipeMenuLeft;
+    private SwipeMenuLeftAdapter mSwipeMenuLeftAdapter = null;
+    private List<RVData> mRVData = null;
 
     public static Intent getLaunchIntent(Context mContext){
         Intent mIntent = new Intent(mContext,SwipeMenuActivity.class);
@@ -54,6 +69,7 @@ public class SwipeMenuActivity extends AppCompatActivity{
         mContext = getApplicationContext();
         mUnbinder = ButterKnife.bind(this);
         initFragment();
+        initSwipeMenuLeftRecyclerView();
     }
 
     @OnClick({R.id.user_info_iv, R.id.user_info_iv2})
@@ -68,6 +84,40 @@ public class SwipeMenuActivity extends AppCompatActivity{
         } else {
             mMainSwipemenu.showMenu();
         }
+    }
+
+    private void initSwipeMenuLeftRecyclerView(){
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(mContext);
+        mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        RVSwipeMenuLeft.setLayoutManager(mLinearLayoutManager);
+        mSwipeMenuLeftAdapter = new SwipeMenuLeftAdapter(mContext);
+        mSwipeMenuLeftAdapter.setOnItemViewClickListener(this);
+        mRVData = RVData.getData();
+        mSwipeMenuLeftAdapter.setData(mRVData);
+        RVSwipeMenuLeft.setAdapter(mSwipeMenuLeftAdapter);
+        //set divider
+        Drawable divider = getResources().getDrawable(R.drawable.appinfodivider);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL);
+        mDividerItemDecoration.setDrawable(divider);
+        RVSwipeMenuLeft.addItemDecoration(mDividerItemDecoration);
+        //
+    }
+
+    @Override
+    public void onItemViewClick(int position) {
+        ALog.Log("onItemViewClick: "+position);
+        if(null != mOnItemViewClickListener && 0 != position){
+            mOnItemViewClickListener.onActivityViewClick(mRVData.get(position).getTitle());
+        }
+        mMainSwipemenu.hideMenu();
+    }
+
+    public void setOnActivityViewClickListener(OnActivityViewClickListener listener){
+        this.mOnItemViewClickListener = listener;
+    }
+
+    public interface OnActivityViewClickListener{
+        void onActivityViewClick(String str);
     }
 
     private void initFragment(){
@@ -142,4 +192,5 @@ public class SwipeMenuActivity extends AppCompatActivity{
         super.onDestroy();
         mUnbinder.unbind();
     }
+
 }
