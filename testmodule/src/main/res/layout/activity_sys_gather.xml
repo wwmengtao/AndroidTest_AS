@@ -43,6 +43,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="展示系统应用"/>
+
+            <Button
+                android:id="@+id/btn6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Touch Event"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
