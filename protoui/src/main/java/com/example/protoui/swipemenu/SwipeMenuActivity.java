@@ -163,6 +163,7 @@ public class SwipeMenuActivity extends AppCompatActivity implements SwipeMenuLef
         } else {
             googleAccountName = mContext.getString(R.string.google_account_who);
             googleAccountWhere = mContext.getString(R.string.google_account_where);
+            googleAccountPicUri = null;
         }
     }
 

@@ -235,6 +235,7 @@ public class MainActivity extends CrashBaseActivity implements View.OnClickListe
             googleAccountPicUri = account.getPhotoUrl();
         } else {
             googleAccountName = mContext.getString(R.string.no_google_account_login);
+            googleAccountPicUri = null;
         }
     }
 
