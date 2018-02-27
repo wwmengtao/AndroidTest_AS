@@ -10,7 +10,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RemoteViews;
 
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.notifiutils.NotificationImpl;
 import com.example.testmodule.notification.notifiutils.NotifyImplFactoryManager;
@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class NotificationActivity extends BaseAcitivity implements NotifyReceiver.OnPlayViewClickedListener,
+public class NotificationActivity extends BaseActivity implements NotifyReceiver.OnPlayViewClickedListener,
         NotifyReceiver.OnNotifyClickedListener, NotifyReceiver.OnNotifyDeletedListener{
     private Unbinder mUnbinder = null;
     private String NOTIFICATION_TAG = "TestModule.Notification";//用于标识发送/取消广播时候的tag

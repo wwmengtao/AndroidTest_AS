@@ -6,7 +6,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.example.testmodule.ALog;
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.windowmanager.FloatingMeasureView;
 import com.example.testmodule.windowmanager.FloatingStatusBarView;
@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class WindowManagerActivity extends BaseAcitivity implements FloatingMeasureView.ConfigurationChangedListener,
+public class WindowManagerActivity extends BaseActivity implements FloatingMeasureView.ConfigurationChangedListener,
         FloatingMeasureView.MeasureViewHeightChangedListener{
 
     private Context mContext = null;

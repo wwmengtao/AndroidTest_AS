@@ -15,7 +15,7 @@ import butterknife.Unbinder;
  * Created by mengtao1 on 2017/11/11.
  */
 
-public abstract class BaseAcitivity extends CrashBaseActivity {
+public abstract class BaseActivity extends CrashBaseActivity {
     protected String TAG = null;
     protected Context mContext = null;
     protected AppExecutors mAppExecutors;

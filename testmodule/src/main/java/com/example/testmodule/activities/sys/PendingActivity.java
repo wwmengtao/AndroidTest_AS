@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.services.PendingService;
 
@@ -19,7 +19,7 @@ import static com.example.testmodule.services.PendingService.EXTRA_PENDING_INTEN
  * PendingActivity：用于开启/关闭执行延迟操作的Service
  * Created by mengtao1 on 2018/1/19.
  */
-public class PendingActivity extends BaseAcitivity {
+public class PendingActivity extends BaseActivity {
     private Intent mIntent = null;
     @BindView(R.id.serviceState) TextView mTVServiceState;
     @BindView(R.id.startService) Button mBtnStartService;

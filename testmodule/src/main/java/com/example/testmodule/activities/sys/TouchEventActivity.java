@@ -5,7 +5,7 @@ import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.touchevent.EventReturn;
 
@@ -26,7 +26,7 @@ import static com.example.testmodule.touchevent.EventInfo.setReturnResult;
  * @author Mengtao1
  *
  */
-public class TouchEventActivity extends BaseAcitivity implements View.OnClickListener, View.OnTouchListener{
+public class TouchEventActivity extends BaseActivity implements View.OnClickListener, View.OnTouchListener{
 
     private static final String strLayout = "0.TouchEventActivity";
     private SparseArray<Integer> dispatchTouchEventArrays = null;

@@ -3,12 +3,12 @@ package com.example.testmodule.activities.ui;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 
 import butterknife.ButterKnife;
 
-public class TransparentActivity extends BaseAcitivity {
+public class TransparentActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

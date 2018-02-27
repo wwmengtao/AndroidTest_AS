@@ -18,37 +18,13 @@
                 android:id="@+id/btn1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ViewPager"/>
+                android:text="一般演示"/>
 
             <Button
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="透明Activity"/>
-
-            <Button
-                android:id="@+id/btn3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="WebView"/>
-
-            <Button
-                android:id="@+id/btn4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="WindowManager"/>
-
-            <Button
-                android:id="@+id/btn5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Drawer布局"/>
-
-            <Button
-                android:id="@+id/btn6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fragment演示"/>
+                android:text="仿QQ样式的Fragment"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

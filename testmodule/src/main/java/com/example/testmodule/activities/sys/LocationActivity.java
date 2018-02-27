@@ -10,7 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.widget.TextView;
 
 import com.example.testmodule.ALog;
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.location.LocationUtils;
 import com.example.testmodule.location.MessageEvent;
@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class LocationActivity extends BaseAcitivity {
+public class LocationActivity extends BaseActivity {
     private Unbinder mUnbinder;
     private LocationUtils mLocationUtils = null;
     @BindView(R.id.address)TextView mAddressTV;

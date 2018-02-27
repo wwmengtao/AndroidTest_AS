@@ -11,7 +11,7 @@ import com.example.testmodule.activities.ui.UIGatherActivity;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseAcitivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,7 +3,7 @@ package com.example.testmodule.activities.ui.viewpager;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.activities.ui.viewpager.fragment.ViewPagerFragmentActivity;
 import com.example.testmodule.activities.ui.viewpager.fragment.ViewPagerStateFragmentActivity;
@@ -11,7 +11,7 @@ import com.example.testmodule.activities.ui.viewpager.fragment.ViewPagerStateFra
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ViewPagerGatherActivity extends BaseAcitivity {
+public class ViewPagerGatherActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -123,7 +123,7 @@ public class EventReturn {
 		 * returnResult标识了相应方法中事件的处理结果，0代表返回false，1代表返回true，其他数值采用默认值。
 		 */
 		public void setData(){
-
+			onInterceptTouchEventArrays.put(MotionEvent.ACTION_MOVE, 1);
 		}
 	}
 
@@ -141,7 +141,7 @@ public class EventReturn {
 		 * returnResult标识了相应方法中事件的处理结果，0代表返回false，1代表返回true，其他数值采用默认值。
 		 */
 		public void setData(){
-			onInterceptTouchEventArrays.put(MotionEvent.ACTION_MOVE, 1);
+
 		}
 	}
 

@@ -6,7 +6,7 @@ import android.util.Xml;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.fernandocejas.android10.sample.data.ALog;
 
@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class XmlParserActivity extends BaseAcitivity {
+public class XmlParserActivity extends BaseActivity {
     private static final String TAG = "XmlParserActivity";
     private AssetManager mAssetManager = null;
     private String ioEncoding="UTF-8";

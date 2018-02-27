@@ -6,14 +6,14 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class WebViewActivity extends BaseAcitivity {
+public class WebViewActivity extends BaseActivity {
     @BindView(R.id.rl)
     LinearLayout ll;
     @BindView(R.id.wv)

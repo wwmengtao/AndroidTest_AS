@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.testmodule.ALog;
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 
-public class ViewPagerFragmentActivity extends BaseAcitivity{
+public class ViewPagerFragmentActivity extends BaseActivity {
     //
     public static final int NUM_PAGES = 10;
     public TextView mTV = null;

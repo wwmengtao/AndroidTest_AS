@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.testmodule.ALog;
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.utils.DpObserverInfo;
 import com.example.testmodule.viewpager.ScalePageTransformer;
@@ -25,7 +25,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 
-public class ViewPagerActivity extends BaseAcitivity {
+public class ViewPagerActivity extends BaseActivity {
 
     //    private ClipViewPager mViewPager;
     private ViewPager mViewPager;

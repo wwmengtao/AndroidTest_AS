@@ -6,10 +6,10 @@ import android.os.Bundle;
 
 import com.example.framework_o.language.LocaleListEditor;
 import com.example.testmodule.ALog;
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 
-public class LanguageForNActivity extends BaseAcitivity implements FragmentManager.OnBackStackChangedListener{
+public class LanguageForNActivity extends BaseActivity implements FragmentManager.OnBackStackChangedListener{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

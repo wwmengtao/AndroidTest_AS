@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.testmodule.ALog;
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.viewpager.adapter.VPTAdapter;
 import com.example.testmodule.viewpager.data.morning.MockDataEngine;
@@ -17,7 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ViewPager2Activity extends BaseAcitivity implements ViewPager.OnPageChangeListener{
+public class ViewPager2Activity extends BaseActivity implements ViewPager.OnPageChangeListener{
     private MockDataEngine mMockDataEngine = null;
     @BindView(R.id.view_pager) ViewPager mViewPager;
     private VPTAdapter mVPTAdapter = null;

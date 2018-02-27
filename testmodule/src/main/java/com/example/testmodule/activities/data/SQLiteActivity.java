@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.dataops.DataBaseHelper;
 import com.fernandocejas.android10.sample.data.ALog;
@@ -25,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SQLiteActivity extends BaseAcitivity {
+public class SQLiteActivity extends BaseActivity {
     private static final String TAG = "SQLiteActivity";
     @BindView(R.id.tv)    TextView tv;
     private DataManager mDataManager;

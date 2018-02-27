@@ -35,7 +35,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.ui.drawer.CheeseListFragment;
 
@@ -45,7 +45,7 @@ import java.util.List;
 /**
  * TODO
  */
-public class DrawerActivity extends BaseAcitivity {
+public class DrawerActivity extends BaseActivity {
 
     private DrawerLayout mDrawerLayout;
 

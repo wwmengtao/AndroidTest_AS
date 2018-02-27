@@ -13,12 +13,12 @@ import android.view.MotionEvent;
 import android.view.WindowManager;
 
 import com.example.testmodule.ALog;
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.views.NotiAppBlockedFragment;
 import com.example.testmodule.notification.views.NotiAppUnblockedFragment;
 
-public class NotiAppActivity extends BaseAcitivity implements NotiAppUnblockedFragment.OnFragmentInteractionListener {
+public class NotiAppActivity extends BaseActivity implements NotiAppUnblockedFragment.OnFragmentInteractionListener {
 
     public static void startActivity(Context mContext){
         Intent mIntent = new Intent(mContext, NotiAppActivity.class);

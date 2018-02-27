@@ -89,7 +89,10 @@
         <activity
             android:name=".activities.ui.swipemenu.SwipeMenuActivity"
             android:theme="@style/FullScreenTheme" />
-        <activity android:name=".activities.sys.TouchEventActivity"></activity>
+        <activity android:name=".activities.sys.TouchEventActivity" />
+        <activity android:name=".activities.ui.fragment.FragmentGatherActivity" />
+        <activity android:name=".activities.ui.fragment.FragmentTestActivity" />
+        <activity android:name=".activities.ui.fragment.FragmentTest2Activity"></activity>
     </application>
 
 </manifest>

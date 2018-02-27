@@ -6,7 +6,7 @@ import android.os.Trace;
 import android.widget.TextView;
 
 import com.example.testmodule.ALog;
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 
 import java.io.File;
@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 /**
  * SysTraceViewActivity：展示应用层的systrace和traceview的使用方法
  */
-public class SysTraceViewActivity extends BaseAcitivity {
+public class SysTraceViewActivity extends BaseActivity {
     private static final boolean SYSTRACE = true;
     private static final boolean TRACEVIEW = true;
     @BindView(R.id.traceviewlocation) TextView mTVTraceviewlocation;

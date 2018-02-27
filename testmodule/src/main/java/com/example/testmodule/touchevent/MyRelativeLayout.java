@@ -52,6 +52,7 @@ public class MyRelativeLayout extends RelativeLayout implements View.OnClickList
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
     	if(!setReturnResult(event, strLayout, dispatchTouchEvent, dispatchTouchEventArrays)){
+    	    ALog.Log("MyRelativeLayout_dispatchTouchEvent");
     		setDefaultReturnResult(super.dispatchTouchEvent(event));
     	}
         return getReturnResult(event, strLayout, dispatchTouchEvent);

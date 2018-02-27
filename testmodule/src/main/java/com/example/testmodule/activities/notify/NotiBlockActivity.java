@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.example.framework_o.notification.NotifyBlockManager;
 import com.example.testmodule.ALog;
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.model.AppInfo;
 import com.example.testmodule.notification.notifiutils.MockNotifyBlockManager;
@@ -17,7 +17,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NotiBlockActivity extends BaseAcitivity {
+public class NotiBlockActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

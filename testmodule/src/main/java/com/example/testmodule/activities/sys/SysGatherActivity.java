@@ -3,13 +3,13 @@ package com.example.testmodule.activities.sys;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SysGatherActivity extends BaseAcitivity {
+public class SysGatherActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

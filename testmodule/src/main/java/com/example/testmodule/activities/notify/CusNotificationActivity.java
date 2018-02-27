@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.example.testmodule.ALog;
-import com.example.testmodule.BaseAcitivity;
+import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.notification.notifiutils.NotifiImplCPFactory;
 import com.example.testmodule.notification.notifiutils.NotificationImpl;
@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CusNotificationActivity extends BaseAcitivity {
+public class CusNotificationActivity extends BaseActivity {
     private NotificationImpl mNotificationImpl = null;
     @BindView(R.id.btn1) Button mButton;
 
