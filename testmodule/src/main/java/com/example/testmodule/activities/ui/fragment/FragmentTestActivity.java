@@ -1,9 +1,9 @@
 package com.example.testmodule.activities.ui.fragment;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -16,14 +16,7 @@ import com.example.testmodule.ui.fragmentdemo.SummaryListFragment;
 
 
 public class FragmentTestActivity extends BaseActivity implements SummaryListFragment.Callback{
-    private FragmentManager mFragmentManager=null;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment_test);
-        mFragmentManager = getSupportFragmentManager();
-    }
     private static final int GroupID0 = 0x00;
     private static final int GroupID1 = 0x01;
     private static final int GroupID2 = 0x02;
@@ -34,6 +27,15 @@ public class FragmentTestActivity extends BaseActivity implements SummaryListFra
     private boolean fragmentAdd=false;
     private boolean hasBackStack = true;
     private MenuItem mMenuAdd, mMenuReplace, mMemuHas, mMenuNoHas;
+
+    private FragmentManager mFragmentManager=null;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_fragment_test);
+        mFragmentManager = getSupportFragmentManager();
+    }
 
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
@@ -82,6 +84,7 @@ public class FragmentTestActivity extends BaseActivity implements SummaryListFra
 
     @Override
     public void onItemSelected(Integer id){
+        ALog.Log("onItemSelected");
         Bundle arguments = new Bundle();
         arguments.putInt(DetailInfoFragment.ITEM_ID, id);
         Fragment fragment = new DetailInfoFragment();
@@ -95,4 +98,5 @@ public class FragmentTestActivity extends BaseActivity implements SummaryListFra
         if(hasBackStack)mFragmentTransaction.addToBackStack(null);//可实现类似于按手机返回键返回上一页的效果，因为将上面的add/replace操作压入栈内
         mFragmentTransaction.commit();
     }
+
 }
