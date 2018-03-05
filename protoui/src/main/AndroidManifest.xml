@@ -24,10 +24,6 @@
         <activity
             android:name=".SignInActivity"
             android:launchMode="singleInstance" />
-        <activity android:name=".swipemenu.SwipeMenuActivity"
-            android:theme="@style/Theme.DrawerLayout">
-
-        </activity>
     </application>
 
 </manifest>
