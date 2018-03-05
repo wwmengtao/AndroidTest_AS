@@ -48,6 +48,12 @@
                 android:id="@+id/btn6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Swipe Menu"/>
+
+            <Button
+                android:id="@+id/btn7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Fragment演示"/>
         </LinearLayout>
     </ScrollView>

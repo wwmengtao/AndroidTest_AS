@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="40dp">
+
+    <ImageButton
+        android:id="@+id/main_btn_menu"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="10dp"
+        android:background="#00000000"
+        android:scaleType="fitXY"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ic_menu"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_toEndOf="@+id/main_btn_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Moto Modes"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unplugged2"
+        android:layout_below="@+id/title"
+        android:layout_alignStart="@+id/title"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:singleLine="true"/>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stay away from unwanted notifications"
+        android:layout_below="@+id/summary"
+        android:layout_alignStart="@+id/summary"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/other"
+        android:layout_below="@+id/description"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignStart="@+id/description"
+        android:gravity="center"
+        android:text="Learn more"
+        android:textSize="15sp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/cornerrectangle"/>
+
+</RelativeLayout>

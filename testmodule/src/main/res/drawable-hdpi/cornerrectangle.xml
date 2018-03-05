@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- background color -->
+    <solid android:color="@android:color/holo_red_light" />
+    <!-- stroke width color -->
+    <stroke
+        android:width="0dip"
+        android:color="@android:color/white" />
+    <!-- stroke corner -->
+    <corners
+        android:topLeftRadius="32dp"
+        android:topRightRadius="32dp"
+        android:bottomLeftRadius="32dp"
+        android:bottomRightRadius="32dp"/>
+
+</shape>
