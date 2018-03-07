@@ -65,13 +65,14 @@ public class CrimeListActivity extends BaseActivity implements
              * 平板项目竖屏时点击CrimeFragment的图片，会显示PicDetailsActivity，那么此时将调用CrimeListActivity.onSaveInstanceState
              * 保存当前Activity状态，如果此时转屏为横屏并且退出PicDetailsActivity，那么此时会调用CrimeListActivity.onConfigurationChanged->
              * setDetailedFragment->fm.commit，由于fm.commit在onSaveInstanceState之后进行，所以Android系统会认为此次
-             * commit没有被保存，从而提示“java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState”错误。
+             * commit没有被保存，可能会导致Activity重建、恢复状态时无法还原页面状态，从而提示
+             * “java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState”错误。
              * 二、解决方法：
              * 1、使用commitAllowingStateLoss，由于当前这个场景仅仅是预览图片而不牵扯到任何修改，因此可以使用。但是
              * 如果是其他不适用commitAllowingStateLoss的场景的话，尽量使用Fragment来展示图片，因为FM会合理处理好
              * Fragment的管理恢复工作。
              * 2、根据为知笔记“Fragment Transactions & Activity State Loss”内容，应该在FragmentActivity#onResumeFragments()或者Activity#onPostResume()
-             * 中调用commit方法，这两个方法可以保证在恢复到之前状态之后调用，从而避免状态丢失异常。
+             * 中调用commit方法，这两个方法可以保证在恢复到之前状态之后调用(因为onRestoreInstanceState在onPostResume之前进行)，从而避免状态丢失异常。
              * 3、不要在onActivityResult()、onStart()以及onResume()等生命周期中调用，因为在有些情况下，这几个方法会在系统恢复到
              * 之前状态之前调用，从而面临状态丢失。
              */
