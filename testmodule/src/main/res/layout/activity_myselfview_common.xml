@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<LinearLayout   
+	xmlns:android="http://schemas.android.com/apk/res/android"  
+	android:orientation="vertical"
+    android:layout_width="match_parent"   
+    android:layout_height="match_parent"   
+    >  
+	<com.example.testmodule.ui.selfview.SelfDrawnView
+	        android:layout_width="100dp"  
+	        android:layout_height="100dp"  
+	        android:layout_gravity="center"
+	/>
+	
+    <com.example.testmodule.ui.selfview.CombinedView
+        android:id="@+id/title_view"  
+        android:layout_width="match_parent"  
+        android:layout_height="wrap_content" />  
+        
+	<com.example.testmodule.ui.selfview.InheritedView
+	    xmlns:app="http://schemas.android.com/apk/res/com.mt.androidtest"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		style="@style/myStyle"/>
+
+	<com.example.testmodule.ui.selfview.ScrollViewGroup
+	    android:layout_width="match_parent"
+	    android:layout_height="50dp">
+	    <Button
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:text="First child view: Slide left!"/>
+	
+	    <Button
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:text="Second child view: Slide left or right!"/>
+	
+	    <Button
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:text="Third child view: Slide right!"/>
+
+	</com.example.testmodule.ui.selfview.ScrollViewGroup>
+	
+	<com.example.testmodule.ui.selfview.MySelfButton
+	        android:layout_width="100dp"  
+	        android:layout_height="50dp"  
+	        android:text="MSButton"
+	/>	
+		
+	<com.example.testmodule.ui.selfview.ScrollFrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="50dp">
+	    <TextView
+	        android:id="@+id/scrolltv"
+			android:layout_width="60dp"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:text="TextView"
+			android:background="@color/wheat"/>
+	</com.example.testmodule.ui.selfview.ScrollFrameLayout>
+
+</LinearLayout> 

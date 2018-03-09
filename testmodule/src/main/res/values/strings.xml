@@ -47,5 +47,6 @@ Use these guidelines as a starting point to ensure that your product icon colors
     <string name="summary">Loading...</string>
     <string name="sleep_mode_swipe_menu"><b>Sleep Mode</b></string>
     <string name="sleep_mode_des_swipe_menu">Mute notifications for a night of uninterrupted sleep</string>
+    <string name="descr_image">Image</string>
 
 </resources>

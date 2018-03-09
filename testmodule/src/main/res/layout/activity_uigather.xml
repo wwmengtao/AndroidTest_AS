@@ -55,6 +55,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fragment演示"/>
+
+            <Button
+                android:id="@+id/btn8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="自定义视图"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

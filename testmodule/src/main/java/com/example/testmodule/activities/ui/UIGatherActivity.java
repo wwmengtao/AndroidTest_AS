@@ -12,6 +12,7 @@ import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.activities.ui.drawer.DrawerActivity;
 import com.example.testmodule.activities.ui.fragment.FragmentGatherActivity;
+import com.example.testmodule.activities.ui.selfview.MySelfViewActivity;
 import com.example.testmodule.activities.ui.swipemenu.SwipeMenuActivity;
 import com.example.testmodule.activities.ui.viewpager.ViewPagerGatherActivity;
 import com.example.androidcommon.windowmanager.WindowTools;
@@ -29,11 +30,11 @@ public class UIGatherActivity extends BaseActivity {
         initActivities(buttonIDs, classEs);
     }
 
-    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7};
+    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8};
     Class<?>[] classEs ={ViewPagerGatherActivity.class, TransparentActivity.class, WebViewActivity.class, WindowManagerActivity.class,
-            DrawerActivity.class, SwipeMenuActivity.class, FragmentGatherActivity.class};
+            DrawerActivity.class, SwipeMenuActivity.class, FragmentGatherActivity.class, MySelfViewActivity.class};
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8})
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         if(activity.getSimpleName().equals("WindowManagerActivity") && !WindowTools.canDrawOverlays(this)){

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<com.example.testmodule.ui.selfview.MyScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:layout_width="match_parent"   
+    android:layout_height="wrap_content">
+	<LinearLayout 
+		android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+			android:layout_marginBottom="20dp"
+			android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HorizontalScrollView：可以上下左右滑动"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:background="@color/royalblue"/>        
+	    <HorizontalScrollView   
+	        android:id="@+id/myhorizontalscrollview"
+			android:layout_width="match_parent"   
+			android:layout_height="wrap_content"
+			android:scrollbars = "none"
+			android:background="@android:color/holo_blue_dark">  
+			<LinearLayout   
+				android:layout_width="wrap_content"  
+		        android:layout_height="wrap_content" 
+		        android:gravity="center_vertical" 
+		        android:orientation="horizontal">  
+	            <GridView
+					android:id="@+id/mygridview"
+					android:layout_width="wrap_content"  
+	                android:layout_height="wrap_content"
+	                android:paddingStart="4dip"
+	                android:paddingEnd="4dip"
+	                android:paddingTop="4dip"
+	                android:paddingBottom="4dip"/>  
+			</LinearLayout>  
+		</HorizontalScrollView>
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ListView：可以上下滑动"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:background="@color/greenyellow"/>		
+		<ListView
+	        android:id="@+id/mylistview"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:drawSelectorOnTop="true"
+	        android:fastScrollEnabled="false"
+	        android:scrollbarStyle="outsideOverlay" />
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ListView2：可以上下整体滑动"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:background="@color/greenyellow"/>		
+		<ListView
+	        android:id="@+id/mylistview2"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:drawSelectorOnTop="true"
+	        android:fastScrollEnabled="false"
+	        android:scrollbarStyle="outsideOverlay" />		
+	</LinearLayout>
+</com.example.testmodule.ui.selfview.MyScrollView>
