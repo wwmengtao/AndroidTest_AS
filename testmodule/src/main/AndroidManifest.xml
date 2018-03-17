@@ -93,7 +93,8 @@
         <activity android:name=".activities.ui.fragment.FragmentGatherActivity" />
         <activity android:name=".activities.ui.fragment.FragmentTestActivity" />
         <activity android:name=".activities.ui.fragment.FragmentTest2Activity" />
-        <activity android:name=".activities.ui.selfview.MySelfViewActivity"></activity>
+        <activity android:name=".activities.ui.selfview.MySelfViewActivity" />
+        <activity android:name=".activities.sys.ANRActivity"></activity>
     </application>
 
 </manifest>

@@ -30,25 +30,26 @@ public class SysTraceViewActivity extends BaseActivity {
         setContentView(R.layout.activity_sys_trace_view);
         mUnbinder = ButterKnife.bind(this);
 
-        if(TRACEVIEW) {//以下存储traceview log信息
+        if(TRACEVIEW) {//以下存储traceview log信息，traceview仅仅用于查看当前运行app的信息
             File path =  getExternalFilesDir(null);
             ALog.Log("path: "+path);//path即为最终的xx.trace文件的存储位置
             mTVTraceviewlocation.setText(path.getAbsolutePath());
             SimpleDateFormat date =
                     new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
             String logDate = date.format(new Date());
+            ALog.sleep(2000);
             // Applies the date and time to the name of the trace log.
-            Debug.startMethodTracing("testmodule-SysTraceViewActivity" + logDate);
+            Debug.startMethodTracing("testmodule-TraceViewActivity" + logDate);
         }
-        if(SYSTRACE){
+        if(SYSTRACE){//systrace可以查看整个系统各个方面的性能信息
             //应用层搜集Systrace信息，以DDMS为例，搜集此应用的systrace下列"SysTraceViewActivity.onCreate"和
             //"SysTraceViewActivity.onCreate.sleep"方法时，需要选择“Enable Application Traces from:”为
             //“com.example.testmodule”，否则此应用的systrace中将不出现下列两个方法
             Trace.beginSection("SysTraceViewActivity.onCreate");
             try {
                 try {
-                    Trace.beginSection("SysTraceViewActivity.onCreate.sleep");
-                    ALog.sleep(2000);
+                    Trace.beginSection("SysTraceViewActidvity.onCreate.sleep");
+                    ALog.sleep(3000);
                 } finally {
                     Trace.endSection();
                 }
