@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.os.Process;
 import android.widget.Toast;
 
 import com.example.androidcommon.alog.ALog;
@@ -141,7 +142,11 @@ public class CrashManager implements Thread.UncaughtExceptionHandler {
 //                    mHandlerCostTime.removeCallbacksAndMessages(null);
 //                    mHandlerThread.getLooper().quit();
                     ALog.Log(TAG,"killProcess");
-                    android.os.Process.killProcess(android.os.Process.myPid());
+                    //确保当前进程彻底杀掉
+                    Process.killProcess(Process.myPid());
+                    System.exit(0);
+                    //当Crash进程被杀后，并没有完全结束，还有Binder死亡通知的流程还没有处理完成。另外，进程被杀后，
+                    // 对于binder的C/S架构，Binder的Server端挂了，Client会收到死亡通告，还会执行各种清理工作。
                     break;
             }
         }
