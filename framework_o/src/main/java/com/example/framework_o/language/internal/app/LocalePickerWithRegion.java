@@ -51,7 +51,7 @@ import java.util.Set;
  */
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class LocalePickerWithRegion extends ListFragment implements SearchView.OnQueryTextListener {
-    private static final String PARENT_FRAGMENT_NAME = "localeListEditor";
+    public static final String PARENT_FRAGMENT_NAME = "localeListEditor";
     private static final String CURRENT_FRAGMENT_NAME = "LocalePickerWithRegion";
     private SuggestedLocaleAdapter mAdapter;
     private LocaleSelectedListener mListener;
@@ -149,6 +149,12 @@ public class LocalePickerWithRegion extends ListFragment implements SearchView.O
     }
 
     private void returnToParentFrame() {
+        /**
+         * public static final int POP_BACK_STACK_INCLUSIVE = 1;
+         * void popBackStack(String name, int flags);　针对第一个参数，如果name为null，那么只有顶部的状态被弹出；
+         * 如果name不为null，并且找到了这个name所指向的Fragment对象；根据flags的值，如果是flag=0，那么将会弹出该状态以上的所有状态；
+         * 如果flag=POP_BACK_STACK_INCLUSIVE，那么将会弹出该状态（包括该状态）以上的所有状态。
+         */
         getFragmentManager().popBackStack(PARENT_FRAGMENT_NAME,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
@@ -182,8 +188,8 @@ public class LocalePickerWithRegion extends ListFragment implements SearchView.O
             case android.R.id.home:
                 ALog.Log1("LocalePickerWithRegion_android.R.id.home");
                 /**
-                 * popBackStack()�ᵼ��LocalePickerWithRegion��onDestroy�ĵ��ã�ע����.popBackStack(PARENT_FRAGMENT_NAME,
-                 * FragmentManager.POP_BACK_STACK_INCLUSIVE);������
+                 * 弹出堆栈中的一个并且显示，也就是代码模拟按下返回键的操作。
+                 * 注意getFragmentManager().popBackStack()和popBackStack(String name, int flags)的区别
                  */
                 getFragmentManager().popBackStack();
                 return true;

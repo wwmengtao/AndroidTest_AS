@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.example.framework_o.language.internal.app.LocalePickerWithRegion.PARENT_FRAGMENT_NAME;
+
 /**
  * Drag-and-drop editor for the user-ordered locale lists.
  */
@@ -236,8 +238,14 @@ public class LocaleListEditor extends BaseFragment
                         .beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .replace(getId(), selector)
-                        .addToBackStack("localeListEditor")
+                        .addToBackStack(PARENT_FRAGMENT_NAME)
                         .commit();
+                /**
+                 * 上述addToBackStack(PARENT_FRAGMENT_NAME)标记一种状态，即此时的栈顶是LocaleListEditor，那么后续LocalePickerWithRegion
+                 * 中的getFragmentManager().popBackStack(PARENT_FRAGMENT_NAME, FragmentManager.POP_BACK_STACK_INCLUSIVE);第二个参数
+                 * 为1或者0将影响着函数执行效果。如果是flag=0，那么将会弹出该状态以上的所有状态(即退回到标题为“Add a language”的fragment界面)；
+                 * 如果flag=POP_BACK_STACK_INCLUSIVE，那么将会弹出该状态（包括该状态）以上的所有状态，此时即为回到当前LocaleListEditor界面。
+                 */
             }
         });
     }
