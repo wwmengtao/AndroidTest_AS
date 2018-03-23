@@ -16,7 +16,7 @@ public class QueryPreferences {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
                 .putBoolean(PREF_IS_ALARM_ON, isOn)
-                .apply();
+                .apply();//commit和apply的方法区别在于同步写入和异步写入，以及是否需要返回值。Editor的apply方法，每次执行时在单线程池中加入写入磁盘Task，异步写入。可以提高写入性能。
     }
 
 }

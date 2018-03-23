@@ -44,6 +44,8 @@ public class ANRActivity extends AppCompatActivity {
 
     /**
      * 举个例子，直接写外部存储
+     * 此时adb logcat过滤StrickMode关键字可以得到如下信息：说明出现了违例
+     * 03-17 10:36:20.599 22199 22199 D StrictMode: StrictMode policy violation; ~duration=33 ms: android.os.StrictMode$StrictModeDiskReadViolation: policy=4259847 violation=2
      */
     public void writeToExternalStorage() {
         File externalStorage = Environment.getExternalStorageDirectory();

@@ -77,8 +77,8 @@ public class ImageLoader {
 	 * 实际图片加载表现来看也是更快速。ConcurrentHashMap采用分段锁数据技术，在线程并发删除数据时候是线程安全的，比
 	 * Collections.synchronizedMap性能更高。
 	 */
-//	private final Map<String, ReentrantLock> uriLocks = Collections.synchronizedMap(new WeakHashMap<String, ReentrantLock>());
-	private final  ConcurrentHashMap<String, ReentrantLock> uriLocks = new ConcurrentHashMap<>();
+	private final Map<String, ReentrantLock> uriLocks = Collections.synchronizedMap(new WeakHashMap<String, ReentrantLock>());
+//	private final  ConcurrentHashMap<String, ReentrantLock> uriLocks = new ConcurrentHashMap<>();
 	//private final Map<String, ReentrantLock> uriLocks = new WeakHashMap<String, ReentrantLock>();这是nostra13的原版写法
 
 	private static boolean  IsImageLoaderInit = false;
