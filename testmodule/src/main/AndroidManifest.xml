@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
 
     <application
         android:name=".application.BasicApp"
@@ -94,7 +96,8 @@
         <activity android:name=".activities.ui.fragment.FragmentTestActivity" />
         <activity android:name=".activities.ui.fragment.FragmentTest2Activity" />
         <activity android:name=".activities.ui.selfview.MySelfViewActivity" />
-        <activity android:name=".activities.sys.ANRActivity"></activity>
+        <activity android:name=".activities.sys.ANRActivity" />
+        <activity android:name=".activities.sys.RequestPermissionActivity"></activity>
     </application>
 
 </manifest>
