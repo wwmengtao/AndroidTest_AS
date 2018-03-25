@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.androidcommon.database.DbTransaction;
 import com.example.testmodule.BaseActivity;
 import com.example.testmodule.R;
 import com.example.testmodule.dataops.DataBaseHelper;
@@ -104,13 +105,15 @@ public class SQLiteActivity extends BaseActivity {
         if(null != mUserEntityCollection && mUserEntityCollection.size() > 0){
             for(UserEntityNT mUserEntityNT : mUserEntityCollection){
                 saveData(mUserEntityNT, mParams);
-            }
-        }
+            }//end for
+        }//end if
     }
 
     public void saveData(UserEntityNT mUserEntity, GetUserNTList.Params mParams) {
         String dbTableName = mParams.getTableName();
-        mSQLiteDatabase.insert(dbTableName, null, getContentValues(mUserEntity, mParams));
+//        mSQLiteDatabase.insert(dbTableName, null, getContentValues(mUserEntity, mParams));
+        DbTransaction.dbInsertTransaction(mSQLiteDatabase, dbTableName, null,
+                getContentValues(mUserEntity, mParams));
     }
 
     private ContentValues getContentValues(UserEntityNT mUserEntity, GetUserNTList.Params mParams) {

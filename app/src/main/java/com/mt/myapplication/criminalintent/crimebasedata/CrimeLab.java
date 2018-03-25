@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 
 
+import com.example.androidcommon.database.DbTransaction;
 import com.mt.myapplication.criminalintent.database.CrimeCursorWrapper;
 import com.mt.myapplication.criminalintent.database.DataBaseHelper;
 
@@ -82,7 +83,8 @@ public class CrimeLab {
     }
 
     public void addCrime(Crime c) {
-        mSQLiteDatabase.insert(CrimeTable.NAME, null, getContentValues(c));
+//        mSQLiteDatabase.insert(CrimeTable.NAME, null, getContentValues(c));
+        DbTransaction.dbInsertTransaction(mSQLiteDatabase, CrimeTable.NAME, null, getContentValues(c));
     }
 
     public void delCrime(Crime c){

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.androidcommon.database.DbTransaction;
 import com.fernandocejas.android10.sample.data.database.DbSchema.DbCursorWrapper;
 import com.fernandocejas.android10.sample.data.database.xmlOps.XmlOperator;
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
@@ -144,7 +145,9 @@ public class DataManager {
     public void put(UserEntityNT mUserEntity, GetUserNTList.Params mParams){
 //        ALog.Log(TAG+"put: "+exists(mParams));
         String dbTableName = mParams.getTableName();
-        mSQLiteDatabase.insert(dbTableName, null, DbSchema.getContentValues(mUserEntity, mParams));
+//        mSQLiteDatabase.insert(dbTableName, null, DbSchema.getContentValues(mUserEntity, mParams));
+        DbTransaction.dbInsertTransaction(mSQLiteDatabase, dbTableName, null,
+                DbSchema.getContentValues(mUserEntity, mParams));
     }
 
     public void update(UserEntityNT mUserEntity, GetUserNTList.Params mParams){

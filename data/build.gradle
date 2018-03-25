@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.2.3'
+        classpath 'me.tatarka:gradle-retrolambda:3.7.0'
     }
 }
 
@@ -68,4 +68,5 @@ dependencies {
     testCompile testDependencies.assertj
     testCompile testDependencies.mockito
     testCompile testDependencies.robolectric
+    compile project(path: ':androidcommon')
 }
