@@ -19,12 +19,12 @@ public class SysGatherActivity extends BaseActivity {
         initActivities(buttonIDs, classEs);
     }
 
-    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9};
+    int []buttonIDs={R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9, R.id.btn10};
     Class<?>[] classEs ={LanguageForNActivity.class, LocationActivity.class, PendingActivity.class, SysTraceViewActivity.class,
             SysAppActivity.class, TouchEventActivity.class, ANRActivity.class, RequestPermissionActivity.class,
-            OOMActivity.class};
+            OOMActivity.class, IntentServiceTestActivity.class};
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9})
+    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9, R.id.btn10})
     public void onClickActivity(View view){
         Class<?> activity = mActivitySA.get(view.getId());
         startActivity(getCallingIntent(this, activity));

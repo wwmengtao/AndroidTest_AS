@@ -18,7 +18,8 @@
         android:roundIcon="@drawable/testmodule"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".services.WorkerService" />
+        <service android:name=".services.WorkerService"/>
+        <service android:name=".services.InnerIntentService"/>
         <service
             android:name=".services.AppService"
             android:enabled="true"
@@ -97,7 +98,8 @@
         <activity android:name=".activities.ui.selfview.MySelfViewActivity" />
         <activity android:name=".activities.sys.ANRActivity" />
         <activity android:name=".activities.sys.RequestPermissionActivity" />
-        <activity android:name=".activities.sys.OOMActivity"></activity>
+        <activity android:name=".activities.sys.OOMActivity" />
+        <activity android:name=".activities.sys.IntentServiceTestActivity"></activity>
     </application>
 
 </manifest>
