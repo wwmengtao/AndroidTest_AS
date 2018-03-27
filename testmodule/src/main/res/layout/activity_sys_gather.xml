@@ -61,6 +61,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fragment Request permission"/>
+
+            <Button
+                android:id="@+id/btn9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="OOM"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context="com.example.testmodule.location.LocationActivity">
+    tools:context="com.example.testmodule.activities.sys.LocationActivity">
     <TextView
         android:id="@+id/address"
         android:layout_width="match_parent"

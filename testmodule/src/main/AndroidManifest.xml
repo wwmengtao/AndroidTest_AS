@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <application
         android:name=".application.BasicApp"
         android:allowBackup="true"
@@ -97,7 +96,8 @@
         <activity android:name=".activities.ui.fragment.FragmentTest2Activity" />
         <activity android:name=".activities.ui.selfview.MySelfViewActivity" />
         <activity android:name=".activities.sys.ANRActivity" />
-        <activity android:name=".activities.sys.RequestPermissionActivity"></activity>
+        <activity android:name=".activities.sys.RequestPermissionActivity" />
+        <activity android:name=".activities.sys.OOMActivity"></activity>
     </application>
 
 </manifest>
