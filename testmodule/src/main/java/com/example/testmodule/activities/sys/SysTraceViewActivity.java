@@ -1,5 +1,6 @@
 package com.example.testmodule.activities.sys;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Trace;
@@ -11,7 +12,9 @@ import com.example.testmodule.R;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,10 +63,40 @@ public class SysTraceViewActivity extends BaseActivity {
         }//end if(SYSTRACE)
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        new reportFullyDrawnTask().execute();
+    }
+
     public void onDestroy(){
         if(TRACEVIEW) {//终止traceview log信息的收集
             Debug.stopMethodTracing();
         }
         super.onDestroy();
+    }
+
+    //警惕内部类FetchItemsTask可能对SysTraceViewActivity造成的内存泄漏
+    private class reportFullyDrawnTask extends AsyncTask<Void,Integer,List<String>> {
+        @Override
+        protected List<String> doInBackground(Void... params) {
+            List<String> data = new ArrayList<>();
+            ALog.sleep(2 * 1000);
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(List<String> items) {
+            /**
+             * reportFullyDrawn衡量这些异步加载资源所耗费的时间，一般在数据全部加载完毕后，手动调用，这样就会在Log中增加一条日志：
+             * 03-28 03:27:48.998  1752  2401 I ActivityManager: Fully drawn com.example.testmodule/.activities.sys.SysTraceViewActivity: +7s325ms
+             */
+
+            /**下列ActivityManager: Displayed反应了Activity从启动到UI显示出来的耗时，比较适合测量程序的启动时间。
+             * 系统日志中的Display Time只是布局的显示时间，并不包括一些数据的懒加载等消耗的时间
+             * 03-28 03:30:53.203  1752  1801 I ActivityManager: Displayed com.example.testmodule/.activities.sys.SysTraceViewActivity: +5754
+             */
+            reportFullyDrawn();
+        }
     }
 }

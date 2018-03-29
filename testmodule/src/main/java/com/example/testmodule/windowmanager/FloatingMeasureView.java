@@ -91,6 +91,22 @@ public class FloatingMeasureView extends View {
     private void setFMVLayoutParams() {
         int FLOATING_MEASURE_VIEW_WINDOW_TYPE;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            /**
+             * Window type: Application overlay windows are displayed above all activity windows
+             * (types between {@link #FIRST_APPLICATION_WINDOW} and {@link #LAST_APPLICATION_WINDOW})
+             * but below critical system windows like the status bar or IME.
+             * <p>
+             * The system may change the position, size, or visibility of these windows at anytime
+             * to reduce visual clutter to the user and also manage resources.
+             * <p>
+             * Requires {@link android.Manifest.permission#SYSTEM_ALERT_WINDOW} permission.
+             * <p>
+             * The system will adjust the importance of processes with this window type to reduce the
+             * chance of the low-memory-killer killing them.
+             * <p>
+             * In multi-user systems shows only on the owning user's screen.
+             */
+            //public static final int TYPE_APPLICATION_OVERLAY = FIRST_SYSTEM_WINDOW + 38;
             FLOATING_MEASURE_VIEW_WINDOW_TYPE = LayoutParams.TYPE_APPLICATION_OVERLAY;
         } else {
             FLOATING_MEASURE_VIEW_WINDOW_TYPE = LayoutParams.TYPE_PHONE;
@@ -100,7 +116,7 @@ public class FloatingMeasureView extends View {
         mLayoutParams.gravity = Gravity.END | Gravity.TOP;
         mLayoutParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | LayoutParams.FLAG_NOT_FOCUSABLE;
-        mLayoutParams.width = 8;
+        mLayoutParams.width = 8;//实际应用中可以设置宽度为0，这样用户就看不到这个视图了
         mLayoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
         mLayoutParams.format = PixelFormat.TRANSPARENT;
         //

@@ -21,16 +21,21 @@ public abstract class CommonApp extends Application {
     private AppExecutors mAppExecutors;
     private AtomicBoolean isBackground = new AtomicBoolean(true);
 
+    /**
+     * CommonApp是Application类型的，只有它的onCreate执行完毕才能轮到后续的组件执行onCreate等，因此
+     * Application.onCreate中不能有太多的耗时操作
+     */
     @Override
     public void onCreate() {
         super.onCreate();
-        ALog.Log(TAG+"onCreate");
+        ALog.Log(TAG+"onCreate begin");
         //1、初始化全局工作线程池
         this.mAppExecutors = new AppExecutors();
         //2、监听应用的前台/后台变化
         listenForForeground();//监听应用是否已到前台
         listenForScreenTurningState();//监听屏幕亮灭状态
         //3、捕获应用异常崩溃
+        ALog.Log(TAG+"onCreate end");
     }
 
     /**

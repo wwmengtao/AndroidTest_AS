@@ -17,6 +17,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by mengtao1 on 2017/12/7.
+ * FloatingStatusBarView：由于在Service组件中无法直接使用Activity内的window.setStatusBarColor设置状态栏颜色，因此可以
+ * 考虑WindowManager直接添加一个视图覆盖到状态栏上。该视图采用透明样式，大小和状态栏大小一样，设置好颜色之后直接叠加在状态栏
+ * 位置显示。这样的效果相当于在Activity内使用window.setStatusBarColor设置状态栏颜色。
  */
 
 public class FloatingStatusBarView extends View{
@@ -68,7 +71,7 @@ public class FloatingStatusBarView extends View{
                 | LayoutParams.FLAG_FULLSCREEN
                 | LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | LayoutParams.FLAG_NOT_FOCUSABLE,
-                PixelFormat.TRANSLUCENT);
+                PixelFormat.TRANSLUCENT);//此处使用PixelFormat.TRANSPARENT也是可以的
         mLayoutParams.gravity = Gravity.TOP | Gravity.START;
         //
         setLayoutParams(mLayoutParams);//设置悬浮窗布局参数

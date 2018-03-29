@@ -53,6 +53,7 @@ public class ImageLoader {
 	private final Object pauseLock = new Object();
 	private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
 	private static final int maxMemory = (int) (Runtime.getRuntime().maxMemory());
+
 	private Context mContext = null;
 
 	private Executor mTaskLoadImg = null;
