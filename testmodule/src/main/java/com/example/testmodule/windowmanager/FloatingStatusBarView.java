@@ -59,7 +59,7 @@ public class FloatingStatusBarView extends View{
         //
         int windowType;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            windowType = LayoutParams.TYPE_APPLICATION_OVERLAY;
+            windowType = LayoutParams.TYPE_APPLICATION_OVERLAY;//TYPE_APPLICATION_OVERLAY层级高于状态栏
         } else {
             windowType = LayoutParams.TYPE_PHONE;
         }

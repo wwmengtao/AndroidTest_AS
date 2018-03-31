@@ -108,6 +108,16 @@ public class FloatingMeasureView extends View {
              */
             //public static final int TYPE_APPLICATION_OVERLAY = FIRST_SYSTEM_WINDOW + 38;
             FLOATING_MEASURE_VIEW_WINDOW_TYPE = LayoutParams.TYPE_APPLICATION_OVERLAY;
+            /**
+             * 注意，上述Type如果改为TYPE_APPLICATION_MEDIA则点击WindowManagerActivity运行会报错：
+             * java.lang.RuntimeException: Unable to start activity ComponentInfo{com.example.testmodule/com.example.testmodule.activities.ui.WindowManagerActivity}:
+             * android.view.WindowManager$BadTokenException: Unable to add window -- token null is not valid; is your activity running?
+             * 原因是当前的FloatingMeasureView必须依附于某一个view，而在oncreate中view还没有加载完毕，必须要等
+             * activity的生命周期函数全部执行完毕，你需要依附的view加载好后才可以执行。
+             * 解决方法：在使用TYPE_APPLICATION_MEDIA的情况下，可在WindowManagerActivity的onCreate函数中使用mFloatingMeasureView.post
+             * 方式添加FloatingMeasureView，这样可以保证在Activity视图加载完毕后添加。
+             *
+             */
         } else {
             FLOATING_MEASURE_VIEW_WINDOW_TYPE = LayoutParams.TYPE_PHONE;
         }

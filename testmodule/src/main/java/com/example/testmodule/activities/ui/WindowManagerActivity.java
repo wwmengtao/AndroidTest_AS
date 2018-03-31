@@ -43,6 +43,12 @@ public class WindowManagerActivity extends BaseActivity implements FloatingMeasu
         mFloatingMeasureView.registerMeasureViewHeightChangedListener(this);
         mFloatingMeasureView.registerConfigurationChangedListener(this);
         mWindowManager.addView(mFloatingMeasureView, mFloatingMeasureView.getLayoutParams());
+//        mFloatingMeasureView.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mWindowManager.addView(mFloatingMeasureView, mFloatingMeasureView.getLayoutParams());
+//            }
+//        });
         //2、初始化状态栏背景色悬浮视图
         this.mFloatingStatusBarView = new FloatingStatusBarView(mContext);
     }
@@ -50,6 +56,13 @@ public class WindowManagerActivity extends BaseActivity implements FloatingMeasu
     @OnClick(R.id.btn1)
     public void onClick(){
         mFloatingStatusBarView.updateView(-1);
+//        mFloatingStatusBarView.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mFloatingStatusBarView.updateView(-1);
+//            }
+//        });
+
     }
 
     @OnClick(R.id.btn2)
