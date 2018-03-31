@@ -10,7 +10,7 @@ android {
         }
     }
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.example.protoui"
         minSdkVersion 22
@@ -39,42 +39,42 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation ('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation 'com.android.support:design:26.1.0'
 
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
-    compile 'com.android.support:recyclerview-v7:26.+'
-    testCompile 'junit:junit:4.12'
-    compile files('libs/fastjson-1.1.43.android.jar')
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.android.support:appcompat-v7:26.+'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+    implementation 'com.android.support:recyclerview-v7:26.+'
+    testImplementation 'junit:junit:4.12'
+    implementation files('libs/fastjson-1.1.43.android.jar')
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     //RxJava2
-    compile 'io.reactivex.rxjava2:rxjava:2.1.1'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     //
-    compile 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
     //
     //以下使用ButterKnife
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //
-    compile 'com.google.android.gms:play-services-auth:11.6.2'
-    compile 'com.google.android.gms:play-services-maps:11.6.2'
-    compile 'pub.devrel:easypermissions:0.3.0'
-    compile 'com.google.apis:google-api-services-people:v1-rev139-1.22.0'
-    compile 'com.google.api-client:google-api-client:1.23.0'
+    implementation 'com.google.android.gms:play-services-auth:11.6.2'
+    implementation 'com.google.android.gms:play-services-maps:11.6.2'
+    implementation 'pub.devrel:easypermissions:0.3.0'
+    implementation 'com.google.apis:google-api-services-people:v1-rev139-1.22.0'
+    implementation 'com.google.api-client:google-api-client:1.23.0'
     compile('com.google.api-client:google-api-client-android:1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
     compile('com.google.apis:google-api-services-gmail:v1-rev73-1.23.0') {
         exclude group: 'org.apache.httpcomponents'
     }
-    compile project(path: ':androidcommon')
+    implementation project(path: ':androidcommon')
 }
 
 configurations.all {

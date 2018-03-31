@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.mt.androidtest_as"
         minSdkVersion 19
@@ -31,44 +31,44 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation ('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //指定注解处理器
-    compile 'com.google.dagger:dagger:2.11'
+    implementation 'com.google.dagger:dagger:2.11'
     //以下使用依赖注入
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
     //dagger公用api
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
     //添加android缺失的部分javax注解
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'net.oschina.common:common:0.1.6'
+    implementation 'com.android.support:appcompat-v7:25.1.0'
+    implementation 'com.android.support:recyclerview-v7:25.1.0'
+    implementation 'com.android.support:design:25.3.1'
+    implementation 'com.android.support:support-v4:25.3.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+    implementation 'net.oschina.common:common:0.1.6'
     //以下使用ButterKnife
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //以下使用EventBus
-    compile 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
     annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.0.0'
     //glide
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'de.hdodenhof:circleimageview:2.0.0'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.1'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    testCompile 'junit:junit:4.12'
-    compile project(path: ':domain')
-    compile project(path: ':data')
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'de.hdodenhof:circleimageview:2.0.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    testImplementation 'junit:junit:4.12'
+    implementation project(path: ':domain')
+    implementation project(path: ':data')
 
     //Development
-    compile developmentDependencies.leakCanary
-    compile project(path: ':androidcommon')
+    implementation developmentDependencies.leakCanary
+    implementation project(path: ':androidcommon')
 }
 
 
