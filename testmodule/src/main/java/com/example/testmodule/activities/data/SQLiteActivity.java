@@ -17,7 +17,6 @@ import com.fernandocejas.android10.sample.data.database.DbSchema;
 import com.fernandocejas.android10.sample.data.database.DbSchema.DbCursorWrapper;
 import com.fernandocejas.android10.sample.data.database.xmlOps.XmlOperator;
 import com.fernandocejas.android10.sample.data.entity.UserEntityNT;
-import com.fernandocejas.android10.sample.domain.interactor.GetUserNTList;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,7 +32,6 @@ public class SQLiteActivity extends BaseActivity {
     private DataBaseHelper mDataBaseHelper;
     private SQLiteDatabase mSQLiteDatabase;
     private List<UserEntityNT> userEntityList;
-    private GetUserNTList.Params params;
     private String fileName = "xmlfiles.xml";
     private String tableName = "xmlfiles";
     private XmlOperator mXmlOperator;
@@ -49,13 +47,6 @@ public class SQLiteActivity extends BaseActivity {
         mDataBaseHelper = DataBaseHelper.getInstance(this.getApplicationContext());
         mSQLiteDatabase = mDataBaseHelper.getWritableDatabase();
         mXmlOperator = new XmlOperator(this.getApplicationContext());
-        params = new GetUserNTList.Params(GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1, fileName, null);
-    }
-
-    protected void onResume(){
-        super.onResume();
-        mUserEntityNTCollection = mXmlOperator.UserEntityNTCollectionXml(params);
-//        mXmlOperator.visitCollection(mUserEntityNTCollection);
     }
 
     @OnClick(R.id.btn1)
@@ -77,16 +68,11 @@ public class SQLiteActivity extends BaseActivity {
 
     @OnClick(R.id.btn4)
     public void onClick4(View view){
-        saveCollection(mUserEntityNTCollection, params);
     }
 
     @OnClick(R.id.btn5)
     public void onClick5(View view){
-        UserEntityNT mUserEntityNT = queryUserEntityNT("applist.xml", params);
-        if(null != mUserEntityNT){
-            ALog.Log("queryUserEntityNT");
-            ALog.Log("getPic: "+mUserEntityNT.getPic());
-        }
+
     }
 
     @OnClick(R.id.btn6)
@@ -97,66 +83,6 @@ public class SQLiteActivity extends BaseActivity {
     @OnClick(R.id.btn7)
     public void onClick7(View view){
         mDataBaseHelper.dropTables();
-    }
-
-    public void saveCollection(Collection<UserEntityNT> mUserEntityCollection, GetUserNTList.Params mParams){
-        if(mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1 &&
-                mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2)return;
-        if(null != mUserEntityCollection && mUserEntityCollection.size() > 0){
-            for(UserEntityNT mUserEntityNT : mUserEntityCollection){
-                saveData(mUserEntityNT, mParams);
-            }//end for
-        }//end if
-    }
-
-    public void saveData(UserEntityNT mUserEntity, GetUserNTList.Params mParams) {
-        String dbTableName = mParams.getTableName();
-//        mSQLiteDatabase.insert(dbTableName, null, getContentValues(mUserEntity, mParams));
-        DbTransaction.dbInsertTransaction(mSQLiteDatabase, dbTableName, null,
-                getContentValues(mUserEntity, mParams));
-    }
-
-    private ContentValues getContentValues(UserEntityNT mUserEntity, GetUserNTList.Params mParams) {
-        ALog.Log("getContentValues");
-        ContentValues values = new ContentValues();
-        values.put(DbSchema.Level1TitleTable.Cols.KEY, mUserEntity.getKey());
-        values.put(DbSchema.Level1TitleTable.Cols.ADJ, mUserEntity.getAdjunction());
-        values.put(DbSchema.Level1TitleTable.Cols.PIC, mUserEntity.getPic());
-        if(mParams.getDataType() == GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1) {
-            values.put(DbSchema.Level1TitleTable.Cols.NUM, mUserEntity.getNumber());
-        }
-        return values;
-    }
-
-    public DbCursorWrapper queryTableData(String whereClause, String[] whereArgs, GetUserNTList.Params mParams) {
-        if(mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL1 &&
-                mParams.getDataType() != GetUserNTList.Params.DataType.COLLECTION_DATA_LEVEL2)return null;
-        Cursor cursor = mSQLiteDatabase.query(
-                mParams.getTableName(),
-                null, // Columns - null selects all columns
-                whereClause,
-                whereArgs,
-                null, // groupBy
-                null, // having
-                null  // orderBy
-        );
-        return new DbCursorWrapper(cursor, mParams);
-    }
-
-    public UserEntityNT queryUserEntityNT(String key, GetUserNTList.Params mParams){
-        DbCursorWrapper cursor = queryTableData(DbSchema.Level1TitleTable.Cols.KEY+" = ?", new String[]{key}, mParams);
-        UserEntityNT mUserEntityNT=null;
-        try{
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                mUserEntityNT = cursor.getUserEntityNT();
-                if(mUserEntityNT.getKey().equals(key))break;
-                cursor.moveToNext();
-            }
-        }finally {
-            cursor.close();
-        }
-        return mUserEntityNT;
     }
 
 }
