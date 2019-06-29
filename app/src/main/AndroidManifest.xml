@@ -173,7 +173,7 @@
             android:parentActivityName="com.mt.myapplication.novicetutorial.view.activities.NoviceListActivity"
             android:theme="@style/NoviceGridTheme">
         </activity>
-e
+
         <activity
             android:name="com.mt.myapplication.novicetutorial.view.activities.NoviceViewPagerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard"

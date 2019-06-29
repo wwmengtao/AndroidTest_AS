@@ -15,7 +15,6 @@ android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
 
     compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
-    buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
 
     defaultConfig {
         minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
@@ -44,7 +43,6 @@ android {
         disable 'OldTargetApi'    // Due to Robolectric that modifies the manifest when running tests
         checkReleaseBuilds false
     }
-    buildToolsVersion '27.0.3'
 
     testOptions {
         unitTests.returnDefaultValues = true
