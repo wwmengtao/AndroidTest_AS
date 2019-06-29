@@ -66,6 +66,7 @@ dependencies {
     implementation project(path: ':domain')
     implementation project(path: ':data')
 
+
     //Development
     implementation developmentDependencies.leakCanary
     implementation project(path: ':androidcommon')
